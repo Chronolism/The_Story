@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestConsoleInit : MonoBehaviour
+public class ConsolePanel : BasePanel
 {
-
     public Text waitText;
     public Text properText;
+    public InputField inputText;
     string Temp;
-
-    // Start is called before the first frame update
-    void Awake()
+    public override void Init()
     {
+        waitText = GetControl<Text>("Prepare");
+        properText = GetControl<Text>("Proper");
+        inputText = GetControl<InputField>("TestConsole");
+
         waitText.text = TestConsole.Instance.text;
-        if (this.GetComponent<CanvasGroup>() == null) 
-            this.gameObject.AddComponent<CanvasGroup>();
-        this.GetComponent<CanvasGroup>().alpha = 0;
-        this.GetComponent<InputField>().onValueChanged.AddListener((s) =>
+        if (inputText.GetComponent<CanvasGroup>() == null)
+            inputText.gameObject.AddComponent<CanvasGroup>();
+        inputText.GetComponent<CanvasGroup>().alpha = 0;
+
+        inputText.onValueChanged.AddListener((s) =>
         {
             if (s.Length < 1) return;
             if (s[0] == '/')
@@ -27,9 +30,9 @@ public class TestConsoleInit : MonoBehaviour
                 //print("可能的函数:" + properString);
 
             }
-                
+
         });
-        this.GetComponent<InputField>().onEndEdit.AddListener((s) =>
+        inputText.onEndEdit.AddListener((s) =>
         {
             if (s.Length < 1)
             {
@@ -39,7 +42,7 @@ public class TestConsoleInit : MonoBehaviour
             {
                 try
                 {
-                    if(s.Substring(1, 6) == "print ")
+                    if (s.Substring(1, 6) == "print ")
                     {
                         Temp = s.Substring(7);
                         TestConsole.Instance.WriteLine(Temp);
@@ -53,21 +56,23 @@ public class TestConsoleInit : MonoBehaviour
             };
             properText.text = "";
         });
-        
+
         #region 测试代码
         TestConsole.Instance.AddCommand("author", () => { print("来自Dr3的自用插件"); });
         TestConsole.Instance.AddCommand("about", () => { print("可能存在bug请多包含哦~"); });
         #endregion
 
     }
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) && Input.GetKeyDown(KeyCode.T))
         {
-            if (this.GetComponent<CanvasGroup>().alpha == 0) this.GetComponent<CanvasGroup>().alpha = 1;
-            else this.GetComponent<CanvasGroup>().alpha = 0;
+            if (inputText.GetComponent<CanvasGroup>().alpha == 0) inputText.GetComponent<CanvasGroup>().alpha = 1;
+            else inputText.GetComponent<CanvasGroup>().alpha = 0;
         }
         if (waitText.text != TestConsole.Instance.text) waitText.text = TestConsole.Instance.text;
-
     }
+
+
 }

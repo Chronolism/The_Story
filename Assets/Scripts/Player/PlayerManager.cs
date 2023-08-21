@@ -33,7 +33,27 @@ public class PlayerManager : BaseManager<PlayerManager>
     public List<int> runtime_Tools;
     public List<string> special_Tags;
     */
-  
+    //玩家使用的角色
+    public int character_Code;
+    //生命
+    public float HP_Max;
+    //速度
+    public float Speed;
+    //攻击
+    public float atkDamage;
+    //终极技能
+    public float ultimate_Skill_Need;
+    public float ultimate_Skill_Start;
+    //位置
+    public V2 gird_Position_Start;
+    //状态
+    public List<string> special_Tags;
+    //改写
+    public float rewrite_ink_NeedRate;
+    public float rewrite_ink_Max;
+    public float rewrite_ink_MaxLastTime;
+    //使魔
+    public List<int> skill_Index;
 }
 
 public static class exploreFunc

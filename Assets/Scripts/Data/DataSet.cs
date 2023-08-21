@@ -76,7 +76,7 @@ public class D_Base_Player
     public V2 gird_Position_Start;
     public V2 runtime_gird_Position;
     //×´Ì¬
-    public float characterFigure;
+    public float runtime_characterFigure;
     public List<string> special_Tags;
     //¸ÄÐ´
     public float rewrite_ink_NeedRate;

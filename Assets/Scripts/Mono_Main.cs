@@ -8,6 +8,7 @@ public class Mono_Main : MonoBehaviour
     void Start()
     {
         UIManager.Instance.ShowPanel<ConsolePanel>();
+         
     }
 
     // Update is called once per frame

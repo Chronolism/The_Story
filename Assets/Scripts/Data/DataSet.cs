@@ -44,9 +44,9 @@ public class D_Buff
 
 }
 /// <summary>
-/// 每一个基础的敌人数据结构
+/// 每一个基础的使魔数据结构
 /// </summary>
-public class D_Enemy
+public class D_Servitor
 {
 
 }
@@ -55,7 +55,43 @@ public class D_Enemy
 /// </summary>
 public class D_Base_Player
 {
-
+    //玩家使用的角色
+    public int character_Code;
+    //生命
+    public float HP_Max;
+    public float runtime_HP_Max;
+    public float runtime_HP;
+    //速度
+    public float Speed;
+    public float runtime_Speed;
+    public float runtime_Speed_Max;
+    //攻击
+    public float atkDamage;
+    //终极技能
+    public float ultimate_Skill_Need;
+    public float ultimate_Skill_Start;
+    public float runtime_ultimate_Skill;
+    public float runtime_ultimate_Skill_Need;
+    //位置
+    public V2 gird_Position_Start;
+    public V2 runtime_gird_Position;
+    //状态
+    public float characterFigure;
+    public List<string> special_Tags;
+    //改写
+    public float rewrite_ink_NeedRate;
+    public float rewrite_ink_Max;
+    public float runtime_rewrite_ink_NeedRate;
+    public float runtime_rewrite_ink_Max;
+    public float runtime_rewrite_ink;
+    public float rewrite_ink_MaxLastTime;
+    //使魔
+    public List<D_Servitor> runtime_Servitors;
+    //技能
+    public List<int> skill_Index;
+    public List<D_Buff> runtime_Buff;
+    //道具
+    public List<int> runtime_Tools;
 }
 /// <summary>
 /// 本地操纵的玩家信息

@@ -41,6 +41,44 @@ public class D_UI
 /// </summary>
 public class D_Buff
 {
+    //buff id
+    public int buff_Code;
+    //buff名称
+    public string buff_Name;
+    //buff描述
+    public string buff_Description;
+    //buff类型
+    public string buff_Type;
+    //buff释放对象
+    public GameObject owner;
+    //buff作用对象
+    public List<GameObject> buff_Target_GameObjects;
+    //buff最大持续时间
+    public float buff_Time_Max;
+    //buff模块类型
+    public string[] buff_Module_Type;
+    //buff模块id
+    public int[] buff_Module_Code;
+
+    //buff释放时特效名称
+    [HideInInspector]
+    public string buff_FxName_AtRelease;
+    //buff持续时特效名称
+    [HideInInspector]
+    public string buff_FxName_AtDuration;
+    //buff结束时特效名称
+    [HideInInspector]
+    public string buff_FxName_AtEnd;
+    //buff图标
+    [HideInInspector]
+    public Sprite icon;
+
+    //buff预制件名称
+    public string buff_Prefab_Name;
+    //buff预制件对象
+    public GameObject buff_Prefab;
+
+
 
 }
 /// <summary>
@@ -86,7 +124,7 @@ public class D_Base_Player
     public float runtime_rewrite_ink;
     public float rewrite_ink_MaxLastTime;
     //使魔
-    public List<D_Servitor> runtime_Servitors;
+    public List<D_Servitor> runtime_myServitors;
     //技能
     public List<int> skill_Index;
     public List<D_Buff> runtime_Buff;

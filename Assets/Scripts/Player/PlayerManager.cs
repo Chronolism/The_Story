@@ -33,29 +33,41 @@ public class PlayerManager : BaseManager<PlayerManager>
     public List<int> runtime_Tools;
     public List<string> special_Tags;
     */
-    //玩家使用的角色
+
+
+    //以下内容为局外代入局内的设置内容
     public int character_Code;
-    //生命
     public float HP_Max;
-    //速度
     public float Speed;
-    //攻击
     public float atkDamage;
-    //终极技能
     public float ultimate_Skill_Need;
     public float ultimate_Skill_Start;
-    //位置
     public V2 gird_Position_Start;
-    //状态
     public List<string> special_Tags;
-    //改写
     public float rewrite_ink_NeedRate;
     public float rewrite_ink_Max;
     public float rewrite_ink_MaxLastTime;
-    //使魔
     public List<int> skill_Index;
-}
 
+
+    public void InitLocalPlayer()
+    {
+        _LocalPlayer.character_Code = character_Code;
+        _LocalPlayer.HP_Max = HP_Max;
+        _LocalPlayer.Speed = Speed;
+        _LocalPlayer.atkDamage = atkDamage;
+        _LocalPlayer.ultimate_Skill_Need = ultimate_Skill_Need;
+        _LocalPlayer.ultimate_Skill_Start = ultimate_Skill_Start;
+        _LocalPlayer.gird_Position_Start = gird_Position_Start;
+        _LocalPlayer.special_Tags = special_Tags;
+        _LocalPlayer.rewrite_ink_NeedRate = rewrite_ink_NeedRate;
+        _LocalPlayer.rewrite_ink_Max = rewrite_ink_Max;
+        _LocalPlayer.rewrite_ink_MaxLastTime = rewrite_ink_MaxLastTime;
+        _LocalPlayer.skill_Index = skill_Index;
+
+        GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_LocalPlayer);
+    }
+}
 public static class exploreFunc
 {
     public static void runtimeStart(this D_Base_Player d_Base_Player)

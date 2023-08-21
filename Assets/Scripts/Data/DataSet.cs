@@ -86,7 +86,7 @@ public class D_Base_Player
     public float runtime_rewrite_ink;
     public float rewrite_ink_MaxLastTime;
     //Ê¹Ä§
-    public List<D_Servitor> runtime_Servitors;
+    public List<D_Servitor> runtime_myServitors;
     //¼¼ÄÜ
     public List<int> skill_Index;
     public List<D_Buff> runtime_Buff;

@@ -26,8 +26,6 @@ public class GameRuntimeManager : BaseManager<GameRuntimeManager>
         if (gameModeDic.ContainsKey(gameModeName))
         {
             nowaGameMode = gameModeDic[gameModeName];
-
-
             
             if (callBack != null)
                 callBack(gameModeDic[gameModeName] as T);

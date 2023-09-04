@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TestGameMode:Base_GameMode
 {
+    public int JoinPlayerNum = 3; 
     public override void InitPlayer(D_Base_Player Player)
     {
         //ÑªÁ¿ÖØÖÃ

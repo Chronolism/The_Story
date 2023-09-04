@@ -93,6 +93,8 @@ public class D_Servitor
 /// </summary>
 public class D_Base_Player
 {
+    public GameObject runtime_Player;
+    public int runtime_id;
     //玩家使用的角色
     public int character_Code;
     //生命
@@ -143,7 +145,7 @@ public class D_LocalPlayer: D_Base_Player
 /// </summary>
 public class D_OtherPlayer : D_Base_Player
 {
-
+    
 }
 /// <summary>
 /// 一局游戏进行时的各项数据

@@ -49,9 +49,13 @@ public class PlayerManager : BaseManager<PlayerManager>
     public float rewrite_ink_MaxLastTime;
     public List<int> skill_Index;
 
+    public GameObject runtime_Player;
+    public int runtime_id;
+
 
     public void InitLocalPlayer()
     {
+        //将本脚本的代入局内数据应用
         _LocalPlayer.character_Code = character_Code;
         _LocalPlayer.HP_Max = HP_Max;
         _LocalPlayer.Speed = Speed;
@@ -64,8 +68,13 @@ public class PlayerManager : BaseManager<PlayerManager>
         _LocalPlayer.rewrite_ink_Max = rewrite_ink_Max;
         _LocalPlayer.rewrite_ink_MaxLastTime = rewrite_ink_MaxLastTime;
         _LocalPlayer.skill_Index = skill_Index;
-
+        //加载游戏模式，初始化本地角色
         GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_LocalPlayer);
+    }
+
+    public void AddOtherPlayer()
+    {
+        //GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_OtherPlayer);
     }
 }
 public static class exploreFunc

@@ -9,6 +9,15 @@ using UnityEngine;
 /// </summary>
 public class InputMgr : BaseManager<InputMgr>
 {
+    public Dictionary<E_PlayKeys, KeyCode> keyPairs = new Dictionary<E_PlayKeys, KeyCode>
+    {
+        {E_PlayKeys.A,KeyCode.A},
+        {E_PlayKeys.D,KeyCode.D},
+        {E_PlayKeys.W,KeyCode.W},
+        {E_PlayKeys.S,KeyCode.S},
+        {E_PlayKeys.E,KeyCode.E},
+        {E_PlayKeys.Q,KeyCode.Q},
+    };
 
     private bool isStart = false;
     /// <summary>

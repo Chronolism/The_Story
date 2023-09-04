@@ -72,6 +72,15 @@ public class ConsolePanel : BasePanel
             else inputText.GetComponent<CanvasGroup>().alpha = 0;
         }
         if (waitText.text != TestConsole.Instance.text) waitText.text = TestConsole.Instance.text;
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            int tempLength = properText.text.IndexOf("\n");
+            if (tempLength > 1) 
+                TestConsole.Instance.FindAndRun(properText.text.Substring(1, tempLength - 1));
+            else
+                TestConsole.Instance.WriteLine("找不到合适函数");
+        }
     }
 
 

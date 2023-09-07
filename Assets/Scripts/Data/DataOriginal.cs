@@ -96,6 +96,20 @@ public struct V2
 {
     public int x;
     public int y;
+
+    public override bool Equals(object obj)
+    {
+        return obj is V2 v2 && x == v2.x && y == v2.y;
+    }
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+    public override string ToString()
+    {
+        return base.ToString();
+    }
+
     public static bool operator ==(V2 a, V2 b)
     {
         if (a.x == b.x && a.y == b.y) return true;

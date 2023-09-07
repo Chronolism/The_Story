@@ -52,7 +52,9 @@ public class PlayerManager : BaseManager<PlayerManager>
     public GameObject runtime_Player;
     public int runtime_id;
 
-
+    /// <summary>
+    /// 根据模式初始化角色进入局内
+    /// </summary>
     public void InitLocalPlayer()
     {
         //将本脚本的代入局内数据应用
@@ -75,6 +77,25 @@ public class PlayerManager : BaseManager<PlayerManager>
     public void AddOtherPlayer()
     {
         //GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_OtherPlayer);
+    }
+    /// <summary>
+    /// 一个通过runtime_id获取玩家数据集的方法
+    /// </summary>
+    /// <param name="runtime_id">D_Base_Player的一项</param>
+    /// <returns></returns>
+    public D_Base_Player GetPlayerDataWithRuntime_Id(int runtime_id)
+    {
+        if (runtime_id == _LocalPlayer.runtime_id)
+            return _LocalPlayer;
+        else
+        {
+            foreach (var item in _OtherPlayers)
+            {
+                if(runtime_id == item.runtime_id)
+                    return item;
+            }
+            return null;
+        }
     }
 }
 public static class exploreFunc

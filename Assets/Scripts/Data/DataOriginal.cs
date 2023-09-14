@@ -89,7 +89,7 @@ public class EnemyDetile
     public List<V2> targets = new List<V2>();
 }
 /// <summary>
-/// 重载二元组运算（那你为什么不用元组呢？）
+/// 重载二元组运算（那你为什么不用元组或者Vector3Int呢？）
 /// </summary>
 [Serializable]
 public struct V2
@@ -97,6 +97,11 @@ public struct V2
     public int x;
     public int y;
 
+    public V2(int from_x,int from_y)
+    {
+        x = from_x;
+        y = from_y;
+    }
     public override bool Equals(object obj)
     {
         return obj is V2 v2 && x == v2.x && y == v2.y;
@@ -120,6 +125,10 @@ public struct V2
         if (a.x == b.x && a.y == b.y) return false;
         return true;
     }
+    public static V2 V3to2(Vector3 vector3) => new V2((int) vector3.x, (int) vector3.y);
+    public static V2 V3to2(Vector3Int vector3) => new V2(vector3.x, vector3.y);
+    public static Vector3Int V2to3(V2 v2) => new Vector3Int(v2.x, v2.y, 0);
+
 }
 [Serializable]
 public class UIData

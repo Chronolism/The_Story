@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 原始地图信息 的数据结构
+/// (暂已弃用，请使用D_MapDataDetailOriginal)原始地图信息 的数据结构
 /// </summary>
 public class D_MapDataOriginal
 {
     //ID，名称，描述
-    public int ID { get;}
-    public string name { get;}
-    public string description { get; }
+    //public int ID { get;}
+    //public string name { get;}
+    //public string description { get; }
     //public string TileAsset { get; set; }
     //public float blood { get; set; }
 }
@@ -19,10 +19,13 @@ public class D_MapDataOriginal
 /// </summary>
 public class D_MapDataDetailOriginal
 {
-
+    public int ID;
+    public string name;
+    public string description;
+    public Dictionary<string, Dictionary<Vector3Int, int>>  mapCellData;
 }
 /// <summary>
-/// 原始地图网格信息转化为json兼容
+/// (暂已弃用)原始地图网格信息转化为json兼容,很神秘，真的不知道拿来干什么的
 /// </summary>
 public class D_MapDataDetailOriginal_ToJson
 {

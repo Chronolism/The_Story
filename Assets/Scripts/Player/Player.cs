@@ -79,6 +79,7 @@ public class Player : MonoBehaviour,IEnableInput
 
         
     }
+    
 }
 public enum E_PlayerControlMode
 {

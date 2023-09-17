@@ -54,5 +54,10 @@ public class TestConsole
         return resultString;
     }
 
-   
+    public void ThrowError(string errorReason)
+    {
+        UIManager.Instance.ShowPanel<ConsolePanel>();
+        if (UIManager.Instance.GetPanel<ConsolePanel>().inputText.GetComponent<CanvasGroup>().alpha == 0) UIManager.Instance.GetPanel<ConsolePanel>().inputText.GetComponent<CanvasGroup>().alpha = 1;   
+        WriteLine("´íÎó£¡ " + errorReason);
+    }
 }

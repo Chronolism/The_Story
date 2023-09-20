@@ -22,14 +22,19 @@ public class D_MapDataDetailOriginal
     public int ID;
     public string name;
     public string description;
-    public Dictionary<string, Dictionary<Vector3Int, int>>  mapCellData;
+    public Dictionary<string, Dictionary<Vector3Int, int>> mapCellData;
+    
 }
 /// <summary>
-/// (暂已弃用)原始地图网格信息转化为json兼容,很神秘，真的不知道拿来干什么的
+/// 原始地图网格信息转化为不包含unity内置内容的数据的兼容版本
 /// </summary>
-public class D_MapDataDetailOriginal_ToJson
+[System.Serializable]
+public class D_MapDataDetailOriginal_Serializable//仅仅在存取的时候使用的中转
 {
-
+    public int ID;
+    public string name;
+    public string description;
+    public Dictionary<string, Dictionary<V2, int>> mapCellDataSerializable;
 }
 /// <summary>
 /// 每一个基础的UI控件数据结构

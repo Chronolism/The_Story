@@ -140,12 +140,23 @@ public class MapEditPanel : BasePanel
     //将当前地图保存
     void _SaveMap()
     {
-
+        _localMapDataDetailOriginal.name = _nowEditingMap;
+        MapManager.Instance.SaveMap(_localMapDataDetailOriginal);
+        print(MapManager.Instance.mapSaveDirectoryAddress);
     }
     //将按名字将地图加载
     void _LoadMap()
     {
-
+        int errorCode;
+        _localMapDataDetailOriginal = MapManager.Instance.LoadMap(_nowEditingMap,out errorCode);
+        if (_localMapDataDetailOriginal == null)
+        {
+            print("读取错误：" + errorCode);
+            return;
+        }
+        _nowEditingMap = _localMapDataDetailOriginal.name;//作为习惯，实际上通过名字加载时此赋值无意义
+        _mapName.text = _nowEditingMap;//而不通过名称加载时是需要同步面板信息的
+        _LoadMapLayer();
     }
     //小工具，加载该层的地图进入_localLayerMapCellData
     void _LoadMapLayer()

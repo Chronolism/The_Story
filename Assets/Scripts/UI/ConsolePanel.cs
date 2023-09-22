@@ -58,8 +58,8 @@ public class ConsolePanel : BasePanel
         });
 
         #region 测试代码
-        TestConsole.Instance.AddCommand("author", () => { print("来自Dr3的自用插件"); });
-        TestConsole.Instance.AddCommand("about", () => { print("可能存在bug请多包含哦~"); });
+        TestConsole.Instance.AddCommand("author", () => { print("来自Dr3的自用插件"); },"测试用例");
+        TestConsole.Instance.AddCommand("about", () => { print("可能存在bug请多包含哦~"); }, "测试用例");
         #endregion
 
     }

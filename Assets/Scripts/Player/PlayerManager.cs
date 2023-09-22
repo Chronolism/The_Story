@@ -106,3 +106,9 @@ public static class exploreFunc
     }
 }
 
+public enum E_PlayerControlMode
+{
+    Pacman,
+    Free4,
+    Free8,
+}

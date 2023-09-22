@@ -89,7 +89,7 @@ public class EnemyDetile
     public List<V2> targets = new List<V2>();
 }
 /// <summary>
-/// 重载二元组运算（那你为什么不用元组或者Vector3Int呢？）
+/// 二元组
 /// </summary>
 [Serializable]
 public struct V2

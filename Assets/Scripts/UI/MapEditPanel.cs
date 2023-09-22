@@ -85,6 +85,8 @@ public class MapEditPanel : BasePanel
         _cellData.onEndEdit.AddListener((o) => { _nowEditingCellDataText = o; });
         _mapName.text = _nowEditingMap;
         _mapName.onEndEdit.AddListener((o) => { _nowEditingMap = o; });
+
+        TestConsole.Instance.AddCommand("MapFill", () => { MapManager.Instance.AutoFilledEmpty(ref _localLayerMapCellData); },"测试临时用例：填充所有涉及方格");//临时：测试函数AutoFilledEmpty
     }
 
     protected override void Update()

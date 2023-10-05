@@ -33,6 +33,7 @@ public class PlayerRuntime : MonoBehaviour
         if (_needChangeID)
         {
             _PlayerData = PlayerManager.Instance.GetPlayerDataWithRuntime_Id(_runtime_id);
+            //_PlayerData.runtime_Player = this.gameObject;
             _needChangeID = false;
         }
         //这里写需要用到玩家信息的画面帧

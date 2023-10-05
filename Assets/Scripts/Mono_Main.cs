@@ -21,8 +21,8 @@ public class Mono_Main : MonoBehaviour,IEnableInput
         TestConsole.Instance.AddCommand("NetHPChangeTo10", () => { GamePlayNetControl.Instance. Local_Net_HP = 10 ; });
 
         TestConsole.Instance.AddCommand("MapTest", () => { UIManager.Instance.ShowPanel<MapEditPanel>(); }, "进入地图编辑器");
+        TestConsole.Instance.AddCommand("LoadMapCollusionTest", () => { MapManager.Instance.LoadMapCompletelyToScene("400"); }, "加载400碰撞测试地图");
 
-        
 
     }
 

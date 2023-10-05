@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.Tilemaps;
 
 public class MapManager : BaseManager<MapManager>
 {
+    GameObject runtimeGirdGameObject;
+    Grid runtimeGrid;
+    Dictionary<string,Tilemap> runtimeTilemaps = new Dictionary<string, Tilemap>();
+    //测试用例
+    TileBase _testTile;
+    //地图映射规格
+
     //玩家正在运行的地图源数据
     public D_MapDataDetailOriginal nowPlaying_d_MapDataDetailOriginal;
     Dictionary<string, Dictionary<Vector3Int, int>> _collusionTestMapCellData;//测试用例，从Bottom生成碰撞箱
@@ -13,7 +21,34 @@ public class MapManager : BaseManager<MapManager>
     public string mapSaveDirectoryAddress = Application.streamingAssetsPath + "/MapData";
 
     //加载地图到场景
+    public bool LoadMapCompletelyToScene(string mapName)
+    {
+        runtimeTilemaps.Clear();
+        //如果是测试用例，则只加载Bottom中有数据地块作为碰撞箱到场景
+        if (mapName == "400")
+        {
+            runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid"));
+            runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();
+            runtimeTilemaps.TryAdd("Bottom", runtimeGrid.GetComponentInChildren<Tilemap>());
+            _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
+            nowPlaying_d_MapDataDetailOriginal = LoadMap("400", out int errorCode);
+            runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
 
+            foreach (var item in nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"])
+            {
+                if(item.Value == 1)
+                {
+                    runtimeTilemaps["Bottom"].SetTile(item.Key,_testTile);
+                }
+            }
+        }
+
+        return true;
+    }
+    public bool LoadMapLayerAs()
+    {
+        return true;
+    }
     //地图规格化（多种方法）
     /// <summary>
     /// 根据传入的数据的最大范围，填补空隙为0，返回一个地图尺寸V2

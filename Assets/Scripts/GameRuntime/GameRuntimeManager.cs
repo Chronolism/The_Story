@@ -14,10 +14,12 @@ public class GameRuntimeManager : BaseManager<GameRuntimeManager>
 
     //游戏运行时数据集
     private D_GameRuntime _gameRuntime = new D_GameRuntime();
-
     //获得游戏运行时数据集
     public D_GameRuntime GameRuntimeData => _gameRuntime;
 
+    //运行中的逻辑地图，非常重要
+    public PathNode[,] runtimeLogicMap => AbstractLogicManager.Instance.runtimeLogicMap;
+    
     //当前游戏模式
     public Base_GameMode nowaGameMode = new Base_GameMode();
     public void LoadGameMode<T>(UnityAction<T> callBack = null) where T : Base_GameMode

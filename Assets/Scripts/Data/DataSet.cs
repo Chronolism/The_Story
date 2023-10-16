@@ -102,7 +102,7 @@ public class D_Servitor
 public class D_Base_Player
 {
     public GameObject runtime_Player;
-    public int runtime_id;
+    public int runtime_id = 400;
     //玩家使用的角色
     public int character_Code;
     //生命

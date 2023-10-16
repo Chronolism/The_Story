@@ -7,8 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : BaseManager<MapManager>
 {
+    public Grid runtimeGrid;
     GameObject runtimeGirdGameObject;
-    Grid runtimeGrid;
     Dictionary<string,Tilemap> runtimeTilemaps = new Dictionary<string, Tilemap>();
     //测试用例
     TileBase _testTile;
@@ -33,14 +33,34 @@ public class MapManager : BaseManager<MapManager>
             _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
             nowPlaying_d_MapDataDetailOriginal = LoadMap("400", out int errorCode);
             runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
-
-            foreach (var item in nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"])
+            Dictionary<Vector3Int, int> tempMapCollider = nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"];
+            V2 tempLogicToDisplayOffset;
+            AbstractLogicManager.Instance.logicMapSize = AutoFilledEmpty(ref tempMapCollider,out tempLogicToDisplayOffset);//自动填充空白并将大小给予抽象地图
+            AbstractLogicManager.Instance.logicToDisplayOffset = tempLogicToDisplayOffset;//抽象地图原点一定为 0,0 ，记录该实际原点与 0,0 的偏移量
+            if (tempLogicToDisplayOffset == new V2(0, 0))
             {
-                if(item.Value == 1)
+                foreach (var item in nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"])
                 {
-                    runtimeTilemaps["Bottom"].SetTile(item.Key,_testTile);
+                    if (item.Value == 1)
+                    {
+                        runtimeTilemaps["Bottom"].SetTile(item.Key, _testTile);
+                        AbstractLogicManager.Instance.runtimeLogicMap[item.Key.x, item.Key.y].type = E_Node_Type.Stop;
+                    }
                 }
             }
+            else
+            {
+                Debug.LogWarning("地图最小坐标不在原点,而在 " + tempLogicToDisplayOffset.x + "," + tempLogicToDisplayOffset.y);
+                foreach (var item in nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"])
+                {
+                    if (item.Value == 1)
+                    {
+                        runtimeTilemaps["Bottom"].SetTile(item.Key, _testTile);
+                        GameRuntimeManager.Instance.runtimeLogicMap[item.Key.x - tempLogicToDisplayOffset.x, item.Key.y - tempLogicToDisplayOffset.y].type = E_Node_Type.Stop;
+                    }
+                }
+            }
+            
         }
 
         return true;
@@ -55,10 +75,11 @@ public class MapManager : BaseManager<MapManager>
     /// </summary>
     /// <param name="original"></param>
     /// <returns></returns>
-    public V2 AutoFilledEmpty(ref Dictionary<Vector3Int, int> original)
+    public V2 AutoFilledEmpty(ref Dictionary<Vector3Int, int> original,out V2 startCellOffset)
     {
         if(original == null)
         {
+            startCellOffset = new V2(0, 0);
             return new V2(0,0);
         }
         int MaxX = 0;
@@ -94,7 +115,8 @@ public class MapManager : BaseManager<MapManager>
                 }
             }
         }
-        return new V2(MaxX - MinX, MaxY - MinY);
+        startCellOffset = new V2(MinX, MinY);
+        return new V2(MaxX - MinX + 1, MaxY - MinY + 1);
     }
 
     /// <summary>

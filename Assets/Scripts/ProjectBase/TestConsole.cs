@@ -12,9 +12,9 @@ public class TestConsole
     Dictionary<string, string> ConsoleTipsBox = new Dictionary<string, string>();
     public string text = "等待输入 ......";
     public string preText = "";
+    float timeUse = 0;//显示函数执行时间,存在问题需要维护
     public void FindAndRun(string FunctionName)
-    {
-        float timeUse = 0;//显示函数执行时间
+    {      
         if (!ConsoleBox.ContainsKey(FunctionName))
         {
             this.WriteLine("找不到名为 " + FunctionName + "的函数");
@@ -24,6 +24,7 @@ public class TestConsole
         ConsoleBox[FunctionName].Invoke();
         timeUse = Time.realtimeSinceStartup - timeUse;
         text += ("\n" + "已成功调用" + FunctionName +"("+ timeUse.ToString().Substring(0,6) + ")");
+        timeUse = 0;
     }
     public void WriteLine(string printContains)
     {

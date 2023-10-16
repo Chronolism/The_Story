@@ -47,12 +47,6 @@ public class PlayerControl : MonoBehaviour,IEnableInput
         //这里Q在最后，则按下QE会优先触发Q
 
        
-        
-
-
-    }
-    private void FixedUpdate()
-    {
         //根据玩家操纵模式，初版的角色操控器（逻辑帧更新）
         switch (playerControlMode)
         {
@@ -83,8 +77,17 @@ public class PlayerControl : MonoBehaviour,IEnableInput
                 break;
         }
         _playerRuntime.displacementThisFrameDirctionTrue = displacementThisFrameDirction;
-        //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向
+        //碰撞探针
+        //if (MapManager.Instance.runtimeGrid != null) AbstractLogicManager.Instance.CellProbe(ref UpDown, ref RightLeft, _playerRuntime.PlayerData.runtime_gird_Position);
+        //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向        
         playInputLastFrame = new Vector3Int(UpDown, RightLeft, Special);
+
+
+
+    }
+    private void FixedUpdate()
+    {
+        
     }
 }
 

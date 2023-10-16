@@ -11,6 +11,7 @@ public enum E_Node_Type
     Walk,
     //不能走的阻挡
     Stop,
+    Special,
 }
 
 /// <summary>

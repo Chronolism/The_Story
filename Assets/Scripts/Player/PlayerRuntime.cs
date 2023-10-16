@@ -38,8 +38,7 @@ public class PlayerRuntime : MonoBehaviour
         }
         //这里写需要用到玩家信息的画面帧
         if (PlayerData != null) DisplayUpdate();
-        //核心移动显示公式
-        this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
+        
     }
     private void FixedUpdate()
     {
@@ -58,6 +57,8 @@ public class PlayerRuntime : MonoBehaviour
     void LogicUpdate()
     {
         if (MapManager.Instance.runtimeGrid == null) return;//临时用来判断游戏是否在运行时
+        //核心移动显示公式（逻辑帧更新——暂且与物理系统同步）
+        this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
         //每个逻辑帧更新该玩家的网格位置（V2）
         PlayerData.runtime_gird_Position = new V2(MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).x, MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).y);
         print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);

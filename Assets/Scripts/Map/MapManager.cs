@@ -13,10 +13,14 @@ public class MapManager : BaseManager<MapManager>
     //测试用例
     TileBase _testTile;
     //地图映射规格
-
+    /// <summary>
+    /// 用于生成碰撞的地图层名称，用于生成碰撞的值默认为1
+    /// </summary>
+    public string mapColliderLayerName = "Bottom";
+    public Dictionary<Vector3Int, int> mapColliderData;
     //玩家正在运行的地图源数据
     public D_MapDataDetailOriginal nowPlaying_d_MapDataDetailOriginal;
-    Dictionary<string, Dictionary<Vector3Int, int>> _collusionTestMapCellData;//测试用例，从Bottom生成碰撞箱
+    Dictionary<string, Dictionary<Vector3Int, int>> _runtimeCellData;//测试用例，从Bottom生成碰撞箱
     //等确认了再改成Application.persistentDataPath
     public string mapSaveDirectoryAddress = Application.streamingAssetsPath + "/MapData";
 
@@ -25,13 +29,13 @@ public class MapManager : BaseManager<MapManager>
     {
         runtimeTilemaps.Clear();
         //如果是测试用例，则只加载Bottom中有数据地块作为碰撞箱到场景
-        if (mapName == "400")
+        if (mapName == "401")
         {
             runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid"));
             runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();
             runtimeTilemaps.TryAdd("Bottom", runtimeGrid.GetComponentInChildren<Tilemap>());
             _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
-            nowPlaying_d_MapDataDetailOriginal = LoadMap("400", out int errorCode);
+            nowPlaying_d_MapDataDetailOriginal = LoadMap("400", out int errorCodeTest);
             runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
             Dictionary<Vector3Int, int> tempMapCollider = nowPlaying_d_MapDataDetailOriginal.mapCellData["Bottom"];
             V2 tempLogicToDisplayOffset;
@@ -60,8 +64,47 @@ public class MapManager : BaseManager<MapManager>
                     }
                 }
             }
-            
+            return true;
         }
+
+        if(runtimeGirdGameObject == null) runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid")); ;                
+        runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();                                                               //初始化Grid
+
+        nowPlaying_d_MapDataDetailOriginal = LoadMap(mapName, out int errorCode);                                               //加载地图全部数据
+        _runtimeCellData = nowPlaying_d_MapDataDetailOriginal.mapCellData;                                                      //使用地图网格数据
+        
+        
+        //这里留着加载地块数据
+        _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
+        
+        //这里留着加功能或碰撞
+        // runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
+      
+
+        foreach (var item in _runtimeCellData)
+        {
+            var o = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Tilemap"));
+            if (o != null) 
+            {
+                o.transform.parent = runtimeGrid.transform;
+                runtimeTilemaps.TryAdd(item.Key, o.GetComponent<Tilemap>());
+                foreach (var element in item.Value)
+                {
+                    if (element.Value == 1)
+                    {
+                        runtimeTilemaps[item.Key].SetTile(element.Key, _testTile);                      
+                    }
+                }
+                o.name = item.Key;
+                if(o.name == mapColliderLayerName)
+                {
+                    mapColliderData = item.Value;
+                }
+            }         
+        }
+
+        
+        
 
         return true;
     }

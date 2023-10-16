@@ -127,11 +127,11 @@ public class AStarMgr : BaseManager<AStarMgr>
 
             //选出开启列表中 寻路消耗最小的点
             openList.Sort(SortOpenList);
-            for ( int i = 0; i < openList.Count; ++i )
-            {
-                AStarNode node = openList[i];
-                //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h + "f=" + node.f);
-            }
+            //for ( int i = 0; i < openList.Count; ++i )
+            //{
+            //    AStarNode node = openList[i];
+            //    //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h + "f=" + node.f);
+            //}
 
             //放入关闭列表中 然后再从开启列表中移除
             closeList.Add(openList[0]);

@@ -39,11 +39,12 @@ public class PlayerRuntime : MonoBehaviour
         //这里写需要用到玩家信息的画面帧
         if (PlayerData != null) DisplayUpdate();
         //核心移动显示公式
-        this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
+
     }
     private void FixedUpdate()
     {
         if (PlayerData != null) LogicUpdate();
+        this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
     }
     /// <summary>
     /// 画面帧中枢

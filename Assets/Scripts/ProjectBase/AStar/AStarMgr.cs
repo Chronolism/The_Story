@@ -60,7 +60,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         nodes = new AStarNode[mapW, mapH];
         foreach (var kvp in map)
         {
-            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Walk : E_Node_Type.Stop);
+            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Stop : E_Node_Type.Walk);
         }
     }
 
@@ -242,6 +242,8 @@ public class AStarMgr : BaseManager<AStarMgr>
 
     public bool ChackType(int x,int y,E_Node_Type type)
     {
+        x -= deviationW;
+        y -= deviationH;
         if(x < 0 || x >= mapW ||
             y< 0 || y >= mapH)
         {

@@ -17,7 +17,7 @@ public class MapManager : BaseManager<MapManager>
     /// 用于生成碰撞的地图层名称，用于生成碰撞的值默认为1
     /// </summary>
     public string mapColliderLayerName = "Bottom";
-    public Dictionary<Vector3Int, int> mapColliderData;
+    public Dictionary<Vector3Int, bool> mapColliderData = new Dictionary<Vector3Int, bool>();
     //玩家正在运行的地图源数据
     public D_MapDataDetailOriginal nowPlaying_d_MapDataDetailOriginal;
     Dictionary<string, Dictionary<Vector3Int, int>> _runtimeCellData;//测试用例，从Bottom生成碰撞箱
@@ -68,10 +68,10 @@ public class MapManager : BaseManager<MapManager>
         }
 
         if(runtimeGirdGameObject == null) runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid")); ;                
-        runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();                                                               //初始化Grid
+        runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();                                              //初始化Grid
 
-        nowPlaying_d_MapDataDetailOriginal = LoadMap(mapName, out int errorCode);                                               //加载地图全部数据
-        _runtimeCellData = nowPlaying_d_MapDataDetailOriginal.mapCellData;                                                      //使用地图网格数据
+        nowPlaying_d_MapDataDetailOriginal = LoadMap(mapName, out int errorCode);                              //加载地图全部数据
+        _runtimeCellData = nowPlaying_d_MapDataDetailOriginal.mapCellData;                                     //使用地图网格数据
         
         
         //这里留着加载地块数据
@@ -98,7 +98,14 @@ public class MapManager : BaseManager<MapManager>
                 o.name = item.Key;
                 if(o.name == mapColliderLayerName)
                 {
-                    mapColliderData = item.Value;
+                    mapColliderData.Clear();
+                    Dictionary<Vector3Int, int> orignalMapCollider = item.Value;
+                    AutoFilledEmpty(ref orignalMapCollider,out _);
+                    foreach (var element in orignalMapCollider)
+                    {
+                        if (element.Value == 0) mapColliderData.TryAdd(element.Key, false);
+                        else mapColliderData.TryAdd(element.Key, true);
+                    }
                 }
             }         
         }

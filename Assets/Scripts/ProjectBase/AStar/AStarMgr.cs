@@ -14,6 +14,10 @@ public class AStarMgr : BaseManager<AStarMgr>
     public int mapW;
     public int mapH;
 
+    public int deviationW;
+    public int deviationH;
+
+
     //地图相关所有的格子对象容器
     public AStarNode[,] nodes;
     //开启列表
@@ -40,6 +44,26 @@ public class AStarMgr : BaseManager<AStarMgr>
 
     }
 
+
+    public void InitMapInfo(Dictionary<Vector3Int , bool> map)
+    {
+        var kvpf = map.First();
+        deviationW = kvpf.Key.x;
+        deviationH = kvpf.Key.y;
+        foreach (var kvp in map)
+        {
+            if (kvp.Key.x < deviationW) deviationW = kvp.Key.x;
+            else if (kvp.Key.x >= mapW + deviationW) mapW = kvp.Key.x - deviationW + 1;
+            if (kvp.Key.y < deviationH) deviationH = kvp.Key.y;
+            else if (kvp.Key.y >= mapH + deviationH) mapH = kvp.Key.y - deviationH + 1;
+        }
+        nodes = new AStarNode[mapW, mapH];
+        foreach (var kvp in map)
+        {
+            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Stop : E_Node_Type.Walk);
+        }
+    }
+
     /// <summary>
     /// 寻路方法 提供给外部使用
     /// </summary>
@@ -51,6 +75,10 @@ public class AStarMgr : BaseManager<AStarMgr>
         await Task.Yield();
         //实际项目中 传入的点往往是 坐标系中的位置
         //我们这里省略换算的步骤  直接认为它是传进来的格子坐标
+        startPos.x = (int)(startPos.x - deviationW);
+        startPos.y = (int)(startPos.y - deviationH);
+        endPos.x = (int)(endPos.x - deviationW);
+        endPos.y = (int)(endPos.y - deviationH);
 
         //首先判断 传入的两个点 是否合法
         //如果不合法 应该直接 返回null 意味着不能寻路
@@ -116,7 +144,7 @@ public class AStarMgr : BaseManager<AStarMgr>
             FindNearlyNodeToOpenList(start.x, start.y + 1, 1, start, end);
             //右下 x+1 y+1
             //FindNearlyNodeToOpenList(start.x + 1, start.y + 1, 1.4f, start, end);
-
+            
             //思路判断 开启列表为空 都还没有找到终点 就认为是思路
             if (openList.Count == 0)
             {
@@ -127,11 +155,11 @@ public class AStarMgr : BaseManager<AStarMgr>
 
             //选出开启列表中 寻路消耗最小的点
             openList.Sort(SortOpenList);
-            for ( int i = 0; i < openList.Count; ++i )
-            {
-                AStarNode node = openList[i];
-                //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h + "f=" + node.f);
-            }
+            //for ( int i = 0; i < openList.Count; ++i )
+            //{
+            //    AStarNode node = openList[i];
+            //    //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h + "f=" + node.f);
+            //}
 
             //放入关闭列表中 然后再从开启列表中移除
             closeList.Add(openList[0]);
@@ -183,12 +211,14 @@ public class AStarMgr : BaseManager<AStarMgr>
     /// <param name="y"></param>
     private void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end)
     {
+        Debug.Log("find");
         //边界判断
         if (x < 0 || x >= mapW ||
             y < 0 || y >= mapH)
             return;
         //在范围内 再去取点
         AStarNode node = nodes[x, y];
+
         //判断这些点 是否是边界 是否是阻挡  是否在开启或者关闭列表 如果都不是 才放入开启列表
         if (node == null||
             node.type == E_Node_Type.Stop ||
@@ -212,6 +242,8 @@ public class AStarMgr : BaseManager<AStarMgr>
 
     public bool ChackType(int x,int y,E_Node_Type type)
     {
+        x -= deviationW;
+        y -= deviationH;
         if(x < 0 || x >= mapW ||
             y< 0 || y >= mapH)
         {

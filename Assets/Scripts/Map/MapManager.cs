@@ -249,7 +249,7 @@ public class MapManager : BaseManager<MapManager>
         D_MapDataDetailOriginal_Serializable target = new D_MapDataDetailOriginal_Serializable();
         target.ID = d_MapDataDetailOriginal.ID;
         target.name = d_MapDataDetailOriginal.name;
-        target.description = d_MapDataDetailOriginal.description; ;
+        target.description = d_MapDataDetailOriginal.description; 
         if(d_MapDataDetailOriginal.mapCellData != null)
         {
             target.mapCellDataSerializable = new Dictionary<string, Dictionary<V2, int>>();

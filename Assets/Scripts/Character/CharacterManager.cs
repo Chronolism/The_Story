@@ -5,9 +5,9 @@ using UnityEngine;
 public class CharacterManager : BaseManager<CharacterManager>
 {
     //存场景上所有的角色的索引
-    public Dictionary<string, Base_Character> characterDic = new Dictionary<string, Base_Character>() 
+    public Dictionary<int, Base_Character> characterDic = new Dictionary<int, Base_Character>()
     {
-        {"Test",new Character_Test()}
+        { 405 , new Character_Test()}
     
     };
 

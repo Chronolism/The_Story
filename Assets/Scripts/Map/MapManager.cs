@@ -83,12 +83,13 @@ public class MapManager : BaseManager<MapManager>
         if(runtimeGirdGameObject == null) runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid")); ;                
         runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();                                              //初始化Grid
 
-        nowPlaying_d_MapDataDetailOriginal = LoadMap(mapName, out int errorCode);                              //加载地图全部数据
-        _runtimeCellData = nowPlaying_d_MapDataDetailOriginal.mapCellData;                                     //使用地图网格数据
+        nowPlaying_d_MapDataDetailOriginal = LoadMap(mapName, out int errorCode);//加载地图全部数据
+        if (errorCode == 404) return false;//加载失败防止报空直接返回                                       
+        _runtimeCellData = nowPlaying_d_MapDataDetailOriginal.mapCellData;//使用地图网格数据
         
         
         //这里留着加载地块数据
-        _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
+        _testTile = Resources.Load<TileBase>("Map/MapTiles/StoneBeachRocks");
 
         //这里留着加功能或碰撞
         // runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱

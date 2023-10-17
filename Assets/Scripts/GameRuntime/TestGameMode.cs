@@ -36,4 +36,10 @@ public class TestGameMode:Base_GameMode
         if (cellsForPlayerBorn == null || cellsForPlayerBorn.Count < 1) return new V2(0, 0);
         return new V2(this.cellsForPlayerBorn[0].x, this.cellsForPlayerBorn[0].y);
     }
+    //将自己设置为当前的游戏模式
+    public override void SetSelfAsNowaGameMode()
+    {
+        GameRuntimeManager.Instance.nowaGameMode = this;
+    }
 }
+

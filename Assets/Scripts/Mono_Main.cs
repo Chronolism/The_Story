@@ -10,8 +10,8 @@ public class Mono_Main : MonoBehaviour,IEnableInput
     {
         UIManager.Instance.ShowPanel<ConsolePanel>();
 
-        
 
+        TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");
 
         TestConsole.Instance.AddCommand("LocalhpUP10", () => { PlayerManager.Instance.LocalPlayer.runtime_HP += 10; }, "游戏运行时血量提升");
         TestConsole.Instance.AddCommand("Showhp", () => { TestConsole.Instance.WriteLine("本地玩家HP "+ PlayerManager.Instance.LocalPlayer.runtime_HP.ToString()); }, "显示游戏运行时血量");

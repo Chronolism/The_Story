@@ -47,4 +47,5 @@ public class AStarNode
         this.y = y;
         this.type = type;
     }
+
 }

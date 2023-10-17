@@ -42,12 +42,14 @@ public class PlayerManager : BaseManager<PlayerManager>
     public float atkDamage;
     public float ultimate_Skill_Need;
     public float ultimate_Skill_Start;
-    public V2 gird_Position_Start;
     public List<string> special_Tags;
     public float rewrite_ink_NeedRate;
     public float rewrite_ink_Max;
     public float rewrite_ink_MaxLastTime;
     public List<int> skill_Index;
+
+    // 这个归地图管
+    public V2 gird_Position_Start => GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos();
 
     public GameObject runtime_Player;
     public int runtime_id;
@@ -70,6 +72,8 @@ public class PlayerManager : BaseManager<PlayerManager>
         _LocalPlayer.rewrite_ink_Max = rewrite_ink_Max;
         _LocalPlayer.rewrite_ink_MaxLastTime = rewrite_ink_MaxLastTime;
         _LocalPlayer.skill_Index = skill_Index;
+        //初始化位置
+        _LocalPlayer.gird_Position_Start = gird_Position_Start;
         //加载游戏模式，初始化本地角色
         GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_LocalPlayer);
     }

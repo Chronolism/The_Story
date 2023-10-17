@@ -8,11 +8,17 @@ public enum GameState
 }
 public class GameManager : BaseManager<GameManager>
 {
-    
+    float _timer;
     public GameManager()
     {
-        MonoMgr.Instance.AddUpdateListener(()=> { });
+        MonoMgr.Instance.AddUpdateListener(GameCentreUpdate);
     }
-    
+    public void GameCentreUpdate()
+    {
 
+
+
+
+        _timer += Time.deltaTime;
+    }
 }

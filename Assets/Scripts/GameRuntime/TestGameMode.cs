@@ -25,10 +25,15 @@ public class TestGameMode:Base_GameMode
         Player.runtime_rewrite_ink_Max = Player.rewrite_ink_Max;
         Player.runtime_rewrite_ink = 0;
         //自己的使魔列表清空
-        Player.runtime_myServitors?.Clear();
+        Player.runtime_myServitors = new List<D_Servitor>();
         //buff清空
-        Player.runtime_Buff?.Clear();
+        Player.runtime_Buff = new List<D_Buff>();
         //道具情况
-        Player.runtime_Tools?.Clear();
+        Player.runtime_Tools = new List<int>();
+    }
+    public override V2 GetPlayerStartPos()
+    {
+        if (cellsForPlayerBorn == null || cellsForPlayerBorn.Count < 1) return new V2(0, 0);
+        return new V2(this.cellsForPlayerBorn[0].x, this.cellsForPlayerBorn[0].y);
     }
 }

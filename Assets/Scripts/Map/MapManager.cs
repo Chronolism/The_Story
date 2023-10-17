@@ -12,12 +12,25 @@ public class MapManager : BaseManager<MapManager>
     Dictionary<string,Tilemap> runtimeTilemaps = new Dictionary<string, Tilemap>();
     //测试用例
     TileBase _testTile;
+    #region 地图配置规则
     //地图映射规格
     /// <summary>
     /// 用于生成碰撞的地图层名称，用于生成碰撞的值默认为1
     /// </summary>
     public string mapColliderLayerName = "Bottom";
+    /// <summary>
+    /// 用于寻路的数据集，只有bool
+    /// </summary>
     public Dictionary<Vector3Int, bool> mapColliderData = new Dictionary<Vector3Int, bool>();
+    /// <summary>
+    /// 用于生成基础功能的地图层名称
+    /// </summary>
+    public string baseFunctionLayerName = "Middle";
+    /// <summary>
+    /// 目前暂定：0为改写笔与道具的刷新点，2为玩家出生点，3为使魔刷新点
+    /// </summary>
+    public Dictionary<Vector3Int, int> baseFunctionData = new Dictionary<Vector3Int, int>();
+    #endregion
     //玩家正在运行的地图源数据
     public D_MapDataDetailOriginal nowPlaying_d_MapDataDetailOriginal;
     Dictionary<string, Dictionary<Vector3Int, int>> _runtimeCellData;//测试用例，从Bottom生成碰撞箱
@@ -76,15 +89,15 @@ public class MapManager : BaseManager<MapManager>
         
         //这里留着加载地块数据
         _testTile = Resources.Load<TileBase>("Map/MapEdit/TestIcon");
-        
+
         //这里留着加功能或碰撞
         // runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
-      
+
 
         foreach (var item in _runtimeCellData)
         {
             var o = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Tilemap"));
-            if (o != null) 
+            if (o != null)
             {
                 o.transform.parent = runtimeGrid.transform;
                 runtimeTilemaps.TryAdd(item.Key, o.GetComponent<Tilemap>());
@@ -92,32 +105,44 @@ public class MapManager : BaseManager<MapManager>
                 {
                     if (element.Value == 1)
                     {
-                        runtimeTilemaps[item.Key].SetTile(element.Key, _testTile);                      
+                        runtimeTilemaps[item.Key].SetTile(element.Key, _testTile);
                     }
                 }
                 o.name = item.Key;
-                if(o.name == mapColliderLayerName)
+                if (o.name == mapColliderLayerName)//在内部处理碰撞器
                 {
                     mapColliderData.Clear();
                     Dictionary<Vector3Int, int> orignalMapCollider = item.Value;
-                    AutoFilledEmpty(ref orignalMapCollider,out _);
+                    AutoFilledEmpty(ref orignalMapCollider, out _);
                     foreach (var element in orignalMapCollider)
                     {
                         if (element.Value == 0) mapColliderData.TryAdd(element.Key, false);
                         else mapColliderData.TryAdd(element.Key, true);
                     }
                 }
-            }         
+                if (o.name == baseFunctionLayerName) baseFunctionData = item.Value;
+            }
         }
-
-        
-        
-
         return true;
     }
     public bool LoadMapLayerAs()
     {
         return true;
+    }
+    /// <summary>
+    /// 获得一个列表，获取baseFunctionData具有指定值的所有地块
+    /// </summary>
+    /// <param name="code"></param>
+    /// <returns></returns>
+    public List<Vector3Int> GetMapBaseFunction(int code)
+    {
+        List<Vector3Int> temp = new List<Vector3Int>();
+        if (baseFunctionData == null) return null;
+        foreach (var item in baseFunctionData)
+        {
+            if (item.Value == code) temp.Add(item.Key);
+        }
+        return temp;
     }
     //地图规格化（多种方法）
     /// <summary>

@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : BaseManager<CharacterManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    //存场景上所有的角色的索引
+    public Dictionary<string, Base_Character> characterDic = new Dictionary<string, Base_Character>() 
     {
-        
-    }
+        {"Test",new Character_Test()}
+    
+    };
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }

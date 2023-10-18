@@ -7,7 +7,8 @@ using UnityEngine;
 public class Player : Entity
 {
 
-    private float inputX, inputY;
+    public float inputX, inputY;
+    private float fire1 , fire2;
     private int inputDir;
     private Vector2 movementInput;
 
@@ -18,11 +19,20 @@ public class Player : Entity
     [SyncVar]
     private bool isMoving;
     [SyncVar]
-    private bool inputDisable;
+    public bool inputDisable = true;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        animators = rb.GetComponentsInChildren<Animator>();
+        this.transform.position = new Vector3(0.5f, 0.5f);
         movement = this.transform.position;
+        if (isLocalPlayer)
+        {
+            DataMgr.Instance.activePlayer = this;
+        }
+        DataMgr.Instance.players.Add(netId, this);
+        ChangeState<NormalState>();
     }
 
     private void Update()
@@ -48,11 +58,27 @@ public class Player : Entity
         }
     }
 
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        DataMgr.Instance.players.Remove(netId);
+    }
 
     private void PlayerInput()
     {
-        inputX = Input.GetAxisRaw("Horizontal");
-        inputY = Input.GetAxisRaw("Vertical");
+        inputX = 0;
+        inputY = 0;
+        fire1 = 0;
+        fire2 = 0;
+        if (IEnableInput.GetKey(E_PlayKeys.W)) inputY += 1;
+        if (IEnableInput.GetKey(E_PlayKeys.S)) inputY += -1;
+        if (IEnableInput.GetKey(E_PlayKeys.D)) inputX += 1;
+        if (IEnableInput.GetKey(E_PlayKeys.A)) inputX += -1;
+        if (IEnableInput.GetKey(E_PlayKeys.E)) fire1 = 1;
+        if (IEnableInput.GetKey(E_PlayKeys.Q)) fire2 = 1;
+
+        //inputX = Input.GetAxisRaw("Horizontal");
+        //inputY = Input.GetAxisRaw("Vertical");
     }
     private void Movement()
     {

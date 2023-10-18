@@ -10,7 +10,7 @@ public class PlayerRuntime : MonoBehaviour
     /// <summary>
     /// 运行时id，首次是赋予，之后供索引
     /// </summary>
-    public int _runtime_id = 400; public bool _needChangeID = true;
+    public int runtime_id = 400; public bool _needChangeID = true;
     /// <summary>
     /// 玩家数据集，应该在进入时获取
     /// </summary>
@@ -37,8 +37,8 @@ public class PlayerRuntime : MonoBehaviour
         //如果角色ID发生更改，即时赋值
         if (_needChangeID)
         {
-            PlayerData = PlayerManager.Instance.GetPlayerDataWithRuntime_Id(_runtime_id);
-            //_PlayerData.runtime_Player = this.gameObject;
+            PlayerData = PlayerManager.Instance.GetPlayerDataWithRuntime_Id(runtime_id);
+            if (PlayerData != null) PlayerData.runtime_Player = this.gameObject;
             _needChangeID = false;
         }
         //这里写需要用到玩家信息的画面帧
@@ -66,8 +66,9 @@ public class PlayerRuntime : MonoBehaviour
         //核心移动显示公式（逻辑帧更新——暂且与物理系统同步）
         this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
         //每个逻辑帧更新该玩家的网格位置（V2）
+        */
         PlayerData.runtime_gird_Position = new V2(MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).x, MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).y);
         print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
-        */
+        
     }
 }

@@ -25,11 +25,11 @@ public class PlayerControlVirtual : MonoBehaviour
 
     private void Awake()
     {
-        //_playerRuntime = this.transform.parent.GetComponent<PlayerRuntime>();
+        _playerRuntime = this.transform.parent.parent.GetComponent<PlayerRuntime>();
     }
     void Start()
     {
-
+        if (_playerRuntime.runtime_id == 400) _playerRuntime.runtime_id = 406;
     }
 
     // Update is called once per frame

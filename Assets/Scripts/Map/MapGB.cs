@@ -25,7 +25,7 @@ public class MapGB : NetworkBehaviour
 
     IEnumerator StartGame()
     {
-        if(DataMgr.Instance.activePlayer == null)
+        while(DataMgr.Instance.activePlayer == null)
         {
             yield return null;
         }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindTest : MonoBehaviour,IEnableInput
+public class FindTest : MonoBehaviour
 {
 
 

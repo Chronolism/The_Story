@@ -4,12 +4,11 @@ using UnityEngine;
 using System.Reflection;
 using UnityEngine.Events;
 
-public class Mono_Main : MonoBehaviour,IEnableInput
+public class Mono_Main : MonoBehaviour
 {
     void Start()
     {
         UIManager.Instance.ShowPanel<ConsolePanel>();
-
 
         TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");
 

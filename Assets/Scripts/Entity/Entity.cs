@@ -4,7 +4,6 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.Events;
-using UnityEditor.PackageManager;
 
 public class Entity : NetworkBehaviour
 {

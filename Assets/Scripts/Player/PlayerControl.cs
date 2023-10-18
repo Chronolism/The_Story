@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour,IEnableInput
+public class PlayerControl : MonoBehaviour
 {
     //·ÃÎÊºËÐÄ£ºPlayerRuntime
     PlayerRuntime _playerRuntime;

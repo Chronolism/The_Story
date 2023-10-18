@@ -105,6 +105,8 @@ public class D_Base_Player
     public int runtime_id = 400;
     //玩家使用的角色
     public int character_Code;
+    //由游戏模式管理赋予显示的使魔式样
+    public int ownServitorDisplay;
     //生命
     public float HP_Max;
     public float runtime_HP_Max;
@@ -153,7 +155,7 @@ public class D_LocalPlayer: D_Base_Player
 /// </summary>
 public class D_OtherPlayer : D_Base_Player
 {
-    
+    public int defaultRuntime_id = 406;
 }
 /// <summary>
 /// 一局游戏进行时的各项数据

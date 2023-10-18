@@ -25,7 +25,7 @@ public class PlayerControlVirtual : MonoBehaviour
 
     private void Awake()
     {
-        _playerRuntime = this.transform.parent.GetComponent<PlayerRuntime>();
+        //_playerRuntime = this.transform.parent.GetComponent<PlayerRuntime>();
     }
     void Start()
     {
@@ -48,11 +48,13 @@ public class PlayerControlVirtual : MonoBehaviour
 
 
 
-
+        this.transform.parent.GetComponent<FindTest>().InputX = RightLeft;
+        this.transform.parent.GetComponent<FindTest>().InputY = UpDown;
 
     }
     private void FixedUpdate()
     {
+        /*
         //根据玩家操纵模式，初版的角色操控器（逻辑帧更新）
         switch (playerControlMode)
         {
@@ -85,5 +87,6 @@ public class PlayerControlVirtual : MonoBehaviour
         _playerRuntime.displacementThisFrameDirctionTrue = displacementThisFrameDirction;
         //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向
         playInputLastFrame = new Vector3Int(UpDown, RightLeft, Special);
+        */
     }
 }

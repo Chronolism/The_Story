@@ -30,6 +30,10 @@ public class TestGameMode:Base_GameMode
         Player.runtime_Buff = new List<D_Buff>();
         //道具情况
         Player.runtime_Tools = new List<int>();
+
+        if (Player is D_LocalPlayer) Player.ownServitorDisplay = 0;
+        else Player.ownServitorDisplay = PlayerManager.Instance.OtherPlayers.Count + 1;
+
     }
     public override V2 GetPlayerStartPos()
     {

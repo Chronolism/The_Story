@@ -94,7 +94,9 @@ public class D_Buff
 /// </summary>
 public class D_Servitor
 {
-
+    public int master_runtime_id;
+    //由游戏模式管理赋予显示的使魔式样
+    public int ServitorDisplay;
 }
 /// <summary>
 /// 玩家的信息父类

@@ -1059,10 +1059,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerNet
       objectReference: {fileID: 0}
-    - target: {fileID: 5480366113042657854, guid: fbe552484ebbe7b49b917d61173da10b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5803143299339515939, guid: fbe552484ebbe7b49b917d61173da10b, type: 3}
       propertyPath: sceneId
       value: 1445367752

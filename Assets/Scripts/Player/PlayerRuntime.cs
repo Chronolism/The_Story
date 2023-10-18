@@ -10,7 +10,7 @@ public class PlayerRuntime : MonoBehaviour
     /// <summary>
     /// 运行时id，首次是赋予，之后供索引
     /// </summary>
-    int _runtime_id = 400;bool _needChangeID = true;
+    public int _runtime_id = 400; public bool _needChangeID = true;
     /// <summary>
     /// 玩家数据集，应该在进入时获取
     /// </summary>
@@ -20,7 +20,12 @@ public class PlayerRuntime : MonoBehaviour
     /// 帧位移方向（非逻辑帧级别）
     /// </summary>
     public Vector3 displacementThisFrameDirctionTrue;
-
+    //注册表
+    public GameObject inputAndMove;
+    void Awake()
+    {
+        
+    }
     void Start()
     {
         
@@ -56,11 +61,13 @@ public class PlayerRuntime : MonoBehaviour
     /// </summary>
     void LogicUpdate()
     {
+        /*
         if (MapManager.Instance.runtimeGrid == null) return;//临时用来判断游戏是否在运行时
         //核心移动显示公式（逻辑帧更新——暂且与物理系统同步）
         this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
         //每个逻辑帧更新该玩家的网格位置（V2）
         PlayerData.runtime_gird_Position = new V2(MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).x, MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).y);
         print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
+        */
     }
 }

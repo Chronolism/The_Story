@@ -80,7 +80,32 @@ public class PlayerManager : BaseManager<PlayerManager>
 
     public void AddOtherPlayer()
     {
-        //GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_OtherPlayer);
+        
+    }
+    public void AddOtherPlayerForOfflineMode(bool ifUseSameDataWithLocal = true)
+    {
+        if (ifUseSameDataWithLocal)
+        {
+            D_OtherPlayer d_OtherPlayer = new D_OtherPlayer();
+            d_OtherPlayer.character_Code = character_Code;
+            d_OtherPlayer.HP_Max = HP_Max;
+            d_OtherPlayer.Speed = Speed;
+            d_OtherPlayer.atkDamage = atkDamage;
+            d_OtherPlayer.ultimate_Skill_Need = ultimate_Skill_Need;
+            d_OtherPlayer.ultimate_Skill_Start = ultimate_Skill_Start;
+            d_OtherPlayer.gird_Position_Start = gird_Position_Start;
+            d_OtherPlayer.special_Tags = special_Tags;
+            d_OtherPlayer.rewrite_ink_NeedRate = rewrite_ink_NeedRate;
+            d_OtherPlayer.rewrite_ink_Max = rewrite_ink_Max;
+            d_OtherPlayer.rewrite_ink_MaxLastTime = rewrite_ink_MaxLastTime;
+            d_OtherPlayer.skill_Index = skill_Index;
+            GameRuntimeManager.Instance.nowaGameMode.InitPlayer(d_OtherPlayer);
+
+            //本地玩家默认的runtime_id为400，联机玩家默认的runtime_id为406
+            d_OtherPlayer.runtime_id = d_OtherPlayer.defaultRuntime_id;//(406)
+
+            _OtherPlayers.Add(d_OtherPlayer);
+        }
     }
     /// <summary>
     /// 一个通过runtime_id获取玩家数据集的方法

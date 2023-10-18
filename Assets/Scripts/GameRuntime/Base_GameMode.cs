@@ -17,4 +17,8 @@ public class Base_GameMode
     {
         return new V2(this.cellsForPlayerBorn[0].x, this.cellsForPlayerBorn[0].y);
     }
+    public virtual void SetSelfAsNowaGameMode()
+    {
+        GameRuntimeManager.Instance.nowaGameMode = this;
+    }
 }

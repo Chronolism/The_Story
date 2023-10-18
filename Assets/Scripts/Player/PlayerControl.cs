@@ -19,13 +19,13 @@ public class PlayerControl : MonoBehaviour,IEnableInput
     /// </summary>
     Vector3Int playInputLastFrame = new Vector3Int(1, 0, 0);
     //这是移动动态参数（非逻辑帧级别）
-    int UpDown = 0;
-    int RightLeft = 0;
-    int Special = 0;
+    public int UpDown = 0;
+    public int RightLeft = 0;
+    public int Special = 0;
 
     private void Awake()
     {
-        _playerRuntime = this.transform.parent.GetComponent<PlayerRuntime>();
+        //_playerRuntime = this.transform.parent.GetComponent<PlayerRuntime>();
     }
     void Start()
     {
@@ -46,44 +46,44 @@ public class PlayerControl : MonoBehaviour,IEnableInput
         if (IEnableInput.GetKey(E_PlayKeys.Q)) Special = 2;
         //这里Q在最后，则按下QE会优先触发Q
 
-       
-        //根据玩家操纵模式，初版的角色操控器（逻辑帧更新）
-        switch (playerControlMode)
-        {
-            case E_PlayerControlMode.Pacman:
-                if ((UpDown == playInputLastFrame.x && RightLeft == 0)
-                    || (RightLeft == playInputLastFrame.y && UpDown == 0)
-                    || (UpDown == 0 && RightLeft == 0))
-                {
-                    UpDown = playInputLastFrame.x;
-                    RightLeft = playInputLastFrame.y;
-                    displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
-                    break;
-                }
-                else
-                {
-                    if (UpDown != 0 && RightLeft != 0)
-                        UpDown = 0;
-                    displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
-                }
-                break;
-            case E_PlayerControlMode.Free4:
-                if (UpDown != 0 && RightLeft != 0)
-                    UpDown = 0;
-                displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
-                break;
-            case E_PlayerControlMode.Free8:
-                displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
-                break;
-        }
-        _playerRuntime.displacementThisFrameDirctionTrue = displacementThisFrameDirction;
-        //碰撞探针
-        //if (MapManager.Instance.runtimeGrid != null) AbstractLogicManager.Instance.CellProbe(ref UpDown, ref RightLeft, _playerRuntime.PlayerData.runtime_gird_Position);
-        //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向        
-        playInputLastFrame = new Vector3Int(UpDown, RightLeft, Special);
-
-
-
+        /*
+         //根据玩家操纵模式，初版的角色操控器（逻辑帧更新）
+         switch (playerControlMode)
+         {
+             case E_PlayerControlMode.Pacman:
+                 if ((UpDown == playInputLastFrame.x && RightLeft == 0)
+                     || (RightLeft == playInputLastFrame.y && UpDown == 0)
+                     || (UpDown == 0 && RightLeft == 0))
+                 {
+                     UpDown = playInputLastFrame.x;
+                     RightLeft = playInputLastFrame.y;
+                     displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
+                     break;
+                 }
+                 else
+                 {
+                     if (UpDown != 0 && RightLeft != 0)
+                         UpDown = 0;
+                     displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
+                 }
+                 break;
+             case E_PlayerControlMode.Free4:
+                 if (UpDown != 0 && RightLeft != 0)
+                     UpDown = 0;
+                 displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
+                 break;
+             case E_PlayerControlMode.Free8:
+                 displacementThisFrameDirction = new Vector3(RightLeft, UpDown, 0);
+                 break;
+         }
+         _playerRuntime.displacementThisFrameDirctionTrue = displacementThisFrameDirction;
+         //碰撞探针
+         //if (MapManager.Instance.runtimeGrid != null) AbstractLogicManager.Instance.CellProbe(ref UpDown, ref RightLeft, _playerRuntime.PlayerData.runtime_gird_Position);
+         //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向        
+         playInputLastFrame = new Vector3Int(UpDown, RightLeft, Special);
+        */
+        this.transform.parent.GetComponent<FindTest>().InputX = RightLeft;
+        this.transform.parent.GetComponent<FindTest>().InputY = UpDown;
     }
     private void FixedUpdate()
     {

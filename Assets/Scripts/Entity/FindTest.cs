@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindTest : MonoBehaviour
+public class FindTest : MonoBehaviour,IEnableInput
 {
 
 
@@ -11,8 +11,8 @@ public class FindTest : MonoBehaviour
     public int inputDir;
     public int dir;
     public float maxSpeed = 1;
-    private Vector2 movementInput;
 
+    private Vector2 movementInput;
     public Vector2 movement;
 
     private float speedper;
@@ -21,10 +21,13 @@ public class FindTest : MonoBehaviour
     private bool inputDisable;
 
     private Rigidbody2D rb;
+    public float InputX;
+    public float InputY;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = this.transform.parent.GetComponent<Rigidbody2D>();//控制PlayerRuntime的移动而非本体
+        this.transform.parent.GetComponent<PlayerRuntime>().inputAndMove = this.gameObject;
     }
 
     void Start()
@@ -53,8 +56,8 @@ public class FindTest : MonoBehaviour
 
     private void PlayerInput()
     {
-        inputX = Input.GetAxisRaw("Horizontal");
-        inputY = Input.GetAxisRaw("Vertical");
+        inputX = InputX;
+        inputY = InputY;       
     }
     private void Movement()
     {

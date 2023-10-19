@@ -9,6 +9,7 @@ public enum GameState
 }
 public class GameManager : BaseManager<GameManager>
 {
+    public Camera camera;
     public float ScreenHight;
     public float ScreenWidth;
     public bool GameIsPause = false;

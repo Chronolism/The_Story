@@ -49,7 +49,7 @@ public class PlayerManager : BaseManager<PlayerManager>
     public List<int> skill_Index;
 
     // 这个归地图管
-    public V2 gird_Position_Start => GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos();
+    public V2 gird_Position_Start => new V2(GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos().x, GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos().y);
 
     public GameObject runtime_Player;
     public int runtime_id;
@@ -78,9 +78,31 @@ public class PlayerManager : BaseManager<PlayerManager>
         GameRuntimeManager.Instance.nowaGameMode.InitPlayer(_LocalPlayer);
     }
 
-    public void AddOtherPlayer()
+    public void AddOtherPlayer(uint netId , D_Base_Player d_Base_Player)
     {
-        
+        D_OtherPlayer d_OtherPlayer = new D_OtherPlayer();
+        if (GetPlayerDataWithRuntime_Id(d_Base_Player.runtime_id) != null)
+        {
+            if(GetPlayerDataWithRuntime_Id(d_Base_Player.runtime_id) is D_OtherPlayer)
+            {
+                _OtherPlayers.Remove(GetPlayerDataWithRuntime_Id(d_Base_Player.runtime_id) as D_OtherPlayer);
+            }
+        }
+        d_OtherPlayer.character_Code = d_Base_Player.character_Code;
+        d_OtherPlayer.HP_Max = d_Base_Player.HP_Max;
+        d_OtherPlayer.Speed = d_Base_Player.Speed;
+        d_OtherPlayer.atkDamage = d_Base_Player.atkDamage;
+        d_OtherPlayer.ultimate_Skill_Need = d_Base_Player.ultimate_Skill_Need;
+        d_OtherPlayer.ultimate_Skill_Start = d_Base_Player.ultimate_Skill_Start;
+        d_OtherPlayer.gird_Position_Start = d_Base_Player.gird_Position_Start;
+        d_OtherPlayer.special_Tags = d_Base_Player.special_Tags;
+        d_OtherPlayer.rewrite_ink_NeedRate = d_Base_Player.rewrite_ink_NeedRate;
+        d_OtherPlayer.rewrite_ink_Max = d_Base_Player.rewrite_ink_Max;
+        d_OtherPlayer.rewrite_ink_MaxLastTime = d_Base_Player.rewrite_ink_MaxLastTime;
+        d_OtherPlayer.skill_Index = d_Base_Player.skill_Index;
+        d_OtherPlayer.runtime_id = netId;
+        GameRuntimeManager.Instance.nowaGameMode.InitPlayer(d_OtherPlayer);
+        _OtherPlayers.Add(d_OtherPlayer);
     }
     public void AddOtherPlayerForOfflineMode(bool ifUseSameDataWithLocal = true)
     {
@@ -107,12 +129,13 @@ public class PlayerManager : BaseManager<PlayerManager>
             _OtherPlayers.Add(d_OtherPlayer);
         }
     }
+    
     /// <summary>
     /// 一个通过runtime_id获取玩家数据集的方法
     /// </summary>
     /// <param name="runtime_id">D_Base_Player的一项</param>
     /// <returns></returns>
-    public D_Base_Player GetPlayerDataWithRuntime_Id(int runtime_id)
+    public D_Base_Player GetPlayerDataWithRuntime_Id(uint runtime_id)
     {
         if (runtime_id == _LocalPlayer.runtime_id)
             return _LocalPlayer;

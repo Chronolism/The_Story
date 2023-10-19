@@ -50,6 +50,8 @@ public class GameManager : BaseManager<GameManager>
         if (isOfflineLocalTest)
         {
             PlayerManager.Instance.AddOtherPlayerForOfflineMode();
+            Object.Instantiate(Resources.Load("Player/Player"),MapManager.Instance.runtimeGrid.CellToWorld(GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos()),Quaternion.identity);
+            Object.Instantiate(Resources.Load("Player/PlayerVirtual"), MapManager.Instance.runtimeGrid.CellToWorld(GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos()), Quaternion.identity);
         }
         return true;
     }

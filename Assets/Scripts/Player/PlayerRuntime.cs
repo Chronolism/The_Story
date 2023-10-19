@@ -10,7 +10,9 @@ public class PlayerRuntime : MonoBehaviour
     /// <summary>
     /// 运行时id，首次是赋予，之后供索引
     /// </summary>
-    public int runtime_id = 400; public bool _needChangeID = true;
+    public uint runtime_id = 400; public bool needChangeID = true;
+    public bool networkEnable = true; //{ get => !GameManager.Instance.isOfflineLocalTest; set => GameManager.Instance.isOfflineLocalTest = !value; }网络端与离线测试同一后使用此行代码
+    Player _networkPlayer;
     /// <summary>
     /// 玩家数据集，应该在进入时获取
     /// </summary>
@@ -22,6 +24,7 @@ public class PlayerRuntime : MonoBehaviour
     public Vector3 displacementThisFrameDirctionTrue;
     //注册表
     public GameObject inputAndMove;
+    float _timer;
     void Awake()
     {
         
@@ -35,15 +38,21 @@ public class PlayerRuntime : MonoBehaviour
     void Update()
     {
         //如果角色ID发生更改，即时赋值
-        if (_needChangeID)
+        if (needChangeID)
         {
             PlayerData = PlayerManager.Instance.GetPlayerDataWithRuntime_Id(runtime_id);
             if (PlayerData != null) PlayerData.runtime_Player = this.gameObject;
-            _needChangeID = false;
+            needChangeID = false;
         }
         //这里写需要用到玩家信息的画面帧
         if (PlayerData != null) DisplayUpdate();
+        _timer += Time.deltaTime;
+        if (_timer >= 1){ _timer = 0; SecUpdate(); }
+        //网络ID同步与获取
         
+
+
+
     }
     private void FixedUpdate()
     {
@@ -65,10 +74,40 @@ public class PlayerRuntime : MonoBehaviour
         if (MapManager.Instance.runtimeGrid == null) return;//临时用来判断游戏是否在运行时
         //核心移动显示公式（逻辑帧更新——暂且与物理系统同步）
         this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
-        //每个逻辑帧更新该玩家的网格位置（V2）
         */
+        //网络id同步
+        if (networkEnable && _networkPlayer != null)
+        {
+            if (_networkPlayer.isLocalPlayer)
+            {
+                runtime_id = _networkPlayer.netId;
+                PlayerManager.Instance.LocalPlayer.runtime_id = _networkPlayer.netId;
+            }
+            else
+            {
+                runtime_id = _networkPlayer.netId;
+                PlayerManager.Instance.AddOtherPlayer(_networkPlayer.netId, PlayerData);
+            }
+            needChangeID = true;
+            networkEnable = false;
+        }
+        //每个逻辑帧更新该玩家的网格位置（V2）
         PlayerData.runtime_gird_Position = new V2(MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).x, MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).y);
+        //每个逻辑帧试图将自身传入中枢
+        if (PlayerData.runtime_Player == null) PlayerData.runtime_Player = this.gameObject;
+
+
+    }
+    /// <summary>
+    /// 秒行为
+    /// </summary>
+    void SecUpdate()
+    {
+        //每个秒Debug玩家的网格位置（V2）
         print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
+        //试图获取Net信息
+        if (networkEnable)
+            TryGetComponent<Player>(out _networkPlayer);
         
     }
 }

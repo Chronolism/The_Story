@@ -13,9 +13,9 @@ public class Base_GameMode
     {
         
     }
-    public virtual V2 GetPlayerStartPos()
+    public virtual Vector3Int GetPlayerStartPos()
     {
-        return new V2(this.cellsForPlayerBorn[0].x, this.cellsForPlayerBorn[0].y);
+        return Vector3Int.zero;
     }
     public virtual void SetSelfAsNowaGameMode()
     {

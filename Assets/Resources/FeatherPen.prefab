@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6023667933107507700}
   - component: {fileID: 6023667933107507702}
-  - component: {fileID: 6023667933107507701}
   m_Layer: 0
   m_Name: FeatherPenGlow
   m_TagString: Untagged
@@ -85,32 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &6023667933107507701
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023667933107507707}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.85, y: 3}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.85, y: 3}
-  m_EdgeRadius: 0
 --- !u!1 &6023667933195090879
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6023667933195090873}
   - component: {fileID: 6023667933195090872}
+  - component: {fileID: 1554876473800752185}
   m_Layer: 0
   m_Name: FeatherPen
   m_TagString: Untagged
@@ -157,6 +131,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da0f7acd0d72dd446aa5d954f1a96c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1554876473800752185
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6023667933195090879}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6023667934840508034
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +157,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6023667934840508035}
   - component: {fileID: 6023667934840508061}
-  - component: {fileID: 6023667934840508060}
   m_Layer: 0
   m_Name: FeatherPenDisplay
   m_TagString: Untagged
@@ -242,29 +231,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &6023667934840508060
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023667934840508034}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.85, y: 3}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.85, y: 3}
-  m_EdgeRadius: 0

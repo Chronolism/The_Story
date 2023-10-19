@@ -94,7 +94,22 @@ public class D_Buff
 /// </summary>
 public class D_Servitor
 {
-    public int master_runtime_id;
+    //主人的id
+    public uint master_runtime_id;
+    //生命
+    public float HP_Max;
+    public float runtime_HP_Max;
+    public float runtime_HP;
+    //速度
+    public float Speed;
+    public float runtime_Speed;
+    public float runtime_Speed_Max;
+    //攻击
+    public float atkDamage;
+    //被改写消耗墨水量
+    public float rewrite_ink_Need;
+    //被改写给予的能量
+    public float rewrite_given_ultimate_Need;
     //由游戏模式管理赋予显示的使魔式样
     public int ServitorDisplay;
 }
@@ -104,7 +119,7 @@ public class D_Servitor
 public class D_Base_Player
 {
     public GameObject runtime_Player;
-    public int runtime_id = 400;
+    public uint runtime_id = 400;
     //玩家使用的角色
     public int character_Code;
     //由游戏模式管理赋予显示的使魔式样
@@ -157,7 +172,7 @@ public class D_LocalPlayer: D_Base_Player
 /// </summary>
 public class D_OtherPlayer : D_Base_Player
 {
-    public int defaultRuntime_id = 406;
+    public uint defaultRuntime_id = 406;
 }
 /// <summary>
 /// 一局游戏进行时的各项数据

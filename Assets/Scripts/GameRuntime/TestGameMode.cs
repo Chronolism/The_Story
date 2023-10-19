@@ -35,10 +35,10 @@ public class TestGameMode:Base_GameMode
         else Player.ownServitorDisplay = PlayerManager.Instance.OtherPlayers.Count + 1;
 
     }
-    public override V2 GetPlayerStartPos()
+    public override Vector3Int GetPlayerStartPos()
     {
-        if (cellsForPlayerBorn == null || cellsForPlayerBorn.Count < 1) return new V2(0, 0);
-        return new V2(this.cellsForPlayerBorn[0].x, this.cellsForPlayerBorn[0].y);
+        if (cellsForPlayerBorn == null || cellsForPlayerBorn.Count < 1) return Vector3Int.zero;
+        return cellsForPlayerBorn[0];
     }
     //将自己设置为当前的游戏模式
     public override void SetSelfAsNowaGameMode()

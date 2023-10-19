@@ -144,6 +144,8 @@ MonoBehaviour:
   ifDie: 0
   blood: 100
   maxSpeed: 5
+  inputX: 0
+  inputY: 0
   inputDisable: 1
 --- !u!114 &733688356673401485
 MonoBehaviour:
@@ -208,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8d2dad2dd932204eb6b8fce4e67a172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runtime_id: 400
+  runtime_id: 400
   _needChangeID: 1
   displacementThisFrameDirctionTrue: {x: 0, y: 0, z: 0}
   inputAndMove: {fileID: 0}

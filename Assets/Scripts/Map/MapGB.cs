@@ -29,6 +29,7 @@ public class MapGB : NetworkBehaviour
         {
             yield return null;
         }
+        
         DataMgr.Instance.activePlayer.inputDisable = false;
     }
 }

@@ -9,8 +9,10 @@ public enum GameState
 }
 public class GameManager : BaseManager<GameManager>
 {
+    public Camera camera;
     public float ScreenHight;
     public float ScreenWidth;
+    public bool GameIsPause = false;
     float _timer;
 
     public bool isOfflineLocalTest = true;
@@ -22,7 +24,7 @@ public class GameManager : BaseManager<GameManager>
     void _gameCentreUpdate()
     {
         _timer += Time.deltaTime;
-        if (true) GameUpdate?.Invoke();
+        if (!GameIsPause) GameUpdate?.Invoke();
     }
     public void GameInit()
     {
@@ -50,8 +52,21 @@ public class GameManager : BaseManager<GameManager>
         if (isOfflineLocalTest)
         {
             PlayerManager.Instance.AddOtherPlayerForOfflineMode();
+            //加载一下地图基本功能
+            GameRuntimeManager.Instance.InitBaseCellsFunction();
+            Object.Instantiate(Resources.Load("Player/Player"),MapManager.Instance.runtimeGrid.CellToWorld(GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos()),Quaternion.identity);
+            Object.Instantiate(Resources.Load("Player/PlayerVirtual"), MapManager.Instance.runtimeGrid.CellToWorld(GameRuntimeManager.Instance.nowaGameMode.GetPlayerStartPos()), Quaternion.identity);
+            Object.Instantiate(Resources.Load("Servitor/ServitorCommon"), MapManager.Instance.runtimeGrid.CellToWorld(GameRuntimeManager.Instance.nowaGameMode.cellsForServitorBorn[0]), Quaternion.identity);
+            //启动游戏运行时
+            GameRuntimeManager.Instance.nowaGameMode.GameRuntimeStart();
+            GameUpdate += GameRuntimeManager.Instance.nowaGameMode.GameRuntimeUpdate;
         }
         return true;
+    }
+    public bool GameEnd()
+    {
+        GameUpdate -= GameRuntimeManager.Instance.nowaGameMode.GameRuntimeUpdate;
+        return false;
     }
     public static bool ThrowError(int errorCode,string errorMessage = "")
     {

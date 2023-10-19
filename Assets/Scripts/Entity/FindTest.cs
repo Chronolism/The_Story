@@ -32,13 +32,13 @@ public class FindTest : MonoBehaviour
 
     void Start()
     {
-
+        /*
         MapManager.Instance.LoadMapCompletelyToScene("400");
 
         AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
-
+      
         this.transform.position = new Vector3(0.5f, 0.5f);
-
+        */
         movement = this.transform.position;
     }
 

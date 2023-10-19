@@ -47,7 +47,7 @@ public class PlayerRuntime : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (PlayerData != null) LogicUpdate();
+        //if (PlayerData != null) LogicUpdate();
     }
     /// <summary>
     /// ª≠√Ê÷°÷– ‡

@@ -111,7 +111,7 @@ public class D_Servitor
     //被改写给予的能量
     public float rewrite_given_ultimate_Need;
     //由游戏模式管理赋予显示的使魔式样
-    public int ServitorDisplay;
+    public int servitorDisplay;
 }
 /// <summary>
 /// 玩家的信息父类
@@ -179,7 +179,14 @@ public class D_OtherPlayer : D_Base_Player
 /// </summary>
 public class D_GameRuntime
 {
-
+    //游戏运行时间
+    public float gameLast;
+    //使魔生成间隔
+    public float servitorSpawnRest = -1;
+    //改写笔生成间隔
+    public float featherPenSpawnRest = 3;
+    //道具生成间隔
+    public float toolsSpawnRest = -1;
 }
 /// <summary>
 /// 玩家的账户数据结构

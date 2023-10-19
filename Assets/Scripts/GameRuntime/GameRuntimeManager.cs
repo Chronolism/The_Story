@@ -19,7 +19,6 @@ public class GameRuntimeManager : BaseManager<GameRuntimeManager>
     public PathNode[,] runtimeLogicMap => null;    
     //当前游戏模式
     public Base_GameMode nowaGameMode = new Base_GameMode();
-    
     public void InitBaseCellsFunction()
     {
         nowaGameMode.cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(2);
@@ -38,7 +37,11 @@ public class GameRuntimeManager : BaseManager<GameRuntimeManager>
             return;
         }
     }
-    //加载玩家出生点
-   
+    
 
+    public void GameRuntimeRemove(GameObject gameObject)
+    {
+        //这里暂时不使用缓存池
+        GameObject.Destroy(gameObject);
+    }
 }

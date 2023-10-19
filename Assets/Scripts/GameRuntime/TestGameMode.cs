@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TestGameMode:Base_GameMode
 {
-    public int JoinPlayerNum = 3; 
+    public int JoinPlayerNumMax = 3;
+    float _timer;
+
     public override void InitPlayer(D_Base_Player Player)
     {
         //血量重置
@@ -45,5 +47,26 @@ public class TestGameMode:Base_GameMode
     {
         GameRuntimeManager.Instance.nowaGameMode = this;
     }
+    //游戏运行时逻辑
+    public override void GameRuntimeStart()
+    {
+        runtimeFeatherPenCount = 0;
+        gameRuntimeData.gameLast = 0;
+        gameRuntimeData.featherPenSpawnRest = 5;
+        //其他使用DataSet的初始值
+        _timer = 0;
+    }
+    public override void GameRuntimeUpdate()
+    {
+        if(_timer> gameRuntimeData.featherPenSpawnRest && runtimeFeatherPenCount < 1)
+        {           
+            var o =  Object.Instantiate(Resources.Load("FeatherPen"), MapManager.Instance.runtimeGrid.CellToWorld(cellsForFeatherPenBorn[Random.Range(0, cellsForFeatherPenBorn.Count)]), Quaternion.identity);            
+            _timer = 0;
+        }
+
+        gameRuntimeData.gameLast += Time.deltaTime;
+        _timer += Time.deltaTime;
+    }
+    
 }
 

@@ -22,6 +22,8 @@ public class AStarNode
     //格子对象的坐标
     public int x;
     public int y;
+    //世界坐标
+    public Vector2 pos;
 
     //寻路消耗
     public float f;

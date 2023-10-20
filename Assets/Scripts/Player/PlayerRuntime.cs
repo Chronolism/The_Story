@@ -104,7 +104,7 @@ public class PlayerRuntime : MonoBehaviour
     void SecUpdate()
     {
         //每个秒Debug玩家的网格位置（V2）
-        print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
+        //print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
         //试图获取Net信息
         if (networkEnable)
             TryGetComponent<Player>(out _networkPlayer);

@@ -45,6 +45,7 @@ public class UIManager : BaseManager<UIManager>
     public void ShowPanel<T>( UnityAction<T> callBack = null) where T:BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
+
         if (panelDic.ContainsKey(panelName))
         {
             panelDic[panelName].ShowMe();

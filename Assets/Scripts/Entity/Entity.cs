@@ -15,6 +15,8 @@ public class Entity : NetworkBehaviour
     public int dir;
     public bool ifAtk = false;
     public bool ifDie = false;
+    [SyncVar]
+    public bool ifPause = true;
 
     public Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
 
@@ -23,7 +25,15 @@ public class Entity : NetworkBehaviour
     [SyncVar]
     public float blood = 100;
     [SyncVar]
+    public float maxBlood = 100;
+    [SyncVar]
+    public float maxBlood_Pre = 1;
+    [SyncVar]
+    public float speed = 5;
+    [SyncVar]
     public float maxSpeed = 5;
+    [SyncVar]
+    public float maxSpeed_Pre = 1;
     #endregion
     #region 事件接口
     public UnityAction<Entity, Entity, ATKData> BeforeAttack;
@@ -263,8 +273,24 @@ public class Entity : NetworkBehaviour
         }
     }
 
+    public virtual void OnEnable()
+    {
+        EventMgr.PauseGame += PauseGame;
+        EventMgr.StartGame += StartGame;
+    }
     public virtual void OnDisable()
     {
-        
+        EventMgr.PauseGame -= PauseGame;
+        EventMgr.StartGame -= StartGame;
     }
+
+    void PauseGame()
+    {
+        ifPause = true;
+    }
+    void StartGame()
+    {
+        ifPause = false;
+    }
+
 }

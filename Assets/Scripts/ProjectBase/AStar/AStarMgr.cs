@@ -70,7 +70,7 @@ public class AStarMgr : BaseManager<AStarMgr>
     /// <param name="startPos"></param>
     /// <param name="endPos"></param>
     /// <returns></returns>
-    public async void FindPath(Vector2 startPos, Vector2 endPos , UnityAction<List<AStarNode>> callback)
+    public async void FindPath(Vector2 startPos, Vector2 endPos , UnityAction<List<AStarNode>> callback , bool removeFirst = true)
     {
         await Task.Yield();
         //实际项目中 传入的点往往是 坐标系中的位置
@@ -100,14 +100,14 @@ public class AStarMgr : BaseManager<AStarMgr>
         if (start.type == E_Node_Type.Stop ||
             end.type == E_Node_Type.Stop)
         {
-            Debug.Log("开始或者结束点是阻挡");
+            //Debug.Log("开始或者结束点是阻挡");
             callback(null);
             return;
         }
 
         if (start.x == end.x && start.y == end.y)
         {
-            Debug.Log("开始为结束点");
+            //Debug.Log("开始为结束点");
             callback(null);
             return;
         }
@@ -173,15 +173,20 @@ public class AStarMgr : BaseManager<AStarMgr>
             {
                 //找完了 找到路径了
                 List<AStarNode> path = new List<AStarNode>();
+                end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
                 path.Add(end);
                 while(end.father != null)
                 {
                     path.Add(end.father);
                     end = end.father;
+                    end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
                 }
                 //列表翻转的API
                 path.Reverse();
-                path.Remove(path.First());
+                if (removeFirst)
+                {
+                    path.Remove(path.First());
+                }
                 callback(path);
                 return;
             }
@@ -211,7 +216,6 @@ public class AStarMgr : BaseManager<AStarMgr>
     /// <param name="y"></param>
     private void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end)
     {
-        Debug.Log("find");
         //边界判断
         if (x < 0 || x >= mapW ||
             y < 0 || y >= mapH)

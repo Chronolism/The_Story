@@ -30,4 +30,12 @@ public abstract class Base_Character
         PlayerManager.Instance.rewrite_ink_MaxLastTime = rewrite_ink_MaxLastTime;
         PlayerManager.Instance.skill_Index = skill_Index;
     }
+    public virtual bool Ultimate_Skill()
+    {
+        return false;
+    }
+    public virtual bool Passive_Skill()
+    {
+        return false;
+    }
 }

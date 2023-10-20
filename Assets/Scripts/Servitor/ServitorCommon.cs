@@ -7,7 +7,7 @@ public class ServitorCommon : Base_Servitor
     PlayerRuntime _collisionPlayer;
     bool _needChangeDisplay = false;
     //以下参数为测试内容
-    SpriteRenderer _spriteRenderer;
+    Animator _animator;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<PlayerRuntime>(out _collisionPlayer) && _collisionPlayer.PlayerData != null) 
@@ -38,7 +38,7 @@ public class ServitorCommon : Base_Servitor
     {
         InitServitor();
         //以下为测试内容
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _animator = GetComponentInChildren<Animator>();
     }
     public override void InitServitor()
     {
@@ -64,6 +64,8 @@ public class ServitorCommon : Base_Servitor
         //以下为测试内容
         if (_needChangeDisplay)
         {
+            _animator.SetInteger("displayType", d_servitor.servitorDisplay + 1);
+            /*
             switch (d_servitor.servitorDisplay)
             {
                 case -1:
@@ -76,6 +78,7 @@ public class ServitorCommon : Base_Servitor
                     _spriteRenderer.color = Color.blue;
                     break;
             }
+            */
         }
     }
 }

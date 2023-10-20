@@ -12,7 +12,12 @@ public class DataMgr : BaseManager<DataMgr>
     public Dictionary<int, BuffData> buffDataDic;
     public BuffPool buffPool = new BuffPool();
 
+    private List<CharacterData> characters ;
+    public List<CharacterData> Characters => characters;
+
     private Dictionary<string, UIData> uiDataDic;
+
+    public RoomData roomData;
 
     public PlayerData playerData;
     public string version = "0.9.0728a";
@@ -39,6 +44,7 @@ public class DataMgr : BaseManager<DataMgr>
         playerData = JsonMgr.Instance.LoadData<PlayerData>("playerData");
         LaodLanguage();
         buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
+        characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）
@@ -109,5 +115,10 @@ public class DataMgr : BaseManager<DataMgr>
     public BuffBase GetBuff(int id)
     {
         return buffPool.GetBuff(id);
+    }
+
+    public CharacterData GetCharacter(int id)
+    {
+        return characters.Find(i => i.character_Code == id);
     }
 }

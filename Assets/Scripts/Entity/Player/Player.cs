@@ -10,16 +10,11 @@ public class Player : Entity
     public float inputX, inputY;
     private float fire1 , fire2;
     private int inputDir;
-    private Vector2 movementInput;
 
     private Vector2 movement;
 
-    private float speedper;
-
     [SyncVar]
     private bool isMoving;
-    [SyncVar]
-    public bool inputDisable = true;
 
     private void Start()
     {
@@ -37,9 +32,9 @@ public class Player : Entity
 
     private void Update()
     {
-        if (isLocalPlayer)
+        if (authority)
         {
-            if (!inputDisable)
+            if (!ifPause)
             {
                 PlayerInput();
             }
@@ -52,7 +47,7 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
-        if (!inputDisable && isLocalPlayer)
+        if (!ifPause && authority)
         {
             state.OnUpdata();
         }
@@ -77,20 +72,11 @@ public class Player : Entity
         if (IEnableInput.GetKey(E_PlayKeys.E)) fire1 = 1;
         if (IEnableInput.GetKey(E_PlayKeys.Q)) fire2 = 1;
 
-        //inputX = Input.GetAxisRaw("Horizontal");
-        //inputY = Input.GetAxisRaw("Vertical");
     }
     private void Movement()
     {
-        speedper = Mathf.Sqrt(inputX * inputX + inputY * inputY);
-        if (speedper > 1)
-        {
-            inputX /= speedper;
-            inputY /= speedper;
-        }
-        movementInput = new Vector2(inputX, inputY);
-
-        isMoving = movementInput != Vector2.zero;
+        
+        isMoving = (inputX != 0) ||( inputY != 0); 
 
         if (isMoving)
         {
@@ -108,7 +94,7 @@ public class Player : Entity
         }
 
 
-        if (Vector2.Distance(rb.position, movement) > 0.1)
+        if (Vector2.Distance(rb.position, movement) > 0.01)
         {
             rb.MovePosition(rb.position + (movement - rb.position).normalized * maxSpeed * Time.deltaTime);
         }

@@ -42,7 +42,7 @@ public class MapManager : BaseManager<MapManager>
     {
         runtimeTilemaps.Clear();
         //如果是测试用例，则只加载Bottom中有数据地块作为碰撞箱到场景
-        if (mapName == "401")
+        if (mapName == "399")
         {
             runtimeGirdGameObject = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Grid"));
             runtimeGrid = runtimeGirdGameObject.GetComponent<Grid>();

@@ -18,6 +18,6 @@ public class MessageRegister:BaseManager<MessageRegister>
 
     void C2S_JionRoomHandler(NetworkConnectionToClient con, C2S_JionRoom msg)
     {
-        DataMgr.Instance.roomData.AddRoomUser(msg.name);
+        DataMgr.Instance.roomData.AddRoomUser(msg.name , con);
     }
 }

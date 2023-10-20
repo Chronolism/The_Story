@@ -7,6 +7,7 @@ public static class RoomUserDataReadWrite
 {
     public static void WriteATKData(this NetworkWriter writer, RoomUserData value)
     {
+        writer.Write(value.connectId);
         writer.Write(value.characterId);
         writer.Write(value.name);
     }
@@ -14,6 +15,7 @@ public static class RoomUserDataReadWrite
     public static RoomUserData ReadATKData(this NetworkReader reader)
     {
         RoomUserData value = new RoomUserData();
+        value.connectId = reader.ReadInt();
         value.characterId = reader.ReadInt();
         value.name = reader.ReadString();
         return value;

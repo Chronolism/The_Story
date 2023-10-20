@@ -42,6 +42,7 @@ public class DataMgr : BaseManager<DataMgr>
     void DataLosd()
     {
         playerData = JsonMgr.Instance.LoadData<PlayerData>("playerData");
+        playerData.account = Random.Range(0, int.MaxValue).ToString();
         LaodLanguage();
         buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;

@@ -370,6 +370,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9166c2574dd966748b90ae67c9cc07c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1054705958
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5894074150880223657, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_Name
+      value: RoomUser
+      objectReference: {fileID: 0}
+    - target: {fileID: 5894074150880223657, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 512.6694
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 247.50575
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.831339
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7489233602049055298, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9097217707935720294, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+      propertyPath: sceneId
+      value: 3110922788
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
 --- !u!1001 &1228985902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -732,7 +797,19 @@ PrefabInstance:
     - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: playerPrefab
       value: 
+      objectReference: {fileID: 5894074150880223657, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
+    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: autoCreatePlayer
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 5480366113042657854, guid: fbe552484ebbe7b49b917d61173da10b, type: 3}
     - target: {fileID: 4133642537570696950, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_RootOrder
       value: 2

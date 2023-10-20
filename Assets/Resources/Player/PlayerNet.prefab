@@ -142,6 +142,7 @@ MonoBehaviour:
   dir: 0
   ifAtk: 0
   ifDie: 0
+  ifPause: 1
   blood: 100
   maxBlood: 100
   maxBlood_Pre: 1
@@ -150,7 +151,6 @@ MonoBehaviour:
   maxSpeed_Pre: 1
   inputX: 0
   inputY: 0
-  ifPause: 1
 --- !u!114 &733688356673401485
 MonoBehaviour:
   m_ObjectHideFlags: 0

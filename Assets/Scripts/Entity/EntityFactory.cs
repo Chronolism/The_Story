@@ -24,4 +24,15 @@ public class EntityFactory : BaseManager<EntityFactory>
         NetworkServer.Spawn(roomDataGB);
         return roomData;
     }
+
+    [Server]
+    public Player CreatPlayer(RoomUserData user, Vector3 position)
+    {
+        GameObject playerGB = ResMgr.Instance.Load<GameObject>("Player/PlayerNet");
+        Player player = playerGB.GetComponent<Player>();
+        CharacterData characterData = DataMgr.Instance.GetCharacter(user.characterId);
+        player.InitPlayer(characterData);
+        NetworkServer.Spawn(playerGB, user.con);
+        return player;
+    }
 }

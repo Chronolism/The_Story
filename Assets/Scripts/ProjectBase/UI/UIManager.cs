@@ -150,4 +150,15 @@ public class UIManager : BaseManager<UIManager>
         trigger.triggers.Add(entry);
     }
 
+    /// <summary>
+    /// 清除所有面板
+    /// </summary>
+    public void ClearAllPanel()
+    {
+        foreach (BasePanel bp in panelDic.Values)
+        {
+            GameObject.Destroy(bp.gameObject);
+        }
+        panelDic.Clear();
+    }
 }

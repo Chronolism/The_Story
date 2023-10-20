@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ public class CharacterData
 
 public class RoomUserData
 {
+    public int connectId;
     public int characterId;
     public string name;
+    public NetworkConnection con;
 }

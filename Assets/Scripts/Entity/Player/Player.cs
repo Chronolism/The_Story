@@ -32,7 +32,7 @@ public class Player : Entity
 
     private void Update()
     {
-        if (authority)
+        if (isOwned)
         {
             if (!ifPause)
             {
@@ -47,7 +47,7 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
-        if (!ifPause && authority)
+        if (!ifPause && isOwned)
         {
             state.OnUpdata();
         }
@@ -58,6 +58,12 @@ public class Player : Entity
         base.OnDisable();
         DataMgr.Instance.players.Remove(netId);
     }
+    
+    public void InitPlayer(CharacterData characterData)
+    {
+
+    }
+
 
     private void PlayerInput()
     {

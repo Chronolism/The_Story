@@ -14,22 +14,21 @@ public class MyNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
+        UIManager.Instance.ShowPanel<RoomPanel>();
+        EntityFactory.Instance.CreatRoomData();
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
+        if (NetworkServer.active) return;
         UIManager.Instance.ShowPanel<RoomPanel>();
-        NetworkClient.Send(new C2S_JionRoom() { name = DataMgr.Instance.playerData.account });
     }
 
     public override void OnStartHost()
     {
         base.OnStartHost();
-        UIManager.Instance.ShowPanel<RoomPanel>();
-        RoomData roomData = EntityFactory.Instance.CreatRoomData();
-        Debug.Log(roomData);
-        roomData.AddRoomUser(DataMgr.Instance.playerData.account);
+        //DataMgr.Instance.roomData.AddRoomUser(DataMgr.Instance.playerData.account);
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
@@ -46,6 +45,8 @@ public class MyNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        //if (NetworkServer.active) return;
+        NetworkClient.Send(new C2S_JionRoom() { name = DataMgr.Instance.playerData.account });
     }
     public override void OnClientDisconnect()
     {

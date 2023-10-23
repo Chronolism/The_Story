@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerRuntime : MonoBehaviour
 {
+
     //这个脚本是挂载在任意角色预制体的最高空物体上，用于控制整个运行时数据
 
     //不常变动的数据通过PlayerManager获取

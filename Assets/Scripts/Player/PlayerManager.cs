@@ -6,6 +6,7 @@ public class PlayerManager : BaseManager<PlayerManager>
 {
     private D_LocalPlayer _LocalPlayer = new D_LocalPlayer();
     private List<D_OtherPlayer> _OtherPlayers = new List<D_OtherPlayer>();
+
     /// <summary>
     /// 获取本机信息
     /// </summary>

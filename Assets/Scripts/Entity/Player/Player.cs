@@ -28,6 +28,7 @@ public class Player : Entity
         }
         DataMgr.Instance.players.Add(netId, this);
         ChangeState<NormalState>();
+        
     }
 
     private void Update()

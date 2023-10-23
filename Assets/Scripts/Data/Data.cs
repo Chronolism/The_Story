@@ -2,6 +2,8 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
 public class MapData
 {
     public int id;
@@ -24,11 +26,33 @@ public class CharacterData
     public float rewrite_ink_MaxLastTime;
     public List<int> skill_Index;
 }
-
+[Serializable]
 public class RoomUserData
 {
     public int connectId;
     public int characterId;
     public string name;
     public NetworkConnection con;
+}
+[Serializable]
+public class PropData
+{
+    public int id;
+    public string name;
+    public Sprite icon;
+    public PropType propType;
+    public string description;
+    public List<BuffDetile> value;
+}
+
+public enum PropType
+{
+    UseTool,
+    TrigerTool
+}
+[Serializable]
+public struct BuffDetile
+{
+    public int buffId;
+    public int buffValue;
 }

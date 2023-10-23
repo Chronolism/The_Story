@@ -13,6 +13,8 @@ public class Player : Entity
 
     private Vector2 movement;
 
+    public PropData playerProp;
+
     [SyncVar]
     private bool isMoving;
 
@@ -65,6 +67,15 @@ public class Player : Entity
 
     }
 
+    public bool AddProp(PropData prop)
+    {
+        if(playerProp == null)
+        {
+            playerProp = prop;
+            return true;
+        }
+        return false;
+    }
 
     private void PlayerInput()
     {
@@ -80,6 +91,19 @@ public class Player : Entity
         if (IEnableInput.GetKey(E_PlayKeys.Q)) fire2 = 1;
 
     }
+
+    private void UseProp()
+    {
+        if (fire2 > 0)
+        {
+            foreach (var i in playerProp.value)
+            {
+                DataMgr.Instance.GetBuff(i.buffId).OnTriger(this, i.buffValue);
+            }
+            playerProp = null;
+        }
+    }
+
     private void Movement()
     {
         

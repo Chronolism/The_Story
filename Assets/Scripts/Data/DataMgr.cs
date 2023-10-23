@@ -17,6 +17,9 @@ public class DataMgr : BaseManager<DataMgr>
 
     private Dictionary<string, UIData> uiDataDic;
 
+    private List<PropData> propDatas;
+    public List<PropData> PropDatas => propDatas;
+
     public RoomData roomData;
 
     public PlayerData playerData;
@@ -46,6 +49,7 @@ public class DataMgr : BaseManager<DataMgr>
         LaodLanguage();
         buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
+        propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）
@@ -121,5 +125,10 @@ public class DataMgr : BaseManager<DataMgr>
     public CharacterData GetCharacter(int id)
     {
         return characters.Find(i => i.character_Code == id);
+    }
+
+    public PropData GetPropData(int id)
+    {
+        return PropDatas.Find(i => i.id == id);
     }
 }

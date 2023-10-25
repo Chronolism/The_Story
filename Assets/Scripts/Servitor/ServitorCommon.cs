@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ServitorCommon : Base_Servitor
@@ -8,6 +9,7 @@ public class ServitorCommon : Base_Servitor
     bool _needChangeDisplay = false;
     //以下参数为测试内容
     Animator _animator;
+    Rigidbody2D _rigidbody;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<PlayerRuntime>(out _collisionPlayer) && _collisionPlayer.PlayerData != null) 
@@ -20,6 +22,8 @@ public class ServitorCommon : Base_Servitor
                     PlayerManager.Instance.GetPlayerDataWithRuntime_Id(d_servitor.master_runtime_id).runtime_myServitors.Remove(d_servitor);
                 }
                 this.d_servitor.master_runtime_id = _collisionPlayer.runtime_id;
+                //更改追逐目标
+                this.target = _collisionPlayer.transform;
                 //试图改变自己的样貌
                 this.d_servitor.servitorDisplay = _collisionPlayer.PlayerData.ownServitorDisplay;
                 _needChangeDisplay = true;
@@ -39,6 +43,7 @@ public class ServitorCommon : Base_Servitor
         InitServitor();
         //以下为测试内容
         _animator = GetComponentInChildren<Animator>();
+        _rigidbody = GetComponentInChildren<Rigidbody2D>();
     }
     public override void InitServitor()
     {
@@ -81,4 +86,99 @@ public class ServitorCommon : Base_Servitor
             */
         }
     }
+
+    
+    #region 寻路模块（来自代码）
+    List<AStarNode> path = new List<AStarNode>();
+    float time;
+    int pathIndex = 0;
+    bool havePath;
+    Vector2 movement;
+    Transform target;
+    Transform parent;
+    Rigidbody2D rb => _rigidbody;
+    float speed => d_servitor.runtime_Speed;
+    private void FixedUpdate()
+    {
+        Movement();
+        FindTarget();
+        time += Time.fixedDeltaTime;
+    }
+    private void FindTarget()
+    {
+        if (time >= 0.5)
+        {
+            time = 0;
+            if (target == null || target == parent)
+            {
+                float distance = 999;
+                foreach (var player in PlayerManager.Instance.GetAllPlayerDataList())
+                {
+                    if (Vector3.Distance(transform.position, player.runtime_Player.transform.position) < distance)
+                    {
+                        distance = Vector3.Distance(transform.position, player.runtime_Player.transform.position);
+                        target = player.runtime_Player.transform;
+                    }
+                }
+            }
+
+            AStarMgr.Instance.FindPath(rb.position, target.GetComponent<Rigidbody2D>().position, FindPathCallBack, false);
+        }
+        else
+        {
+            time += Time.deltaTime;
+        }
+
+    }
+    void FindPathCallBack(List<AStarNode> aStarNodes)
+    {
+        if (aStarNodes == null || aStarNodes.Count == 0)
+        {
+            havePath = false;
+            return;
+        }
+
+        path = aStarNodes;
+        havePath = true;
+        if (path.Count == 1)
+        {
+            movement = new Vector2(path[0].x, path[0].y);
+            return;
+        }
+
+        if (Vector2.Distance(rb.position, path[1].pos) > Vector2.Distance(path[0].pos, path[1].pos))
+        {
+            pathIndex = 0;
+            movement = path[0].pos;
+        }
+        else
+        {
+            pathIndex = 1;
+            movement = path[1].pos;
+        }
+
+    }
+
+    private void Movement()
+    {
+
+        if (Vector2.Distance(rb.position, movement) > 0.01)
+        {
+            rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+        }
+        else if (havePath)
+        {
+            if (pathIndex == path.Count - 1)
+            {
+                havePath = false;
+            }
+            else
+            {
+                pathIndex++;
+                movement = path[pathIndex].pos;
+                rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+            }
+        }
+    }
+    #endregion
 }

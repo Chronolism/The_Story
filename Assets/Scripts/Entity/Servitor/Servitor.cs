@@ -10,6 +10,7 @@ public class Servitor : Entity
     public Entity target;
     public Entity parent;
 
+
     [SyncVar]
     private bool isMoving;
 

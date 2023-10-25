@@ -150,6 +150,13 @@ public class PlayerManager : BaseManager<PlayerManager>
             return null;
         }
     }
+    public List<D_Base_Player> GetAllPlayerDataList()
+    {
+        List<D_Base_Player> temp = new List<D_Base_Player>();
+        temp.Add(_LocalPlayer);
+        foreach (var item in _OtherPlayers) temp.Add(item);
+        return temp;
+    }
 }
 public static class exploreFunc
 {

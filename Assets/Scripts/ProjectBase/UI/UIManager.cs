@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -88,7 +89,64 @@ public class UIManager : BaseManager<UIManager>
             panelDic.Add(panelName, panel);
         });
     }
+    public void ShowPanel<T>(string UILayer, UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    {
+        string panelName = typeof(T).Name;
+        //层级处理
+        callBack += (o) => {
+            if (canvas.Find(UILayer) == null)
+            {
+                GameObject newLayer = Object.Instantiate<GameObject>(new GameObject());
+                newLayer.transform.parent = canvas.transform;
+                newLayer.name = UILayer;
+                Debug.LogWarning("没有合适的层级，已创建新层级" + UILayer + "，请在canvas预制体内及时调整层级关系");
+            }
+            o.transform.SetParent(canvas.Find(UILayer));
+        };
+        if (panelDic.ContainsKey(panelName))
+        {
+            panelDic[panelName].ShowMe();
 
+
+            // 处理面板创建完成后的逻辑
+            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
+            if (callBack != null)
+                callBack(panelDic[panelName] as T);
+
+            return;
+        }
+
+        //通过储存位置寻找UI面板
+        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
+        {
+            //把他作为 Canvas的子对象
+            Transform father = canvas;
+
+            //设置父对象  设置相对位置和大小
+            obj.transform.SetParent(father);
+
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localScale = Vector3.one;
+
+            (obj.transform as RectTransform).offsetMax = Vector2.zero;
+            (obj.transform as RectTransform).offsetMin = Vector2.zero;
+
+            obj.name = panelName;
+
+            //得到预设体身上的面板脚本
+            T panel = obj.GetComponent<T>();
+            // 处理面板创建完成后的逻辑
+            if (callBack != null)
+                callBack(panel);
+            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
+            panel.ShowMe();
+
+            //把面板存起来
+            panelDic.Add(panelName, panel);
+        });
+        
+        
+    }
 
     /// <summary>
     /// 隐藏面板
@@ -160,5 +218,15 @@ public class UIManager : BaseManager<UIManager>
             GameObject.Destroy(bp.gameObject);
         }
         panelDic.Clear();
+    }
+    /// <summary>
+    /// 设置面板层级
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="layerName"></param>
+    public void SetPanelLayer(BasePanel panel,string layerName)
+    {
+        if (canvas.Find(layerName) == null) Debug.LogWarning("无对应层级");
+        else panel.transform.parent = canvas.Find(layerName);
     }
 }

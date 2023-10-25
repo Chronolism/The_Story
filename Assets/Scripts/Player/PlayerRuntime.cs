@@ -13,7 +13,7 @@ public class PlayerRuntime : MonoBehaviour
     /// </summary>
     public uint runtime_id = 400; public bool needChangeID = true;
     public bool networkEnable = true; //{ get => !GameManager.Instance.isOfflineLocalTest; set => GameManager.Instance.isOfflineLocalTest = !value; }网络端与离线测试同一后使用此行代码
-    Player _networkPlayer;
+    //Player _networkPlayer;
     /// <summary>
     /// 玩家数据集，应该在进入时获取
     /// </summary>
@@ -77,6 +77,7 @@ public class PlayerRuntime : MonoBehaviour
         this.transform.position += Time.deltaTime * displacementThisFrameDirctionTrue;
         */
         //网络id同步
+        /*
         if (networkEnable && _networkPlayer != null)
         {
             if (_networkPlayer.isLocalPlayer)
@@ -92,6 +93,7 @@ public class PlayerRuntime : MonoBehaviour
             needChangeID = true;
             networkEnable = false;
         }
+        */
         //每个逻辑帧更新该玩家的网格位置（V2）
         PlayerData.runtime_gird_Position = new V2(MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).x, MapManager.Instance.runtimeGrid.WorldToCell(this.transform.position).y);
         //每个逻辑帧试图将自身传入中枢
@@ -107,8 +109,10 @@ public class PlayerRuntime : MonoBehaviour
         //每个秒Debug玩家的网格位置（V2）
         //print(PlayerManager.Instance.LocalPlayer.runtime_gird_Position.x + "," + PlayerManager.Instance.LocalPlayer.runtime_gird_Position.y);
         //试图获取Net信息
+        /*
         if (networkEnable)
             TryGetComponent<Player>(out _networkPlayer);
+        */
         
     }
 }

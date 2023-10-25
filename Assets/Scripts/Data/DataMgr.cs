@@ -122,6 +122,11 @@ public class DataMgr : BaseManager<DataMgr>
         return buffPool.GetBuff(id);
     }
 
+    public BuffData GetBuffData(int id)
+    {
+        return buffDataDic[id];
+    }
+
     public CharacterData GetCharacter(int id)
     {
         return characters.Find(i => i.character_Code == id);

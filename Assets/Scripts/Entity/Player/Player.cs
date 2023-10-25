@@ -6,17 +6,32 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
-    public float inputX, inputY;
-    private float fire1 , fire2;
     private int inputDir;
-
-    private Vector2 movement;
-
+    public Vector2 movement;
     public PropData playerProp;
+    public PlayerSkill skill;
+    public PlayerServitor playerServitor;
+    public CharacterData characterData;
 
     [SyncVar]
+    public int characterCode;
+    [SyncVar]
+    public float inkAmount;
+    [SyncVar]
+    public float inkMaxAmount;
+    [SyncVar]
+    public float inkCostRate;
+    [SyncVar]
+    public bool canTurn;
+    [SyncVar]
+    public bool canHurt;
+    [SyncVar]
+    public bool canPickProp;
+    [SyncVar]
     private bool isMoving;
+
+    public BuffBase mainSkill => skill.mainSkill;
+
 
     private void Start()
     {
@@ -24,10 +39,6 @@ public class Player : Entity
         animators = rb.GetComponentsInChildren<Animator>();
         this.transform.position = new Vector3(0.5f, 0.5f);
         movement = this.transform.position;
-        if (isLocalPlayer)
-        {
-            DataMgr.Instance.activePlayer = this;
-        }
         DataMgr.Instance.players.Add(netId, this);
         ChangeState<NormalState>();
         
@@ -35,22 +46,14 @@ public class Player : Entity
 
     private void Update()
     {
-        if (isOwned)
-        {
-            if (!ifPause)
-            {
-                PlayerInput();
-            }
-            else
-            {
-                isMoving = false;
-            }
-        }
+        if (ifPause)
+            isMoving = false;
+
     }
 
     private void FixedUpdate()
     {
-        if (!ifPause && isOwned)
+        if (!ifPause&&isServer)
         {
             state.OnUpdata();
         }
@@ -62,14 +65,22 @@ public class Player : Entity
         DataMgr.Instance.players.Remove(netId);
     }
     
-    public void InitPlayer(CharacterData characterData)
+    public void InitPlayer(CharacterData characterData ,List<BuffDetile> skills)
     {
-
+        characterCode = characterData.character_Code;
+        this.characterData = characterData;
+        blood = maxBlood = characterData.HP_Max;
+        maxSpeed = characterData.Speed;
+        atk = characterData.atkDamage;
+        inkAmount = 0;
+        inkMaxAmount = characterData.rewrite_ink_Max;
+        inkCostRate = characterData.rewrite_ink_NeedRate;
+        skill.InitSkill(skills, characterData.ultimate_Skill_Start, characterData.ultimate_Skill_Need);
     }
 
     public bool AddProp(PropData prop)
     {
-        if(playerProp == null)
+        if(playerProp == null||playerProp.id == 0)
         {
             playerProp = prop;
             return true;
@@ -77,24 +88,35 @@ public class Player : Entity
         return false;
     }
 
-    private void PlayerInput()
+    public void AddEnergy(float value)
     {
-        inputX = 0;
-        inputY = 0;
-        fire1 = 0;
-        fire2 = 0;
-        if (IEnableInput.GetKey(E_PlayKeys.W)) inputY += 1;
-        if (IEnableInput.GetKey(E_PlayKeys.S)) inputY += -1;
-        if (IEnableInput.GetKey(E_PlayKeys.D)) inputX += 1;
-        if (IEnableInput.GetKey(E_PlayKeys.A)) inputX += -1;
-        if (IEnableInput.GetKey(E_PlayKeys.E)) fire1 = 1;
-        if (IEnableInput.GetKey(E_PlayKeys.Q)) fire2 = 1;
+        skill.AddEnergy(value);
+    }
 
+    public void AddInk(float value)
+    {
+        inkAmount = (inkAmount + value > inkMaxAmount ? inkMaxAmount : inkAmount + value);
+    }
+
+
+    public void AddServitor(Servitor servitor)
+    {
+        playerServitor.AddServers(servitor);
+    }
+
+    public void RemoveServitor(Servitor servitor)
+    {
+        playerServitor.RemoveServers(servitor);
+    }
+
+    public void ClearServitor()
+    {
+        playerServitor.ClearServer();
     }
 
     private void UseProp()
     {
-        if (fire2 > 0)
+        if (fire2 > 0 && playerProp != null && playerProp.id != 0) 
         {
             foreach (var i in playerProp.value)
             {
@@ -102,8 +124,14 @@ public class Player : Entity
             }
             playerProp = null;
         }
+        if(fire1 > 0&& skill != null)
+        {
+            skill.Triger();
+        }
     }
 
+
+    Vector2 dirV2;
     private void Movement()
     {
         
@@ -122,24 +150,23 @@ public class Player : Entity
                     }
                 }
             }
-        }
-
-
-        if (Vector2.Distance(rb.position, movement) > 0.01)
-        {
-            rb.MovePosition(rb.position + (movement - rb.position).normalized * maxSpeed * Time.deltaTime);
-        }
-        else
-        {
-            if (ChackMap(ref movement, inputDir))
+            dirV2 = movement - rb.position;
+            if (Vector2.Dot(movement - rb.position, dirV2) > 0.01)
             {
-                dir = inputDir;
-                rb.MovePosition(rb.position + (movement - rb.position).normalized * maxSpeed * Time.deltaTime);
+                rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
             }
-            else if (ChackMap(ref movement, dir))
+            else
             {
-                inputDir = dir;
-                rb.MovePosition(rb.position + (movement - rb.position).normalized * maxSpeed * Time.deltaTime);
+                if (ChackMap(ref movement, inputDir))
+                {
+                    dir = inputDir;
+                    rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+                }
+                else if (ChackMap(ref movement, dir))
+                {
+                    inputDir = dir;
+                    rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+                }
             }
         }
     }
@@ -208,16 +235,14 @@ public class Player : Entity
             {
                 anim.Play("idle");
             }
-
         }
-
         public override void OnExit(Entity entity)
         {
 
         }
-
         public override void OnUpdata()
         {
+            player.UseProp();
             player.Movement();
             player.SwitchAnimation();
         }

@@ -24,7 +24,7 @@ public class CharacterData
     public float rewrite_ink_NeedRate;
     public float rewrite_ink_Max;
     public float rewrite_ink_MaxLastTime;
-    public List<int> skill_Index;
+    public List<BuffDetile> skill_Index;
 }
 [Serializable]
 public class RoomUserData
@@ -32,6 +32,7 @@ public class RoomUserData
     public int connectId;
     public int characterId;
     public string name;
+    public List<BuffDetile> skills = new List<BuffDetile>();
     public NetworkConnection con;
 }
 [Serializable]
@@ -53,6 +54,7 @@ public enum PropType
 [Serializable]
 public struct BuffDetile
 {
+    [BuffDetile]
     public int buffId;
     public int buffValue;
 }

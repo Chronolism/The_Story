@@ -73,16 +73,16 @@ public class GenerateBuffData
                     string buffStr =
                                 $"public class Buff_{id} : BuffBase\r\n" +
                                 "{\r\n" +
-                                    "\tpublic override void OnStart(Entity entity,int Value)\r\n" +
+                                    "\tpublic override void OnStart(Entity entity,float Value)\r\n" +
                                     "\t{\r\n" +
                                     "\t}\r\n" +
-                                    "\tpublic override void OnEnd(Entity entity,int Value)\r\n" +
+                                    "\tpublic override void OnEnd(Entity entity,float Value)\r\n" +
                                     "\t{\r\n" +
                                     "\t}\r\n" +
-                                    "\tpublic override void OnAdd(Entity entity,int Value)\r\n" +
+                                    "\tpublic override void OnAdd(Entity entity,float Value)\r\n" +
                                     "\t{\r\n" +
                                     "\t}\r\n" +
-                                    "\tpublic override void OnRemove(Entity entity,int Value)\r\n" +
+                                    "\tpublic override void OnRemove(Entity entity,float Value)\r\n" +
                                     "\t{\r\n" +
                                     "\t}\r\n" +
                                 "}\r\n";

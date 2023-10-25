@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class EntityFactory : BaseManager<EntityFactory>
 {
@@ -29,10 +30,26 @@ public class EntityFactory : BaseManager<EntityFactory>
     public Player CreatPlayer(RoomUserData user, Vector3 position)
     {
         GameObject playerGB = ResMgr.Instance.Load<GameObject>("Player/PlayerNet");
+        playerGB.transform.position = position;
         Player player = playerGB.GetComponent<Player>();
         CharacterData characterData = DataMgr.Instance.GetCharacter(user.characterId);
-        player.InitPlayer(characterData);
-        NetworkServer.Spawn(playerGB, user.con);
+        if(characterData == null)
+        {
+            characterData = DataMgr.Instance.GetCharacter(101);
+        }
+        player.userName = user.name;
+        player.InitPlayer(characterData , user.skills);
+        NetworkServer.Spawn(playerGB);
         return player;
+    }
+
+    [Server]
+    public Prop CreatProp(Vector3 position)
+    {
+        GameObject propGB = ResMgr.Instance.Load<GameObject>("Prefab/PropNet");
+        propGB.transform.position = position;
+        Prop prop = propGB.GetComponent<Prop>();
+        NetworkServer.Spawn(propGB);
+        return prop;
     }
 }

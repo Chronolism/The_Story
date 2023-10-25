@@ -13,17 +13,23 @@ MonoBehaviour:
   m_Name: CharacterData_SO
   m_EditorClassIdentifier: 
   characterDatas:
-  - character_Code: 1
+  - character_Code: 101
     HP_Max: 100
     Speed: 5
     atkDamage: 5
     ultimate_Skill_Need: 5
     ultimate_Skill_Start: 5
     special_Tags: []
-    rewrite_ink_NeedRate: 5
-    rewrite_ink_Max: 5
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
     rewrite_ink_MaxLastTime: 5
-    skill_Index: 
+    skill_Index:
+    - buffId: 3001
+      buffValue: 6
+    - buffId: 2001
+      buffValue: 100
+    - buffId: 2002
+      buffValue: 20
   - character_Code: 2
     HP_Max: 150
     Speed: 5
@@ -34,4 +40,4 @@ MonoBehaviour:
     rewrite_ink_NeedRate: 5
     rewrite_ink_Max: 5
     rewrite_ink_MaxLastTime: 5
-    skill_Index: 
+    skill_Index: []

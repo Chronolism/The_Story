@@ -30,10 +30,10 @@ public static class IEnableInput
 /// </summary>
 public enum E_PlayKeys
 {
-    W,
-    A,
-    S,
-    D,
-    E,
-    Q
+    W = 1,
+    A = 2,
+    S = 4,
+    D = 8,
+    E = 16,
+    Q = 32
 }

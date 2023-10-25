@@ -15,16 +15,20 @@ MonoBehaviour:
   propDatas:
   - id: 1
     name: "\u7FBD\u6BDB"
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 11466c11ccc006844a9a2cd86a07668c, type: 3}
     propType: 1
     description: "\u666E\u901A\u7FBD\u6BDB"
-    value: []
+    value:
+    - buffId: 1006
+      buffValue: 100
   - id: 2
     name: "\u52A0\u901F"
-    icon: {fileID: 0}
+    icon: {fileID: -1865268395, guid: 340f0d9302c7b614e8c4c492bdbacfa6, type: 3}
     propType: 0
     description: "\u81EA\u5DF1\u52A0\u901F"
-    value: []
+    value:
+    - buffId: 3002
+      buffValue: 6
   - id: 3
     name: "\u4F7F\u9B54\u52A0\u901F"
     icon: {fileID: 0}

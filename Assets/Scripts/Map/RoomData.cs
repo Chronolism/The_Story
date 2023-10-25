@@ -9,11 +9,17 @@ public class RoomData : NetworkBehaviour
     public string mapName = "400";
     [SyncVar]
     public string HostUser = "";
-
     public readonly SyncIDictionary<string, RoomUserData> roomUser = new SyncIDictionary<string, RoomUserData>(new Dictionary<string, RoomUserData>());
-
     public List<Observer<RoomData>> observers = new List<Observer<RoomData>>();
-    // Start is called before the first frame update
+
+    [SyncVar]
+    public bool ifGame;
+    [SyncVar]
+    public float startGameTime;
+    [SyncVar]
+    public bool ifPause = true;
+
+    public RoomLogicBase roomLogic;
 
     public void AddRoomUser(string name , NetworkConnection con)
     {
@@ -42,7 +48,32 @@ public class RoomData : NetworkBehaviour
     public void StartGame()
     {
         GameMgr.Instance.StartGame();
+        roomLogic = new NormalRoom(this);
+        roomLogic.ToStartGame();
+        StartCoroutine(StartGameCountdown());
     }
+
+    IEnumerator StartGameCountdown()
+    {
+        startGameTime = 2;
+        while (startGameTime > 0)
+        {
+            startGameTime -= Time.deltaTime;
+            yield return null;
+        }
+        BeginGame();
+    }
+    /// <summary>
+    /// 修改用户属性
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="roomUserData"></param>
+    [Command(requiresAuthority = false)]
+    public void ChangeRoomUserData(string name ,RoomUserData roomUserData)
+    {
+        roomUser[name] = roomUserData;
+    }
+
     /// <summary>
     /// 服务器加载地图
     /// </summary>
@@ -64,24 +95,15 @@ public class RoomData : NetworkBehaviour
         GameMgr.Instance.LoadMap(name);
     }
     /// <summary>
-    /// 服务器加载全部角色给与操作权限
-    /// </summary>
-    [Server]
-    public void AllLoadCharacter()
-    {
-        foreach(var user in roomUser)
-        {
-            EntityFactory.Instance.CreatPlayer(user.Value , new Vector3(0.5f,0.5f,0));
-        }
-    }
-    /// <summary>
     /// 服务器开始游戏
     /// </summary>
     [Server]
-    public void BeginGane()
+    public void BeginGame()
     {
         UIManager.Instance.ClearAllPanel();
+        roomLogic.StartGame();
         EventMgr.CallStartGame();
+        ifPause = false;
         BeginGaneRPC();
     }
     /// <summary>
@@ -92,6 +114,8 @@ public class RoomData : NetworkBehaviour
     {
         if (isServer) return;
         UIManager.Instance.ClearAllPanel();
+        //roomLogic.StartGame();
         EventMgr.CallStartGame();
     }
+
 }

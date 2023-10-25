@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class Prop : NetworkBehaviour
 {
-    Collider collider;
+    Collider2D collider;
     SpriteRenderer spriteRenderer;
     private void Awake()
     {
-        collider = GetComponent<Collider>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<Collider2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public PropData propData;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (isServer)
         {
             if(collision.TryGetComponent<Player>(out Player player))
@@ -28,6 +29,7 @@ public class Prop : NetworkBehaviour
                         {
                             DataMgr.Instance.GetBuff(i.buffId).OnTriger(player, i.buffValue);
                         }
+                        HideProp();
                         break;
                     case PropType.UseTool:
                         if (player.AddProp(propData))

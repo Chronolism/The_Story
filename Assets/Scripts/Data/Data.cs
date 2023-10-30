@@ -15,6 +15,7 @@ public class MapData
 public class CharacterData
 {
     public int character_Code;
+    public string characterName;
     public float HP_Max;
     public float Speed;
     public float atkDamage;
@@ -33,7 +34,18 @@ public class RoomUserData
     public int characterId;
     public string name;
     public List<BuffDetile> skills = new List<BuffDetile>();
+    public List<int> tags = new List<int>();
     public NetworkConnection con;
+    public RoomUserData(int connectId, int characterId, string name, List<BuffDetile> skills, List<int> tags)
+    {
+        this.connectId = connectId;
+        this.characterId = characterId;
+        this.name = name;
+        this.skills = skills;
+        this.tags = tags;
+    }
+
+    public RoomUserData() { }
 }
 [Serializable]
 public class PropData
@@ -57,4 +69,19 @@ public struct BuffDetile
     [BuffDetile]
     public int buffId;
     public int buffValue;
+}
+[Serializable]
+public class InkData
+{
+    public float inkAmount;
+    public float energyAmount;
+    public bool ifTurn;
+    public InkData() { }
+    public InkData(float inkAmount, float energyAmount, bool ifTurn)
+    {
+        this.inkAmount = inkAmount;
+        this.energyAmount = energyAmount;
+        this.ifTurn = ifTurn;
+    }
+    
 }

@@ -18,6 +18,6 @@ public class Buff_1006 : BuffBase
 
 	public override void OnTriger(Entity entity, float Value)
 	{
-		(entity as Player).AddInk(Value);
+		entity.ChangeInkAmount(Value);
 	}
 }

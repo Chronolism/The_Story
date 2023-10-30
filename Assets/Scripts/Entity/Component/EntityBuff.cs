@@ -11,7 +11,7 @@ public class EntityBuff : NetworkBehaviour
 
     UnityAction<Entity> UpdataBuff;
     public List<BuffBase> buffList = new List<BuffBase>();
-
+    //快慢表，减少延时buff消耗
     List<BuffBase> fastBuffList = new List<BuffBase>();
     List<BuffBase> slowBuffList = new List<BuffBase>();
     Stack<BuffBase> waitRemove = new Stack<BuffBase>();
@@ -26,6 +26,7 @@ public class EntityBuff : NetworkBehaviour
     {
         if (!isServer) return;
         UpdataBuff?.Invoke(entity);
+        //快表每帧更新，有内容就遍历迭代
         if (fastBuffList.Count > 0)
         {
             foreach (BuffBase buff in fastBuffList)
@@ -33,20 +34,24 @@ public class EntityBuff : NetworkBehaviour
                 buff.time -= Time.deltaTime;
                 if (buff.time <= 0)
                 {
+                    //buff时间归零就移除
                     RemoveBuff(buff);
                     waitRemove.Push(buff);
                 }
                 else if (buff.time > 0.5f)
                 {
+                    //大于快表限制，返回慢表
                     waitRemove.Push(buff);
                     slowBuffList.Add(buff);
                 }
             }
             while (waitRemove.Count > 0)
             {
+                //堆栈移除，请不要在迭代过程中移除列表元素
                 fastBuffList.Remove(waitRemove.Pop());
             }
         }
+        //慢表0.5s更新
         if (slowTime > 0)
         {
             slowTime -= Time.deltaTime;
@@ -59,12 +64,14 @@ public class EntityBuff : NetworkBehaviour
                 buff.time -= 0.5f;
                 if (buff.time <= 0.5f)
                 {
+                    //低于慢表阈值，进入快表
                     waitRemove.Push(buff);
                     fastBuffList.Add(buff);
                 }
             }
             while (waitRemove.Count > 0)
             {
+                //堆栈移除，请不要在迭代过程中移除列表元素
                 slowBuffList.Remove(waitRemove.Pop());
             }
         }

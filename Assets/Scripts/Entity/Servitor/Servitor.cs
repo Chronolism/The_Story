@@ -50,9 +50,11 @@ public class Servitor : Entity
             time = 0;
             if (target == null || target == parent)
             {
+                target = null;
                 float distance = 999;
                 foreach (var player in DataMgr.Instance.players)
                 {
+                    if (player.Value == parent) continue;
                     if (Vector3.Distance(transform.position, player.Value.transform.position) < distance)
                     {
                         distance = Vector3.Distance(transform.position, player.Value.transform.position);
@@ -60,7 +62,7 @@ public class Servitor : Entity
                     }
                 }
             }
-            AStarMgr.Instance.FindPath(rb.position, target.rb.position, FindPathCallBack, false);
+            if(target != null) AStarMgr.Instance.FindPath(rb.position, target.rb.position, FindPathCallBack, false);
         }
         else
         {
@@ -104,7 +106,7 @@ public class Servitor : Entity
     private void Movement()
     {
 
-        if (Vector2.Distance(rb.position, movement) > 0.01)
+        if (Vector2.Distance(rb.position, movement) > 0.05)
         {
             rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
         }

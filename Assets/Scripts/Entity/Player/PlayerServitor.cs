@@ -18,7 +18,7 @@ public class PlayerServitor : NetworkBehaviour
     {
         Servers.Add(servitor);
         servitor.parent = player;
-        servitor.GetComponent<SpriteRenderer>().color = Color.red;
+        //servitor.GetComponent<SpriteRenderer>().color = Color.red;
     }
     [Server]
     public void RemoveServers(Servitor servitor)

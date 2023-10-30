@@ -19,6 +19,7 @@ public class BuffPool
 		Register(2002, typeof(Buff_2002));
 		Register(3001, typeof(Buff_3001));
 		Register(3002, typeof(Buff_3002));
+		Register(3003, typeof(Buff_3003));
 	}
 	private void Register(int id, Type buffType)
 	{

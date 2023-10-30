@@ -137,15 +137,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  collider: {fileID: 0}
-  rb: {fileID: 0}
+  entityCollider: {fileID: 1408091909570394120}
+  rb: {fileID: 4456407109891828543}
   animators: []
+  buff: {fileID: 5946939874397720932}
+  entityServitor: {fileID: 0}
+  skill: {fileID: 0}
   userName: 
   dir: 0
   ifAtk: 0
   ifDie: 0
+  ifGiddy: 0
   ifPause: 1
-  buff: {fileID: 5946939874397720932}
   inputX: 0
   inputY: 0
   fire1: 0
@@ -155,8 +158,19 @@ MonoBehaviour:
   maxBlood_Pre: 1
   maxSpeed: 2
   maxSpeed_Pre: 1
-  atk: 0
-  atkpre: 0
+  atk: 50
+  atkpre: 1
+  inkAmount: 0
+  inkMaxAmount: 0
+  inkCost: 0
+  inkCostRate: 0
+  energyGet: 0
+  energyGetRate: 0
+  canTurn: 1
+  canHurt: 1
+  canPickProp: 1
+  canAddEnergy: 1
+  canUseSkill: 1
   movement: {x: 0, y: 0}
   target: {fileID: 0}
   parent: {fileID: 0}

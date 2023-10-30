@@ -34,7 +34,9 @@ MonoBehaviour:
     icon: {fileID: 0}
     propType: 0
     description: "\u4F7F\u9B54\u52A0\u901F"
-    value: []
+    value:
+    - buffId: 3001
+      buffValue: 0
   - id: 4
     name: "\u65E0\u654C"
     icon: {fileID: 0}

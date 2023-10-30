@@ -15,6 +15,11 @@ public static class RoomUserDataReadWrite
         {
             writer.Write(i);
         }
+        writer.Write(value.tags.Count);
+        foreach (var i in value.tags)
+        {
+            writer.Write(i);
+        }
     }
 
     public static RoomUserData ReadRoomUserData(this NetworkReader reader)
@@ -28,6 +33,11 @@ public static class RoomUserDataReadWrite
         for(int i = 0; i < count; i++)
         {
             value.skills.Add(reader.ReadBuffDetile());
+        }
+        count = reader.ReadInt();
+        for (int i = 0; i < count; i++)
+        {
+            value.tags.Add(reader.ReadInt());
         }
         return value;
     }

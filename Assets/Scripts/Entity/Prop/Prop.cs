@@ -1,19 +1,15 @@
 using Mirror;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Prop : NetworkBehaviour
 {
-    Collider2D collider;
-    SpriteRenderer spriteRenderer;
-    private void Awake()
-    {
-        collider = GetComponent<Collider2D>();
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    }
-
+    public Collider2D propCollider;
+    public SpriteRenderer spriteRenderer;
     public PropData propData;
+
+    public List<Observer<Prop>> observers = new List<Observer<Prop>>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -74,12 +70,17 @@ public class Prop : NetworkBehaviour
     {
         if (ifShow)
         {
-            collider.enabled = true;
+            propCollider.enabled = true;
             spriteRenderer.enabled = true;
         }
         else
         {
-            collider.enabled = false;
+            propData = null;
+            foreach (var i in observers)
+            {
+                i.ToUpdate(this);
+            }
+            propCollider.enabled = false;
             spriteRenderer.enabled = false;
         }
     }

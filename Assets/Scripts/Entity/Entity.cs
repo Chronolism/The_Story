@@ -7,31 +7,56 @@ using UnityEngine.Events;
 
 public class Entity : NetworkBehaviour
 {
-    public Collider collider;
+    public Collider2D entityCollider;
     public Rigidbody2D rb;
     public Animator[] animators;
-    public StateBase state;
-
+    protected StateBase state;
+    /// <summary>
+    /// 实体buff组件
+    /// </summary>
+    public EntityBuff buff;
+    /// <summary>
+    /// 实体的buff列表
+    /// </summary>
+    public List<BuffBase> BuffList => buff.buffList;
+    /// <summary>
+    /// 实体使魔组件
+    /// </summary>
+    public EntityServitor entityServitor;
+    /// <summary>
+    /// 实体拥有的使魔列表
+    /// </summary>
+    public List<Servitor> Servitors => entityServitor.Servitors;
+    /// <summary>
+    /// 实体技能组件
+    /// </summary>
+    public EntitySkill skill;
+    /// <summary>
+    /// 实体的主要技能
+    /// </summary>
+    public BuffBase MainSkill => skill.mainSkill;
+    /// <summary>
+    /// 用户名字
+    /// </summary>
     [SyncVar]
     public string userName;
 
-    public int dir;
-    public bool ifAtk = false;
-    public bool ifDie = false;
+    public int dir;             //方向
+    public bool ifAtk = false;  //是否攻击
+    public bool ifDie = false;  //是否死亡
+    public bool ifGiddy = false;//是否眩晕
     [SyncVar]
     public bool ifPause = true;
 
-    public Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
-    
-    public EntityBuff buff;
-    public List<BuffBase> buffList => buff.buffList;
-
+    private Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
+    [Header("用户输入")]
     public float inputX, inputY;
     public float fire1, fire2;
-
+    [Header("实体属性")]
     #region 属性
     [SyncVar]
     public float blood = 100;
+    public float MaxBlood => maxBlood * maxBlood_Pre;
     [SyncVar]
     public float maxBlood = 100;
     [SyncVar]
@@ -45,11 +70,139 @@ public class Entity : NetworkBehaviour
     public float atk;
     [SyncVar]
     public float atkpre;
+    [SyncVar]
+    public float inkAmount;
+    [SyncVar]
+    public float inkMaxAmount;
+    [SyncVar]
+    public float inkCost;
+    [SyncVar]
+    public float inkCostRate;
+    [SyncVar]
+    public float energyGet;
+    [SyncVar]
+    public float energyGetRate;
+    /// <summary>
+    /// 可以改写
+    /// </summary>
+    [SyncVar]
+    public bool canTurn;
+    /// <summary>
+    /// 可以受伤
+    /// </summary>
+    [SyncVar]
+    public bool canHurt;
+    /// <summary>
+    /// 可以拾取道具
+    /// </summary>
+    [SyncVar]
+    public bool canPickProp;
+    /// <summary>
+    /// 可以获取能量
+    /// </summary>
+    [SyncVar]
+    public bool canAddEnergy;
+    /// <summary>
+    /// 可以使用技能
+    /// </summary>
+    [SyncVar]
+    public bool canUseSkill;
+
     #endregion
     #region 事件接口
+    /// <summary>
+    /// 获得墨水时触发
+    /// </summary>
+    public UnityAction<Entity, InkData> OnGetInk;
+    /// <summary>
+    /// 能改写目标时触发
+    /// </summary>
+    public UnityAction<Entity> OnHaveTurn;
+    /// <summary>
+    /// 不能改写目标时触发
+    /// </summary>
+    public UnityAction<Entity> OnRemoveTurn;
+    /// <summary>
+    /// 改写目标时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, InkData> OnReWrite;
+    /// <summary>
+    /// 被改写目标时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, Entity, InkData> OnReWrited;
+    /// <summary>
+    /// 被改写时触发
+    /// </summary>
+    public UnityAction<Entity,Entity, InkData> OnTurn;
+    /// <summary>
+    /// 添加使魔时触发
+    /// </summary>
+    public UnityAction<Entity, Entity> OnAddServitor;
+    /// <summary>
+    /// 移除使魔时触发
+    /// </summary>
+    public UnityAction<Entity, Entity> OnRemoveServitor;
+    /// <summary>
+    /// 获得能量时触发
+    /// </summary>
+    public UnityAction<Entity, InkData> OnGetEnergy;
+    /// <summary>
+    /// 攻击时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, ATKData> OnAtk;
+    /// <summary>
+    /// 被攻击时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, ATKData> OnAtked;
+    /// <summary>
+    /// 伤害实体时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, ATKData> OnToHurt;
+    /// <summary>
+    /// 受到伤害时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, ATKData> OnBeHurt;
+    /// <summary>
+    /// 使用道具时触发
+    /// </summary>
+    public UnityAction<Entity, PropData> OnUseProp;
+    /// <summary>
+    /// 使用技能时触发
+    /// </summary>
+    public UnityAction<Entity, BuffBase> OnUseSkill;
 
-
-
+    private void Atk(Entity target , ATKData atkData)
+    {
+        OnAtk?.Invoke(this, target, atkData);
+        if (atkData.canAtk)
+            EntityAtk(target , atkData);
+    }
+    protected virtual void EntityAtk(Entity target, ATKData atkData) { }
+    private void Atked(Entity target, ATKData atkData)
+    {
+        OnAtked?.Invoke(this, target, atkData);
+        if (atkData.canAtk)
+            EntityAtked(target , atkData);
+    }
+    protected virtual void EntityAtked(Entity target, ATKData atkData) { }
+    private void ToHurt(Entity target , ATKData atkData)
+    {
+        OnToHurt?.Invoke(this, target, atkData);
+        if (atkData.canAtk)
+            EntityToHurt(target , atkData);
+    }
+    protected virtual void EntityToHurt(Entity target, ATKData atkData) { }
+    private void BeHurt(Entity target, ATKData atkData)
+    {
+        if (!canHurt) atkData.canAtk = false;
+        else
+        {
+            OnBeHurt?.Invoke(this, target, atkData);
+            if(atkData.canAtk)
+                EntityBeHurt(target, atkData);
+        }
+    }
+    protected virtual void EntityBeHurt(Entity target, ATKData atkData) { }
     #endregion
 
     public virtual void Awake()
@@ -62,43 +215,234 @@ public class Entity : NetworkBehaviour
 
 
     #endregion
+    /// <summary>
+    /// 攻击实体
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="atkData"></param>
+    public void AtkEntity(Entity target, ATKData atkData)
+    {
+        Atk(target, atkData);
+        if (atkData.canAtk)
+        {
+            if (atkData.atkType == AtkType.rewrite && target is Servitor servitor)
+            {
+                RewriteServitor(servitor);
+                return;
+            }
+            target.Atked(this, atkData);
+            if (atkData.canAtk)
+            {
+                if (atkData.atkType == AtkType.rewrite && target is Servitor servitor1)
+                {
+                    RewriteServitor(servitor1);
+                    return;
+                }
+                HurtEntity(target, atkData);
+            }
+        }
+    }
+    /// <summary>
+    /// 伤害实体
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="atkData"></param>
+    public void HurtEntity(Entity target, ATKData atkData)
+    {
+        ToHurt(target, atkData);
+        if (atkData.canAtk)
+        {
+            target.BeHurt(this, atkData);
+            if (atkData.canAtk)
+            {
+                target.ChangeBlood(target, atkData);
+            }
+        }
+    }
+    /// <summary>
+    /// 修改血量
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="atkData"></param>
+    public void ChangeBlood(Entity target, ATKData atkData)
+    {
+        blood -= atkData.AtkValue;
+        if(blood <= 0)
+        {
+            EntityDie();
+        }
+    }
+    /// <summary>
+    /// 修改墨水量
+    /// </summary>
+    /// <param name="value"></param>
+    public void ChangeInkAmount(float value)
+    {
+        InkData inkData = new InkData(value, 0, true);
+        OnGetInk?.Invoke(this, inkData);
+        if (inkData.ifTurn)
+        {
+            if (inkAmount <= 0)
+            {
+                inkAmount += inkData.inkAmount * inkCostRate;
+                inkAmount = Mathf.Clamp(inkAmount, 0, inkMaxAmount);
+                if (inkAmount > 0 && canTurn)
+                {
+                    
+                    OnHaveTurn?.Invoke(this);
+                }
 
+            }
+            if (inkAmount > 0)
+            {
+                inkAmount += inkData.inkAmount * inkCostRate;
+                inkAmount = Mathf.Clamp(inkAmount, 0, inkMaxAmount);
+                if (inkAmount <= 0)
+                {
+                    inkAmount = 0;
+                    if (canTurn)
+                    {
+                        OnRemoveTurn?.Invoke(this);
+                    }
+                }
+            }
+        }
 
+    }
+    /// <summary>
+    /// 添加能量
+    /// </summary>
+    /// <param name="value"></param>
+    public void AddEnergy(InkData value)
+    {
+        skill.AddEnergy(value);
+    }
+    /// <summary>
+    /// 改写使魔
+    /// </summary>
+    /// <param name="servitor"></param>
+    public void RewriteServitor(Servitor servitor)
+    {
+        entityServitor.RewriteServitor(servitor);
+    }
+    /// <summary>
+    /// 添加使魔（若无必要，请使用RewriteServitor）
+    /// </summary>
+    /// <param name="servitor"></param>
+    public void AddServitor(Servitor servitor)
+    {
+        entityServitor.AddServers(servitor);
+    }
+    /// <summary>
+    /// 移除使魔
+    /// </summary>
+    /// <param name="servitor"></param>
+    public void RemoveServitor(Servitor servitor)
+    {
+        entityServitor.RemoveServers(servitor);
+    }
+    /// <summary>
+    /// 清空使魔
+    /// </summary>
+    public void ClearServitor()
+    {
+        entityServitor.ClearServer();
+    }
+    /// <summary>
+    /// 实体死亡
+    /// </summary>
+    public virtual void EntityDie()
+    {
+        ifDie = true;
+        Destroy(gameObject);
+    }
+    /// <summary>
+    /// 添加buff
+    /// </summary>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">buff附加值</param>
+    /// <param name="own">施加buff的实体</param>
     public void AddBuff(int buffId, float value, Entity own)
     {
         buff.AddBuff(buffId, value, own);
     }
+    /// <summary>
+    /// 添加持续buff
+    /// </summary>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">buff附加值</param>
+    /// <param name="time">持续时间</param>
+    /// <param name="own">施加buff的实体</param>
 
     public void AddBuff(int buffId, float value ,float time, Entity own)
     {
         buff.AddBuff(buffId, value, time, own);
     }
-
+    /// <summary>
+    /// 移除指定buffid的buff（若不知施加者，请先用FindBuff或FindBuffs找到，再用RemoveBuff(BuffBase buffBase)）
+    /// </summary>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">数量</param>
+    /// <param name="own">buff施加者</param>
     public void RemoveBuff(int buffId, float value, Entity own)
     { 
         buff.RemoveBuff(buffId, value, own);
     }
-
+    /// <summary>
+    /// 移除值定buff
+    /// </summary>
+    /// <param name="buffBase"></param>
     public void RemoveBuff(BuffBase buffBase)
     {
         buff.RemoveBuff(buffBase);
     }
-
+    /// <summary>
+    /// 移除指定buffid的buff（不安全，建议使用RemoveBuff(int buffId, float value, Entity own)）
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <param name="value"></param>
     public void RemoveBuff(int buffId, float value)
     {
         buff.RemoveBuff(buffId, value);
     }
-
+    /// <summary>
+    /// 找到指定id的buff
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <returns></returns>
     public BuffBase FindBuff(int buffId)
     {
         return buff.FindBuff(buffId);
     }
-
+    /// <summary>
+    /// 找到所有指定id的buff
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <returns></returns>
     public List<BuffBase> FindBuffs(int buffId)
     {
         return buff.FindBuffs(buffId);
     }
-
+    /// <summary>
+    /// 释放攻击实体
+    /// </summary>
+    /// <param name="type">攻击id</param>
+    /// <param name="v3">攻击附加参数</param>
+    [Server]
+    public void Atttack(int type, Vector3 v3)
+    {
+        PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
+        AtttackRpc(type, v3);
+    }
+    [ClientRpc]
+    private void AtttackRpc(int type, Vector3 v3)
+    {
+        PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
+    }
+    /// <summary>
+    /// 修改状态
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public void ChangeState<T>() where T : StateBase, new()
     {
         if (state == null || state.GetType() != typeof(T))

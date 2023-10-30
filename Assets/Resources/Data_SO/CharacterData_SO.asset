@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterDatas:
   - character_Code: 101
+    characterName: Little Red
     HP_Max: 100
     Speed: 5
     atkDamage: 5
-    ultimate_Skill_Need: 5
-    ultimate_Skill_Start: 5
+    ultimate_Skill_Need: 80
+    ultimate_Skill_Start: 20
     special_Tags: []
     rewrite_ink_NeedRate: 1
     rewrite_ink_Max: 100
@@ -27,17 +28,24 @@ MonoBehaviour:
     - buffId: 3001
       buffValue: 6
     - buffId: 2001
-      buffValue: 100
+      buffValue: 10
     - buffId: 2002
       buffValue: 20
-  - character_Code: 2
-    HP_Max: 150
+  - character_Code: 102
+    characterName: Sea Daughter
+    HP_Max: 100
     Speed: 5
     atkDamage: 5
-    ultimate_Skill_Need: 5
-    ultimate_Skill_Start: 5
+    ultimate_Skill_Need: 120
+    ultimate_Skill_Start: 20
     special_Tags: []
-    rewrite_ink_NeedRate: 5
-    rewrite_ink_Max: 5
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
     rewrite_ink_MaxLastTime: 5
-    skill_Index: []
+    skill_Index:
+    - buffId: 3003
+      buffValue: 6
+    - buffId: 1007
+      buffValue: -20
+    - buffId: 1008
+      buffValue: 100

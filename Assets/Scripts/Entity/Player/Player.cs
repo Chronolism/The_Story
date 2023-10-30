@@ -1,7 +1,6 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Entity
@@ -9,29 +8,18 @@ public class Player : Entity
     private int inputDir;
     public Vector2 movement;
     public PropData playerProp;
-    public PlayerSkill skill;
-    public PlayerServitor playerServitor;
+    public SpriteRenderer spriteRenderer;
+
+    public List<Observer<Player>> observers = new List<Observer<Player>>();
+
     public CharacterData characterData;
 
     [SyncVar]
     public int characterCode;
     [SyncVar]
-    public float inkAmount;
-    [SyncVar]
-    public float inkMaxAmount;
-    [SyncVar]
-    public float inkCostRate;
-    [SyncVar]
-    public bool canTurn;
-    [SyncVar]
-    public bool canHurt;
-    [SyncVar]
-    public bool canPickProp;
-    [SyncVar]
     private bool isMoving;
 
-    public BuffBase mainSkill => skill.mainSkill;
-
+    public bool canRewrite=> inkAmount > 0 && canTurn;
 
     private void Start()
     {
@@ -63,7 +51,52 @@ public class Player : Entity
         base.OnDisable();
         DataMgr.Instance.players.Remove(netId);
     }
-    
+
+    #region 事件接口
+    [ClientRpc]
+    protected override void EntityBeHurt(Entity target, ATKData atkData)
+    {
+        if (canShartInvincble)
+        {
+            StartCoroutine(InvincibleFrame());
+        }
+        else
+        {
+            invincibleFrameTime = 2;
+        }
+    }
+    float invincibleFrameTime = 0;
+    bool canShartInvincble = true;
+    IEnumerator InvincibleFrame()
+    {
+        canShartInvincble = false;
+        invincibleFrameTime = 2;
+        canHurt = false;
+        while (invincibleFrameTime > 0)
+        {
+            invincibleFrameTime -= Time.deltaTime;
+            spriteRenderer.enabled =  Mathf.Sin(invincibleFrameTime * 4 * Mathf.PI) > 0 ? true : false;
+            yield return null;
+        }
+        spriteRenderer.enabled = true;
+        canHurt = true;
+        canShartInvincble = true;
+    }
+
+    public override void EntityDie()
+    {
+        base.EntityDie();
+        foreach (var i in observers)
+        {
+            i.ToUpdate(this);
+        }
+    }
+    #endregion
+    /// <summary>
+    /// 初始化Player
+    /// </summary>
+    /// <param name="characterData"></param>
+    /// <param name="skills"></param>
     public void InitPlayer(CharacterData characterData ,List<BuffDetile> skills)
     {
         characterCode = characterData.character_Code;
@@ -73,46 +106,29 @@ public class Player : Entity
         atk = characterData.atkDamage;
         inkAmount = 0;
         inkMaxAmount = characterData.rewrite_ink_Max;
+        inkCost = 20;
         inkCostRate = characterData.rewrite_ink_NeedRate;
+        energyGet = 20;
+        energyGetRate = 1;
         skill.InitSkill(skills, characterData.ultimate_Skill_Start, characterData.ultimate_Skill_Need);
     }
-
+    /// <summary>
+    /// 添加道具
+    /// </summary>
+    /// <param name="prop"></param>
+    /// <returns></returns>
     public bool AddProp(PropData prop)
     {
-        if(playerProp == null||playerProp.id == 0)
+        if (canPickProp && (playerProp == null || playerProp.id == 0)) 
         {
             playerProp = prop;
             return true;
         }
         return false;
     }
-
-    public void AddEnergy(float value)
-    {
-        skill.AddEnergy(value);
-    }
-
-    public void AddInk(float value)
-    {
-        inkAmount = (inkAmount + value > inkMaxAmount ? inkMaxAmount : inkAmount + value);
-    }
-
-
-    public void AddServitor(Servitor servitor)
-    {
-        playerServitor.AddServers(servitor);
-    }
-
-    public void RemoveServitor(Servitor servitor)
-    {
-        playerServitor.RemoveServers(servitor);
-    }
-
-    public void ClearServitor()
-    {
-        playerServitor.ClearServer();
-    }
-
+    /// <summary>
+    /// 使用道具
+    /// </summary>
     private void UseProp()
     {
         if (fire2 > 0 && playerProp != null && playerProp.id != 0) 
@@ -121,14 +137,15 @@ public class Player : Entity
             {
                 DataMgr.Instance.GetBuff(i.buffId).OnTriger(this, i.buffValue);
             }
+            PropData propData = playerProp;
             playerProp = null;
+            OnUseProp?.Invoke(this, propData);
         }
         if(fire1 > 0&& skill != null)
         {
             skill.Triger();
         }
     }
-
 
     Vector2 dirV2;
     private void Movement()
@@ -149,9 +166,9 @@ public class Player : Entity
                     }
                 }
             }
-            dirV2 = movement - rb.position;
             if (Vector2.Dot(movement - rb.position, dirV2) > 0.01)
             {
+                dirV2 = movement - rb.position;
                 rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
             }
             else
@@ -159,11 +176,13 @@ public class Player : Entity
                 if (ChackMap(ref movement, inputDir))
                 {
                     dir = inputDir;
+                    dirV2 = movement - rb.position;
                     rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
                 }
                 else if (ChackMap(ref movement, dir))
                 {
                     inputDir = dir;
+                    dirV2 = movement - rb.position;
                     rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
                 }
             }

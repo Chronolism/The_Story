@@ -125,5 +125,6 @@ public class GenerateBuffData
         }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
     }
 }

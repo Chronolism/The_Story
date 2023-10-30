@@ -19,16 +19,14 @@ public class RoomUser : NetworkBehaviour
         EventMgr.StartGame += StartGame;
     }
 
+    private void OnDisable()
+    {
+        EventMgr.StartGame -= StartGame;
+    }
+
     private void StartGame()
     {
-        foreach(var player in DataMgr.Instance.players)
-        {
-            if(player.Value.userName == DataMgr.Instance.playerData.account)
-            {
-                entityControl = player.Value.GetComponent<EntityControl>();
-                return;
-            }
-        }
+        entityControl = DataMgr.Instance.activePlayer.GetComponent<EntityControl>();
     }
 
     private void Update()

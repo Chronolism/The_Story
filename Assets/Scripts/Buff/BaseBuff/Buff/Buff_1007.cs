@@ -2,9 +2,11 @@ public class Buff_1007 : BuffBase
 {
 	public override void OnStart(Entity entity,float Value)
 	{
+		entity.inkCostRate += Value/100;
 	}
 	public override void OnEnd(Entity entity,float Value)
 	{
+		entity.inkCostRate -= Value/100;
 	}
 	public override void OnAdd(Entity entity,float Value)
 	{

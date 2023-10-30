@@ -6,6 +6,19 @@ using UnityEngine.TextCore.Text;
 
 public class EntityFactory : BaseManager<EntityFactory>
 {
+    public List<NetworkBehaviour> behaviours = new List<NetworkBehaviour>();
+
+    public void ClearNetworkEntity()
+    {
+        foreach(NetworkBehaviour behaviour in behaviours)
+        {
+            if(behaviour != null)
+            {
+                GameObject.Destroy(behaviour.gameObject);
+            }
+        }
+    }
+
     [Server]
     public Servitor CreatServitor(Vector3 position , bool ifPause = false)
     {
@@ -14,6 +27,7 @@ public class EntityFactory : BaseManager<EntityFactory>
         Servitor servitor = servitorGb.GetComponent<Servitor>();
         servitor.ifPause = ifPause;
         NetworkServer.Spawn(servitorGb);
+        behaviours.Add(servitor);
         return servitor;
     }
 
@@ -38,8 +52,9 @@ public class EntityFactory : BaseManager<EntityFactory>
             characterData = DataMgr.Instance.GetCharacter(101);
         }
         player.userName = user.name;
-        player.InitPlayer(characterData , user.skills);
         NetworkServer.Spawn(playerGB);
+        player.InitPlayer(characterData, user.skills);
+        behaviours.Add(player);
         return player;
     }
 
@@ -50,6 +65,7 @@ public class EntityFactory : BaseManager<EntityFactory>
         propGB.transform.position = position;
         Prop prop = propGB.GetComponent<Prop>();
         NetworkServer.Spawn(propGB);
+        behaviours.Add(prop);
         return prop;
     }
 }

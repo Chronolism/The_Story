@@ -10,6 +10,7 @@ public static class RoomUserDataReadWrite
         writer.Write(value.connectId);
         writer.Write(value.characterId);
         writer.Write(value.name);
+        writer.Write(value.ifSure);
         writer.Write(value.skills.Count);
         foreach(var i in value.skills)
         {
@@ -28,6 +29,7 @@ public static class RoomUserDataReadWrite
         value.connectId = reader.ReadInt();
         value.characterId = reader.ReadInt();
         value.name = reader.ReadString();
+        value.ifSure = reader.ReadBool();
         value.skills = new List<BuffDetile>();
         int count = reader.ReadInt();
         for(int i = 0; i < count; i++)

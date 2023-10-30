@@ -82,6 +82,8 @@ public class Entity : NetworkBehaviour
     public float energyGet;
     [SyncVar]
     public float energyGetRate;
+
+    public bool canRewrite => inkAmount > 0 && canTurn;
     /// <summary>
     /// ©ирт╦дп╢
     /// </summary>

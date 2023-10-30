@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public Text txtCharacterPassiveSkill;
     public Button btnStart;
 
+    bool ifchange;
     int passiveSkillIndex = 1;
     public override void Init()
     {
@@ -61,38 +63,54 @@ public class RoomPanel : BasePanel,Observer<RoomData>
             List<BuffDetile> buff = new List<BuffDetile>();
             buff.Add(characterData.skill_Index[0]);
             buff.Add(characterData.skill_Index[passiveSkillIndex]);
-            roomData.ChangeRoomUserData(new RoomUserData(roomUserData.connectId, characterData.character_Code, roomUserData.name, buff, roomUserData.tags));
+            roomData.ChangeRoomUserData(new RoomUserData(roomUserData.connectId, characterData.character_Code, roomUserData.name,true , buff, roomUserData.tags));
+        }
+        if (ifchange)
+        {
+            ifchange = false;
+            UpdataRoomUserData();
         }
     }
 
     public void InitData(RoomData roomData)
     {
         this.roomData = roomData;
-        roomData.roomUser.Callback += (a, b, c) =>
-        {
-            UpdataRoomUserData();
-        };
+        roomData.roomUser.Callback += RoomUserCallBack;
         UpdataRoomUserData();
+    }
+
+    void RoomUserCallBack(SyncList<RoomUserData>.Operation op, int itemIndex, RoomUserData oldItem, RoomUserData newItem)
+    {
+        ifchange = true;
+    }
+
+    private void OnDisable()
+    {
+        if(roomData != null)
+        {
+            roomData.roomUser.Callback -= RoomUserCallBack;
+        }
     }
 
     public void UpdataRoomUserData()
     {
         txtUserList.text = "";
+        bool ifsure = true;
         foreach (var user in roomData.roomUser) 
         {
-            txtUserList.text += user.Key + "\n"; 
-            if(user.Value.name == DataMgr.Instance.playerData.account)
+            txtUserList.text += user.name + "\n"; 
+            if(user.name == DataMgr.Instance.playerData.account)
             {
-                UpdataOwnUserData(user.Value);
+                UpdataOwnUserData(user);
             }
+            if (user.ifSure == false) ifsure = false;
         }
         if (roomData.HostUser == DataMgr.Instance.playerData.account)
         {
-            btnStart.gameObject.SetActive(true);
+            btnStart.gameObject.SetActive(ifsure);
         }
         else
         {
-            Debug.Log(false);
             btnStart.gameObject.SetActive(false);
         }
     }
@@ -132,7 +150,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         switch (btnName)
         {
             case "btnStart":
-                roomData.StartGame();
+                roomData.OpenGame();
                 break;
         }
     }

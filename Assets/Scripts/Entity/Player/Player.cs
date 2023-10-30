@@ -19,8 +19,6 @@ public class Player : Entity
     [SyncVar]
     private bool isMoving;
 
-    public bool canRewrite=> inkAmount > 0 && canTurn;
-
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -194,28 +192,28 @@ public class Player : Entity
         switch (dir)
         {
             case 0:
-                if (AStarMgr.Instance.ChackType((int)Mathf.Floor(v2.x + 1), (int)Mathf.Floor(v2.y), E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x + 1, v2.y, E_Node_Type.Walk))
                 {
                     v2.x += 1;
                     return true;
                 }
                 break;
             case 1:
-                if (AStarMgr.Instance.ChackType((int)Mathf.Floor(v2.x), (int)Mathf.Floor(v2.y + 1), E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x, v2.y + 1, E_Node_Type.Walk))
                 {
                     v2.y += 1;
                     return true;
                 }
                 break;
             case 2:
-                if (AStarMgr.Instance.ChackType((int)Mathf.Floor(v2.x - 1), (int)Mathf.Floor(v2.y), E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x - 1, v2.y, E_Node_Type.Walk))
                 {
                     v2.x -= 1;
                     return true;
                 }
                 break;
             case 3:
-                if (AStarMgr.Instance.ChackType((int)Mathf.Floor(v2.x), (int)Mathf.Floor(v2.y) - 1, E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x, v2.y - 1, E_Node_Type.Walk))
                 {
                     v2.y -= 1;
                     return true;

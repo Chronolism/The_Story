@@ -12,7 +12,7 @@ public class RoomData : NetworkBehaviour
 
     public readonly SyncList<int> roomTags = new SyncList<int>();
 
-    public readonly SyncIDictionary<string, RoomUserData> roomUser = new SyncIDictionary<string, RoomUserData>(new Dictionary<string, RoomUserData>());
+    public readonly SyncList<RoomUserData> roomUser = new SyncList<RoomUserData>();
     public List<Observer<RoomData>> observers = new List<Observer<RoomData>>();
 
     [SyncVar]
@@ -27,13 +27,20 @@ public class RoomData : NetworkBehaviour
     public void AddRoomUser(string name , NetworkConnection con)
     {
         if (HostUser == "") HostUser = name;
+        for(int i = 0; i < roomUser.Count; i++)
+        {
+            if (roomUser[i].name == name)
+            {
+                roomUser[i].con = con;
+                return;
+            }
+        }
         CharacterData character = DataMgr.Instance.GetCharacter(101);
         List<BuffDetile> skill = new List<BuffDetile>();
         skill.Add(character.skill_Index[0]);
         skill.Add(character.skill_Index[1]);
         RoomUserData roomUserData = new RoomUserData() { name = name, connectId = con.connectionId, characterId = 101, skills = skill, con = con };
-        if (roomUser.ContainsKey(name)) return;
-        roomUser.Add(name, roomUserData);
+        roomUser.Add(roomUserData);
     }
 
     public void Awake()
@@ -52,7 +59,7 @@ public class RoomData : NetworkBehaviour
 
     public void Update()
     {
-        if (!ifPause)
+        if (!ifPause && isServer) 
         {
             roomLogic.Updata();
         }
@@ -65,6 +72,17 @@ public class RoomData : NetworkBehaviour
         roomLogic = new NormalRoom(this);
     }
 
+    [Command(requiresAuthority = false)]
+    public void OpenGame()
+    {
+        roomLogic.OpenGame();
+        for (int i = 0; i < roomUser.Count; i++)
+        {
+            RoomUserData roomUserData = new RoomUserData(roomUser[i]);
+            roomUserData.ifSure = false;
+            roomUser[i] = roomUserData;
+        }
+    }
     /// <summary>
     /// 呼叫服务器开始游戏
     /// </summary>
@@ -91,8 +109,15 @@ public class RoomData : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void ChangeRoomUserData(RoomUserData roomUserData)
     {
-        roomUserData.con = roomUser[roomUserData.name].con;
-        roomUser[roomUserData.name] = roomUserData;
+        for (int i = 0; i < roomUser.Count; i++)
+        {
+            if (roomUser[i].name == roomUserData.name)
+            {
+                roomUserData.con = roomUser[i].con;
+                roomUser[i] = roomUserData;
+                return;
+            }
+        }
     }
 
     /// <summary>

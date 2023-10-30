@@ -244,7 +244,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         openList.Add(node);
     }
 
-    public bool ChackType(int x,int y,E_Node_Type type)
+    public bool ChackType(float x,float y,E_Node_Type type)
     {
         x -= deviationW;
         y -= deviationH;
@@ -253,7 +253,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         {
             return false;
         }
-        if (nodes[x,y].type == type)
+        if (nodes[(int)x,(int)y].type == type)
         {
             return true;
         }

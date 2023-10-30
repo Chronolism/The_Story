@@ -25,6 +25,8 @@ public abstract class RoomLogicBase
         cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(3);
     }
 
+    public abstract void OpenGame();
+
     /// <summary>
     /// 开始对局 服务端逻辑
     /// </summary>

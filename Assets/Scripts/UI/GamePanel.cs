@@ -47,6 +47,8 @@ public class GamePanel : BasePanel
         _Ultimate_Skill_Charge_Progress = GetControl<Image>("Ultimate_Skill_Charge_Progress");
 
         _tipsFollowMouse = GetControl<Text>("tipsFollowMouse");
+
+        StartGame();
     }
 
     private void OnEnable()
@@ -67,6 +69,7 @@ public class GamePanel : BasePanel
     {
         player = DataMgr.Instance.activePlayer;
         _isUIUpdating = true;
+
     }
 
     private void FixedUpdate()
@@ -83,6 +86,7 @@ public class GamePanel : BasePanel
         }
         if (EventSystem.current.currentSelectedGameObject != null) 
         {
+            //ЪѓБъ
             _tipsFollowMouse.transform.position = Input.mousePosition;
         }
     }

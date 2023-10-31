@@ -17,17 +17,24 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public NormalRoom(RoomData roomData):base(roomData)
     {
+
+
+    }
+
+    public override void OpenGame()
+    {
         roomData.roomTags.Clear();
         roomData.roomTags.Add(1);
-
+        foreach (var user in roomData.roomUser)
+        {
+            user.tags = new List<int>() { 0, 0 };
+        }
+        StartGame();
     }
 
     public override void StartGame()
     {
-        foreach (var user in roomData.roomUser)
-        {
-            user.Value.tags = new List<int>() { 0, 0 };
-        }
+
         roomData.StartCoroutine(StartGameCountdown());
     }
     /// <summary>
@@ -88,7 +95,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         foreach (var user in roomData.roomUser)
         {
             //在随机玩家生成点生成玩家
-            Player player = EntityFactory.Instance.CreatPlayer(user.Value, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]);
+            Player player = EntityFactory.Instance.CreatPlayer(user, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]);
             player.observers.Add(this);
             playerList.Add(player);
         }
@@ -115,20 +122,14 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void FinishGame()
     {
-        foreach(var user in roomData.roomUser)
-        {
-            if (user.Value.tags[0] == 3)
-            {
-                roomData.EndhGame();
-                return;
-            }
-        }
-        roomData.StartCoroutine(StartGameCountdown());
+        EventMgr.CallPauseGame();
+        
     }
 
     public override void FinishGameClient()
     {
-        
+        UIManager.Instance.ShowPanel<FinishGamePanel>();
+        if (!roomData.isServer) { EventMgr.CallPauseGame(); }
     }
 
     public override void Updata()
@@ -167,7 +168,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     }
     public override void EndGame()
     {
-        
+        EntityFactory.Instance.ClearNetworkEntity();
     }
 
     public override void EndGameClient()
@@ -194,7 +195,24 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         }
         if(playerList.Count == 1)
         {
-            roomData.roomUser[playerList[0].userName].tags[0]++;
+            for (int i = 0; i < roomData.roomUser.Count; i++)
+            {
+                if (roomData.roomUser[i].name == playerList[0].userName)
+                {
+                    RoomUserData roomUserData = new RoomUserData(roomData.roomUser[i]);
+                    roomUserData.tags[0]++;
+                    roomData.roomUser[i] = roomUserData;
+                }
+            }
+            
+            foreach (var user in roomData.roomUser)
+            {
+                if (user.tags[0] == 3)
+                {
+                    roomData.EndhGame();
+                    return;
+                }
+            }
             roomData.FinishGame();
         }
     }
@@ -217,8 +235,6 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
             return null;
         }
     }
-
-
 
 
 }

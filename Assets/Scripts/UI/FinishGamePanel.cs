@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class FinishGamePanel : MonoBehaviour
+public class FinishGamePanel : BasePanel
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public override void Init()
     {
-        
+        if(DataMgr.Instance.roomData.HostUser == DataMgr.Instance.playerData.account)
+        {
+            GetControl<Button>("btnNext").gameObject.SetActive(true);
+            GetControl<Text>("txtContent").text = "开启下一句";
+        }
+        else
+        {
+            GetControl<Button>("btnNext").gameObject.SetActive(false);
+            GetControl<Text>("txtContent").text = "等待房主开启下一句";
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnClick(string btnName)
     {
-        
+        switch (btnName)
+        {
+            case "btnNext":
+                DataMgr.Instance.roomData.StartGame();
+                break;
+        }
     }
 }

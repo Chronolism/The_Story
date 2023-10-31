@@ -10,6 +10,12 @@ public class Servitor : Entity
     public Entity target;
     public Entity parent;
 
+    public Vector2 posAdd;
+    public int addRate;
+
+    public Vector2 bronPos;
+
+    public bool ifBack;
 
     [SyncVar]
     private bool isMoving;
@@ -22,6 +28,9 @@ public class Servitor : Entity
         this.transform.position = new Vector3(0.5f, 0.5f);
         movement = this.transform.position;
         ChangeState<NormalState>();
+        posAdd = Random.Range(0, 1f) > 0.5f ? new Vector2(Random.Range(-1, 2), 0) : new Vector3(0, Random.Range(-1, 2));
+        addRate = Random.Range(1, 3);
+        bronPos = transform.position;
     }
 
     private void Update()
@@ -33,6 +42,14 @@ public class Servitor : Entity
     {
         if (isServer&&!ifPause)
         {
+            if (ifBack)
+            {
+                ChangeState<BackState>();
+            }
+            else
+            {
+                ChangeState<NormalState>();
+            }
             state.OnUpdata();
         }
     }
@@ -62,13 +79,63 @@ public class Servitor : Entity
                     }
                 }
             }
-            if(target != null) AStarMgr.Instance.FindPath(rb.position, target.rb.position, FindPathCallBack, false);
+            if(target != null)
+            {
+                if (target.canRewrite)
+                {
+                    ifBack = true;
+                    return;
+                }
+                for(int i = addRate; i >= 0; i--)
+                {
+                    if (AStarMgr.Instance.ChackType(target.transform.position.x + posAdd.x * i, target.transform.position.y + posAdd.y * i, E_Node_Type.Walk))
+                    {
+                        AStarMgr.Instance.FindPath(rb.position, target.rb.position + posAdd * i, FindPathCallBack, false);
+                        break;
+                    }
+                }
+            }
         }
         else
         {
             time += Time.deltaTime;
         }
 
+    }
+
+
+    
+    private void BackFind()
+    {
+        if (time >= 0.5)
+        {
+            target = null;
+            float distance = 999;
+            foreach (var player in DataMgr.Instance.players)
+            {
+                if (player.Value == parent) continue;
+                if (Vector3.Distance(transform.position, player.Value.transform.position) < distance)
+                {
+                    distance = Vector3.Distance(transform.position, player.Value.transform.position);
+                    target = player.Value;
+                }
+            }
+            if (!target.canRewrite)
+            {
+                ifBack = false;
+                return;
+            }
+            time = 0;
+            if (parent != null) 
+            {
+                AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
+            }
+            else
+            {
+                AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
+            }
+
+        }
     }
 
     List<AStarNode> path = new List<AStarNode>();
@@ -170,5 +237,32 @@ public class Servitor : Entity
         }
     }
 
+    public class BackState : StateBase
+    {
+        Servitor servitor;
+        public override void OnEnter(Entity entity)
+        {
+            if (servitor == null)
+            {
+                servitor = entity as Servitor;
+            }
+            foreach (var anim in servitor.animators)
+            {
+                anim.Play("idle");
+            }
 
+        }
+
+        public override void OnExit(Entity entity)
+        {
+
+        }
+
+        public override void OnUpdata()
+        {
+            servitor.BackFind();
+            servitor.Movement();
+            servitor.SwitchAnimation();
+        }
+    }
 }

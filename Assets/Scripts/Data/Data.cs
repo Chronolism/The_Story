@@ -33,16 +33,29 @@ public class RoomUserData
     public int connectId;
     public int characterId;
     public string name;
+    public bool ifSure;
     public List<BuffDetile> skills = new List<BuffDetile>();
     public List<int> tags = new List<int>();
     public NetworkConnection con;
-    public RoomUserData(int connectId, int characterId, string name, List<BuffDetile> skills, List<int> tags)
+    public RoomUserData(int connectId, int characterId, string name, bool ifSure, List<BuffDetile> skills, List<int> tags)
     {
         this.connectId = connectId;
         this.characterId = characterId;
         this.name = name;
+        this.ifSure = ifSure;
         this.skills = skills;
         this.tags = tags;
+    }
+
+    public RoomUserData(RoomUserData roomUserData)
+    {
+        connectId = roomUserData.connectId;
+        characterId = roomUserData.characterId;
+        name = roomUserData.name;
+        ifSure = roomUserData.ifSure;
+        skills = roomUserData.skills;
+        tags = roomUserData.tags;
+        con = roomUserData.con;
     }
 
     public RoomUserData() { }

@@ -80,7 +80,7 @@ public class MapEditPanel : BasePanel
         _loadMap.onClick.AddListener(_LoadMap);
         _cellWriteIn.onClick.AddListener(_CellWriteIn);
         _mapLayerChoose.AddOptions(new List<string>() { "Bottom", "Middle", "Top" });
-        _mapLayerChoose.onValueChanged.AddListener((o) => { _nowEditingMapLayer = _mapLayerChoose.options[o].text; _LoadMapLayer(); });
+        _mapLayerChoose.onValueChanged.AddListener((o) => { _nowEditingMapLayer = _mapLayerChoose.options[o].text; _LoadMapLayer(false); });
         _cellData.text = _nowEditingCellDataText;
         _cellData.onEndEdit.AddListener((o) => { _nowEditingCellDataText = o; });
         _mapName.text = _nowEditingMap;
@@ -161,7 +161,7 @@ public class MapEditPanel : BasePanel
         _LoadMapLayer();
     }
     //小工具，加载该层的地图进入_localLayerMapCellData
-    void _LoadMapLayer()
+    void _LoadMapLayer(bool ifNeedClearNowTileMap = true)
     {
         print(_localMapDataDetailOriginal.mapCellData[_nowEditingMapLayer]);
         //这里key一定是符合的，因为只会在切换层与第一次加载地图数据时使用，但可能报空
@@ -171,10 +171,13 @@ public class MapEditPanel : BasePanel
             return;
         }
         Dictionary<Vector3Int, int> temp = _localMapDataDetailOriginal.mapCellData[_nowEditingMapLayer];
+        if (ifNeedClearNowTileMap) _editingTilemap.ClearAllTiles();//如需要先清空显示数据，然后根据遍历直接显示
         foreach (var item in temp)
         {
             _localLayerMapCellData.TryAdd(item.Key, item.Value);
             _localLayerMapCellData[item.Key] = item.Value;
+            //直接显示
+            _editingTilemap.SetTile(item.Key, _testTile_Confirm);
         }
     }
     //写入激活的单元格到地图

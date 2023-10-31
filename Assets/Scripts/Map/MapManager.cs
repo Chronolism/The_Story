@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class MapManager : BaseManager<MapManager>
 {
@@ -40,7 +41,16 @@ public class MapManager : BaseManager<MapManager>
     //加载地图到场景
     public bool LoadMapCompletelyToScene(string mapName)
     {
-        runtimeTilemaps.Clear();
+        //如果runtimeTilemaps有存东西，说明场景上有地图，需要重载
+        if (runtimeTilemaps.Count > 0)
+        {
+            foreach (var item in runtimeTilemaps)
+            {
+                GameObject.Destroy(item.Value.gameObject);
+                runtimeTilemaps.Clear();
+            }  
+        } 
+
         //如果是测试用例，则只加载Bottom中有数据地块作为碰撞箱到场景
         if (mapName == "399")
         {
@@ -124,6 +134,34 @@ public class MapManager : BaseManager<MapManager>
                 if (o.name == baseFunctionLayerName) baseFunctionData = item.Value;
             }
         }
+        return true;
+    }
+    /// <summary>
+    /// 完全从场景中删除地图
+    /// </summary>
+    /// <param name="ifAllowGridKeep">是否要保留Grid</param>
+    /// <param name="callback">回调</param>
+    /// <returns></returns>
+    public bool ClearMapCompletelyToScene(UnityAction callback = null,bool ifAllowGridKeep = false)
+    {
+        if (runtimeTilemaps.Count > 0)
+        {
+            foreach (var item in runtimeTilemaps)
+            {
+                GameObject.Destroy(item.Value.gameObject);
+                runtimeTilemaps.Clear();
+            }
+        }
+        if (!ifAllowGridKeep && runtimeGirdGameObject != null)
+        {
+            GameObject.Destroy(runtimeGirdGameObject);
+            runtimeGirdGameObject = null;
+            runtimeGrid = null;
+        }
+        runtimeTilemaps.Clear();
+        nowPlaying_d_MapDataDetailOriginal = null;
+        _runtimeCellData = null;
+        if (callback != null) callback.Invoke();
         return true;
     }
     public bool LoadMapLayerAs()

@@ -86,7 +86,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(1));
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(2));
         //在随机使魔生成点生成一个使魔
-        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+        //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
     }
 
     public override void LoadPlayer()
@@ -156,12 +156,12 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
             if (time < 60 && servitor > 15)
             {
                 servitor = 0;
-                EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+                //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
             }
             else if (time >= 60 && servitor > 10) 
             {
                 servitor = 0;
-                EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+                //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
             }
         }
 

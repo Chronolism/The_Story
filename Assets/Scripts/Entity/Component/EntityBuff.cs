@@ -109,7 +109,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
-        entity?.OnAddBuff(entity,buffId,value);
+        entity.OnAddBuff?.Invoke(entity,buffId,value);
         AddBuffRpc(buffId, value, own.netId);
     }
     [Server]
@@ -147,7 +147,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
-        entity?.OnAddBuff(entity, buffId, value);
+        entity.OnAddBuff?.Invoke(entity, buffId, value);
         AddBuffRpc(buffId, value, time, own.netId);
     }
 
@@ -174,7 +174,7 @@ public class EntityBuff : NetworkBehaviour
             {
                 RemoveBuffRpc(buffId, value , own.netId);
             }
-            entity?.OnRemoveBuff(entity, buffId, value);
+            entity.OnRemoveBuff?.Invoke(entity, buffId, value);
         }
     }
     [Server]
@@ -199,7 +199,7 @@ public class EntityBuff : NetworkBehaviour
             {
                 RemoveBuffRpc(buffId, value);
             }
-            entity?.OnRemoveBuff(entity, buffId, value);
+            entity.OnRemoveBuff?.Invoke(entity, buffId, value);
         }
     }
 
@@ -215,7 +215,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff -= updataBuff.Updata;
             }
             buffList.Remove(buffBase);
-            entity?.OnRemoveBuff(entity, buffBase.buffData.id, buffBase.Amount);
+            entity.OnRemoveBuff?.Invoke(entity, buffBase.buffData.id, buffBase.Amount);
             RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
         }
     }

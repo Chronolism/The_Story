@@ -57,6 +57,7 @@ public class AttackBase : MonoBehaviour
                     if (entities[i].entity == targer)
                     {
                         entities.RemoveAt(i);
+                        break;
                     }
                 }
                 
@@ -71,7 +72,7 @@ public class AttackBase : MonoBehaviour
     {
 
     }
-
+    Stack<AtkEntity> stack = new Stack<AtkEntity>();
     public virtual void FixedUpdate()
     {
         if (!perant.ifPause)
@@ -82,10 +83,18 @@ public class AttackBase : MonoBehaviour
                 {
                     if ((DateTime.Now.Ticks / 10000 - i.time) > atkTime)
                     {
+                        if (i.entity == null) {
+                            stack.Push(i);
+                            continue;
+                        } 
                         Attack(i.entity);
                         i.time = DateTime.Now.Ticks / 10000;
                         if (perant.ifDie) return;
                     }
+                }
+                while(stack.Count > 0)
+                {
+                    entities.Remove(stack.Pop());
                 }
             }
             lifeTime -= Time.deltaTime;

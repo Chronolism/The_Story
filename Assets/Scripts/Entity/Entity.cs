@@ -116,6 +116,11 @@ public class Entity : NetworkBehaviour
     /// 获得墨水时触发
     /// </summary>
     public UnityAction<Entity, InkData> OnGetInk;
+    public UnityAction<Entity, InkData> AfterGetInk;
+
+    public UnityAction<Entity, int ,float> OnAddBuff;
+
+    public UnityAction<Entity, int, float> OnRemoveBuff;
     /// <summary>
     /// 能改写目标时触发
     /// </summary>
@@ -286,8 +291,11 @@ public class Entity : NetworkBehaviour
         {
             if (inkAmount <= 0)
             {
+                float i = inkAmount;
                 inkAmount += inkData.inkAmount * inkCostRate;
                 inkAmount = Mathf.Clamp(inkAmount, 0, inkMaxAmount);
+                inkData.inkAmount = inkAmount - i;
+                AfterGetInk?.Invoke(this, inkData);
                 if (inkAmount > 0 && canTurn)
                 {
                     
@@ -297,8 +305,11 @@ public class Entity : NetworkBehaviour
             }
             if (inkAmount > 0)
             {
+                float i = inkAmount;
                 inkAmount += inkData.inkAmount * inkCostRate;
                 inkAmount = Mathf.Clamp(inkAmount, 0, inkMaxAmount);
+                inkData.inkAmount = inkAmount - i;
+                AfterGetInk?.Invoke(this, inkData);
                 if (inkAmount <= 0)
                 {
                     inkAmount = 0;
@@ -317,7 +328,7 @@ public class Entity : NetworkBehaviour
     /// <param name="value"></param>
     public void AddEnergy(InkData value)
     {
-        skill.AddEnergy(value);
+        skill?.AddEnergy(value);
     }
     /// <summary>
     /// 改写使魔
@@ -325,7 +336,7 @@ public class Entity : NetworkBehaviour
     /// <param name="servitor"></param>
     public void RewriteServitor(Servitor servitor)
     {
-        entityServitor.RewriteServitor(servitor);
+        entityServitor?.RewriteServitor(servitor);
     }
     /// <summary>
     /// 添加使魔（若无必要，请使用RewriteServitor）
@@ -333,7 +344,7 @@ public class Entity : NetworkBehaviour
     /// <param name="servitor"></param>
     public void AddServitor(Servitor servitor)
     {
-        entityServitor.AddServers(servitor);
+        entityServitor?.AddServers(servitor);
     }
     /// <summary>
     /// 移除使魔
@@ -341,14 +352,14 @@ public class Entity : NetworkBehaviour
     /// <param name="servitor"></param>
     public void RemoveServitor(Servitor servitor)
     {
-        entityServitor.RemoveServers(servitor);
+        entityServitor?.RemoveServers(servitor);
     }
     /// <summary>
     /// 清空使魔
     /// </summary>
     public void ClearServitor()
     {
-        entityServitor.ClearServer();
+        entityServitor?.ClearServer();
     }
     /// <summary>
     /// 实体死亡
@@ -366,7 +377,7 @@ public class Entity : NetworkBehaviour
     /// <param name="own">施加buff的实体</param>
     public void AddBuff(int buffId, float value, Entity own)
     {
-        buff.AddBuff(buffId, value, own);
+        buff?.AddBuff(buffId, value, own);
     }
     /// <summary>
     /// 添加持续buff
@@ -378,7 +389,7 @@ public class Entity : NetworkBehaviour
 
     public void AddBuff(int buffId, float value ,float time, Entity own)
     {
-        buff.AddBuff(buffId, value, time, own);
+        buff?.AddBuff(buffId, value, time, own);
     }
     /// <summary>
     /// 移除指定buffid的buff（若不知施加者，请先用FindBuff或FindBuffs找到，再用RemoveBuff(BuffBase buffBase)）
@@ -388,7 +399,7 @@ public class Entity : NetworkBehaviour
     /// <param name="own">buff施加者</param>
     public void RemoveBuff(int buffId, float value, Entity own)
     { 
-        buff.RemoveBuff(buffId, value, own);
+        buff?.RemoveBuff(buffId, value, own);
     }
     /// <summary>
     /// 移除值定buff
@@ -396,7 +407,7 @@ public class Entity : NetworkBehaviour
     /// <param name="buffBase"></param>
     public void RemoveBuff(BuffBase buffBase)
     {
-        buff.RemoveBuff(buffBase);
+        buff?.RemoveBuff(buffBase);
     }
     /// <summary>
     /// 移除指定buffid的buff（不安全，建议使用RemoveBuff(int buffId, float value, Entity own)）
@@ -405,7 +416,7 @@ public class Entity : NetworkBehaviour
     /// <param name="value"></param>
     public void RemoveBuff(int buffId, float value)
     {
-        buff.RemoveBuff(buffId, value);
+        buff?.RemoveBuff(buffId, value);
     }
     /// <summary>
     /// 找到指定id的buff
@@ -414,7 +425,7 @@ public class Entity : NetworkBehaviour
     /// <returns></returns>
     public BuffBase FindBuff(int buffId)
     {
-        return buff.FindBuff(buffId);
+        return buff?.FindBuff(buffId);
     }
     /// <summary>
     /// 找到所有指定id的buff
@@ -423,7 +434,7 @@ public class Entity : NetworkBehaviour
     /// <returns></returns>
     public List<BuffBase> FindBuffs(int buffId)
     {
-        return buff.FindBuffs(buffId);
+        return buff?.FindBuffs(buffId);
     }
     /// <summary>
     /// 释放攻击实体

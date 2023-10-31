@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    private int inputDir;
+    public int inputDir;
     public Vector2 movement;
     public PropData playerProp;
     public SpriteRenderer spriteRenderer;
@@ -156,10 +156,11 @@ public class Player : Entity
             inputDir = Mathf.Abs(inputX) >= Mathf.Abs(inputY) ? inputX > 0 ? 0 : 2 : inputY > 0 ? 1 : 3;
             if (dir != inputDir)
             {
-                if ((Mathf.Abs(dir - inputDir) & 1) != 1)
+                if (Mathf.Abs(dir - inputDir) == 2)
                 {
                     if (ChackMap(ref movement, inputDir))
                     {
+                        dirV2 = movement - rb.position;
                         dir = inputDir;
                     }
                 }

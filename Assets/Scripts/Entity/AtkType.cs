@@ -6,4 +6,5 @@ public enum AtkType
 {
     atk = 1,
     rewrite = 2,
+    cure = 4
 }

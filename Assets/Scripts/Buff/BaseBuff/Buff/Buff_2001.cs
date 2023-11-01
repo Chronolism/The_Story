@@ -8,6 +8,10 @@ public class Buff_2001 : BuffBase
 	{
 		entity.OnAddServitor += OnAddServitor;
 		entity.OnRemoveServitor += OnRemoveServitor;
+        foreach(Entity entity1 in entity.Servitors)
+        {
+            entity1.maxSpeed += addSpeed / 100;
+        }
         addSpeed = Value;
 
     }
@@ -16,6 +20,10 @@ public class Buff_2001 : BuffBase
 	{
         entity.OnAddServitor -= OnAddServitor;
         entity.OnRemoveServitor -= OnRemoveServitor;
+        foreach (Entity entity1 in entity.Servitors)
+        {
+            entity1.maxSpeed -= addSpeed / 100;
+        }
     }
 
 

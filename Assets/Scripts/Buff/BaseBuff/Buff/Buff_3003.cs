@@ -15,6 +15,6 @@ public class Buff_3003 : BuffBase
 
 	public override void OnTriger(Entity entity, float Value)
 	{
-		entity.Atttack(1001, new UnityEngine.Vector3(Value, 0, 0));
+		entity.ChangeInkAmount(Value);
 	}
 }

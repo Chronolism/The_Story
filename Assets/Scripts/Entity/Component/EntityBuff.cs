@@ -109,7 +109,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
-        entity.OnAddBuff?.Invoke(entity,buffId,value);
+        entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, own.netId);
     }
     [Server]
@@ -147,7 +147,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
-        entity.OnAddBuff?.Invoke(entity, buffId, value);
+        entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, time, own.netId);
     }
 
@@ -158,11 +158,11 @@ public class EntityBuff : NetworkBehaviour
         BuffBase buffBase = buffList.Find(i => i.BuffID == buffName);
         if (buffBase != null)
         {
-            buffBase.OnRemove(entity, value);
+            buffBase.OnRemove(entity,Mathf.Min(buffBase.Amount, value));
             buffBase.Amount -= value;
             if (buffBase.Amount <= 0)
             {
-                buffBase.OnEnd(entity, value);
+                buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
                 {
                     UpdataBuff -= updataBuff.Updata;
@@ -174,7 +174,7 @@ public class EntityBuff : NetworkBehaviour
             {
                 RemoveBuffRpc(buffId, value , own.netId);
             }
-            entity.OnRemoveBuff?.Invoke(entity, buffId, value);
+            entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
         }
     }
     [Server]
@@ -183,11 +183,11 @@ public class EntityBuff : NetworkBehaviour
         BuffBase buffBase = buffList.Find(i => i.buffData.id == buffId);
         if (buffBase != null)
         {
-            buffBase.OnRemove(entity, value);
+            buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
             buffBase.Amount -= value;
             if (buffBase.Amount <= 0)
             {
-                buffBase.OnEnd(entity, value);
+                buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
                 {
                     UpdataBuff -= updataBuff.Updata;
@@ -199,7 +199,7 @@ public class EntityBuff : NetworkBehaviour
             {
                 RemoveBuffRpc(buffId, value);
             }
-            entity.OnRemoveBuff?.Invoke(entity, buffId, value);
+            entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
         }
     }
 
@@ -215,7 +215,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff -= updataBuff.Updata;
             }
             buffList.Remove(buffBase);
-            entity.OnRemoveBuff?.Invoke(entity, buffBase.buffData.id, buffBase.Amount);
+            entity.OnRemoveBuff?.Invoke(entity, buffBase, buffBase.Amount);
             RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
         }
     }

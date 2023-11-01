@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class Buff_3002 : BuffBase
+public class Buff_2003 : BuffBase
 {
 	public override void OnStart(Entity entity,float Value)
 	{
@@ -14,9 +12,4 @@ public class Buff_3002 : BuffBase
 	public override void OnRemove(Entity entity,float Value)
 	{
 	}
-
-    public override void OnTriger(Entity entity, float Value)
-    {
-        entity.AddEnergy(new InkData(0, Value, true));
-    }
 }

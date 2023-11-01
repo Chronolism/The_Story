@@ -2,11 +2,11 @@ public class Buff_2002 : BuffBase
 {
 	public override void OnStart(Entity entity,float Value)
 	{
-		entity.energyGet += Value;
+		
 	}
 	public override void OnEnd(Entity entity,float Value)
 	{
-        entity.energyGet -= Value;
+        
     }
 	public override void OnAdd(Entity entity,float Value)
 	{

@@ -4,11 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackBase : MonoBehaviour
+public class AttackBase : NetworkBehaviour
 {
     public int id;
     bool ifServer;
     public Vector3 v3;
+    public List<float> floats;
     public Entity perant;
     public int atkId;
     public float atk_pre;
@@ -20,26 +21,38 @@ public class AttackBase : MonoBehaviour
     public bool continuouslyEffective;
     [Tooltip("攻击间隔时间，单位毫秒")]
     public int atkTime;
-    List<AtkEntity> entities = new List<AtkEntity>();
+    List<AtkEntity> onTrigerEntities = new List<AtkEntity>();
+    List<AtkEntity> trigerEntities = new List<AtkEntity>();
     Entity targer;
 
-    public virtual void Init(Entity entity ,Vector3 vector3)
+    public virtual void Init(Entity entity ,Vector3 vector3 , List<float> floats = null)
     {
         perant = entity;
         ifServer = NetworkServer.active;
         v3 = vector3;
-        lifeTime = 99999;
+        this.floats = floats;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (ifServer)
         {
             targer = collision.GetComponent<Entity>();
-            if (targer != null)
+            if (targer != null && targer != perant) 
             {
-                entities.Add(new AtkEntity(DateTime.Now.Ticks/10000, targer));
-                Attack(targer);
+                AtkEntity atkEntity = trigerEntities.Find(i => i.entity == targer);
+                onTrigerEntities.Add(new AtkEntity(DateTime.Now.Ticks/10000, targer));
+                if (atkEntity == null)
+                {
+                    atkEntity = new AtkEntity(DateTime.Now.Ticks / 10000, targer);
+                    trigerEntities.Add(atkEntity);
+                    onTrigerEntities.Add(atkEntity);
+                    Attack(targer);
+                }
+                else
+                {
+                    onTrigerEntities.Add(atkEntity);
+                }
+                
             }
         }
     }
@@ -52,11 +65,11 @@ public class AttackBase : MonoBehaviour
             targer = collision.GetComponent<Entity>();
             if (targer != null)
             {
-                for(int i = 0; i < entities.Count; i++)
+                for(int i = 0; i < onTrigerEntities.Count; i++)
                 {
-                    if (entities[i].entity == targer)
+                    if (onTrigerEntities[i].entity == targer)
                     {
-                        entities.RemoveAt(i);
+                        onTrigerEntities.RemoveAt(i);
                         break;
                     }
                 }
@@ -77,9 +90,9 @@ public class AttackBase : MonoBehaviour
     {
         if (!perant.ifPause)
         {
-            if (continuouslyEffective && ifServer && entities.Count > 0)
+            if (continuouslyEffective && ifServer && onTrigerEntities.Count > 0)
             {
-                foreach (var i in entities)
+                foreach (var i in onTrigerEntities)
                 {
                     if ((DateTime.Now.Ticks / 10000 - i.time) > atkTime)
                     {
@@ -94,7 +107,7 @@ public class AttackBase : MonoBehaviour
                 }
                 while(stack.Count > 0)
                 {
-                    entities.Remove(stack.Pop());
+                    onTrigerEntities.Remove(stack.Pop());
                 }
             }
             lifeTime -= Time.deltaTime;
@@ -113,7 +126,13 @@ public class AttackBase : MonoBehaviour
     /// </summary>
     public virtual void StopAttack() 
     {
-        PoolMgr.Instance.PushObj("Prefab/Attack/" + id, this.gameObject);
+        //PoolMgr.Instance.PushObj("Prefab/Attack/" + id, this.gameObject);
+        Destroy(gameObject);
+    }
+
+    public static Quaternion LookAt2D(Vector3 start, Vector3 end)
+    {
+        return Quaternion.AngleAxis((Vector3.Cross(start.normalized, end.normalized).z > 0 ? 1 : -1) * Mathf.Acos(Vector3.Dot(start.normalized, end.normalized)) * Mathf.Rad2Deg, new Vector3(0, 0, 1));
     }
 }
 

@@ -49,3 +49,21 @@ MonoBehaviour:
       buffValue: -20
     - buffId: 1008
       buffValue: 100
+  - character_Code: 103
+    characterName: 103
+    HP_Max: 100
+    Speed: 5
+    atkDamage: 5
+    ultimate_Skill_Need: 80
+    ultimate_Skill_Start: 80
+    special_Tags: []
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
+    rewrite_ink_MaxLastTime: 5
+    skill_Index:
+    - buffId: 3007
+      buffValue: 0
+    - buffId: 2001
+      buffValue: 0
+    - buffId: 1015
+      buffValue: 3

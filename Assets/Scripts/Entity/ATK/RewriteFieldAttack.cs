@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class RewriteFieldAttack : AttackBase
 {
-
-    public override void Init(Entity entity, Vector3 vector3)
+    public override void Init(Entity entity, Vector3 vector3, List<float> floats = null)
     {
-        base.Init(entity, vector3);
+        base.Init(entity, vector3, floats);
         lifeTime = vector3.x;
     }
 

@@ -68,4 +68,16 @@ public class EntityFactory : BaseManager<EntityFactory>
         behaviours.Add(prop);
         return prop;
     }
+    [Server]
+    public T CreatAttack<T>(Entity entity , int id, Vector3 v3, List<float> floats = null) where T : AttackBase
+    {
+        AttackData attackData = DataMgr.Instance.GetAttackData(id);
+        GameObject attackGB = GameObject.Instantiate(attackData.gameObject);
+        T attack = attackGB.GetComponent<T>();
+        attack.Init(entity, v3, floats);
+        attack.atkId = attackData.id;
+        NetworkServer.Spawn(attackGB);
+        behaviours.Add(attack);
+        return attack;
+    }
 }

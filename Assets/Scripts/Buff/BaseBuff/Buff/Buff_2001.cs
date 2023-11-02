@@ -1,38 +1,42 @@
 using System;
+using UnityEngine;
 
 public class Buff_2001 : BuffBase
 {
-    public float addSpeed;
 
 	public override void OnStart(Entity entity,float Value)
 	{
-		entity.OnAddServitor += OnAddServitor;
-		entity.OnRemoveServitor += OnRemoveServitor;
-        foreach(Entity entity1 in entity.Servitors)
+        entity.OnAddBuff += ArrowCanTurn;
+        foreach(var buff in entity.FindBuffs(3007))
         {
-            entity1.maxSpeed += addSpeed / 100;
+            (buff as Buff_3007).ifTurn = true;
         }
-        addSpeed = Value;
-
     }
 
 	public override void OnEnd(Entity entity,float Value)
 	{
-        entity.OnAddServitor -= OnAddServitor;
-        entity.OnRemoveServitor -= OnRemoveServitor;
-        foreach (Entity entity1 in entity.Servitors)
+        entity.OnAddBuff -= ArrowCanTurn;
+        foreach (var buff in entity.FindBuffs(3007))
         {
-            entity1.maxSpeed -= addSpeed / 100;
+            (buff as Buff_3007).ifTurn = false;
         }
     }
 
 
     private void OnAddServitor(Entity arg0, Entity arg1)
     {
-        arg1.maxSpeed += addSpeed/100;
+        
     }
     private void OnRemoveServitor(Entity arg0, Entity arg1)
     {
-        arg1.maxSpeed -= addSpeed/100;
+        
+    }
+
+    void ArrowCanTurn(Entity self ,BuffBase buff , float value)
+    {
+        if(buff is Buff_3007 buff_3007)
+        {
+            buff_3007.ifTurn = true;
+        }
     }
 }

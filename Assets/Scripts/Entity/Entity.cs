@@ -346,9 +346,9 @@ public class Entity : NetworkBehaviour
     /// 改写使魔
     /// </summary>
     /// <param name="servitor"></param>
-    public void RewriteServitor(Servitor servitor)
+    public void RewriteServitor(Servitor servitor , bool unconditional = false)
     {
-        entityServitor?.RewriteServitor(servitor);
+        entityServitor?.RewriteServitor(servitor , unconditional);
     }
     /// <summary>
     /// 添加使魔（若无必要，请使用RewriteServitor）

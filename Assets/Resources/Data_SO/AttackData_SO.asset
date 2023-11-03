@@ -18,3 +18,13 @@ MonoBehaviour:
     description: "\u7BAD"
     img: {fileID: 281439062, guid: 4b38166d620aae241b7d4e98811d137e, type: 3}
     gameObject: {fileID: 6800408892879142539, guid: a864c53b30bcb524f938b79d0731f87e, type: 3}
+  - id: 11002
+    name: "\u4F0F\u7B14"
+    description: "\u4F0F\u7B14"
+    img: {fileID: 797131336, guid: d589291f4796447429ddd6598b148161, type: 3}
+    gameObject: {fileID: 4233371618472294109, guid: 64a76240c13470c438b5c3240b91e678, type: 3}
+  - id: 11003
+    name: "\u9886\u57DF"
+    description: "\u9886\u57DF"
+    img: {fileID: 1044808195, guid: d589291f4796447429ddd6598b148161, type: 3}
+    gameObject: {fileID: 1882496561806589907, guid: 49b2492c26ebea8469f4861bddc821de, type: 3}

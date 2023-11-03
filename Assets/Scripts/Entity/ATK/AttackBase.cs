@@ -25,11 +25,12 @@ public class AttackBase : NetworkBehaviour
     List<AtkEntity> trigerEntities = new List<AtkEntity>();
     Entity targer;
 
-    public virtual void Init(Entity entity ,Vector3 vector3 , List<float> floats = null)
+    public virtual void Init(Entity entity ,Vector3 pos , Vector3 dir , List<float> floats = null)
     {
         perant = entity;
         ifServer = NetworkServer.active;
-        v3 = vector3;
+        transform.position = pos;
+        v3 = dir;
         this.floats = floats;
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,7 +41,6 @@ public class AttackBase : NetworkBehaviour
             if (targer != null && targer != perant) 
             {
                 AtkEntity atkEntity = trigerEntities.Find(i => i.entity == targer);
-                onTrigerEntities.Add(new AtkEntity(DateTime.Now.Ticks/10000, targer));
                 if (atkEntity == null)
                 {
                     atkEntity = new AtkEntity(DateTime.Now.Ticks / 10000, targer);

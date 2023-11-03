@@ -6,11 +6,10 @@ public class ArrowAttack : AttackBase
 {
     public bool ifTurn;
     public float speed;
-    public override void Init(Entity entity, Vector3 vector3, List<float> floats = null)
+    public override void Init(Entity entity, Vector3 pos , Vector3 dir, List<float> floats = null)
     {
-        base.Init(entity, vector3, floats);
-        transform.position = entity.transform.position;
-        transform.rotation = LookAt2D(Vector3.up, vector3);
+        base.Init(entity, pos, dir, floats);
+        transform.rotation = LookAt2D(Vector3.up, dir);
     }
 
     public override void Attack(Entity entity)
@@ -20,11 +19,12 @@ public class ArrowAttack : AttackBase
             if (servitor.parent != entity) {
                 if (ifTurn)
                 {
-                    entity.RewriteServitor(servitor, true);
+                    Debug.Log("¼ý¸ÄÐ´");
+                    perant.RewriteServitor(servitor, true);
                 }
                 else
                 {
-                    entity.AtkEntity(servitor, new ATKData(atkId, 1, 99999, 0, 1, atkType));
+                    perant.AtkEntity(servitor, new ATKData(atkId, 1, 99999, 0, 1, atkType));
                 }
             }
         }

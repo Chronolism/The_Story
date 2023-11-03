@@ -7,7 +7,7 @@ public class Buff_2001 : BuffBase
 	public override void OnStart(Entity entity,float Value)
 	{
         entity.OnAddBuff += ArrowCanTurn;
-        foreach(var buff in entity.FindBuffs(3007))
+        foreach(var buff in entity.skill.buffList.FindAll(i => i.buffData.id == 3007))
         {
             (buff as Buff_3007).ifTurn = true;
         }
@@ -16,7 +16,7 @@ public class Buff_2001 : BuffBase
 	public override void OnEnd(Entity entity,float Value)
 	{
         entity.OnAddBuff -= ArrowCanTurn;
-        foreach (var buff in entity.FindBuffs(3007))
+        foreach (var buff in entity.skill.buffList.FindAll(i => i.buffData.id == 3007))
         {
             (buff as Buff_3007).ifTurn = false;
         }

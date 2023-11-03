@@ -17,8 +17,7 @@ public class Buff_3007 : BuffBase
 	}
 	public override void OnTriger(Entity entity, float Value)
 	{
-		Debug.Log(ifTurn);
-        ArrowAttack arrowAttack = EntityFactory.Instance.CreatAttack<ArrowAttack>(entity, 11001, entity.dir == 0 ? Vector3.right : entity.dir == 1 ? Vector3.up : entity.dir == 2 ? Vector3.left : Vector3.down);
+		ArrowAttack arrowAttack = EntityFactory.Instance.CreatAttack(entity, 11001, entity.transform.position, entity.dir == 0 ? Vector3.right : entity.dir == 1 ? Vector3.up : entity.dir == 2 ? Vector3.left : Vector3.down) as ArrowAttack;
 		arrowAttack.ifTurn = ifTurn;
 
     }

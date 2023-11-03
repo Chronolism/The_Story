@@ -123,7 +123,13 @@ public class DataMgr : BaseManager<DataMgr>
     /// <returns></returns>
     public BuffBase GetBuff(int id)
     {
-        return buffPool.GetBuff(id);
+        BuffBase buffBase = buffPool.GetBuff(id);
+        BuffData buffData = GetBuffData(id);
+        buffBase.buffData = buffData;
+        buffBase.cdMax = buffData.cd;
+        buffBase.energy = buffData.energy;
+        buffBase.maxEnergy = buffData.maxEnergy;
+        return buffBase;
     }
 
     public BuffData GetBuffData(int id)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterDatas:
   - character_Code: 101
-    characterName: Little Red
+    characterName: 101
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -32,25 +32,25 @@ MonoBehaviour:
     - buffId: 2002
       buffValue: 20
   - character_Code: 102
-    characterName: Sea Daughter
+    characterName: 102
     HP_Max: 100
     Speed: 5
     atkDamage: 5
-    ultimate_Skill_Need: 120
-    ultimate_Skill_Start: 20
+    ultimate_Skill_Need: 80
+    ultimate_Skill_Start: 80
     special_Tags: []
     rewrite_ink_NeedRate: 1
     rewrite_ink_Max: 100
     rewrite_ink_MaxLastTime: 5
     skill_Index:
-    - buffId: 3003
+    - buffId: 3006
       buffValue: 6
-    - buffId: 1007
+    - buffId: 1009
       buffValue: -20
-    - buffId: 1008
+    - buffId: 1003
       buffValue: 100
   - character_Code: 103
-    characterName: 103
+    characterName: 1003
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -67,3 +67,57 @@ MonoBehaviour:
       buffValue: 0
     - buffId: 1015
       buffValue: 3
+  - character_Code: 104
+    characterName: 104
+    HP_Max: 100
+    Speed: 5
+    atkDamage: 5
+    ultimate_Skill_Need: 80
+    ultimate_Skill_Start: 80
+    special_Tags: []
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
+    rewrite_ink_MaxLastTime: 5
+    skill_Index:
+    - buffId: 3008
+      buffValue: 0
+    - buffId: 1016
+      buffValue: 0
+    - buffId: 2002
+      buffValue: 0
+  - character_Code: 105
+    characterName: 105
+    HP_Max: 100
+    Speed: 5
+    atkDamage: 5
+    ultimate_Skill_Need: 120
+    ultimate_Skill_Start: 20
+    special_Tags: []
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
+    rewrite_ink_MaxLastTime: 5
+    skill_Index:
+    - buffId: 3003
+      buffValue: 6
+    - buffId: 1007
+      buffValue: -20
+    - buffId: 1008
+      buffValue: 100
+  - character_Code: 106
+    characterName: 106
+    HP_Max: 100
+    Speed: 5
+    atkDamage: 5
+    ultimate_Skill_Need: 80
+    ultimate_Skill_Start: 80
+    special_Tags: []
+    rewrite_ink_NeedRate: 1
+    rewrite_ink_Max: 100
+    rewrite_ink_MaxLastTime: 5
+    skill_Index:
+    - buffId: 3010
+      buffValue: 0
+    - buffId: 2003
+      buffValue: 100
+    - buffId: 2004
+      buffValue: 0

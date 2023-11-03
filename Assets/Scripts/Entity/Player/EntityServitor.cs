@@ -65,7 +65,6 @@ public class EntityServitor : NetworkBehaviour
     [Server]
     public void RemoveServers(Servitor servitor)
     {
-        Debug.Log("remove");
         Servitors.Remove(servitor);
         servitor.parent = null;
         entity.OnRemoveServitor?.Invoke(entity, servitor);

@@ -24,7 +24,7 @@ public class EntityBuff : NetworkBehaviour
 
     public virtual void FixedUpdate()
     {
-        if (!isServer) return;
+        if (!isServer||entity.ifPause) return;
         UpdataBuff?.Invoke(entity);
         //快表每帧更新，有内容就遍历迭代
         if (fastBuffList.Count > 0)
@@ -35,7 +35,8 @@ public class EntityBuff : NetworkBehaviour
                 if (buff.time <= 0)
                 {
                     //buff时间归零就移除
-                    RemoveBuff(buff);
+                    RemoveBuff(buff,buff.temporaryAmount);
+                    buff.temporaryAmount = 0;
                     waitRemove.Push(buff);
                 }
                 else if (buff.time > 0.5f)
@@ -98,10 +99,7 @@ public class EntityBuff : NetworkBehaviour
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.BuffID = buffName;
-            buffBase.buffOwn = own;
-            buffBase.Amount += value;
-            buffBase.buffData = DataMgr.Instance.GetBuffData(buffId);
+            buffBase.Init(buffName, value, own);
             buffBase.OnStart(entity, value);
             buffBase.OnAdd(entity, value);
             if (buffBase is IUpdataBuff updatabuff)
@@ -120,6 +118,7 @@ public class EntityBuff : NetworkBehaviour
         if (buffBase != null)
         {
             buffBase.Amount += value;
+            buffBase.temporaryAmount += value;
             buffBase.time += time;
             buffBase.OnAdd(entity, value);
         }
@@ -127,10 +126,7 @@ public class EntityBuff : NetworkBehaviour
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.BuffID = buffName;
-            buffBase.buffOwn = own;
-            buffBase.Amount += value;
-            buffBase.buffData = DataMgr.Instance.GetBuffData(buffId);
+            buffBase.Init(buffName, value, own);
             buffBase.time = time;
             if (buffBase.time <= 0.5)
             {
@@ -204,19 +200,44 @@ public class EntityBuff : NetworkBehaviour
     }
 
     [Server]
-    public void RemoveBuff(BuffBase buffBase)
+    public void RemoveBuff(BuffBase buffBase , float value = 0)
     {
         if (buffBase != null)
         {
-            buffBase.OnRemove(entity, buffBase.Amount);
-            buffBase.OnEnd(entity, buffBase.Amount);
-            if (buffBase is IUpdataBuff updataBuff)
+            if(value == 0)
             {
-                UpdataBuff -= updataBuff.Updata;
+
+                buffBase.OnRemove(entity, buffBase.Amount);
+                buffBase.OnEnd(entity, buffBase.Amount);
+                if (buffBase is IUpdataBuff updataBuff)
+                {
+                    UpdataBuff -= updataBuff.Updata;
+                }
+                buffList.Remove(buffBase);
+                entity.OnRemoveBuff?.Invoke(entity, buffBase, buffBase.Amount);
+                RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
             }
-            buffList.Remove(buffBase);
-            entity.OnRemoveBuff?.Invoke(entity, buffBase, buffBase.Amount);
-            RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
+            else
+            {
+                buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
+                buffBase.Amount -= value;
+                if (buffBase.Amount <= 0)
+                {
+                    buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
+                    if (buffBase is IUpdataBuff updataBuff)
+                    {
+                        UpdataBuff -= updataBuff.Updata;
+                    }
+                    buffList.Remove(buffBase);
+                    RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
+                }
+                else
+                {
+                    RemoveBuffRpc(buffBase.buffData.id, value, buffBase.buffOwn.netId);
+                }
+                entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
+            }
+
         }
     }
 
@@ -234,10 +255,7 @@ public class EntityBuff : NetworkBehaviour
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.BuffID = buffName;
-            buffBase.buffOwn = Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>();
-            buffBase.Amount += value;
-            buffBase.buffData = DataMgr.Instance.GetBuffData(buffId);
+            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
         }
     }
     [ClientRpc]
@@ -255,10 +273,7 @@ public class EntityBuff : NetworkBehaviour
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.BuffID = buffName;
-            buffBase.buffOwn = Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>();
-            buffBase.Amount += value;
-            buffBase.buffData = DataMgr.Instance.GetBuffData(buffId);
+            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             buffBase.time = time;
             if (buffBase.time <= 0.5)
             {

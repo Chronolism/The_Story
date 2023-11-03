@@ -267,6 +267,15 @@ public class Entity : NetworkBehaviour
         }
     }
     /// <summary>
+    /// 眩晕目标
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="time"></param>
+    public void GiddyEntity(Entity target, float time)
+    {
+
+    }
+    /// <summary>
     /// 修改血量
     /// </summary>
     /// <param name="target"></param>
@@ -453,17 +462,17 @@ public class Entity : NetworkBehaviour
     /// </summary>
     /// <param name="type">攻击id</param>
     /// <param name="v3">攻击附加参数</param>
-    [Server]
-    public void Atttack(int type, Vector3 v3)
-    {
-        PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
-        AtttackRpc(type, v3);
-    }
-    [ClientRpc]
-    private void AtttackRpc(int type, Vector3 v3)
-    {
-        PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
-    }
+    //[Server]
+    //public void Atttack(int type, Vector3 v3)
+    //{
+    //    //PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
+    //    AtttackRpc(type, v3);
+    //}
+    //[ClientRpc]
+    //private void AtttackRpc(int type, Vector3 v3)
+    //{
+    //    //PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
+    //}
     /// <summary>
     /// 修改状态
     /// </summary>
@@ -492,19 +501,19 @@ public class Entity : NetworkBehaviour
     public virtual void OnEnable()
     {
         EventMgr.PauseGame += PauseGame;
-        EventMgr.StartGame += StartGame;
+        EventMgr.ContinueGame += ContinueGame;
     }
     public virtual void OnDisable()
     {
         EventMgr.PauseGame -= PauseGame;
-        EventMgr.StartGame -= StartGame;
+        EventMgr.ContinueGame -= ContinueGame;
     }
 
     void PauseGame()
     {
         ifPause = true;
     }
-    void StartGame()
+    void ContinueGame()
     {
         ifPause = false;
     }

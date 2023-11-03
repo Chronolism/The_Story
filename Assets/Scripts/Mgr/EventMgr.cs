@@ -11,6 +11,12 @@ public static class EventMgr
         PauseGame?.Invoke();
     }
 
+    public static event Action ContinueGame;
+    public static void CallContinueGame()
+    {
+        ContinueGame?.Invoke();
+    }
+
     public static event Action StartGame;
     public static void CallStartGame()
     {

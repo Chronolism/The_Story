@@ -30,11 +30,23 @@ public class EntitySkill : EntityBuff
         get => buffList[i];
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if (!entity.ifPause&& mainSkill.cd > 0)
+        {
+            mainSkill.cd -= Time.deltaTime;
+            if(mainSkill.cd < 0)
+            {
+                mainSkill.cd = 0;
+            }
+        }
+    }
 
     public void InitSkill(List<BuffDetile> buffIdList , float energyAmount , float maxEnergyAmount)
     {
-        this.energyAmount = energyAmount;
-        this.maxEnergyAmount = maxEnergyAmount;
+        //this.energyAmount = energyAmount;
+        //this.maxEnergyAmount = maxEnergyAmount;
         if(buffList == null|| buffIdList.Count == 0)
         {
             Debug.Log(entity.netId + "没有技能");
@@ -44,6 +56,8 @@ public class EntitySkill : EntityBuff
         {
             AddBuff(i.buffId, i.buffValue, entity);
         }
+        energyAmount = mainSkill.energy;
+        maxEnergyAmount = mainSkill.maxEnergy;
     }
 
     /// <summary>
@@ -51,11 +65,14 @@ public class EntitySkill : EntityBuff
     /// </summary>
     public void Triger()
     {
-        if(entity.canUseSkill && energyAmount >= maxEnergyAmount)
+        if (entity.canUseSkill && mainSkill.cd <= 0 && mainSkill.energy >= mainSkill.maxEnergy) 
         {
+            mainSkill.cd = mainSkill.cdMax;
+            mainSkill.energy -= mainSkill.maxEnergy;
             mainSkill?.OnTriger(entity, mainSkill.Amount);
-            energyAmount -= maxEnergyAmount;
             entity.OnUseSkill?.Invoke(entity, mainSkill);
+            energyAmount = mainSkill.energy;
+            maxEnergyAmount = mainSkill.maxEnergy;
         }
     }
     /// <summary>
@@ -67,7 +84,9 @@ public class EntitySkill : EntityBuff
         if (entity.canAddEnergy)
         {
             entity.OnGetEnergy?.Invoke(entity, value);
-            energyAmount = energyAmount + value.energyAmount * entity.energyGetRate > maxEnergyAmount ? maxEnergyAmount : energyAmount + value.energyAmount * entity.energyGetRate;
+            mainSkill.energy = mainSkill.energy + value.energyAmount * entity.energyGetRate > mainSkill.maxEnergy ? mainSkill.maxEnergy : mainSkill.energy + value.energyAmount * entity.energyGetRate;
+            energyAmount = mainSkill.energy;
+            maxEnergyAmount = mainSkill.maxEnergy;
         }
     }
 }

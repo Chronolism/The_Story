@@ -43,9 +43,9 @@ public class GenerateBuffData
                     bd.id = id;
                     bd.name = dt.Rows[j][1].ToString();
                     bd.description = dt.Rows[j][9].ToString();
-                    bd.quality = int.Parse(dt.Rows[j][2].ToString());
-                    bd.type = int.Parse(dt.Rows[j][4].ToString());
-                    bd.weight = int.Parse(dt.Rows[j][5].ToString());
+                    bd.cd = float.Parse(dt.Rows[j][2].ToString());
+                    bd.energy = int.Parse(dt.Rows[j][4].ToString());
+                    bd.maxEnergy = int.Parse(dt.Rows[j][5].ToString());
                     bd.times = int.Parse(dt.Rows[j][6].ToString());
                     string[] idStr;
                     if (dt.Rows[j][7].ToString() != "")

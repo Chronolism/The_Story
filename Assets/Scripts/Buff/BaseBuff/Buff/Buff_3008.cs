@@ -31,7 +31,7 @@ public class Buff_3008 : BuffBase
 		{
 			ser= stack.Pop();
             entity.RemoveServitor(ser);
-			GameObject.Destroy(ser);
+			ser.EntityDie();
         }
 		if (amount <= 1)
 		{

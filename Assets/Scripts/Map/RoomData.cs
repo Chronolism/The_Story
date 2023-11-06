@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,33 @@ public class RoomData : NetworkBehaviour
     {
         DataMgr.Instance.roomData = this;
         roomLogic = new NormalRoom(this);
+    }
+
+    private void OnEnable()
+    {
+        EventMgr.PauseGame += EventPauseGame;
+        EventMgr.StartGame += EventStartGame;
+        EventMgr.ContinueGame += EventContinueGame;
+    }
+
+    private void EventContinueGame()
+    {
+        ifPause = false;
+    }
+
+    private void EventStartGame()
+    {
+        ifPause = false;
+    }
+
+    private void EventPauseGame()
+    {
+        ifPause = true;
+    }
+
+    private void OnDisable()
+    {
+        
     }
 
     public void UpDataDetile(string oldvalue , string  value)
@@ -146,11 +174,9 @@ public class RoomData : NetworkBehaviour
     [Server]
     public void BeginGame()
     {
-
         roomLogic.BeginGame();
         BeginGaneRPC();
-        if (!isClient)EventMgr.CallStartGame();
-        ifPause = false;
+
         
     }
     /// <summary>
@@ -161,7 +187,7 @@ public class RoomData : NetworkBehaviour
     {
         UIManager.Instance.ClearAllPanel();
         roomLogic.BeginGameClient();
-        EventMgr.CallStartGame();
+
     }
     [Server]
     public void FinishGame()

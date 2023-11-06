@@ -19,7 +19,7 @@ MonoBehaviour:
     propType: 1
     description: "\u666E\u901A\u7FBD\u6BDB"
     value:
-    - buffId: 1006
+    - buffId: 3003
       buffValue: 100
   - id: 2
     name: "\u52A0\u901F"
@@ -27,8 +27,8 @@ MonoBehaviour:
     propType: 0
     description: "\u81EA\u5DF1\u52A0\u901F"
     value:
-    - buffId: 3002
-      buffValue: 6
+    - buffId: 1003
+      buffValue: 20
   - id: 3
     name: "\u4F7F\u9B54\u52A0\u901F"
     icon: {fileID: 0}

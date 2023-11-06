@@ -98,3 +98,12 @@ public class InkData
     }
     
 }
+[Serializable]
+public class AttackData
+{
+    public int id;
+    public string name;
+    public string description;
+    public Sprite img;
+    public GameObject gameObject;
+}

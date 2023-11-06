@@ -9,6 +9,10 @@ public class MyNetworkManager : NetworkManager
     {
         base.Awake();
         MessageRegister.Instance.RegisterMessage();
+        foreach(var i in DataMgr.Instance.AttackDatas)
+        {
+            spawnPrefabs.Add(i.gameObject);
+        }
     }
 
     public override void OnStartServer()

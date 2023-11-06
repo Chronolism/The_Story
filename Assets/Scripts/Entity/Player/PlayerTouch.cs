@@ -8,7 +8,7 @@ public class PlayerTouch : AttackBase
     private void Awake()
     {
         player = transform.parent.GetComponent<Player>();
-        Init(player, Vector3.zero);
+        Init(player, Vector3.zero, Vector3.zero);
     }
     public override void Attack(Entity entity)
     {

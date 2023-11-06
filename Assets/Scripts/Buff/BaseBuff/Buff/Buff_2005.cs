@@ -8,7 +8,7 @@ public class Buff_2005 : BuffBase
 		entity.OnGetEnergy += CanNotGetEnergy;
         //体型变大
         entity.transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
-		
+		if (entity.inkAmount <= 0) entity.inkAmount += 1;
     }
 	public override void OnEnd(Entity entity,float Value)
 	{
@@ -19,11 +19,11 @@ public class Buff_2005 : BuffBase
     }
 	public override void OnAdd(Entity entity,float Value)
 	{
-		entity.maxSpeed += Value;
+		entity.maxSpeed += Value / 100;
 	}
 	public override void OnRemove(Entity entity,float Value)
 	{
-        entity.maxSpeed -= Value;
+        entity.maxSpeed -= Value / 100;
     }
 
 	void CanNotUseInk(Entity self,InkData inkData)

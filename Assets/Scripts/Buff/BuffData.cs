@@ -9,9 +9,9 @@ public class BuffData
     public string img;
     public string name;
     public string description;
-    public int quality;
-    public float weight;
-    public int type;
+    public float cd;
+    public int energy;
+    public int maxEnergy;
     public int times;
     public List<int> black = new List<int>();
     public List<int> white = new List<int>();

@@ -20,6 +20,9 @@ public class DataMgr : BaseManager<DataMgr>
     private List<PropData> propDatas;
     public List<PropData> PropDatas => propDatas;
 
+    private List<AttackData> attackDatas;
+    public List<AttackData> AttackDatas => attackDatas;
+
     public RoomData roomData;
 
     public PlayerData playerData;
@@ -50,6 +53,7 @@ public class DataMgr : BaseManager<DataMgr>
         buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
+        attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）
@@ -119,7 +123,13 @@ public class DataMgr : BaseManager<DataMgr>
     /// <returns></returns>
     public BuffBase GetBuff(int id)
     {
-        return buffPool.GetBuff(id);
+        BuffBase buffBase = buffPool.GetBuff(id);
+        BuffData buffData = GetBuffData(id);
+        buffBase.buffData = buffData;
+        buffBase.cdMax = buffData.cd;
+        buffBase.energy = buffData.energy;
+        buffBase.maxEnergy = buffData.maxEnergy;
+        return buffBase;
     }
 
     public BuffData GetBuffData(int id)
@@ -135,5 +145,10 @@ public class DataMgr : BaseManager<DataMgr>
     public PropData GetPropData(int id)
     {
         return PropDatas.Find(i => i.id == id);
+    }
+
+    public AttackData GetAttackData(int id)
+    {
+        return AttackDatas.Find(i => i.id == id);
     }
 }

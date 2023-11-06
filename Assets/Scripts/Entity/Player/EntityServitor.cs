@@ -21,23 +21,37 @@ public class EntityServitor : NetworkBehaviour
 
     #endregion
 
-    public void RewriteServitor(Servitor servitor)
+    public void RewriteServitor(Servitor servitor , bool unconditional)
     {
-        if (servitor.parent != entity && entity.canTurn && entity.inkAmount > 0)
+        if (unconditional)
         {
-            InkData inkData = new InkData(entity.inkCost, entity.energyGet, true);
-            entity.OnReWrite?.Invoke(entity, servitor, inkData);
-            if (servitor.parent != null && inkData.ifTurn)
-            {
-                servitor.parent.OnReWrited?.Invoke(servitor.parent, servitor, entity, inkData);
-            }
-            if (inkData.ifTurn) servitor.OnTurn?.Invoke(servitor, entity, inkData);
+            InkData inkData = new InkData(0, 0, true);
+            servitor.OnTurn?.Invoke(servitor, entity, inkData);
             if (!inkData.ifTurn) return;
-            entity.ChangeInkAmount(-inkData.inkAmount);
-            entity.AddEnergy(inkData);
+            //entity.ChangeInkAmount(-inkData.inkAmount);
+            //entity.AddEnergy(inkData);
             servitor.parent?.RemoveServitor(servitor);
             AddServers(servitor);
         }
+        else
+        {
+            if (servitor.parent != entity && entity.canTurn && entity.inkAmount > 0)
+            {
+                InkData inkData = new InkData(entity.inkCost, entity.energyGet, true);
+                entity.OnReWrite?.Invoke(entity, servitor, inkData);
+                if (servitor.parent != null && inkData.ifTurn)
+                {
+                    servitor.parent.OnReWrited?.Invoke(servitor.parent, servitor, entity, inkData);
+                }
+                if (inkData.ifTurn) servitor.OnTurn?.Invoke(servitor, entity, inkData);
+                if (!inkData.ifTurn) return;
+                entity.ChangeInkAmount(-inkData.inkAmount);
+                entity.AddEnergy(inkData);
+                servitor.parent?.RemoveServitor(servitor);
+                AddServers(servitor);
+            }
+        }
+
     }
 
     [Server]
@@ -51,7 +65,6 @@ public class EntityServitor : NetworkBehaviour
     [Server]
     public void RemoveServers(Servitor servitor)
     {
-        Debug.Log("remove");
         Servitors.Remove(servitor);
         servitor.parent = null;
         entity.OnRemoveServitor?.Invoke(entity, servitor);

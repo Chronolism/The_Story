@@ -86,7 +86,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(1));
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(2));
         //在随机使魔生成点生成一个使魔
-        //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
     }
 
     public override void LoadPlayer()
@@ -103,20 +103,34 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void BeginGame()
     {
-        
+        foreach (var player in DataMgr.Instance.players)
+        {
+            if (player.Value.userName == DataMgr.Instance.playerData.account)
+            {
+                DataMgr.Instance.activePlayer = player.Value;
+                break;
+            }
+        }
+        EventMgr.CallStartGame();
+        EventMgr.CallContinueGame();
     }
 
 
     public override void BeginGameClient()
     {
         UIManager.Instance.ShowPanel<GamePanel>();
-        foreach (var player in DataMgr.Instance.players)
+        if (!roomData.isServer)
         {
-            if (player.Value.userName == DataMgr.Instance.playerData.account)
+            foreach (var player in DataMgr.Instance.players)
             {
-                DataMgr.Instance.activePlayer = player.Value;
-                return;
+                if (player.Value.userName == DataMgr.Instance.playerData.account)
+                {
+                    DataMgr.Instance.activePlayer = player.Value;
+                    return;
+                }
             }
+            EventMgr.CallStartGame();
+            EventMgr.CallContinueGame();
         }
     }
 
@@ -156,12 +170,12 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
             if (time < 60 && servitor > 15)
             {
                 servitor = 0;
-                //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+                EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
             }
             else if (time >= 60 && servitor > 10) 
             {
                 servitor = 0;
-                //EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+                EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
             }
         }
 

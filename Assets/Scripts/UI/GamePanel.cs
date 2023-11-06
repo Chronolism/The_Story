@@ -48,6 +48,10 @@ public class GamePanel : BasePanel
 
         _tipsFollowMouse = GetControl<Text>("tipsFollowMouse");
 
+        //Ìí¼ÓÐüÍ£Âß¼­£¬ÓÐbug
+        UIManager.AddChangeItOnlyWhileStayIn(_Ink_Now, _tipsFollowMouse,"ink");
+        UIManager.AddChangeItOnlyWhileStayIn(_Passive_Now, _tipsFollowMouse, "passive");
+
         StartGame();
     }
 
@@ -84,10 +88,14 @@ public class GamePanel : BasePanel
             _Ink_Now.fillAmount = player.inkAmount / player.inkMaxAmount;
             _Ultimate_Skill_Charge_Progress.fillAmount = player.skill.energyAmount / player.skill.maxEnergyAmount;
         }
-        if (EventSystem.current.currentSelectedGameObject != null) 
+        if (EventSystem.current.IsPointerOverGameObject()) 
         {
             //Êó±ê
             _tipsFollowMouse.transform.position = Input.mousePosition;
+        }
+        else
+        {
+            
         }
     }
 

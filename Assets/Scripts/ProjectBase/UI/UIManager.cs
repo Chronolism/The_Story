@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// UI管理器
@@ -229,4 +230,10 @@ public class UIManager : BaseManager<UIManager>
         if (canvas.Find(layerName) == null) Debug.LogWarning("无对应层级");
         else panel.transform.parent = canvas.Find(layerName);
     }
+    public static void AddChangeItOnlyWhileStayIn(UIBehaviour control,Text text, string changeText)
+    {
+        AddCustomEventListener(control, EventTriggerType.PointerEnter,(o)=> { text.text = changeText;Debug.LogWarning("进"); } );
+        AddCustomEventListener(control, EventTriggerType.PointerExit, (o) => { text.text = ""; Debug.LogWarning("出"); });
+    }
+
 }

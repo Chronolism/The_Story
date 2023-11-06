@@ -128,6 +128,7 @@ public class EntityBuff : NetworkBehaviour
             buffList.Add(buffBase);
             buffBase.Init(buffName, value, own);
             buffBase.time = time;
+            buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)
             {
                 fastBuffList.Add(buffBase);
@@ -235,7 +236,7 @@ public class EntityBuff : NetworkBehaviour
                 {
                     RemoveBuffRpc(buffBase.buffData.id, value, buffBase.buffOwn.netId);
                 }
-                entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
+                entity.OnRemoveBuff(entity, buffBase, Mathf.Min(value, buffBase.Amount));
             }
 
         }
@@ -267,6 +268,7 @@ public class EntityBuff : NetworkBehaviour
         if (buffBase != null)
         {
             buffBase.Amount += value;
+            buffBase.temporaryAmount += value;
             buffBase.time += time;
         }
         else
@@ -275,6 +277,7 @@ public class EntityBuff : NetworkBehaviour
             buffList.Add(buffBase);
             buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             buffBase.time = time;
+            buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)
             {
                 fastBuffList.Add(buffBase);

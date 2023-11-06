@@ -118,9 +118,9 @@ public class Entity : NetworkBehaviour
     public UnityAction<Entity, InkData> OnGetInk;
     public UnityAction<Entity, InkData> AfterGetInk;
 
-    public UnityAction<Entity, int ,float> OnAddBuff;
+    public UnityAction<Entity, BuffBase ,float> OnAddBuff;
 
-    public UnityAction<Entity, int, float> OnRemoveBuff;
+    public UnityAction<Entity, BuffBase, float> OnRemoveBuff;
     /// <summary>
     /// 能改写目标时触发
     /// </summary>
@@ -273,11 +273,23 @@ public class Entity : NetworkBehaviour
     /// <param name="atkData"></param>
     public void ChangeBlood(Entity target, ATKData atkData)
     {
-        blood -= atkData.AtkValue;
-        if(blood <= 0)
+        if(atkData.atkType == AtkType.atk)
         {
-            EntityDie();
+            blood -= atkData.AtkValue;
+            if (blood <= 0)
+            {
+                EntityDie();
+            }
         }
+        else if(atkData.atkType == AtkType.cure)
+        {
+            blood += atkData.AtkValue;
+            if (blood <= 0)
+            {
+                EntityDie();
+            }
+        }
+
     }
     /// <summary>
     /// 修改墨水量

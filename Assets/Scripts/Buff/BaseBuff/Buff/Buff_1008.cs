@@ -8,10 +8,10 @@ public class Buff_1008 : BuffBase
 	}
     public override void OnAdd(Entity entity, float Value)
     {
-        entity.maxSpeed += Value / 100;
+        entity.inkCost += Value / 100;
     }
     public override void OnRemove(Entity entity, float Value)
     {
-        entity.maxSpeed -= Value / 100;
+        entity.inkCost -= Value / 100;
     }
 }

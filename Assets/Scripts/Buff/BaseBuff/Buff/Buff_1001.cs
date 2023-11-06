@@ -10,10 +10,10 @@ public class Buff_1001 : BuffBase
 	}
 	public override void OnAdd(Entity entity,float Value)
 	{
-        entity.maxSpeed_Pre += Value / 100;
+        entity.maxBlood += Value/100 ;
     }
 	public override void OnRemove(Entity entity,float Value)
 	{
-        entity.maxSpeed_Pre -= Value / 100;
+        entity.maxBlood -= Value/100 ;
     }
 }

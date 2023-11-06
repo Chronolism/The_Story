@@ -15,10 +15,6 @@ public class Buff_3001 : BuffBase
 
 	public override void OnTriger(Entity entity, float Value)
 	{
-		foreach(var servitor in entity.entityServitor.Servitors)
-		{
-			servitor.AddBuff(1001, 10, Value, entity);
-			servitor.AddBuff(1003, 1, Value, entity);
-		}
-	}
+        entity.ChangeBlood(entity, new ATKData(1, 1, Value, 0, 1, AtkType.cure));
+    }
 }

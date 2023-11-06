@@ -18,15 +18,15 @@ public class MyNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-        UIManager.Instance.ShowPanel<RoomPanel>();
+        //UIManager.Instance.ShowPanel<RoomPanel>();
         EntityFactory.Instance.CreatRoomData();
     }
 
     public override void OnStartClient()
     {
         base.OnStartClient();
-        if (NetworkServer.active) return;
-        UIManager.Instance.ShowPanel<RoomPanel>();
+        transport.OnClientDisconnected = () => { Debug.Log("服务器连接不上"); };
+        
     }
 
     public override void OnStartHost()
@@ -38,12 +38,15 @@ public class MyNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
+        Debug.Log("连接上服务器");
+        UIManager.Instance.ClearAllPanel();
+        UIManager.Instance.ShowPanel<RoomPanel>();
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-
+        Debug.Log("服务器断开");
     }
 
     public override void OnClientConnect()
@@ -56,4 +59,6 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
     }
+
+    
 }

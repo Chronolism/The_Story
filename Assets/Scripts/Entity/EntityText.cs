@@ -1,9 +1,11 @@
 using Steamworks;
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
+using Steamworks.Data;
 using System.Linq;
-using System.Net;
 using UnityEngine;
+using System.Text;
+using static Steamworks.Friend;
 
 public class EntityText : MonoBehaviour
 {
@@ -11,25 +13,14 @@ public class EntityText : MonoBehaviour
     float x = 0;
     void Start()
     {
-        
+        UIManager.Instance.ShowPanel<SearchRoomPanel>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("E");
-            foreach(var friend in SteamFriends.GetFriends().ToArray())
-            {
-                if (friend.GameInfo != null)
-                {
-                    //Debug.Log(friend.GameInfo.Value.);
-                }
+        
 
-            }
-            
-        }
     }
 
     private void FixedUpdate()

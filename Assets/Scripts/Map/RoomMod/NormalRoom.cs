@@ -118,6 +118,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void BeginGameClient()
     {
+        UIManager.Instance.ClearAllPanel();
         UIManager.Instance.ShowPanel<GamePanel>();
         if (!roomData.isServer)
         {
@@ -126,7 +127,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
                 if (player.Value.userName == DataMgr.Instance.playerData.account)
                 {
                     DataMgr.Instance.activePlayer = player.Value;
-                    return;
+                    break;
                 }
             }
             EventMgr.CallStartGame();

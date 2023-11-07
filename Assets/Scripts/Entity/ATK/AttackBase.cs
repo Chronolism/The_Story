@@ -7,7 +7,7 @@ using UnityEngine;
 public class AttackBase : NetworkBehaviour
 {
     public int id;
-    bool ifServer;
+    public bool ifServer;
     public Vector3 v3;
     public List<float> floats;
     public Entity perant;

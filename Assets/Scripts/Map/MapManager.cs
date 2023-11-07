@@ -47,8 +47,8 @@ public class MapManager : BaseManager<MapManager>
             foreach (var item in runtimeTilemaps)
             {
                 GameObject.Destroy(item.Value.gameObject);
-                runtimeTilemaps.Clear();
-            }  
+            }
+            runtimeTilemaps.Clear();
         } 
 
         //如果是测试用例，则只加载Bottom中有数据地块作为碰撞箱到场景

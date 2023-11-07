@@ -185,9 +185,7 @@ public class RoomData : NetworkBehaviour
     [ClientRpc]
     public void BeginGaneRPC()
     {
-        UIManager.Instance.ClearAllPanel();
         roomLogic.BeginGameClient();
-
     }
     [Server]
     public void FinishGame()

@@ -1,11 +1,4 @@
-using Steamworks;
-using System;
-using System.Runtime.InteropServices;
-using Steamworks.Data;
-using System.Linq;
 using UnityEngine;
-using System.Text;
-using static Steamworks.Friend;
 
 public class EntityText : MonoBehaviour
 {

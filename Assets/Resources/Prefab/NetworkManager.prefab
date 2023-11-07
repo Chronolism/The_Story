@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &108790743814397545
+--- !u!1 &1198922214
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3483868535338418480}
-  - component: {fileID: 3034334875313951165}
+  - component: {fileID: 1198922215}
+  - component: {fileID: 1198922216}
   m_Layer: 0
   m_Name: steam
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3483868535338418480
+--- !u!4 &1198922215
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108790743814397545}
+  m_GameObject: {fileID: 1198922214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,25 +32,22 @@ Transform:
   m_Father: {fileID: 4133642537570696950}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3034334875313951165
+--- !u!114 &1198922216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108790743814397545}
+  m_GameObject: {fileID: 1198922214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf9670d8c2bd83c44b4dffebb0f9b106, type: 3}
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Channels: 0200000001000000
   Timeout: 25
-  SteamAppID: 480
   AllowSteamRelay: 1
   UseNextGenSteamNetworking: 1
-  InitFacepunch: 1
-  SteamUserID: 0
 --- !u!1 &4133642537570696954
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +78,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6067487772331473709}
-  - {fileID: 3483868535338418480}
+  - {fileID: 1198922215}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -104,7 +101,7 @@ MonoBehaviour:
   sendRate: 60
   offlineScene: Assets/Scenes/SampleScene.unity
   onlineScene: Assets/Scenes/Online.unity
-  transport: {fileID: 3034334875313951165}
+  transport: {fileID: 4761650435538878725}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0

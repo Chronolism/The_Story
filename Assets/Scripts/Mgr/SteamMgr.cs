@@ -1,3 +1,4 @@
+using Mirror;
 using Steamworks;
 using System;
 using System.Collections;
@@ -34,6 +35,22 @@ public class SteamMgr : SteamManager
         /// 如果目标用户接受了邀请，启动游戏时 pchConnectString 会添加入命令行。
         /// 如果该用户已在运行游戏，对方便会收到带有连接字符串的
         SteamCallBack.Instance.OnGameRichPresenceJoinRequested = Callback<GameRichPresenceJoinRequested_t>.Create(OnGameRichPresenceJoinRequested);
+
+        SteamCallBack.Instance.lobbyMatchList = Callback<LobbyMatchList_t>.Create(OnLobbyMatchList);
+    }
+
+    private void OnLobbyMatchList(LobbyMatchList_t param)
+    {
+        var lobbies = new CSteamID[param.m_nLobbiesMatching];
+        for(int i = 0; i < param.m_nLobbiesMatching; i++)
+        {
+            lobbies[i] = SteamMatchmaking.GetLobbyByIndex(i);
+        }
+        System.Array.Sort(lobbies, (a, b) => SteamMatchmaking.GetNumLobbyMembers(b).CompareTo(SteamMatchmaking.GetNumLobbyMembers(a)));
+        for(int i = 0; i < lobbies.Length; i++)
+        {
+            Debug.Log(SteamMatchmaking.GetLobbyOwner(lobbies[i]));
+        }
     }
 
     private void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t param)
@@ -68,7 +85,15 @@ public class SteamMgr : SteamManager
 
     private void OnLobbyCreated(LobbyCreated_t param)
     {
-        
+        if (param.m_eResult != EResult.k_EResultOK)
+        {
+            Debug.LogError($" Create Fail {param.m_eResult}");
+            return;
+        }
+        Debug.Log(" Create " + param.m_ulSteamIDLobby);
+        MyNetworkManager.singleton.StartHost();
+        Debug.Log("大厅创建");
+        SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "name", "wmkj");
     }
 
     private void OnLobbyKicked(LobbyKicked_t param)
@@ -84,7 +109,6 @@ public class SteamMgr : SteamManager
     {
         string pvDatas = "";
         EChatEntryType eChatEntryType;
-
         SteamFriends.GetFriendMessage(param.m_steamIDUser, param.m_iMessageID, out pvDatas, 8, out eChatEntryType);
         Debug.Log("收到来自[" + SteamFriends.GetFriendPersonaName(param.m_steamIDUser) + "]的消息!!===" + pvDatas);
         switch (pvDatas)

@@ -14,4 +14,5 @@ public class SteamCallBack :BaseManager<SteamCallBack>
     public Callback<LobbyInvite_t> OnLobbyInvited;
     public Callback<GameLobbyJoinRequested_t> OnGameLobbyJoinRequested;
     public Callback<GameRichPresenceJoinRequested_t> OnGameRichPresenceJoinRequested;
+    public Callback<LobbyMatchList_t> lobbyMatchList;
 }

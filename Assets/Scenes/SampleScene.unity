@@ -237,7 +237,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3306855768036696849, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4578417148099987336, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_RootOrder
@@ -914,6 +914,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4967932593027189885, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
   m_PrefabInstance: {fileID: 91508468}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1413456092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3034334875313951165, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+  m_PrefabInstance: {fileID: 4133642537019184591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf9670d8c2bd83c44b4dffebb0f9b106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1971152100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,6 +1328,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: transport
+      value: 
+      objectReference: {fileID: 1413456092}
+    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 5894074150880223657, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
@@ -1336,9 +1351,13 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[3]
       value: 
       objectReference: {fileID: 4958504879118394149, guid: 621e947342e452a408a914e3de69fc76, type: 3}
+    - target: {fileID: 108790743814397545, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3034334875313951165, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: Timeout
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4133642537570696950, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_RootOrder

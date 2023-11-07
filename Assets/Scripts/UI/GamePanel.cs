@@ -49,8 +49,10 @@ public class GamePanel : BasePanel
         _tipsFollowMouse = GetControl<Text>("tipsFollowMouse");
 
         //添加悬停逻辑，有bug
-        UIManager.AddChangeItOnlyWhileStayIn(_Ink_Now, _tipsFollowMouse,"ink");
-        UIManager.AddChangeItOnlyWhileStayIn(_Passive_Now, _tipsFollowMouse, "passive");
+        AddChangeItOnlyWhileStayIn(_Ink_BackGround, _tipsFollowMouse,"ink");
+        AddChangeItOnlyWhileStayIn(_Passive_BackGround, _tipsFollowMouse, "passive");
+        AddChangeItOnlyWhileStayIn(_Prop_BackGround, _tipsFollowMouse, "prop");
+        AddChangeItOnlyWhileStayIn(_Ultimate_Skill_BackGround, _tipsFollowMouse, "ultimate");
 
         StartGame();
     }
@@ -87,16 +89,17 @@ public class GamePanel : BasePanel
             //待做：逐渐改变
             _Ink_Now.fillAmount = player.inkAmount / player.inkMaxAmount;
             _Ultimate_Skill_Charge_Progress.fillAmount = player.skill.energyAmount / player.skill.maxEnergyAmount;
-        }
-        if (EventSystem.current.IsPointerOverGameObject()) 
-        {
-            //鼠标
-            _tipsFollowMouse.transform.position = Input.mousePosition;
-        }
+        }                     
         else
         {
             
         }
+        _tipsFollowMouse.transform.position = Input.mousePosition;
+    }
+    public void AddChangeItOnlyWhileStayIn(UIBehaviour control, Text text, string changeText)
+    {
+        UIManager.AddCustomEventListener(control, EventTriggerType.PointerEnter, (o) => { (text as TextFollowMouse).DisplayIt(changeText); Debug.LogWarning("进"); });
+        UIManager.AddCustomEventListener(control, EventTriggerType.PointerExit, (o) => { (text as TextFollowMouse).DisplayClear(); Debug.LogWarning("出"); });
     }
 
 }

@@ -23,11 +23,11 @@ public class SearchRoomPanel : BasePanel
                 {
                     Destroy(srRoomList.content.transform.GetChild(i).gameObject);
                 }
-                foreach(var friends in SteamMgr.Instance.GetOnThisGameFriend())
+                foreach (var friends in SteamMgr.GetOnThisGameFriend())
                 {
                     BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
-                    btnRoom.Init(friends.steamID, friends.name);
-                    btnRoom.transform.SetParent(srRoomList.content,false);
+                    btnRoom.Init(friends.steamID.m_SteamID, friends.name);
+                    btnRoom.transform.SetParent(srRoomList.content, false);
                     btnRoom.btnRoom.onClick.AddListener(() =>
                     {
                         MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();

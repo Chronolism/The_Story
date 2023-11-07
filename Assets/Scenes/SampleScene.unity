@@ -479,6 +479,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3de072904aaf7d4b9ca9f05a97f7fc1, type: 3}
+--- !u!1 &308147961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 308147963}
+  - component: {fileID: 308147964}
+  m_Layer: 0
+  m_Name: SteamMgr
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &308147963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308147961}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 625.04083, y: 183.07112, z: -2.4640062}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &308147964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308147961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afff54ddf8a94dd4887ad0281742c95a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!58 &437511904 stripped
 CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: -8042661342883587389, guid: fbe552484ebbe7b49b917d61173da10b, type: 3}
@@ -738,6 +782,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1198922216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1198922216, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+  m_PrefabInstance: {fileID: 4133642537019184591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1228985902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1301,29 +1356,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: playerPrefab
+      propertyPath: transport
       value: 
-      objectReference: {fileID: 5894074150880223657, guid: ab1bb2e7cfbf3734c9a31bc3e242a090, type: 3}
-    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: autoCreatePlayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: spawnPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 5480366113042657854, guid: fbe552484ebbe7b49b917d61173da10b, type: 3}
-    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: spawnPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 4958504879118394149, guid: 621e947342e452a408a914e3de69fc76, type: 3}
-    - target: {fileID: 3034334875313951165, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: Timeout
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1198922216}
     - target: {fileID: 4133642537570696950, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1371,14 +1406,6 @@ PrefabInstance:
     - target: {fileID: 4133642537570696954, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_Name
       value: NetworkManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4133642537570696954, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7371203173678748392, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
@@ -1737,7 +1764,7 @@ MonoBehaviour:
   sendRate: 60
   offlineScene: Assets/Scenes/SampleScene.unity
   onlineScene: Assets/Scenes/Online.unity
-  transport: {fileID: 8646167854040505376}
+  transport: {fileID: 0}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -1776,13 +1803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9670d8c2bd83c44b4dffebb0f9b106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Channels: 0200000001000000
-  Timeout: 25
-  SteamAppID: 480
-  AllowSteamRelay: 1
-  UseNextGenSteamNetworking: 1
-  InitFacepunch: 1
-  SteamUserID: 0
 --- !u!1001 &8923985808716439959
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -44,10 +44,13 @@ public class SteamMgr : SteamManager
         List<SteamLobby> steamLobbyList = new List<SteamLobby>();
         for(int i = 0; i < param.m_nLobbiesMatching; i++)
         {
+            Debug.Log(param);
             SteamLobby steamLobby = new SteamLobby();
             steamLobby.lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            Debug.Log(steamLobby.lobbyID);
             steamLobby.memberAmount = SteamMatchmaking.GetNumLobbyMembers(steamLobby.lobbyID);
-            steamLobby.own = SteamMatchmaking.GetLobbyOwner(steamLobby.lobbyID);
+            Debug.Log(steamLobby.memberAmount);
+            steamLobby.roomName = SteamMatchmaking.GetLobbyData(steamLobby.lobbyID, "roomName");
             steamLobbyList.Add(steamLobby);
         }
         SeachLobbyCallBack?.Invoke(steamLobbyList);
@@ -94,6 +97,7 @@ public class SteamMgr : SteamManager
         MyNetworkManager.singleton.StartHost();
         Debug.Log("´óÌü´´½¨");
         SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "name", "wmkj");
+        SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "roomName", SteamFriends.GetPersonaName());
     }
 
     private void OnLobbyKicked(LobbyKicked_t param)
@@ -176,6 +180,6 @@ public class SteamFriend
 public class SteamLobby
 {
     public CSteamID lobbyID;
-    public CSteamID own;
+    public string roomName;
     public int memberAmount;
 }

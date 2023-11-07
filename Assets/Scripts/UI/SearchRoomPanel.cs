@@ -36,6 +36,7 @@ public class SearchRoomPanel : BasePanel
                 //}
                 SteamMgr.SeachLobby((o) =>
                 {
+                   
                     for (int i = 0; i < srRoomList.content.transform.childCount; i++)
                     {
                         Destroy(srRoomList.content.transform.GetChild(i).gameObject);
@@ -43,7 +44,7 @@ public class SearchRoomPanel : BasePanel
                     foreach (var lobby in o)
                     {
                         BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
-                        btnRoom.Init(lobby.own.m_SteamID, SteamFriends.GetFriendPersonaName(lobby.own));
+                        btnRoom.Init(lobby.lobbyID.m_SteamID, lobby.roomName);
                         btnRoom.transform.SetParent(srRoomList.content, false);
                         //btnRoom.btnRoom.onClick.AddListener(() =>
                         //{

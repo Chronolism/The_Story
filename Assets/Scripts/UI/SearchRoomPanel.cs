@@ -34,9 +34,24 @@ public class SearchRoomPanel : BasePanel
                 //        MyNetworkManager.singleton.StartClient();
                 //    });
                 //}
-                SteamMatchmaking.AddRequestLobbyListResultCountFilter(10);
-                SteamMatchmaking.AddRequestLobbyListStringFilter("name", "wmkj", ELobbyComparison.k_ELobbyComparisonEqual);
-                SteamMatchmaking.RequestLobbyList();
+                SteamMgr.SeachLobby((o) =>
+                {
+                    for (int i = 0; i < srRoomList.content.transform.childCount; i++)
+                    {
+                        Destroy(srRoomList.content.transform.GetChild(i).gameObject);
+                    }
+                    foreach (var lobby in o)
+                    {
+                        BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
+                        btnRoom.Init(lobby.own.m_SteamID, SteamFriends.GetFriendPersonaName(lobby.own));
+                        btnRoom.transform.SetParent(srRoomList.content, false);
+                        //btnRoom.btnRoom.onClick.AddListener(() =>
+                        //{
+                        //    MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
+                        //    MyNetworkManager.singleton.StartClient();
+                        //});
+                    }
+                });
                 break;
             case "btnHost":
                 SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);

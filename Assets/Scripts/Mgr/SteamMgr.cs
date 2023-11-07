@@ -41,16 +41,16 @@ public class SteamMgr : SteamManager
 
     private void OnLobbyMatchList(LobbyMatchList_t param)
     {
-        var lobbies = new CSteamID[param.m_nLobbiesMatching];
+        List<SteamLobby> steamLobbyList = new List<SteamLobby>();
         for(int i = 0; i < param.m_nLobbiesMatching; i++)
         {
-            lobbies[i] = SteamMatchmaking.GetLobbyByIndex(i);
+            SteamLobby steamLobby = new SteamLobby();
+            steamLobby.lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            steamLobby.memberAmount = SteamMatchmaking.GetNumLobbyMembers(steamLobby.lobbyID);
+            steamLobby.own = SteamMatchmaking.GetLobbyOwner(steamLobby.lobbyID);
+            steamLobbyList.Add(steamLobby);
         }
-        System.Array.Sort(lobbies, (a, b) => SteamMatchmaking.GetNumLobbyMembers(b).CompareTo(SteamMatchmaking.GetNumLobbyMembers(a)));
-        for(int i = 0; i < lobbies.Length; i++)
-        {
-            Debug.Log(SteamMatchmaking.GetLobbyOwner(lobbies[i]));
-        }
+        SeachLobbyCallBack?.Invoke(steamLobbyList);
     }
 
     private void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t param)
@@ -119,6 +119,15 @@ public class SteamMgr : SteamManager
         }
     }
 
+    public static Action<List<SteamLobby>> SeachLobbyCallBack;
+    public static void SeachLobby(Action<List<SteamLobby>> callback)
+    {
+        SeachLobbyCallBack = callback;
+        SteamMatchmaking.AddRequestLobbyListResultCountFilter(10);
+        SteamMatchmaking.AddRequestLobbyListStringFilter("name", "wmkj", ELobbyComparison.k_ELobbyComparisonEqual);
+        SteamMatchmaking.RequestLobbyList();
+    }
+
     public static List<SteamFriend> GetFriends()
     {
         List<SteamFriend> friends = new List<SteamFriend>();
@@ -162,4 +171,11 @@ public class SteamFriend
         this.steamID = steamID;
         this.gameID = gameID;
     }
+}
+
+public class SteamLobby
+{
+    public CSteamID lobbyID;
+    public CSteamID own;
+    public int memberAmount;
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1198922215}
-  - component: {fileID: 1198922216}
+  - component: {fileID: 788732871142980961}
   m_Layer: 0
   m_Name: steam
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 4133642537570696950}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1198922216
+--- !u!114 &788732871142980961
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   sendRate: 60
   offlineScene: Assets/Scenes/SampleScene.unity
   onlineScene: Assets/Scenes/Online.unity
-  transport: {fileID: 4761650435538878725}
+  transport: {fileID: 0}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -146,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6067487772331473709
 Transform:
   m_ObjectHideFlags: 0

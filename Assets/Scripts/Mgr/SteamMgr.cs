@@ -1,3 +1,4 @@
+using Mirror;
 using Steamworks;
 using System;
 using System.Collections;
@@ -34,6 +35,22 @@ public class SteamMgr : SteamManager
         /// 如果目标用户接受了邀请，启动游戏时 pchConnectString 会添加入命令行。
         /// 如果该用户已在运行游戏，对方便会收到带有连接字符串的
         SteamCallBack.Instance.OnGameRichPresenceJoinRequested = Callback<GameRichPresenceJoinRequested_t>.Create(OnGameRichPresenceJoinRequested);
+
+        SteamCallBack.Instance.lobbyMatchList = Callback<LobbyMatchList_t>.Create(OnLobbyMatchList);
+    }
+
+    private void OnLobbyMatchList(LobbyMatchList_t param)
+    {
+        List<SteamLobby> steamLobbyList = new List<SteamLobby>();
+        for(int i = 0; i < param.m_nLobbiesMatching; i++)
+        {
+            SteamLobby steamLobby = new SteamLobby();
+            steamLobby.lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+            steamLobby.memberAmount = SteamMatchmaking.GetNumLobbyMembers(steamLobby.lobbyID);
+            steamLobby.own = SteamMatchmaking.GetLobbyOwner(steamLobby.lobbyID);
+            steamLobbyList.Add(steamLobby);
+        }
+        SeachLobbyCallBack?.Invoke(steamLobbyList);
     }
 
     private void OnGameRichPresenceJoinRequested(GameRichPresenceJoinRequested_t param)
@@ -68,7 +85,15 @@ public class SteamMgr : SteamManager
 
     private void OnLobbyCreated(LobbyCreated_t param)
     {
-        
+        if (param.m_eResult != EResult.k_EResultOK)
+        {
+            Debug.LogError($" Create Fail {param.m_eResult}");
+            return;
+        }
+        Debug.Log(" Create " + param.m_ulSteamIDLobby);
+        MyNetworkManager.singleton.StartHost();
+        Debug.Log("大厅创建");
+        SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "name", "wmkj");
     }
 
     private void OnLobbyKicked(LobbyKicked_t param)
@@ -84,7 +109,6 @@ public class SteamMgr : SteamManager
     {
         string pvDatas = "";
         EChatEntryType eChatEntryType;
-
         SteamFriends.GetFriendMessage(param.m_steamIDUser, param.m_iMessageID, out pvDatas, 8, out eChatEntryType);
         Debug.Log("收到来自[" + SteamFriends.GetFriendPersonaName(param.m_steamIDUser) + "]的消息!!===" + pvDatas);
         switch (pvDatas)
@@ -93,6 +117,15 @@ public class SteamMgr : SteamManager
 
                 break;
         }
+    }
+
+    public static Action<List<SteamLobby>> SeachLobbyCallBack;
+    public static void SeachLobby(Action<List<SteamLobby>> callback)
+    {
+        SeachLobbyCallBack = callback;
+        SteamMatchmaking.AddRequestLobbyListResultCountFilter(10);
+        SteamMatchmaking.AddRequestLobbyListStringFilter("name", "wmkj", ELobbyComparison.k_ELobbyComparisonEqual);
+        SteamMatchmaking.RequestLobbyList();
     }
 
     public static List<SteamFriend> GetFriends()
@@ -138,4 +171,11 @@ public class SteamFriend
         this.steamID = steamID;
         this.gameID = gameID;
     }
+}
+
+public class SteamLobby
+{
+    public CSteamID lobbyID;
+    public CSteamID own;
+    public int memberAmount;
 }

@@ -19,24 +19,44 @@ public class SearchRoomPanel : BasePanel
         switch (btnName)
         {
             case "btnSearch":
-                for(int i =0; i < srRoomList.content.transform.childCount; i++)
+                //for(int i =0; i < srRoomList.content.transform.childCount; i++)
+                //{
+                //    Destroy(srRoomList.content.transform.GetChild(i).gameObject);
+                //}
+                //foreach (var friends in SteamMgr.GetOnThisGameFriend())
+                //{
+                //    BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
+                //    btnRoom.Init(friends.steamID.m_SteamID, friends.name);
+                //    btnRoom.transform.SetParent(srRoomList.content, false);
+                //    btnRoom.btnRoom.onClick.AddListener(() =>
+                //    {
+                //        MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
+                //        MyNetworkManager.singleton.StartClient();
+                //    });
+                //}
+                SteamMgr.SeachLobby((o) =>
                 {
-                    Destroy(srRoomList.content.transform.GetChild(i).gameObject);
-                }
-                foreach (var friends in SteamMgr.GetOnThisGameFriend())
-                {
-                    BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
-                    btnRoom.Init(friends.steamID.m_SteamID, friends.name);
-                    btnRoom.transform.SetParent(srRoomList.content, false);
-                    btnRoom.btnRoom.onClick.AddListener(() =>
+                    for (int i = 0; i < srRoomList.content.transform.childCount; i++)
                     {
-                        MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
-                        MyNetworkManager.singleton.StartClient();
-                    });
-                }
+                        Destroy(srRoomList.content.transform.GetChild(i).gameObject);
+                    }
+                    foreach (var lobby in o)
+                    {
+                        BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
+                        btnRoom.Init(lobby.own.m_SteamID, SteamFriends.GetFriendPersonaName(lobby.own));
+                        btnRoom.transform.SetParent(srRoomList.content, false);
+                        //btnRoom.btnRoom.onClick.AddListener(() =>
+                        //{
+                        //    MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
+                        //    MyNetworkManager.singleton.StartClient();
+                        //});
+                    }
+                });
                 break;
             case "btnHost":
-                MyNetworkManager.singleton.StartHost();
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);
+                
+                //MyNetworkManager.singleton.StartHost();
                 break;
 
         }

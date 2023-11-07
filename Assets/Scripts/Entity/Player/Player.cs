@@ -27,6 +27,7 @@ public class Player : Entity
         movement = this.transform.position;
         DataMgr.Instance.players.Add(netId, this);
         ChangeState<NormalState>();
+        
     }
 
     private void Update()

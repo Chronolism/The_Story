@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MainMenuPanel : MonoBehaviour
+public class MainMenuPanel : BasePanel
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Init()
     {
-        
+        GetControl<Button>("OfflinePlayButton").onClick.AddListener(OfflinePlayButtonAction);
+        GetControl<Button>("OnlinePlayButton").onClick.AddListener(OnlinePlayButtonAction);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OfflinePlayButtonAction()
     {
-        
+        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer",(o) => {
+            o.AddWhileEnterCompletelyBlack(() => 
+        {
+            UIManager.Instance.HidePanel<MainMenuPanel>();
+            UIManager.Instance.ShowPanel<OfflineRoomPanel>("GameLayer");
+        });});
+    }
+    void OnlinePlayButtonAction()
+    {
+
     }
 }

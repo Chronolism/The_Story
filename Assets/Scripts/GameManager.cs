@@ -77,6 +77,7 @@ public class GameManager : BaseManager<GameManager>
             case 502: Debug.LogWarning("没有成功加载指定地图"); return true;
             case 503: Debug.LogWarning("没有成功加载指定游戏模式"); return true;
             case 504: Debug.LogWarning("没有成功依据模式初始化本地角色"); return true;
+            case 505: Debug.LogWarning("没有成功加载使魔"); return true;
             default:return false;
         }
     }

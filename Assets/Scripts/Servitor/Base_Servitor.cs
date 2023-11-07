@@ -5,7 +5,7 @@ using UnityEngine;
 public class Base_Servitor : MonoBehaviour
 {
     public D_Servitor d_servitor;
-
+    
     public virtual void InitServitor()
     {
         d_servitor = new D_Servitor();

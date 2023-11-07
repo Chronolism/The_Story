@@ -6,6 +6,7 @@ public class PlayerManager : BaseManager<PlayerManager>
 {
     private D_LocalPlayer _LocalPlayer = new D_LocalPlayer();
     private List<D_OtherPlayer> _OtherPlayers = new List<D_OtherPlayer>();
+
     /// <summary>
     /// 获取本机信息
     /// </summary>
@@ -148,6 +149,13 @@ public class PlayerManager : BaseManager<PlayerManager>
             }
             return null;
         }
+    }
+    public List<D_Base_Player> GetAllPlayerDataList()
+    {
+        List<D_Base_Player> temp = new List<D_Base_Player>();
+        temp.Add(_LocalPlayer);
+        foreach (var item in _OtherPlayers) temp.Add(item);
+        return temp;
     }
 }
 public static class exploreFunc

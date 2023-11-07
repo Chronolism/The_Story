@@ -38,9 +38,8 @@ public class MyNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
-        Debug.Log("连接上服务器");
-        UIManager.Instance.ClearAllPanel();
-        UIManager.Instance.ShowPanel<RoomPanel>();
+        Debug.Log(conn.address + "连接上服务器");
+        
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -53,6 +52,8 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnClientConnect();
         //if (NetworkServer.active) return;
+        UIManager.Instance.ClearAllPanel();
+        UIManager.Instance.ShowPanel<RoomPanel>();
         NetworkClient.Send(new C2S_JionRoom() { name = DataMgr.Instance.playerData.account });
     }
     public override void OnClientDisconnect()

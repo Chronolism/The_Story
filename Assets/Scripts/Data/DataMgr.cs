@@ -27,7 +27,7 @@ public class DataMgr : BaseManager<DataMgr>
 
     public PlayerData playerData;
     public string version = "0.9.0728a";
-    public uint steamAppID = 480;
+    public uint steamAppID = 2540070;
 
     public Dictionary<string, string> Language = new Dictionary<string, string>()
     {

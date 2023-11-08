@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1811540822}
   - component: {fileID: 5046671112946391732}
   - component: {fileID: 6321376331093206745}
+  - component: {fileID: 5597327947140687170}
+  - component: {fileID: 201559883806516317}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -75,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 284472948, guid: b38001b7617401543bbbf1b27bd1d248, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,6 +120,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   id: 0
+  ifServer: 0
   v3: {x: 0, y: 0, z: 0}
   floats: []
   perant: {fileID: 0}
@@ -127,6 +130,43 @@ MonoBehaviour:
   lifeTime: 99999
   continuouslyEffective: 1
   atkTime: 300
+--- !u!114 &5597327947140687170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811540818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 0
+  animator: {fileID: 201559883806516317}
+--- !u!95 &201559883806516317
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811540818}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c57acf48dd43d444084f672ec56b1d13, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5480366113042657854
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,9 +267,11 @@ MonoBehaviour:
     description: 
     value: []
   spriteRenderer: {fileID: 1811540822}
+  bodyAnimator: {fileID: 201559883806516317}
   characterData:
     character_Code: 0
     characterName: 
+    controller: {fileID: 0}
     HP_Max: 0
     Speed: 0
     atkDamage: 0

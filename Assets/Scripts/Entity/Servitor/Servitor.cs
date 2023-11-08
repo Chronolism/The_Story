@@ -54,6 +54,8 @@ public class Servitor : Entity
         }
     }
 
+    
+
     public override void OnDisable()
     {
         base.OnDisable();
@@ -204,6 +206,7 @@ public class Servitor : Entity
             //    anim.SetFloat("x", inputX);
             //    anim.SetFloat("y", inputY);
             //}
+            anim.SetFloat("AD", (movement - rb.position).normalized.x);
         }
     }
 

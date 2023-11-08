@@ -1,4 +1,6 @@
-using System;
+
+
+using UnityEngine;
 
 public class Buff_1003 : BuffBase
 {
@@ -14,6 +16,7 @@ public class Buff_1003 : BuffBase
     }
     public override void OnAdd(Entity entity, float Value)
     {
+        Debug.Log("º”ÀŸ");
         entity.maxSpeed += Value/100;
     }
     public override void OnRemove(Entity entity, float Value)

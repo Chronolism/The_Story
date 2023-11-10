@@ -223,6 +223,7 @@ MonoBehaviour:
   SpeedIn: 10
   SpeedOut: 10
   player: {fileID: 0}
+  UIAnimationSpeed: 0.1
 --- !u!1 &1344887059219992895
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,10 +976,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 548172361, guid: d589291f4796447429ddd6598b148161, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0

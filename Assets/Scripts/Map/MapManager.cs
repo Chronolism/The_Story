@@ -149,8 +149,8 @@ public class MapManager : BaseManager<MapManager>
             foreach (var item in runtimeTilemaps)
             {
                 GameObject.Destroy(item.Value.gameObject);
-                runtimeTilemaps.Clear();
             }
+            runtimeTilemaps.Clear();
         }
         if (!ifAllowGridKeep && runtimeGirdGameObject != null)
         {

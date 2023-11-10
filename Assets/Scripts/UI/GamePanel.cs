@@ -13,6 +13,7 @@ public class GamePanel : BasePanel
     [Header("Ink")]
     Image _Ink_BackGround;
     Image _Ink_Now;
+    float _Ink_targetFillAmount;
     [Header("Prop")]
     Image _Prop_BackGround;
     Image _Prop_Now;
@@ -23,6 +24,9 @@ public class GamePanel : BasePanel
     Image _Ultimate_Skill_BackGround;
     Image _Ultimate_Skill_Now;
     Image _Ultimate_Skill_Charge_Progress;
+    float _Ultimate_Skill_targetFillAmount;
+    [Header("QA")]
+    public float UIAnimationSpeed = 0.1f; 
 
     Text _tipsFollowMouse;
 
@@ -86,9 +90,25 @@ public class GamePanel : BasePanel
             //待做：逐渐改变
             imgBlood.fillAmount = player.blood / player.MaxBlood;
             txtBlood.text = player.blood + "/" + player.MaxBlood;
-            //待做：逐渐改变
-            _Ink_Now.fillAmount = player.inkAmount / player.inkMaxAmount;
-            _Ultimate_Skill_Charge_Progress.fillAmount = player.skill.energyAmount / player.skill.maxEnergyAmount;
+
+            if (player.inkMaxAmount == 0) Debug.LogWarning("player.inkMaxAmount为0");
+            if (player.skill.maxEnergyAmount == 0) Debug.LogWarning("skill.maxEnergyAmount为0");
+            _Ink_targetFillAmount = player.inkAmount / player.inkMaxAmount;
+            _Ultimate_Skill_targetFillAmount = player.skill.energyAmount / player.skill.maxEnergyAmount;
+            
+
+            if (Mathf.Abs(_Ink_targetFillAmount - _Ink_Now.fillAmount) > 0.01f)
+                _Ink_Now.fillAmount = Mathf.Lerp(_Ink_Now.fillAmount, _Ink_targetFillAmount, UIAnimationSpeed);
+            else
+                _Ink_Now.fillAmount = _Ink_targetFillAmount;
+
+            if (Mathf.Abs(_Ultimate_Skill_targetFillAmount - _Ultimate_Skill_Charge_Progress.fillAmount) > 0.01f)
+                _Ultimate_Skill_Charge_Progress.fillAmount = Mathf.Lerp(_Ultimate_Skill_Charge_Progress.fillAmount, _Ultimate_Skill_targetFillAmount, UIAnimationSpeed);
+            else
+                _Ultimate_Skill_Charge_Progress.fillAmount = _Ultimate_Skill_targetFillAmount;
+
+
+            
         }                     
         else
         {

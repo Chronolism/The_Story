@@ -486,6 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9166c2574dd966748b90ae67c9cc07c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
 --- !u!1001 &707982992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1282,6 +1283,10 @@ PrefabInstance:
     - target: {fileID: 8686525408681834560, guid: c7c8eaa42979d3649acc5a489b8036d1, type: 3}
       propertyPath: m_Name
       value: LobbyPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686525408681834560, guid: c7c8eaa42979d3649acc5a489b8036d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7c8eaa42979d3649acc5a489b8036d1, type: 3}

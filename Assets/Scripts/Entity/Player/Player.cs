@@ -9,6 +9,7 @@ public class Player : Entity
     public Vector2 movement;
     public PropData playerProp;
     public SpriteRenderer spriteRenderer;
+    public Animator bodyAnimator;
 
     public List<Observer<Player>> observers = new List<Observer<Player>>();
 
@@ -110,6 +111,17 @@ public class Player : Entity
         energyGet = 20;
         energyGetRate = 1;
         skill.InitSkill(skills, characterData.ultimate_Skill_Start, characterData.ultimate_Skill_Need);
+        InitPlayerRpc(characterCode);
+    }
+    [ClientRpc]
+    public void InitPlayerRpc(int characterCode)
+    {
+        if (!isServer)
+        {
+            this.characterCode = characterCode;
+            this.characterData = DataMgr.Instance.GetCharacter(characterCode);
+        }
+        bodyAnimator.runtimeAnimatorController = characterData.controller;
     }
     /// <summary>
     /// Ìí¼ÓµÀ¾ß
@@ -230,12 +242,12 @@ public class Player : Entity
         foreach (var anim in animators)
         {
             //anim.SetFloat("speed", speedper);
-            //if (isMoving)
-            //{
-            //    anim.SetInteger("dir", dir);
-            //    anim.SetFloat("x", inputX);
-            //    anim.SetFloat("y", inputY);
-            //}
+            if (isMoving)
+            {
+                anim.SetFloat("dir", dir);
+                anim.SetFloat("x", inputX);
+                anim.SetFloat("y", inputY);
+            }
         }
     }
 
@@ -251,7 +263,7 @@ public class Player : Entity
             }
             foreach (var anim in entity.animators)
             {
-                anim.Play("idle");
+                //anim.Play("idle");
             }
         }
         public override void OnExit(Entity entity)

@@ -25,7 +25,11 @@ public class MyNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-        transport.OnClientDisconnected = () => { Debug.Log("服务器连接不上"); };
+        transport.OnClientDisconnected = () => { 
+            Debug.Log("服务器连接不上");
+            StopClient();
+        };
+        
         
     }
 

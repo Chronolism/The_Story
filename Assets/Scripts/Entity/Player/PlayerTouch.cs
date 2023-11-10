@@ -1,6 +1,8 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerTouch : AttackBase
 {
@@ -8,7 +10,8 @@ public class PlayerTouch : AttackBase
     private void Awake()
     {
         player = transform.parent.GetComponent<Player>();
-        Init(player, Vector3.zero, Vector3.zero);
+        perant = player;
+        ifServer = NetworkServer.active;
     }
     public override void Attack(Entity entity)
     {

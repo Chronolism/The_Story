@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class MapData
@@ -16,6 +17,7 @@ public class CharacterData
 {
     public int character_Code;
     public string characterName;
+    public AnimatorController controller;
     public float HP_Max;
     public float Speed;
     public float atkDamage;

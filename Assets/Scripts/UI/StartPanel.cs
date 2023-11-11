@@ -23,6 +23,9 @@ public class StartPanel : BasePanel
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Steam);
                 UIManager.Instance.ShowPanel<SearchRoomPanel>();
                 break;
+            case "btnQuit":
+                Application.Quit();
+                break;
         }
     }
 }

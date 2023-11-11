@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189881, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189885, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_Pivot.x
@@ -937,6 +937,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3926201720947739468, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
 --- !u!1001 &4133642537019184591
@@ -1360,7 +1364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501741773009792128, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}

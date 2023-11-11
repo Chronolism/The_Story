@@ -56,8 +56,8 @@ public class EntitySkill : EntityBuff
         {
             AddBuff(i.buffId, i.buffValue, entity);
         }
-        energyAmount = mainSkill.energy;
-        maxEnergyAmount = mainSkill.maxEnergy;
+        this.energyAmount = mainSkill.energy;
+        this.maxEnergyAmount = mainSkill.maxEnergy;
     }
 
     /// <summary>

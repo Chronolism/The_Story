@@ -1,8 +1,8 @@
 using Mirror;
+using Mirror.Discovery;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class MapData
@@ -17,7 +17,7 @@ public class CharacterData
 {
     public int character_Code;
     public string characterName;
-    public AnimatorController controller;
+    public RuntimeAnimatorController controller;
     public float HP_Max;
     public float Speed;
     public float atkDamage;
@@ -108,4 +108,11 @@ public class AttackData
     public string description;
     public Sprite img;
     public GameObject gameObject;
+}
+
+public class FriendRoom
+{
+    public string Name;
+    public ServerResponse localIP;
+    public ulong steamIP;
 }

@@ -17,6 +17,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public Text txtCharacterSkill;
     public Text txtCharacterPassiveSkill;
     public Button btnStart;
+    public ScrollRect srSteamFriendList;
 
     bool ifchange;
     int passiveSkillIndex = 1;
@@ -29,7 +30,9 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         btnStart = GetControl<Button>("btnStart");
         StartCoroutine(findRoomData());
 
-        
+        srSteamFriendList = GetControl<ScrollRect>("srSteamFriendList");
+        srSteamFriendList.gameObject.SetActive(false);
+        GetControl<Button>("btnInvited").gameObject.SetActive(DataMgr.Instance.gameServerType == GameServerType.Steam);
     }
 
     protected override void Update()
@@ -154,6 +157,26 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         {
             case "btnStart":
                 roomData.OpenGame();
+                break;
+            case "btnInvited":
+                srSteamFriendList.gameObject.SetActive(true);
+                for (int i = 0; i < srSteamFriendList.content.transform.childCount; i++)
+                {
+                    Destroy(srSteamFriendList.content.transform.GetChild(i).gameObject);
+                }
+                foreach (var friend in SteamMgr.GetOnLineFriend())
+                {
+                    BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
+                    btnRoom.Init(new FriendRoom() { steamIP = friend.steamID.m_SteamID }, friend.name);
+                    btnRoom.transform.SetParent(srSteamFriendList.content, false);
+                    btnRoom.btnRoom.onClick.AddListener(() =>
+                    {
+                        (MyNetworkManager.singleton as MyNetworkManager).InvitedSteamFriendToLobby(btnRoom.room.steamIP);
+                    });
+                }
+                break;
+            case "btnQuitInvited":
+                srSteamFriendList.gameObject.SetActive(false);
                 break;
         }
     }

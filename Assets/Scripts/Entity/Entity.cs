@@ -11,6 +11,7 @@ public class Entity : NetworkBehaviour
     public Rigidbody2D rb;
     public Animator[] animators;
     protected StateBase state;
+    private Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
     /// <summary>
     /// 实体buff组件
     /// </summary>
@@ -47,8 +48,6 @@ public class Entity : NetworkBehaviour
     public bool ifGiddy = false;//是否眩晕
     [SyncVar]
     public bool ifPause = true;
-
-    private Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
     [Header("用户输入")]
     public float inputX, inputY;
     public float fire1, fire2;
@@ -132,15 +131,21 @@ public class Entity : NetworkBehaviour
     /// <summary>
     /// 改写目标时触发
     /// </summary>
+    public UnityAction<Entity, Entity, InkData> BeforeReWrite;
     public UnityAction<Entity, Entity, InkData> OnReWrite;
+    public UnityAction<Entity, Entity, InkData> AfterReWrite;
     /// <summary>
     /// 被改写目标时触发
     /// </summary>
+    public UnityAction<Entity, Entity, Entity, InkData> BeforeReWrited;
     public UnityAction<Entity, Entity, Entity, InkData> OnReWrited;
+    public UnityAction<Entity, Entity, Entity, InkData> AfterReWrited;
     /// <summary>
     /// 被改写时触发
     /// </summary>
-    public UnityAction<Entity,Entity, InkData> OnTurn;
+    public UnityAction<Entity, Entity, InkData> BeforeTurn;
+    public UnityAction<Entity, Entity, InkData> OnTurn;
+    public UnityAction<Entity, Entity, InkData> AfterTurn;
     /// <summary>
     /// 添加使魔时触发
     /// </summary>

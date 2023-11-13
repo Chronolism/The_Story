@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
-	<!--枚举配置规则-->
-	<enum name="E_PLAYER_TYPE" namespace="FG">
-		<field name="MAIN">1</field>
-		<field name="OTHER"/>
-	</enum>
-	<enum name="E_HERO_TYPE" namespace="FG">
-		<field name="MAIN"/>
-		<field name="OTHER"/>
-	</enum>
-	<enum name="E_Tip_TYPE" namespace="FG">
-		<field name="Login_Success"/>
-		<field name="Login_Fail"/>
-		<field name="Register_Success"/>
-		<field name="Register_Fail"/>
-	</enum>
 	<!--数据结构类配置规则-->
-	<data name="PlayerData" namespace="FG">
+	<data name="ATKData" namespace="TheStory" type="Outside">
+		<field type="int" name="id"/>
+		<field type="float" name="pre"/>
+		<field type="float" name="value"/>
+		<field type="float" name="valueAdd"/>
+		<field type="float" name="valuePre"/>
+		<field type="enum" data="AtkType" name="atkType"/>
+		<field type="bool" name="canAtk"/>
+	</data>
+	<data name="BuffDetile" namespace="TheStory" type="Outside">
+		<field type="int" name="buffId"/>
+		<field type="int" name="buffValue"/>
+	</data>
+	<data name="RoomUserData" namespace="TheStory" type="Outside">
+		<field type="int" name="connectId"/>
+		<field type="int" name="characterId"/>
+		<field type="string" name="name"/>
+		<field type="bool" name="ifSure"/>
+		<field type="list" T="BuffDetile" name="skills"/>
+		<field type="list" T="int" name="tags"/>
+	</data>
+	<data name="PlayerData" namespace="TheStory" type="Inside">
 		<field type="int" name="id"/>
 		<field type="float" name="atk"/>
 		<field type="bool" name="sex"/>
@@ -24,32 +30,13 @@
 		<field type="array" data="int" name="arrays"/>
 		<field type="list" T="int" name="list"/>
 		<field type="dic" Tkey="int" Tvalue="string" name="dic"/>
-		<field type="enum" data="E_HERO_TYPE" name="heroType"/>
 	</data>
-	<data name="AccountData" namespace="FG">
+	<data name="AccountData" namespace="TheStory" type="Inside">
 		<field type="string" name="account"/>
 		<field type="string" name="password"/>
 	</data>
 	<!--消息类类配置规则-->
-	<message id="1000" name="TokenMsg" namespace="FG" type="Client">
-		<field type="long" name="Token"/>
-	</message>
-	<message id="1001" name="PlayerMsg" namespace="FG" type="AccountServer">
-		<field type="int" name="playerID"/>
-		<field type="PlayerData" name="data"/>
-	</message>
-	<message id="1002" name="HeartMsg" namespace="FG" type="AccountServer"/>
-	<message id="1003" name="QuitMsg" namespace="FG" type="AccountServer"/>
-	<message id="1004" name="LoginMsg" namespace="FG" type="AccountServer">
-		<field type="AccountData" name="accountData"/>
-	</message>
-	<message id="1005" name="RegisterMsg" namespace="FG" type="AccountServer">
-		<field type="AccountData" name="accountData"/>
-	</message>
-	<message id="1006" name="TipType" namespace="FG" type="Client">
-		<field type="enum" data="E_Tip_TYPE" name="tipType"/>
-	</message>
-	<message id="1007" name="TipMessage" namespace="FG" type="Client">
-		<field type="string" name="content"/>
+	<message name="C2S_JionRoom" namespace="TheStory" type="Server">
+		<field type="string" name="name"/>
 	</message>
 </messages>

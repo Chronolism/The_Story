@@ -14,12 +14,7 @@ public class ProtocolTool
     [MenuItem("ProtocolTool/生成C#脚本")]
     private static void GenerateCSharp()
     {
-        //1.读取xml相关的信息
-        //XmlNodeList list = GetNodes("enum");
-        //2.根据这些信息 去拼接字符串 生成对应的脚本
-        //生成对应的枚举脚本
-        generateCSharp.GenerateEnum(GetNodes("enum"));
-        //生成对应的数据结构类脚本
+        //生成对应的数据类读写脚本
         generateCSharp.GenerateData(GetNodes("data"));
         //生成对应的消息类脚本
         generateCSharp.GenerateMsg(GetNodes("message"));

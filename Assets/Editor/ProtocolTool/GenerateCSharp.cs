@@ -1,3 +1,4 @@
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,59 +12,12 @@ public class GenerateCSharp
     //协议保存路径
     private string SAVE_PATH = Application.dataPath + "/Scripts/Net/Protocol/";
 
-    //生成枚举
-    public void GenerateEnum(XmlNodeList nodes)
-    {
-        //生成枚举脚本的逻辑
-        string namespaceStr = "";
-        string enumNameStr = "";
-        string fieldStr = "";
-
-        foreach (XmlNode enumNode in nodes)
-        {
-            //获取命名空间配置信息
-            namespaceStr = enumNode.Attributes["namespace"].Value;
-            //获取枚举名配置信息
-            enumNameStr = enumNode.Attributes["name"].Value;
-            //获取所有的字段节点 然后进行字符串拼接
-            XmlNodeList enumFields = enumNode.SelectNodes("field");
-            //一个新的枚举 需要清空一次上一次拼接的字段字符串
-            fieldStr = "";
-            foreach (XmlNode enumField in enumFields)
-            {
-                fieldStr += "\t\t" + enumField.Attributes["name"].Value;
-                if (enumField.InnerText != "")
-                    fieldStr += " = " + enumField.InnerText;
-                fieldStr += ",\r\n";
-            }
-            //对所有可变的内容进行拼接
-            string enumStr = $"namespace {namespaceStr}\r\n" +
-                             "{\r\n" +
-                                $"\tpublic enum {enumNameStr}\r\n" +
-                                "\t{\r\n" +
-                                    $"{fieldStr}" +
-                                "\t}\r\n" +
-                             "}";
-            //保存文件的路径
-            string path = SAVE_PATH + namespaceStr + "/Enum/";
-            //如果不存在这个文件夹 则创建
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //字符串保存 存储为枚举脚本文件
-            File.WriteAllText(path + enumNameStr + ".cs", enumStr);
-        }
-
-        Debug.Log("枚举生成结束");
-    }
-
     //生成数据结构类
     public void GenerateData(XmlNodeList nodes)
     {
         string namespaceStr = "";
         string classNameStr = "";
         string fieldStr = "";
-        string getBytesNumStr = "";
         string writingStr = "";
         string readingStr = "";
 
@@ -77,8 +31,6 @@ public class GenerateCSharp
             XmlNodeList fields = dataNode.SelectNodes("field");
             //通过这个方法进行成员变量声明的拼接 返回拼接结果
             fieldStr = GetFieldStr(fields);
-            //通过某个方法 对GetBytesNum函数中的字符串内容进行拼接 返回结果
-            getBytesNumStr = GetGetBytesNumStr(fields);
             //通过某个方法 对Writing函数中的字符串内容进行拼接 返回结果
             writingStr = GetWritingStr(fields);
             //通过某个方法 对Reading函数中的字符串内容进行拼接 返回结果
@@ -86,64 +38,57 @@ public class GenerateCSharp
 
             string dataStr = "using System;\r\n" +
                              "using System.Collections.Generic;\r\n" +
-                             "using System.Text;\r\n" + 
+                             "using System.Text;\r\n" +
+                             "using Mirror;\r\n" +
                              $"namespace {namespaceStr}\r\n" +
-                              "{\r\n" +
-                              $"\tpublic class {classNameStr} : BaseData\r\n" +
+                              "{\r\n";
+            if(dataNode.Attributes["type"].Value == "Inside")
+            {
+                dataStr += $"\tpublic class {classNameStr}\r\n" +
+                            "\t{\r\n" +
+                                  $"{fieldStr}" +
+                            "\t}\r\n" +
+                            "\r\n";
+            }
+
+            dataStr +=        $"\tpublic static class {classNameStr}ReadWrite\r\n" +
                               "\t{\r\n" +
-                                    $"{fieldStr}" +
-                                    "\t\tpublic override int GetBytesNum()\r\n" +
+                                    $"\t\tpublic static void Write{classNameStr}(this NetworkWriter writer, {classNameStr} value)\r\n" +
                                     "\t\t{\r\n" +
-                                        "\t\t\tint num = 0;\r\n" +
-                                        $"{getBytesNumStr}" +
-                                        "\t\t\treturn num;\r\n" +
-                                    "\t\t}\r\n" +
-                                    "\t\tpublic override byte[] Writing()\r\n" +
-                                    "\t\t{\r\n" +
-                                        "\t\t\tint index = 0;\r\n"+
-                                        "\t\t\tbyte[] bytes = new byte[GetBytesNum()];\r\n" +
                                         $"{writingStr}" +
-                                        "\t\t\treturn bytes;\r\n" +
                                     "\t\t}\r\n" +
-                                    "\t\tpublic override int Reading(byte[] bytes, int beginIndex = 0)\r\n" +
+                                    $"\t\tpublic static {classNameStr} Read{classNameStr}(this NetworkReader reader)\r\n" +
                                     "\t\t{\r\n" +
-                                        "\t\t\tint index = beginIndex;\r\n" +
+                                        $"\t\t\t{classNameStr} value = new {classNameStr}();\r\n" +
                                         $"{readingStr}" +
-                                        "\t\t\treturn index - beginIndex;\r\n" +
+                                        "\t\t\treturn value;\r\n" +
                                     "\t\t}\r\n" +
                               "\t}\r\n" +
                               "}";
 
             //保存为 脚本文件
             //保存文件的路径
-            string path = SAVE_PATH + namespaceStr + "/Data/";
+            string path = SAVE_PATH + namespaceStr + "/DataReadWrite/";
             //如果不存在这个文件夹 则创建
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
             //字符串保存 存储为枚举脚本文件
-            File.WriteAllText(path + classNameStr + ".cs", dataStr);
+            File.WriteAllText(path + classNameStr + "ReadWrite.cs", dataStr);
 
         }
-        Debug.Log("数据结构类生成结束");
     }
 
     //生成消息类
     public void GenerateMsg(XmlNodeList nodes)
     {
-        string idStr = "";
         string namespaceStr = "";
         string classNameStr = "";
         string fieldStr = "";
-        string getBytesNumStr = "";
-        string writingStr = "";
-        string readingStr = "";
         string msgType = "";
 
         foreach (XmlNode dataNode in nodes)
         {
-            //消息ID
-            idStr = dataNode.Attributes["id"].Value;
             //命名空间
             namespaceStr = dataNode.Attributes["namespace"].Value;
             //类名
@@ -154,46 +99,16 @@ public class GenerateCSharp
             XmlNodeList fields = dataNode.SelectNodes("field");
             //通过这个方法进行成员变量声明的拼接 返回拼接结果
             fieldStr = GetFieldStr(fields);
-            //通过某个方法 对GetBytesNum函数中的字符串内容进行拼接 返回结果
-            getBytesNumStr = GetGetBytesNumStr(fields);
-            //通过某个方法 对Writing函数中的字符串内容进行拼接 返回结果
-            writingStr = GetWritingStr(fields);
-            //通过某个方法 对Reading函数中的字符串内容进行拼接 返回结果
-            readingStr = GetReadingStr(fields);
 
             string dataStr = "using System;\r\n" +
                              "using System.Collections.Generic;\r\n" +
+                             "using Mirror;\r\n" +
                              "using System.Text;\r\n" +
                              $"namespace {namespaceStr}\r\n" +
                               "{\r\n" +
-                              $"\tpublic class {classNameStr} : BaseMsg\r\n" +
+                              $"\tpublic struct {classNameStr} : NetworkMessage\r\n" +
                               "\t{\r\n" +
                                     $"{fieldStr}" +
-                                    "\t\tpublic override int GetBytesNum()\r\n" +
-                                    "\t\t{\r\n" +
-                                        "\t\t\tint num = 8;\r\n" +//这个8代表的是 消息ID的4个字节 + 消息体长度的4个字节
-                                        $"{getBytesNumStr}" +
-                                        "\t\t\treturn num;\r\n" +
-                                    "\t\t}\r\n" +
-                                    "\t\tpublic override byte[] Writing()\r\n" +
-                                    "\t\t{\r\n" +
-                                        "\t\t\tint index = 0;\r\n" +
-                                        "\t\t\tbyte[] bytes = new byte[GetBytesNum()];\r\n" +
-                                        "\t\t\tWriteInt(bytes, GetID(), ref index);\r\n" +
-                                        "\t\t\tWriteInt(bytes, bytes.Length - 8, ref index);\r\n" +
-                                        $"{writingStr}" +
-                                        "\t\t\treturn bytes;\r\n" +
-                                    "\t\t}\r\n" +
-                                    "\t\tpublic override int Reading(byte[] bytes, int beginIndex = 0)\r\n" +
-                                    "\t\t{\r\n" +
-                                        "\t\t\tint index = beginIndex;\r\n" +
-                                        $"{readingStr}" +
-                                        "\t\t\treturn index - beginIndex;\r\n" +
-                                    "\t\t}\r\n" +
-                                    "\t\tpublic override int GetID()\r\n" +
-                                    "\t\t{\r\n" +
-                                        "\t\t\treturn " + idStr + ";\r\n" +
-                                    "\t\t}\r\n" +
                               "\t}\r\n" +
                               "}";
 
@@ -216,15 +131,13 @@ public class GenerateCSharp
                 Directory.CreateDirectory(path + msgType + "/");
             if (File.Exists(path + msgType + "/" + classNameStr + "Handler.cs"))
                 continue;
-            string handlerStr = "using System.Threading.Tasks;\r\n" +
+            string handlerStr = "using Mirror;\r\n" +
                               $"namespace {namespaceStr}\r\n" +
                                 "{\r\n" +
-                                    $"\tpublic class {classNameStr}Handler : BaseHandler\r\n" +
+                                    $"\tpublic static class {classNameStr}Handler\r\n" +
                                     "\t{\r\n" +
-                                        "\t\tpublic async override void MsgHandle<T>(T self)\r\n" +
+                                        $"\t\tpublic static void MsgHandle(NetworkConnectionToClient con, {classNameStr} msg ,int channelId)\r\n" +
                                         "\t\t{\r\n" +
-                                             "\t\t\tawait Task.Yield();\r\n" +
-                                            $"\t\t\t{classNameStr} msg = message as {classNameStr};\r\n" +
                                         "\t\t}\r\n" +
                                     "\t}\r\n" +
                                 "}\r\n";
@@ -240,18 +153,11 @@ public class GenerateCSharp
     //生成消息池 主要就是ID和消息类型以及消息处理器类型的对应关系
     public void GenerateMsgPool(XmlNodeList nodes)
     {
-        List<string> ids = new List<string>();
         List<string> names = new List<string>();
         List<string> nameSpaces = new List<string>();
 
         foreach (XmlNode dataNode in nodes)
         {
-            //记录所有消息的ID
-            string id = dataNode.Attributes["id"].Value;
-            if (!ids.Contains(id))
-                ids.Add(id);
-            else
-                Debug.LogError("存在相同ID的消息" + id);
             //记录所有消息的名字
             string name = dataNode.Attributes["name"].Value;
             if (!names.Contains(name))
@@ -270,37 +176,19 @@ public class GenerateCSharp
             nameSpacesStr += $"using {nameSpaces[i]};\r\n";
         //获取所有消息注册相关的内容
         string registerStr = "";
-        for (int i = 0; i < ids.Count; i++)
-            registerStr += $"\t\tRegister({ids[i]}, typeof({names[i]}), typeof({names[i]}Handler));\r\n";
+        for (int i = 0; i < names.Count; i++)
+            registerStr += $"\t\tNetworkServer.RegisterHandler<{names[i]}>({names[i]}Handler.MsgHandle);\r\n";
 
         //消息池对应的类的字符串信息
         string msgPoolStr = "using System;\r\n" +
                             "using System.Collections.Generic;\r\n" +
+                            "using Mirror;\r\n" +
                             nameSpacesStr +
                             "public class MsgPool\r\n" +
                             "{\r\n" +
-                                "\tprivate Dictionary<int, Type> messsages = new Dictionary<int, Type>();\r\n" +
-                                "\tprivate Dictionary<int, Type> handlers = new Dictionary<int, Type>();\r\n" +
                                 "\tpublic MsgPool()\r\n" +
                                 "\t{\r\n" +
                                     registerStr +
-                                "\t}\r\n" +
-                                "\tprivate void Register(int id, Type messageType, Type handlerType)\r\n" +
-                                "\t{\r\n" +
-                                    "\t\tmesssages.Add(id, messageType);\r\n" +
-                                    "\t\thandlers.Add(id, handlerType);\r\n" +
-                                "\t}\r\n" +
-                                "\tpublic BaseMsg GetMessage(int id)\r\n" +
-                                "\t{\r\n" +
-                                    "\t\tif (!messsages.ContainsKey(id))\r\n" +
-                                    "\t\t\treturn null;\r\n" +
-                                    "\t\treturn Activator.CreateInstance(messsages[id]) as BaseMsg;\r\n" +
-                                "\t}\r\n" +
-                                "\tpublic BaseHandler GetHandler(int id)\r\n" +
-                                "\t{\r\n" +
-                                    "\t\tif (!handlers.ContainsKey(id))\r\n" +
-                                    "\t\t\treturn null;\r\n" +
-                                    "\t\treturn Activator.CreateInstance(handlers[id]) as BaseHandler;\r\n" +
                                 "\t}\r\n" +
                             "}\r\n";
 
@@ -358,73 +246,6 @@ public class GenerateCSharp
         return fieldStr;
     }
 
-    //拼接 GetBytesNum函数的方法
-    private string GetGetBytesNumStr(XmlNodeList fields)
-    {
-        string bytesNumStr = "";
-
-        string type = "";
-        string name = "";
-        foreach (XmlNode field in fields)
-        {
-            type = field.Attributes["type"].Value;
-            name = field.Attributes["name"].Value;
-            if (type == "list")
-            {
-                string T = field.Attributes["T"].Value;
-                bytesNumStr += "\t\t\tnum += 2;\r\n";//+2 是为了节约字节数 用一个short去存储信息
-                bytesNumStr += "\t\t\tfor (int i = 0; i < " + name + ".Count; ++i)\r\n";
-                //这里使用的是 name + [i] 目的是获取 list当中的元素传入进行使用
-                bytesNumStr += "\t\t\t\tnum += " + GetValueBytesNum(T, name + "[i]") + ";\r\n";
-            }
-            else if (type == "array")
-            {
-                string data = field.Attributes["data"].Value;
-                bytesNumStr += "\t\t\tnum += 2;\r\n";//+2 是为了节约字节数 用一个short去存储信息
-                bytesNumStr += "\t\t\tfor (int i = 0; i < " + name + ".Length; ++i)\r\n";
-                //这里使用的是 name + [i] 目的是获取 list当中的元素传入进行使用
-                bytesNumStr += "\t\t\t\tnum += " + GetValueBytesNum(data, name + "[i]") + ";\r\n";
-            }
-            else if (type == "dic")
-            {
-                string Tkey = field.Attributes["Tkey"].Value;
-                string Tvalue = field.Attributes["Tvalue"].Value;
-                bytesNumStr += "\t\t\tnum += 2;\r\n";//+2 是为了节约字节数 用一个short去存储信息
-                bytesNumStr += "\t\t\tforeach (" + Tkey + " key in " + name + ".Keys)\r\n";
-                bytesNumStr += "\t\t\t{\r\n";
-                bytesNumStr += "\t\t\t\tnum += " + GetValueBytesNum(Tkey, "key") + ";\r\n";
-                bytesNumStr += "\t\t\t\tnum += " + GetValueBytesNum(Tvalue, name + "[key]") + ";\r\n";
-                bytesNumStr += "\t\t\t}\r\n";
-            }
-            else
-                bytesNumStr += "\t\t\tnum += " + GetValueBytesNum(type, name) + ";\r\n";
-        }
-
-        return bytesNumStr;
-    }
-    //获取 指定类型的字节数
-    private string GetValueBytesNum(string type, string name)
-    {
-        //这里我没有写全 所有的常用变量类型 你可以根据需求去添加
-        switch (type)
-        {
-            case "int":
-            case "float":
-            case "enum":
-                return "4";
-            case "long":
-                return "8";
-            case "byte":
-            case "bool":
-                return "1";
-            case "short":
-                return "2";
-            case "string":
-                return "4 + Encoding.UTF8.GetByteCount(" + name + ")";
-            default:
-                return name + ".GetBytesNum()";
-        }
-    }
 
     //拼接 Writing函数的方法
     private string GetWritingStr(XmlNodeList fields)
@@ -437,28 +258,28 @@ public class GenerateCSharp
         {
             type = field.Attributes["type"].Value;
             name = field.Attributes["name"].Value;
-            if(type == "list")
+            if (type == "list")
             {
                 string T = field.Attributes["T"].Value;
-                writingStr += "\t\t\tWriteShort(bytes, (short)" + name + ".Count, ref index);\r\n";
-                writingStr += "\t\t\tfor (int i = 0; i < " + name + ".Count; ++i)\r\n";
+                writingStr += "\t\t\twriter.Write((short)value." + name + ".Count);\r\n";
+                writingStr += "\t\t\tfor (int i = 0; i < value." + name + ".Count; ++i)\r\n";
                 writingStr += "\t\t\t\t" + GetFieldWritingStr(T, name + "[i]") + "\r\n";
             }
             else if (type == "array")
             {
                 string data = field.Attributes["data"].Value;
-                writingStr += "\t\t\tWriteShort(bytes, (short)" + name + ".Length, ref index);\r\n";
-                writingStr += "\t\t\tfor (int i = 0; i < " + name + ".Length; ++i)\r\n";
+                writingStr += "\t\t\twriter.Write((short)value." + name + ".Length);\r\n";
+                writingStr += "\t\t\tfor (int i = 0; i < value." + name + ".Length; ++i)\r\n";
                 writingStr += "\t\t\t\t" + GetFieldWritingStr(data, name + "[i]") + "\r\n";
             }
             else if (type == "dic")
             {
                 string Tkey = field.Attributes["Tkey"].Value;
                 string Tvalue = field.Attributes["Tvalue"].Value;
-                writingStr += "\t\t\tWriteShort(bytes, (short)" + name + ".Count, ref index);\r\n";
-                writingStr += "\t\t\tforeach (" + Tkey + " key in " + name + ".Keys)\r\n";
+                writingStr += "\t\t\twriter.Write((short)value." + name + ".Count);\r\n";
+                writingStr += "\t\t\tforeach (" + Tkey + " key in value." + name + ".Keys)\r\n";
                 writingStr += "\t\t\t{\r\n";
-                writingStr += "\t\t\t\t" + GetFieldWritingStr(Tkey, "key") + "\r\n";
+                writingStr += "\t\t\t\t" + GetFieldWritingStrSingle(Tkey, "key") + "\r\n";
                 writingStr += "\t\t\t\t" + GetFieldWritingStr(Tvalue, name + "[key]") + "\r\n";
                 writingStr += "\t\t\t}\r\n";
             }
@@ -475,23 +296,48 @@ public class GenerateCSharp
         switch (type)
         {
             case "byte":
-                return "WriteByte(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name +");";
             case "int":
-                return "WriteInt(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "short":
-                return "WriteShort(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "long":
-                return "WriteLong(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "float":
-                return "WriteFloat(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "bool":
-                return "WriteBool(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "string":
-                return "WriteString(bytes, " + name + ", ref index);";
+                return "writer.Write(value." + name + ");";
             case "enum":
-                return "WriteInt(bytes, Convert.ToInt32(" + name + "), ref index);";
+                return "writer.Write((int)value." + name + ");";
             default:
-                return "WriteData(bytes, " + name + ", ref index);";
+                return "writer.Write" + type + "(value." + name + ");";
+        }
+    }
+
+    private string GetFieldWritingStrSingle(string type, string name)
+    {
+        switch (type)
+        {
+            case "byte":
+                return "writer.Write(" + name + ");";
+            case "int":
+                return "writer.Write(" + name + ");";
+            case "short":
+                return "writer.Write(" + name + ");";
+            case "long":
+                return "writer.Write(" + name + ");";
+            case "float":
+                return "writer.Write(" + name + ");";
+            case "bool":
+                return "writer.Write(" + name + ");";
+            case "string":
+                return "writer.Write(" + name + ");";
+            case "enum":
+                return "writer.Write((int)" + name + ");";
+            default:
+                return "writer.Write" + type + "(" + name + ");";
         }
     }
 
@@ -508,36 +354,36 @@ public class GenerateCSharp
             if (type == "list")
             {
                 string T = field.Attributes["T"].Value;
-                readingStr += "\t\t\t" + name + " = new List<" + T + ">();\r\n";
-                readingStr += "\t\t\tshort " + name + "Count = ReadShort(bytes, ref index);\r\n";
+                readingStr += "\t\t\tvalue." + name + " = new List<" + T + ">();\r\n";
+                readingStr += "\t\t\tshort " + name + "Count = reader.ReadShort();\r\n";
                 readingStr += "\t\t\tfor (int i = 0; i < " + name + "Count; ++i)\r\n";
-                readingStr += "\t\t\t\t" + name + ".Add(" + GetFieldReadingStr(T) + ");\r\n";
+                readingStr += "\t\t\t\tvalue." + name + ".Add(" + GetFieldReadingStr(T) + ");\r\n";
             }
             else if (type == "array")
             {
                 string data = field.Attributes["data"].Value;
-                readingStr += "\t\t\tshort " + name + "Length = ReadShort(bytes, ref index);\r\n";
-                readingStr += "\t\t\t" + name + " = new " + data + "["+ name + "Length];\r\n";
-                readingStr += "\t\t\tfor (int i = 0; i < " + name + "Length; ++i)\r\n";
-                readingStr += "\t\t\t\t" + name + "[i] = " + GetFieldReadingStr(data) + ";\r\n";
+                readingStr += "\t\t\tshort " + name + "Length = reader.ReadShort();\r\n";
+                readingStr += "\t\t\tvalue." + name + " = new " + data + "[" + name + "Length];\r\n";
+                readingStr += "\t\t\tfor (int i = 0; i < value." + name + ".Length; ++i)\r\n";
+                readingStr += "\t\t\t\tvalue." + name + "[i] = " + GetFieldReadingStr(data) + ";\r\n";
             }
             else if (type == "dic")
             {
                 string Tkey = field.Attributes["Tkey"].Value;
                 string Tvalue = field.Attributes["Tvalue"].Value;
-                readingStr += "\t\t\t" + name + " = new Dictionary<" + Tkey + ", " + Tvalue + ">();\r\n";
-                readingStr += "\t\t\tshort " + name + "Count = ReadShort(bytes, ref index);\r\n";
+                readingStr += "\t\t\tvalue." + name + " = new Dictionary<" + Tkey + ", " + Tvalue + ">();\r\n";
+                readingStr += "\t\t\tshort " + name + "Count = reader.ReadShort();\r\n";
                 readingStr += "\t\t\tfor (int i = 0; i < " + name + "Count; ++i)\r\n";
-                readingStr += "\t\t\t\t" + name + ".Add(" + GetFieldReadingStr(Tkey) + ", " +
+                readingStr += "\t\t\t\tvalue." + name + ".Add(" + GetFieldReadingStr(Tkey) + ", " +
                                                             GetFieldReadingStr(Tvalue) + ");\r\n";
             }
             else if (type == "enum")
             {
                 string data = field.Attributes["data"].Value;
-                readingStr += "\t\t\t" + name + " = (" + data + ")ReadInt(bytes, ref index);\r\n";
+                readingStr += "\t\t\tvalue." + name + " = (" + data + ")reader.ReadInt();\r\n";
             }
             else
-                readingStr += "\t\t\t" + name + " = " + GetFieldReadingStr(type) + ";\r\n";
+                readingStr += "\t\t\tvalue." + name + " = " + GetFieldReadingStr(type) + ";\r\n";
         }
 
         return readingStr;
@@ -548,21 +394,21 @@ public class GenerateCSharp
         switch (type)
         {
             case "byte":
-                return "ReadByte(bytes, ref index)";
+                return "reader.ReadByte()";
             case "int":
-                return "ReadInt(bytes, ref index)";
+                return "reader.ReadInt()";
             case "short":
-                return "ReadShort(bytes, ref index)";
+                return "reader.ReadShort()";
             case "long":
-                return "ReadLong(bytes, ref index)";
+                return "reader.ReadLong()";
             case "float":
-                return "ReadFloat(bytes, ref index)";
+                return "reader.ReadFloat()";
             case "bool":
-                return "ReadBool(bytes, ref index)";
+                return "reader.ReadBool()";
             case "string":
-                return "ReadString(bytes, ref index)";
+                return "reader.ReadString()";
             default:
-                return "ReadData<" + type + ">(bytes, ref index)";
+                return "reader.Read" + type + "()";
         }
     }
 }

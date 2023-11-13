@@ -4,6 +4,7 @@ using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TheStory;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,11 +16,12 @@ public class MyNetworkManager : NetworkManager
     public GameServerType gameServerType = GameServerType.Local;
     public NetworkDiscovery networkDiscovery;
     int tryJoinTimes = 5;
+    public MsgPool msgPool;
     public override void Awake()
     {
         base.Awake();
-        MessageRegister.Instance.RegisterMessage();
-        foreach(var i in DataMgr.Instance.AttackDatas)
+        msgPool = new MsgPool();
+        foreach (var i in DataMgr.Instance.AttackDatas)
         {
             spawnPrefabs.Add(i.gameObject);
         }

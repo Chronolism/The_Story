@@ -6,7 +6,7 @@ public class EntityText : MonoBehaviour
     float x = 0;
     void Start()
     {
-        UIManager.Instance.ShowPanel<SearchRoomPanel>();
+        UIManager.Instance.ShowPanel<StartPanel>();
     }
 
     // Update is called once per frame

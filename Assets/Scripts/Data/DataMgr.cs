@@ -27,7 +27,9 @@ public class DataMgr : BaseManager<DataMgr>
 
     public PlayerData playerData;
     public string version = "0.9.0728a";
-    public uint steamAppID = 2540070;
+    public uint steamAppID = 2692220;
+
+    public GameServerType gameServerType => (MyNetworkManager.singleton as MyNetworkManager).gameServerType;
 
     public Dictionary<string, string> Language = new Dictionary<string, string>()
     {

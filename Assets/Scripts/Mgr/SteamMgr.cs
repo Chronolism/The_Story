@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class SteamMgr : SteamManager
 {
+    public static CSteamID lobbyID;
     protected override void Awake()
     {
         base.Awake();
@@ -63,7 +64,8 @@ public class SteamMgr : SteamManager
 
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t param)
     {
-        
+        GameMgr.Instance.ChangeGameServerType(GameServerType.Steam);
+        (MyNetworkManager.singleton as MyNetworkManager).JionRoom(new FriendRoom() { steamIP = param.m_steamIDLobby.m_SteamID });
     }
 
     private void OnLobbyInvited(LobbyInvite_t param)
@@ -83,7 +85,12 @@ public class SteamMgr : SteamManager
 
     private void OnLobbyEnter(LobbyEnter_t param)
     {
-        
+        if (param.m_EChatRoomEnterResponse == (uint)EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess)
+        {
+            lobbyID = new CSteamID(param.m_ulSteamIDLobby);
+        }
+        JoinLobbyCallBack?.Invoke(param);
+        JoinLobbyCallBack = null;
     }
 
     private void OnLobbyCreated(LobbyCreated_t param)
@@ -91,13 +98,15 @@ public class SteamMgr : SteamManager
         if (param.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogError($" Create Fail {param.m_eResult}");
+            CreatLobbyCallBack?.Invoke(param);
             return;
         }
         Debug.Log(" Create " + param.m_ulSteamIDLobby);
-        MyNetworkManager.singleton.StartHost();
         Debug.Log("´óÌü´´½¨");
         SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "name", "wmkj");
         SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "roomName", SteamFriends.GetPersonaName());
+        lobbyID = new CSteamID(param.m_ulSteamIDLobby);
+        CreatLobbyCallBack?.Invoke(param);
     }
 
     private void OnLobbyKicked(LobbyKicked_t param)
@@ -123,13 +132,32 @@ public class SteamMgr : SteamManager
         }
     }
 
-    public static Action<List<SteamLobby>> SeachLobbyCallBack;
+    private static Action<LobbyEnter_t> JoinLobbyCallBack;
+    public static void JoinLobby(ulong id ,Action<LobbyEnter_t> callback)
+    {
+        JoinLobbyCallBack = callback;
+        SteamMatchmaking.JoinLobby(new CSteamID(id));
+    }
+
+    private static Action<LobbyCreated_t> CreatLobbyCallBack;
+    public static void CreatLobby(Action<LobbyCreated_t> callBack)
+    {
+        CreatLobbyCallBack = callBack;
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);
+    }
+
+    private static Action<List<SteamLobby>> SeachLobbyCallBack;
     public static void SeachLobby(Action<List<SteamLobby>> callback)
     {
         SeachLobbyCallBack = callback;
         SteamMatchmaking.AddRequestLobbyListResultCountFilter(10);
         SteamMatchmaking.AddRequestLobbyListStringFilter("name", "wmkj", ELobbyComparison.k_ELobbyComparisonEqual);
         SteamMatchmaking.RequestLobbyList();
+    }
+
+    public static bool InvitedFriendToLobby(ulong id)
+    {
+        return SteamMatchmaking.InviteUserToLobby(lobbyID, new CSteamID(id));
     }
 
     public static List<SteamFriend> GetFriends()
@@ -139,11 +167,25 @@ public class SteamMgr : SteamManager
         {
             CSteamID steamid = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
             SteamFriend friend = new SteamFriend(SteamFriends.GetFriendPersonaName(steamid), steamid, default);
+            friend.state = SteamFriends.GetFriendPersonaState(steamid);
             if (SteamFriends.GetFriendGamePlayed(steamid, out FriendGameInfo_t info))
             {
                 friend.gameID = info.m_gameID;
             }
             friends.Add(friend);
+        }
+        return friends;
+    }
+
+    public static List<SteamFriend> GetOnLineFriend()
+    {
+        List<SteamFriend> friends = new List<SteamFriend>();
+        foreach (SteamFriend friend in GetFriends())
+        {
+            if (friend.state == EPersonaState.k_EPersonaStateOnline)
+            {
+                friends.Add(friend);
+            }
         }
         return friends;
     }
@@ -168,6 +210,7 @@ public class SteamFriend
     public string name;
     public CSteamID steamID;
     public CGameID gameID;
+    public EPersonaState state;
     public SteamFriend() { }
     public SteamFriend(string name, CSteamID steamID, CGameID gameID)
     {

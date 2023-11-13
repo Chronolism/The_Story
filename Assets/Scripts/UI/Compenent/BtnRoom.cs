@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class BtnRoom : MonoBehaviour
 {
-    public ulong steamID;
+    public FriendRoom room;
     public Button btnRoom;
     public Text roomName;
     private void Awake()
@@ -14,9 +14,9 @@ public class BtnRoom : MonoBehaviour
         btnRoom = GetComponent<Button>();
         roomName = GetComponentInChildren<Text>();
     }
-    public void Init(ulong steamID , string name)
+    public void Init(FriendRoom room , string name)
     {
-        this.steamID = steamID;
+        this.room = room;
         roomName.text = name;
     }
 }

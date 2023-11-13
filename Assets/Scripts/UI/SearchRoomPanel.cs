@@ -23,41 +23,22 @@ public class SearchRoomPanel : BasePanel
                 {
                     Destroy(srRoomList.content.transform.GetChild(i).gameObject);
                 }
-                foreach (var friends in SteamMgr.GetOnThisGameFriend())
+                GameMgr.Instance.SearchRoom((o) =>
                 {
-                    BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
-                    btnRoom.Init(friends.steamID.m_SteamID, friends.name);
-                    btnRoom.transform.SetParent(srRoomList.content, false);
-                    btnRoom.btnRoom.onClick.AddListener(() =>
+                    foreach (var room in o)
                     {
-                        MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
-                        MyNetworkManager.singleton.StartClient();
-                    });
-                }
-                //SteamMgr.SeachLobby((o) =>
-                //{
-
-                //    for (int i = 0; i < srRoomList.content.transform.childCount; i++)
-                //    {
-                //        Destroy(srRoomList.content.transform.GetChild(i).gameObject);
-                //    }
-                //    foreach (var lobby in o)
-                //    {
-                //        BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
-                //        btnRoom.Init(lobby.lobbyID.m_SteamID, lobby.roomName);
-                //        btnRoom.transform.SetParent(srRoomList.content, false);
-                //        //btnRoom.btnRoom.onClick.AddListener(() =>
-                //        //{
-                //        //    MyNetworkManager.singleton.networkAddress = btnRoom.steamID.ToString();
-                //        //    MyNetworkManager.singleton.StartClient();
-                //        //});
-                //    }
-                //});
+                        BtnRoom btnRoom = ResMgr.Instance.Load<GameObject>("UI/Compenent/btnRoom").GetComponent<BtnRoom>();
+                        btnRoom.Init(room, room.Name);
+                        btnRoom.transform.SetParent(srRoomList.content, false);
+                        btnRoom.btnRoom.onClick.AddListener(() =>
+                        {
+                            GameMgr.Instance.JoinRoom(room);
+                        });
+                    }
+                });
                 break;
             case "btnHost":
-                //SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);
-
-                MyNetworkManager.singleton.StartHost();
+                GameMgr.Instance.CreatRoom();
                 break;
 
         }

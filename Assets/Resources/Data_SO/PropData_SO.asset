@@ -27,8 +27,8 @@ MonoBehaviour:
     propType: 0
     description: "\u81EA\u5DF1\u52A0\u901F"
     value:
-    - buffId: 1003
-      buffValue: 20
+    - buffId: 3005
+      buffValue: 3
   - id: 3
     name: "\u4F7F\u9B54\u52A0\u901F"
     icon: {fileID: 0}

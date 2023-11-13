@@ -222,7 +222,7 @@ public class Servitor : Entity
             }
             foreach (var anim in servitor.animators)
             {
-                anim.Play("idle");
+                //anim.Play("idle");
             }
 
         }
@@ -251,7 +251,7 @@ public class Servitor : Entity
             }
             foreach (var anim in servitor.animators)
             {
-                anim.Play("idle");
+                //anim.Play("idle");
             }
 
         }

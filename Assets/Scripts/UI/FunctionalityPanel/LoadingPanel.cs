@@ -54,5 +54,9 @@ public class LoadingPanel : BasePanel
     {
         _ActionOnEnterCompletelyBlack += Doing;
     }
-
+    // «∑Ò‘⁄º”‘ÿ
+    public void SetLoading(bool isLoading)
+    {
+        _isLoading = isLoading;
+    }
 }

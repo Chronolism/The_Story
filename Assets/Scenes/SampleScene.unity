@@ -938,6 +938,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoomPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3926201720947739468, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
 --- !u!1001 &4133642537019184591
@@ -947,6 +951,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1112957403932989409, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: Channels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112957403932989409, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: Channels.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4133642537570696950, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1462,7 +1474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501741773009792128, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}

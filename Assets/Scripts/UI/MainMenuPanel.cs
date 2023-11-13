@@ -22,6 +22,6 @@ public class MainMenuPanel : BasePanel
     }
     void OnlinePlayButtonAction()
     {
-
+        UIManager.Instance.ShowPanel<OnlineModePanel>("GameLayer");
     }
 }

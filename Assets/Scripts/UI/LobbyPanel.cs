@@ -42,7 +42,13 @@ public class LobbyPanel : BasePanel
     }
     public void JoinRoom()
     {
-        //º”»Î”Œœ∑
+        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                UIManager.Instance.HidePanel<LobbyPanel>();
+                UIManager.Instance.ShowPanel<SearchRoomPanel>("GameLayer");
+            });
+        });
     }
     public void StoryMode()
     {

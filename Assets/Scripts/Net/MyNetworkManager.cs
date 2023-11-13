@@ -88,8 +88,10 @@ public class MyNetworkManager : NetworkManager
             }
             
         }
-        UIManager.Instance.ClearAllPanel();
-        UIManager.Instance.ShowPanel<StartPanel>();
+        UIManager.Instance.ShowPanel<TipPanel>((p) =>
+        {
+            p.SetCurrent("断开连接或连接不上\n", true);
+        });
     }
 
     public void ChangeGameServerType(GameServerType gameServerType)
@@ -156,8 +158,10 @@ public class MyNetworkManager : NetworkManager
                 {
                     if (o.m_EChatRoomEnterResponse != (uint)EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess)
                     {
-                        UIManager.Instance.ClearAllPanel();
-                        UIManager.Instance.ShowPanel<StartPanel>();
+                        UIManager.Instance.ShowPanel<TipPanel>((p) => 
+                        {
+                            p.SetCurrent("加入失败\n失败原因：" + (EChatRoomEnterResponse)o.m_EChatRoomEnterResponse, true);
+                        });
                     }
                     else
                     {
@@ -168,11 +172,6 @@ public class MyNetworkManager : NetworkManager
                 });
                 break;
         }
-    }
-
-    public void ConnetRoom(string ip)
-    {
-        
     }
 
     public void CreatRoom(Action<LobbyCreated_t> callBack)
@@ -194,7 +193,10 @@ public class MyNetworkManager : NetworkManager
     {
         if (!SteamMgr.InvitedFriendToLobby(id))
         {
-            Debug.Log("用户无法邀请");
+            UIManager.Instance.ShowPanel<TipPanel>((p) =>
+            {
+                p.SetCurrent("用户无法邀请", true);
+            });
         }
     }
 }

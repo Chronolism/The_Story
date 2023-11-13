@@ -236,7 +236,7 @@ public class EntityBuff : NetworkBehaviour
                 {
                     RemoveBuffRpc(buffBase.buffData.id, value, buffBase.buffOwn.netId);
                 }
-                entity.OnRemoveBuff(entity, buffBase, Mathf.Min(value, buffBase.Amount));
+                entity.OnRemoveBuff?.Invoke(entity, buffBase, Mathf.Min(value, buffBase.Amount));
             }
 
         }

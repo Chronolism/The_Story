@@ -30,7 +30,7 @@ public class BuffDetileAttribute : PropertyAttribute
             buffName = new string[buffList.Count];
             for(int i = 0; i < buffList.Count; i++)
             {
-                buffName[i] = buffList[i].name;
+                buffName[i] = buffList[i].id + "." + buffList[i].name;
             }
         }
         return buffList;

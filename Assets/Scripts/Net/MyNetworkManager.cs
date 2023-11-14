@@ -71,6 +71,8 @@ public class MyNetworkManager : NetworkManager
         //if (NetworkServer.active) return;
         tryJoinTimes = 0;
         GameCallBack.Instance.SuccesJionRoom?.Invoke();
+        //UIManager.Instance.ClearAllPanel();
+        //UIManager.Instance.ShowPanel<RoomPanel>();
         NetworkClient.Send(new C2S_JionRoom() { name = DataMgr.Instance.playerData.account });
     }
     public override void OnClientDisconnect()
@@ -180,6 +182,7 @@ public class MyNetworkManager : NetworkManager
         {
             case GameServerType.Local:
                 NetworkManager.singleton.StartHost();
+                callBack?.Invoke(new LobbyCreated_t() { m_eResult = EResult.k_EResultOK });
                 networkDiscovery.AdvertiseServer();
                 break;
             case GameServerType.Steam:

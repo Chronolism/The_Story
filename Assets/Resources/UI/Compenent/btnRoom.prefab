@@ -69,7 +69,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 1594474100, guid: e751f2faf3c8a1045b3eecfc8a56086f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -135,7 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a06939e93444144f8ce9d678e04bda2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steamID: 0
   btnRoom: {fileID: 0}
   roomName: {fileID: 0}
 --- !u!1 &2860188668366259229

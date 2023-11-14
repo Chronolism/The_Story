@@ -38,7 +38,12 @@ public class LobbyPanel : BasePanel
     }
     public void HostRoom()
     {
-        //Ö÷³ÖÓÎÏ·
+        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                GameMgr.Instance.CreatRoom();
+            });
+        });
     }
     public void JoinRoom()
     {

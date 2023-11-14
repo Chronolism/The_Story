@@ -224,20 +224,22 @@ public class UIManager : BaseManager<UIManager>
     {
         foreach (BasePanel bp in panelDic.Values)
         {
-            if(bp.transform.parent.name == layerName)
+            if (bp.transform.parent.name == layerName)
                 GameObject.Destroy(bp.gameObject);
         }
 
-        /// <summary>
-        /// 设置面板层级
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="layerName"></param>
-        public void SetPanelLayer(BasePanel panel,string layerName)
+    }
+
+    /// <summary>
+    /// 设置面板层级
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="layerName"></param>
+    public void SetPanelLayer(BasePanel panel, string layerName)
     {
         if (canvas.Find(layerName) == null) Debug.LogWarning("无对应层级");
         else panel.transform.parent = canvas.Find(layerName);
     }
-   
+
 
 }

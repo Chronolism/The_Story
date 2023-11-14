@@ -48,6 +48,7 @@ public class GameMgr : BaseManager<GameMgr>
     public void JoinRoom(FriendRoom friendRoom)
     {
         (MyNetworkManager.singleton as MyNetworkManager).JionRoom(friendRoom);
+        GameCallBack.Instance.SuccesJionRoom = () => { UIManager.Instance.ClearAllPanel(); };
     }
     /// <summary>
     /// 创建房间
@@ -90,7 +91,8 @@ public class GameMgr : BaseManager<GameMgr>
             }
             else
             {
-                MyNetworkManager.singleton.StartHost();
+                GameCallBack.Instance.SuccesJionRoom = () => { UIManager.Instance.ClearAllPanel(); };
+                MyNetworkManager.singleton.StartHost();              
             }
         });
         

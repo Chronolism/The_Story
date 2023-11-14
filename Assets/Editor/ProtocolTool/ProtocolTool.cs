@@ -18,9 +18,6 @@ public class ProtocolTool
         generateCSharp.GenerateData(GetNodes("data"));
         //生成对应的消息类脚本
         generateCSharp.GenerateMsg(GetNodes("message"));
-        //生成消息池
-        generateCSharp.GenerateMsgPool(GetNodes("message"));
-
         //刷新编辑器界面 让我们可以看到生成的内容 不需要手动进行刷新了
         AssetDatabase.Refresh();
 

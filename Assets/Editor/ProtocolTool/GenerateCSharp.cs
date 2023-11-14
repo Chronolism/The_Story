@@ -85,15 +85,30 @@ public class GenerateCSharp
         string namespaceStr = "";
         string classNameStr = "";
         string fieldStr = "";
+        string msgOwn = "";
         string msgType = "";
+
+        string registerStr = "";
+        List<string> names = new List<string>();
+        List<string> nameSpaces = new List<string>();
 
         foreach (XmlNode dataNode in nodes)
         {
             //命名空间
             namespaceStr = dataNode.Attributes["namespace"].Value;
+            //记录所有命名空间
+            if (!nameSpaces.Contains(namespaceStr))
+                nameSpaces.Add(namespaceStr);
             //类名
             classNameStr = dataNode.Attributes["name"].Value;
+            //记录所有类名辨别同名消息
+            if (!names.Contains(classNameStr))
+                names.Add(classNameStr);
+            else
+                Debug.LogError("存在同名的消息" + classNameStr + ",建议即使在不同命名空间中也不要有同名消息");
             //获取消息发送对象
+            msgOwn = dataNode.Attributes["own"].Value;
+            //获取消息类型
             msgType = dataNode.Attributes["type"].Value;
             //读取所有字段节点
             XmlNodeList fields = dataNode.SelectNodes("field");
@@ -127,27 +142,99 @@ public class GenerateCSharp
             //判断消息处理器脚本是否存在 如果存在 就不要覆盖了 避免把写过的逻辑处理代码覆盖了
             //如果想要改变 那就直接把没用的删了 它就会自动生成
             //如果不存在这个文件夹 则创建
-            if (!Directory.Exists(path +msgType + "/"))
-                Directory.CreateDirectory(path + msgType + "/");
-            if (File.Exists(path + msgType + "/" + classNameStr + "Handler.cs"))
-                continue;
-            string handlerStr = "using Mirror;\r\n" +
-                              $"namespace {namespaceStr}\r\n" +
-                                "{\r\n" +
-                                    $"\tpublic static class {classNameStr}Handler\r\n" +
-                                    "\t{\r\n" +
-                                        $"\t\tpublic static void MsgHandle(NetworkConnectionToClient con, {classNameStr} msg ,int channelId)\r\n" +
-                                        "\t\t{\r\n" +
-                                        "\t\t}\r\n" +
-                                    "\t}\r\n" +
-                                "}\r\n";
-
+            string handlerStr;
+            if (msgOwn == "Server")
+            {
+                registerStr += $"\t\tNetworkServer.RegisterHandler<{classNameStr}>({classNameStr}Handler.MsgHandle);\r\n";
+                if (!Directory.Exists(path + msgOwn + "/"))
+                    Directory.CreateDirectory(path + msgOwn + "/");
+                if (File.Exists(path + msgOwn + "/" + classNameStr + "Handler.cs"))
+                    continue;
+                string handlerContent = "";
+                if (msgType != "Common")
+                {
+                    string msgName = dataNode.Attributes["msg"].Value;
+                    if (msgName == "")
+                    {
+                        Debug.Log(classNameStr + "的回复消息为空");
+                    }
+                    switch (dataNode.Attributes["type"].Value)
+                    {
+                        case "Reply":
+                            handlerContent = $"\t\t\t{msgName} replyMsg = new {msgName}();\r\n" +
+                                             $"\t\t\t//在下面编辑消息处理内容;\r\n" +
+                                             $"\t\t\t\r\n" +
+                                             $"\t\t\tcon.Send(replyMsg);\r\n";
+                            break;
+                        case "Broadcast":
+                            handlerContent = $"\t\t\t{msgName} broadcastMsg = new {msgName}();\r\n" +
+                                             $"\t\t\t//在下面编辑消息处理内容;\r\n" +
+                                             $"\t\t\t\r\n" +
+                                             $"\t\t\tNetworkServer.SendToAll(broadcastMsg);;\r\n";
+                            break;
+                    }
+                }
+                handlerStr =       "using Mirror;\r\n" +
+                                  $"namespace {namespaceStr}\r\n" +
+                                    "{\r\n" +
+                                        $"\tpublic static class {classNameStr}Handler\r\n" +
+                                        "\t{\r\n" +
+                                            $"\t\tpublic static void MsgHandle(NetworkConnectionToClient con, {classNameStr} msg ,int channelId)\r\n" +
+                                            "\t\t{\r\n" +
+                                                    handlerContent +
+                                            "\t\t}\r\n" +
+                                        "\t}\r\n" +
+                                    "}\r\n";
+            }
+            else
+            {
+                registerStr += $"\t\tNetworkClient.RegisterHandler<{classNameStr}>({classNameStr}Handler.MsgHandle);\r\n";
+                if (!Directory.Exists(path + msgOwn + "/"))
+                    Directory.CreateDirectory(path + msgOwn + "/");
+                if (File.Exists(path + msgOwn + "/" + classNameStr + "Handler.cs"))
+                    continue;
+                handlerStr = "using Mirror;\r\n" +
+                                  $"namespace {namespaceStr}\r\n" +
+                                    "{\r\n" +
+                                        $"\tpublic static class {classNameStr}Handler\r\n" +
+                                        "\t{\r\n" +
+                                            $"\t\tpublic static void MsgHandle({classNameStr} msg)\r\n" +
+                                            "\t\t{\r\n" +
+                                            "\t\t\t\r\n" +
+                                            "\t\t}\r\n" +
+                                        "\t}\r\n" +
+                                    "}\r\n";
+            }
             //把消息处理器类的内容保存到本地
-            File.WriteAllText(path + msgType + "/" + classNameStr + "Handler.cs", handlerStr);
+            File.WriteAllText(path + msgOwn + "/" + classNameStr + "Handler.cs", handlerStr);
             Debug.Log("消息处理器类生成结束");
-
         }
         Debug.Log("消息生成结束");
+
+        //获取所有需要引用的命名空间 拼接好
+        string nameSpacesStr = "";
+        for (int i = 0; i < nameSpaces.Count; i++)
+            nameSpacesStr += $"using {nameSpaces[i]};\r\n";
+        //消息池对应的类的字符串信息
+        string msgPoolStr = "using System;\r\n" +
+                            "using System.Collections.Generic;\r\n" +
+                            "using Mirror;\r\n" +
+                            nameSpacesStr +
+                            "public class MsgPool\r\n" +
+                            "{\r\n" +
+                                "\tpublic MsgPool()\r\n" +
+                                "\t{\r\n" +
+                                    registerStr +
+                                "\t}\r\n" +
+                            "}\r\n";
+
+        string poolPath = SAVE_PATH + "/Pool/";
+        if (!Directory.Exists(poolPath))
+            Directory.CreateDirectory(poolPath);
+        //保存到本地
+        File.WriteAllText(poolPath + "MsgPool.cs", msgPoolStr);
+
+        Debug.Log("消息池生成结束");
     }
 
     //生成消息池 主要就是ID和消息类型以及消息处理器类型的对应关系

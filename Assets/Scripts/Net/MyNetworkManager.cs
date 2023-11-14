@@ -70,8 +70,7 @@ public class MyNetworkManager : NetworkManager
         base.OnClientConnect();
         //if (NetworkServer.active) return;
         tryJoinTimes = 0;
-        UIManager.Instance.ClearAllPanel();
-        UIManager.Instance.ShowPanel<RoomPanel>();
+        GameCallBack.Instance.SuccesJionRoom?.Invoke();
         NetworkClient.Send(new C2S_JionRoom() { name = DataMgr.Instance.playerData.account });
     }
     public override void OnClientDisconnect()

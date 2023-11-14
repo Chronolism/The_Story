@@ -35,8 +35,24 @@
 		<field type="string" name="account"/>
 		<field type="string" name="password"/>
 	</data>
-	<!--消息类类配置规则-->
-	<message name="C2S_JionRoom" namespace="TheStory" type="Server">
+	<!--消息类类配置规则
+	name:		消息名字 
+	namespace:	命名空间 
+	type:		消息类型
+				Common		一般消息
+				Reply		回复消息
+				Broadcast	广播消息
+	msg:		回复或广播消息名字，Common忽略
+	own:		消息接收者-->
+	<message name="C2S_JionRoom" namespace="TheStory" type="Common" own="Server">
 		<field type="string" name="name"/>
+	</message>
+	<message name="C2S_UserIsSure" namespace="TheStory" type="Broadcast" msg="S2C_UserIsSureBroadcast" own="Server">
+		<field type="int" name="id"/>
+		<field type="bool" name="isSure"/>
+	</message>
+	<message name="S2C_UserIsSureBroadcast" namespace="TheStory" type="Common" own="Client">
+		<field type="int" name="id"/>
+		<field type="bool" name="isSure"/>
 	</message>
 </messages>

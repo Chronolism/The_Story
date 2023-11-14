@@ -148,6 +148,12 @@ public class RoomData : NetworkBehaviour
         }
     }
 
+    public bool UserisSure(string name,bool isSure)
+    {
+
+        return false;
+    }
+
     /// <summary>
     /// 服务器加载地图
     /// </summary>

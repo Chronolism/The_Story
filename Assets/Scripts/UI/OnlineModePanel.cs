@@ -20,7 +20,7 @@ public class OnlineModePanel : BasePanel
                 UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
                     {       
-                        UIManager.Instance.HidePanel<OnlineModePanel>();
+                        UIManager.Instance.HidePanel<MainMenuPanel>();
                         UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
                     });
                 });
@@ -30,7 +30,7 @@ public class OnlineModePanel : BasePanel
                 UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
                     {
-                        UIManager.Instance.HidePanel<OnlineModePanel>();
+                        UIManager.Instance.HidePanel<MainMenuPanel>();
                         UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
                     });
                 });

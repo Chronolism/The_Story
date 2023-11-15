@@ -213,7 +213,7 @@ public class UIManager : BaseManager<UIManager>
     public void ShowPanel<T>(BasePanel whoIsFather, string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
-        panelFloatingDic?.Add(whoIsFather.name, panelName);
+        panelFloatingDic.TryAdd(whoIsFather.name, panelName);
         //层级处理
         callBack += (o) => {
             if (canvas.Find(UILayer) == null)
@@ -309,10 +309,10 @@ public class UIManager : BaseManager<UIManager>
         {
             if (panelDic.ContainsKey(panelFloatingDic[targetPanel]))
             {
-                GameObject.Destroy(panelDic[panelFloatingDic[targetPanel]]);              
-                panelDic.Remove(panelFloatingDic[targetPanel]);
                 //这里尝试寻找下一个联系
                 HidePanelRecursion(panelFloatingDic[targetPanel]);
+                GameObject.Destroy(panelDic[panelFloatingDic[targetPanel]].gameObject);              
+                panelDic.Remove(panelFloatingDic[targetPanel]);
                 panelFloatingDic.Remove(targetPanel);
             }
         }        

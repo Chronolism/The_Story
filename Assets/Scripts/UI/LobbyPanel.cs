@@ -40,6 +40,9 @@ public class LobbyPanel : BasePanel
                 });
             });
         });
+        GetControl<Button>("SettingButton").onClick.AddListener(() => {
+            UIManager.Instance.ShowPanel<LoadingPanel>(this, "GameLayer");
+        });
     }
     #region 所有大板块按钮的函数
     public void QuickRace()

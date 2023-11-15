@@ -210,7 +210,7 @@ public class UIManager : BaseManager<UIManager>
         });
     }
     
-    public void ShowAsFloatingPanel<T>(BasePanel whoIsFather, string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    public void ShowPanel<T>(BasePanel whoIsFather, string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
         panelFloatingDic?.Add(whoIsFather.name, panelName);

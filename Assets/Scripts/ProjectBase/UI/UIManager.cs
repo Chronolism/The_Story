@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -360,12 +361,19 @@ public class UIManager : BaseManager<UIManager>
     }
     public void ClearAllPanel(string layerName,bool deleteNoLayerPanel = true)
     {
-        foreach (BasePanel bp in panelDic.Values)
+        Stack<string> waitClear = new Stack<string>();
+        foreach (var kvp in panelDic)
         {
-            if (bp.transform.parent.name == layerName ||(bp.transform.parent == canvas && deleteNoLayerPanel))
-                GameObject.Destroy(bp.gameObject);
+            if (kvp.Value.transform.parent.name == layerName ||(kvp.Value.transform.parent == canvas && deleteNoLayerPanel))
+            {
+                GameObject.Destroy(kvp.Value.gameObject);
+                waitClear.Push(kvp.Key);
+            }
         }
-
+        while(waitClear.Count > 0)
+        {
+            panelDic.Remove(waitClear.Pop());
+        }
     }
 
     /// <summary>

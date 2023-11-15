@@ -363,7 +363,9 @@ public class UIManager : BaseManager<UIManager>
         foreach (BasePanel bp in panelDic.Values)
         {
             if (bp.transform.parent.name == layerName ||(bp.transform.parent == canvas && deleteNoLayerPanel))
-                GameObject.Destroy(bp.gameObject);
+            {
+                GameObject.Destroy(bp.gameObject);               
+            }
         }
 
     }

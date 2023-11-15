@@ -386,7 +386,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1041,6 +1041,10 @@ PrefabInstance:
       value: RoomPanel
       objectReference: {fileID: 0}
     - target: {fileID: 3926201720947739468, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266106199638724960, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

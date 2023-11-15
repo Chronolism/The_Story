@@ -11,6 +11,7 @@ public class GameMgr : BaseManager<GameMgr>
     public void StartGame()
     {
         
+        
     }
 
     public void StopGame()
@@ -47,6 +48,11 @@ public class GameMgr : BaseManager<GameMgr>
     public void JoinRoom(FriendRoom friendRoom)
     {
         (MyNetworkManager.singleton as MyNetworkManager).JionRoom(friendRoom);
+        GameCallBack.Instance.SuccesJionRoom = () => {
+            UIManager.Instance.ClearAllPanel("GameLayer");
+            //UIManager.Instance.GetPanel<LoadingPanel>().SetLoading(false);
+            UIManager.Instance.ShowPanel<RoomPanel>();
+        };
     }
     /// <summary>
     /// 创建房间
@@ -89,12 +95,16 @@ public class GameMgr : BaseManager<GameMgr>
             }
             else
             {
-                UIManager.Instance.ClearAllPanel();
-                UIManager.Instance.ShowPanel<RoomPanel>();
-                MyNetworkManager.singleton.StartHost();
+                MyNetworkManager.singleton.StartHost();              
             }
+           
         });
-        
+        GameCallBack.Instance.SuccesJionRoom = () => { 
+            UIManager.Instance.ClearAllPanel("GameLayer");
+            //UIManager.Instance.GetPanel<LoadingPanel>().SetLoading(false);
+            UIManager.Instance.ShowPanel<RoomPanel>();
+        };
+
     }
 
 }

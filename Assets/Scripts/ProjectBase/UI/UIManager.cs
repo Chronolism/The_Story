@@ -18,7 +18,9 @@ public class UIManager : BaseManager<UIManager>
 
     //储存面板的Dic
     public Dictionary<string, BasePanel> panelDic = new Dictionary<string, BasePanel>();
-   
+    //储存所有漂浮面板的依赖关系，当删除panel时会尝试获取此面板的依赖
+    public Dictionary<string, string> panelFloatingDic = new Dictionary<string, string>();
+
     //记录我们UI的Canvas父对象 方便以后外部可能会使用它
     public RectTransform canvas;
 
@@ -102,7 +104,7 @@ public class UIManager : BaseManager<UIManager>
 
 
     }
-    public void ShowPanel<T>(UnityAction<T> callBack,string UILayer = "GameLayer") where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    public void ShowPanel<T>(UnityAction<T> callBack, string UILayer = "GameLayer") where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
         //层级处理
@@ -159,12 +161,11 @@ public class UIManager : BaseManager<UIManager>
         });
 
 
-    }
-    /*
-    public void ShowPanel<T>(UnityAction<T> callBack) where T:BasePanel //where 接受的范型T要保证T继承于BasePanel
+    }  
+    public void ShowPanel<T>(bool throwNoLayerWarning,UnityAction<T> callBack = null) where T:BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
-
+        if (throwNoLayerWarning) Debug.LogWarning("此面板无层级归属");
         if (panelDic.ContainsKey(panelName))
         {
             panelDic[panelName].ShowMe();
@@ -207,7 +208,66 @@ public class UIManager : BaseManager<UIManager>
             panelDic.Add(panelName, panel);
         });
     }
-    */
+    
+    public void ShowAsFloatingPanel<T>(BasePanel whoIsFather, string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    {
+        string panelName = typeof(T).Name;
+        panelFloatingDic?.Add(whoIsFather.name, panelName);
+        //层级处理
+        callBack += (o) => {
+            if (canvas.Find(UILayer) == null)
+            {
+                GameObject newLayer = Object.Instantiate<GameObject>(new GameObject());
+                newLayer.transform.parent = canvas.transform;
+                newLayer.name = UILayer;
+                Debug.LogWarning("没有合适的层级，已创建新层级" + UILayer + "，请在canvas预制体内及时调整层级关系");
+            }
+            o.transform.SetParent(canvas.Find(UILayer));
+        };
+        if (panelDic.ContainsKey(panelName))
+        {
+            panelDic[panelName].ShowMe();
+
+
+            // 处理面板创建完成后的逻辑
+            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
+            if (callBack != null)
+                callBack(panelDic[panelName] as T);
+
+            return;
+        }
+
+        //通过储存位置寻找UI面板
+        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
+        {
+            //把他作为 Canvas的子对象
+            Transform father = canvas;
+
+            //设置父对象  设置相对位置和大小
+            obj.transform.SetParent(father);
+
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localScale = Vector3.one;
+
+            (obj.transform as RectTransform).offsetMax = Vector2.zero;
+            (obj.transform as RectTransform).offsetMin = Vector2.zero;
+
+            obj.name = panelName;
+
+            //得到预设体身上的面板脚本
+            T panel = obj.GetComponent<T>();
+            // 处理面板创建完成后的逻辑
+            if (callBack != null)
+                callBack(panel);
+            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
+            panel.ShowMe();
+
+            //把面板存起来
+            panelDic.Add(panelName, panel);
+        });
+
+
+    }
 
     /// <summary>
     /// 隐藏面板
@@ -218,6 +278,9 @@ public class UIManager : BaseManager<UIManager>
     {
         //根据名字获取类型
         string panelName = typeof(T).Name;
+        //先判断是否需要解决依赖
+        if (panelFloatingDic.ContainsKey(panelName)) HidePanelRecursion(panelName);
+        //删完其他的再处理自己
         if (panelDic.ContainsKey(panelName))
         {
             if (isFade)
@@ -237,6 +300,21 @@ public class UIManager : BaseManager<UIManager>
                 callBack?.Invoke();
             }
         }
+        
+    }
+    void HidePanelRecursion(string targetPanel)
+    {
+        if (panelFloatingDic.ContainsKey(targetPanel))
+        {
+            if (panelDic.ContainsKey(panelFloatingDic[targetPanel]))
+            {
+                GameObject.Destroy(panelDic[panelFloatingDic[targetPanel]]);              
+                panelDic.Remove(panelFloatingDic[targetPanel]);
+                //这里尝试寻找下一个联系
+                HidePanelRecursion(panelFloatingDic[targetPanel]);
+                panelFloatingDic.Remove(targetPanel);
+            }
+        }        
     }
 
     /// <summary>

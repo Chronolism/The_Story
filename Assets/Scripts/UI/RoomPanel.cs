@@ -33,43 +33,37 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         srSteamFriendList = GetControl<ScrollRect>("srSteamFriendList");
         srSteamFriendList.gameObject.SetActive(false);
         GetControl<Button>("btnInvited").gameObject.SetActive(DataMgr.Instance.gameServerType == GameServerType.Steam);
+
+        //按钮初始化
+        GetControl<Button>("SwitchW").onClick.AddListener(SwitchPassiveLast);
+        GetControl<Button>("SwitchS").onClick.AddListener(SwitchPassiveNext);
+        GetControl<Button>("SwitchA").onClick.AddListener(SwitchCharacterLast);
+        GetControl<Button>("SwitchD").onClick.AddListener(SwitchCharacterNext); 
+        GetControl<Button>("PrepareButton").onClick.AddListener(PrepareButton);
     }
 
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKeyDown(KeyCode.W))
+        if (IEnableInput.GetKeyDown(E_PlayKeys.W))
         {
-            passiveSkillIndex++;
-            if(passiveSkillIndex >= characterData.skill_Index.Count)
-            {
-                passiveSkillIndex = 1;
-            }
-            txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).name;
+            SwitchPassiveLast();
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (IEnableInput.GetKeyDown(E_PlayKeys.S))
         {
-            passiveSkillIndex--;
-            if (passiveSkillIndex < 1 )
-            {
-                passiveSkillIndex = characterData.skill_Index.Count - 1;
-            }
-            txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).name;
+            SwitchPassiveNext();
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (IEnableInput.GetKeyDown(E_PlayKeys.A))
         {
-            UpdataOwnUserData(DataMgr.Instance.GetCharacter(characterData.character_Code + 1));
+            SwitchCharacterLast();
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (IEnableInput.GetKeyDown(E_PlayKeys.D))
         {
-            UpdataOwnUserData(DataMgr.Instance.GetCharacter(characterData.character_Code - 1));
+            SwitchCharacterNext();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (IEnableInput.GetKeyDown(E_PlayKeys.E))
         {
-            List<BuffDetile> buff = new List<BuffDetile>();
-            buff.Add(characterData.skill_Index[0]);
-            buff.Add(characterData.skill_Index[passiveSkillIndex]);
-            roomData.ChangeRoomUserData(new RoomUserData(roomUserData.connectId, characterData.character_Code, roomUserData.name,true , buff, roomUserData.tags));
+            PrepareButton();
         }
         if (ifchange)
         {
@@ -77,6 +71,41 @@ public class RoomPanel : BasePanel,Observer<RoomData>
             UpdataRoomUserData();
         }
     }
+    #region 包裹一层方便button调用同一逻辑
+    void SwitchCharacterLast()
+    {
+        UpdataOwnUserData(DataMgr.Instance.GetCharacter(characterData.character_Code - 1));
+    }
+    void SwitchCharacterNext()
+    {
+        UpdataOwnUserData(DataMgr.Instance.GetCharacter(characterData.character_Code + 1));
+    }
+    void SwitchPassiveLast()
+    {
+        passiveSkillIndex++;
+        if (passiveSkillIndex >= characterData.skill_Index.Count)
+        {
+            passiveSkillIndex = 1;
+        }
+        txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).name;
+    }
+    void SwitchPassiveNext()
+    {
+        passiveSkillIndex--;
+        if (passiveSkillIndex < 1)
+        {
+            passiveSkillIndex = characterData.skill_Index.Count - 1;
+        }
+        txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).name;
+    }
+    void PrepareButton()
+    {
+        List<BuffDetile> buff = new List<BuffDetile>();
+        buff.Add(characterData.skill_Index[0]);
+        buff.Add(characterData.skill_Index[passiveSkillIndex]);
+        roomData.ChangeRoomUserData(new RoomUserData(roomUserData.connectId, characterData.character_Code, roomUserData.name, true, buff, roomUserData.tags));
+    }
+    #endregion
 
     public void InitData(RoomData roomData)
     {

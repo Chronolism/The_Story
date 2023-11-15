@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189881, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189885, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_Pivot.x
@@ -854,6 +854,10 @@ PrefabInstance:
     - target: {fileID: 1794118597799093115, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
       propertyPath: m_Name
       value: TipPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794118597799093115, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3213266298907668731, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
       propertyPath: m_Pivot.x

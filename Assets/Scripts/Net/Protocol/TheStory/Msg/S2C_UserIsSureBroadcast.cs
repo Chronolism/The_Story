@@ -6,7 +6,7 @@ namespace TheStory
 {
 	public struct S2C_UserIsSureBroadcast : NetworkMessage
 	{
-		public int id;
+		public string name;
 		public bool isSure;
 	}
 }

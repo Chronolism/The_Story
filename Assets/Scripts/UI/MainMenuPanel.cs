@@ -22,6 +22,6 @@ public class MainMenuPanel : BasePanel
     }
     void OnlinePlayButtonAction()
     {
-        UIManager.Instance.ShowAsFloatingPanel<OnlineModePanel>(this,"GameLayer");
+        UIManager.Instance.ShowPanel<OnlineModePanel>(this,"GameLayer");
     }
 }

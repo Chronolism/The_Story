@@ -30,6 +30,16 @@ public class LobbyPanel : BasePanel
         _coinsNum = GetControl<Text>("CoinsNum");
         //扭蛋机
         //面板上的是弄着玩的，别管
+        //退出
+        GetControl<Button>("ExitButton").onClick.AddListener(()=> {
+            UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+                o.AddWhileEnterCompletelyBlack(() =>
+                {
+                    UIManager.Instance.HidePanel<LobbyPanel>();
+                    UIManager.Instance.ShowPanel<MainMenuPanel>("GameLayer");
+                });
+            });
+        });
     }
     #region 所有大板块按钮的函数
     public void QuickRace()

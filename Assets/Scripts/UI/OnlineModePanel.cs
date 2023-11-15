@@ -19,8 +19,7 @@ public class OnlineModePanel : BasePanel
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Steam);
                 UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
-                    {
-                        UIManager.Instance.HidePanel<MainMenuPanel>();
+                    {       
                         UIManager.Instance.HidePanel<OnlineModePanel>();
                         UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
                     });
@@ -31,7 +30,6 @@ public class OnlineModePanel : BasePanel
                 UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
                     {
-                        UIManager.Instance.HidePanel<MainMenuPanel>();
                         UIManager.Instance.HidePanel<OnlineModePanel>();
                         UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
                     });

@@ -181,7 +181,6 @@ public class MyNetworkManager : NetworkManager
         switch (gameServerType)
         {
             case GameServerType.Local:
-                NetworkManager.singleton.StartHost();
                 callBack?.Invoke(new LobbyCreated_t() { m_eResult = EResult.k_EResultOK });
                 networkDiscovery.AdvertiseServer();
                 break;

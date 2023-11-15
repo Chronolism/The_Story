@@ -6,7 +6,7 @@ namespace TheStory
 {
 	public struct C2S_UserIsSure : NetworkMessage
 	{
-		public int id;
+		public string name;
 		public bool isSure;
 	}
 }

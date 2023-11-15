@@ -11,7 +11,6 @@ public class GameMgr : BaseManager<GameMgr>
     public void StartGame()
     {
         
-        
     }
 
     public void StopGame()
@@ -90,6 +89,8 @@ public class GameMgr : BaseManager<GameMgr>
             }
             else
             {
+                UIManager.Instance.ClearAllPanel();
+                UIManager.Instance.ShowPanel<RoomPanel>();
                 MyNetworkManager.singleton.StartHost();
             }
         });

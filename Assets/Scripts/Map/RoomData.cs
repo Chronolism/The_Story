@@ -150,7 +150,15 @@ public class RoomData : NetworkBehaviour
 
     public bool UserisSure(string name,bool isSure)
     {
-
+        RoomUserData userData = roomUser.Find(i =>i.name == name);
+        if(userData!= null)
+        {
+            if (userData.ifSure != isSure)
+            {
+                userData.ifSure = isSure;
+                return true;
+            }
+        }
         return false;
     }
 

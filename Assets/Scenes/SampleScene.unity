@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189881, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4967932593027189885, guid: 4b01fd2811aeb714caeb0856e23d66c4, type: 3}
       propertyPath: m_Pivot.x
@@ -565,7 +565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &781904210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,7 +715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2110207664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -854,6 +854,10 @@ PrefabInstance:
     - target: {fileID: 1794118597799093115, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
       propertyPath: m_Name
       value: TipPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794118597799093115, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3213266298907668731, guid: d32056f4f87f7014d9f6a760c5c395b1, type: 3}
       propertyPath: m_Pivot.x
@@ -1104,6 +1108,10 @@ PrefabInstance:
     - target: {fileID: 4133642537570696954, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_Name
       value: NetworkManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133642537570696954, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
@@ -1572,7 +1580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3501741773009792128, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d11eae77ad7123d41a69edc0f942e067, type: 3}

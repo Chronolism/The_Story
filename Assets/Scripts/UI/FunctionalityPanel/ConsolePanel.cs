@@ -18,7 +18,7 @@ public class ConsolePanel : BasePanel
         waitText.text = TestConsole.Instance.text;
         if (inputText.GetComponent<CanvasGroup>() == null)
             inputText.gameObject.AddComponent<CanvasGroup>();
-        inputText.GetComponent<CanvasGroup>().alpha = 0;
+        /*inputText.GetComponent<CanvasGroup>().alpha = 0;*/
 
         inputText.onValueChanged.AddListener((s) =>
         {
@@ -66,11 +66,13 @@ public class ConsolePanel : BasePanel
     protected override void Update()
     {
         base.Update();
+        /*
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) && Input.GetKeyDown(KeyCode.T))
         {
             if (inputText.GetComponent<CanvasGroup>().alpha == 0) inputText.GetComponent<CanvasGroup>().alpha = 1;
             else inputText.GetComponent<CanvasGroup>().alpha = 0;
         }
+        */
         if (waitText.text != TestConsole.Instance.text) waitText.text = TestConsole.Instance.text;
 
         if (Input.GetKeyDown(KeyCode.Tab))

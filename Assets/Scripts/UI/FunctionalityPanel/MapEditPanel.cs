@@ -178,6 +178,7 @@ public class MapEditPanel : BasePanel
             _localLayerMapCellData[item.Key] = item.Value;
             //直接显示
             _editingTilemap.SetTile(item.Key, _testTile_Confirm);
+
         }
     }
     //写入激活的单元格到地图

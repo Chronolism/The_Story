@@ -7,11 +7,12 @@ using Mirror;
 
 public class Mono_Main : MonoBehaviour
 {
+    bool _ifConsoleEnable = false;
     void Start()
     {
-        //UIManager.Instance.ShowPanel<ConsolePanel>("SystemLayer");
+
+
         UIManager.Instance.ShowPanel<MainMenuPanel>();
-        //UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
 
         TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");
         TestConsole.Instance.AddCommand("401", () => { GameManager.Instance.GameStart("401", 405, "TestGameMode"); }, "默认的游戏开始");
@@ -26,15 +27,27 @@ public class Mono_Main : MonoBehaviour
 
         TestConsole.Instance.AddCommand("MapTest", () => { UIManager.Instance.ShowPanel<MapEditPanel>(); }, "进入地图编辑器");
         TestConsole.Instance.AddCommand("LoadMapCollusionTest", () => { MapManager.Instance.LoadMapCompletelyToScene("400"); }, "加载400碰撞测试地图");
-
+        TestConsole.Instance.AddCommand("BackToMenu", () => { UIManager.Instance.ShowPanel<MainMenuPanel>(null,true); }, "强制显示主菜单");
+        TestConsole.Instance.AddCommand("kill", () => { Application.Quit(); }, "杀死游戏");
         //TestConsole.Instance.AddCommand("TryCatchTest", () => { int x = 1;int y = 1; AbstractLogicManager.Instance.CellProbe(ref x, ref y,new V2 (0,0)); });
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IEnableInput.GetKey(E_PlayKeys.E))
-            print(IEnableInput.GetKeyCode(E_PlayKeys.E));
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (!_ifConsoleEnable)
+            {
+                UIManager.Instance.ShowPanel<ConsolePanel>(null,true);
+                _ifConsoleEnable = true;
+            }
+            else
+            {
+                UIManager.Instance.HidePanel<ConsolePanel>();
+                _ifConsoleEnable = false;
+            }
+        }           
     }
 
 }

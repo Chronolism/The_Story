@@ -32,11 +32,11 @@ public class LobbyPanel : BasePanel
         //面板上的是弄着玩的，别管
         //退出
         GetControl<Button>("ExitButton").onClick.AddListener(()=> {
-            UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+            UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
                 o.AddWhileEnterCompletelyBlack(() =>
                 {
                     UIManager.Instance.HidePanel<LobbyPanel>();
-                    UIManager.Instance.ShowPanel<MainMenuPanel>("GameLayer");
+                    UIManager.Instance.ShowPanel<MainMenuPanel>();
                 });
             });
         });
@@ -48,7 +48,7 @@ public class LobbyPanel : BasePanel
     }
     public void HostRoom()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             //o.SetLoading(true);
             o.AddWhileEnterCompletelyBlack(() =>
             {
@@ -58,11 +58,11 @@ public class LobbyPanel : BasePanel
     }
     public void JoinRoom()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             o.AddWhileEnterCompletelyBlack(() =>
             {
                 UIManager.Instance.HidePanel<LobbyPanel>();
-                UIManager.Instance.ShowPanel<SearchRoomPanel>("GameLayer");
+                UIManager.Instance.ShowPanel<SearchRoomPanel>();
             });
         });
     }

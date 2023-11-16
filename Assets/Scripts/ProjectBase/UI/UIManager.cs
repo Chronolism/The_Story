@@ -19,11 +19,11 @@ public class UIManager : BaseManager<UIManager>
 
     //储存面板的Dic
     public Dictionary<string, BasePanel> panelDic = new Dictionary<string, BasePanel>();
-    //储存所有漂浮面板的依赖关系，当删除panel时会尝试获取此面板的依赖
-    public Dictionary<string, string> panelFloatingDic = new Dictionary<string, string>();
 
     //记录我们UI的Canvas父对象 方便以后外部可能会使用它
     public RectTransform canvas;
+    public RectTransform activeCanvas;
+    public BasePanel activePanel;
 
     //private Transform canvasTrans;
     //获取对象
@@ -31,10 +31,10 @@ public class UIManager : BaseManager<UIManager>
     {
         //创建Canvas 让其过场景的时候 不被移除
         GameObject obj = ResMgr.Instance.Load<GameObject>("UI/Canvas");
-        canvas = obj.transform as RectTransform;
+        canvas = obj.transform.Find("NotActive") as RectTransform;
+        activeCanvas = obj.transform.Find("Active") as RectTransform;
         //通过 动态创建 动态删除 来 显示/隐藏 面板
         GameObject.DontDestroyOnLoad(obj);
-
         //创建EventSystem 让其过场景的时候 不被移除
         //obj = ResMgr.Instance.Load<GameObject>("UI/EventSystem");
         //GameObject.DontDestroyOnLoad(obj);
@@ -44,28 +44,37 @@ public class UIManager : BaseManager<UIManager>
     /// 显示面板
     /// </summary>
     /// <typeparam name="T">面板脚本类型</typeparam>
-    /// <param name="panelName">面板名</param>
-    /// <param name="layer">显示在哪一层</param>
     /// <param name="callBack">当面板预设体创建成功后 你想做的事</param>
-    public void ShowPanel<T>(string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    public void ShowPanel<T>(UnityAction<T> callBack = null, bool isActive = false) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
     {
         string panelName = typeof(T).Name;
-        //层级处理
-        callBack += (o) => {
-            if (canvas.Find(UILayer) == null)
-            {
-                GameObject newLayer = Object.Instantiate<GameObject>(new GameObject());
-                newLayer.transform.parent = canvas.transform;
-                newLayer.name = UILayer;
-                Debug.LogWarning("没有合适的层级，已创建新层级" + UILayer + "，请在canvas预制体内及时调整层级关系");
-            }
-            o.transform.SetParent(canvas.Find(UILayer));
-        };
         if (panelDic.ContainsKey(panelName))
         {
             panelDic[panelName].ShowMe();
-
-
+            //判断激活panel是否为空，为空无视激活判断，直接激活
+            if(activePanel == null)
+            {
+                activePanel = panelDic[panelName];
+                activePanel.isActivePanel = true;
+                activePanel.transform.SetParent(activeCanvas);
+                activePanel.OnActive();
+            }
+            else
+            {
+                //若激活panel为自己无视
+                if (isActive && activePanel != panelDic[panelName])
+                {
+                    //退后现有激活panel
+                    activePanel.isActivePanel = false;
+                    activePanel.transform.SetParent(canvas);
+                    activePanel.OnNotActive();
+                    //设置这个panel为激活panel
+                    activePanel = panelDic[panelName];
+                    activePanel.isActivePanel = true;
+                    activePanel.transform.SetParent(activeCanvas);
+                    activePanel.OnActive();
+                }
+            }
             // 处理面板创建完成后的逻辑
             //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
             if (callBack != null)
@@ -77,8 +86,85 @@ public class UIManager : BaseManager<UIManager>
         //通过储存位置寻找UI面板
         ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
         {
+
+            //得到预设体身上的面板脚本
+            T panel = obj.GetComponent<T>();
+            //判断激活panel是否为空，为空无视激活判断，直接激活
+            if (activePanel == null)
+            {
+                activePanel = panel;
+                panel.isActivePanel = true;
+                panel.transform.SetParent(activeCanvas);
+                panel.OnActive();
+            }
+            else
+            {
+                if (isActive)
+                {
+                    //退后现有激活panel
+                    activePanel.isActivePanel = false;
+                    activePanel.transform.SetParent(canvas);
+                    activePanel.OnNotActive();
+                    //设置这个panel为激活panel
+                    activePanel = panel;
+                    panel.isActivePanel = true;
+                    panel.transform.SetParent(activeCanvas);
+                    panel.OnActive();
+                }
+                else
+                {
+                    //设置为不激活panel
+                    panel.isActivePanel = false;
+                    panel.transform.SetParent(canvas);
+                    panel.OnNotActive();
+                }
+            }
+
+
+
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localScale = Vector3.one;
+            (obj.transform as RectTransform).offsetMax = Vector2.zero;
+            (obj.transform as RectTransform).offsetMin = Vector2.zero;
+            obj.name = panelName;
+
+
+            // 处理面板创建完成后的逻辑
+            if (callBack != null)
+                callBack(panel);
+            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
+            panel.ShowMe();
+
+            //把面板存起来
+            panelDic.Add(panelName, panel);
+        });
+
+
+    }
+    /// <summary>
+    /// 显示子级面板
+    /// </summary>
+    /// <typeparam name="T">面板脚本类型</typeparam>
+    /// <param name="parentPanel">面板父级</param>
+    /// <param name="callBack">回调</param>
+    public void ShowPanel<T>(BasePanel parentPanel ,UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
+    {
+        string panelName = typeof(T).Name;
+        if (parentPanel.childrenPanels.ContainsKey(panelName))
+        {
+            parentPanel.childrenPanels[panelName].ShowMe();
+            // 处理面板创建完成后的逻辑
+            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
+            if (callBack != null)
+                callBack(panelDic[panelName] as T);
+            return;
+        }
+
+        //通过储存位置寻找UI面板
+        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
+        {
             //把他作为 Canvas的子对象
-            Transform father = canvas;
+            Transform father = parentPanel.transform;
 
             //设置父对象  设置相对位置和大小
             obj.transform.SetParent(father);
@@ -93,6 +179,7 @@ public class UIManager : BaseManager<UIManager>
 
             //得到预设体身上的面板脚本
             T panel = obj.GetComponent<T>();
+            panel.parentPanel = parentPanel;
             // 处理面板创建完成后的逻辑
             if (callBack != null)
                 callBack(panel);
@@ -100,226 +187,159 @@ public class UIManager : BaseManager<UIManager>
             panel.ShowMe();
 
             //把面板存起来
-            panelDic.Add(panelName, panel);
+            parentPanel.childrenPanels.Add(panelName, panel);
         });
 
 
     }
-    public void ShowPanel<T>(UnityAction<T> callBack, string UILayer = "GameLayer") where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
-    {
-        string panelName = typeof(T).Name;
-        //层级处理
-        callBack += (o) => {
-            if (canvas.Find(UILayer) == null)
-            {
-                GameObject newLayer = Object.Instantiate<GameObject>(new GameObject());
-                newLayer.transform.parent = canvas.transform;
-                newLayer.name = UILayer;
-                Debug.LogWarning("没有合适的层级，已创建新层级" + UILayer + "，请在canvas预制体内及时调整层级关系");
-            }
-            o.transform.SetParent(canvas.Find(UILayer));
-        };
-        if (panelDic.ContainsKey(panelName))
-        {
-            panelDic[panelName].ShowMe();
-
-
-            // 处理面板创建完成后的逻辑
-            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
-            if (callBack != null)
-                callBack(panelDic[panelName] as T);
-
-            return;
-        }
-
-        //通过储存位置寻找UI面板
-        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
-        {
-            //把他作为 Canvas的子对象
-            Transform father = canvas;
-
-            //设置父对象  设置相对位置和大小
-            obj.transform.SetParent(father);
-
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localScale = Vector3.one;
-
-            (obj.transform as RectTransform).offsetMax = Vector2.zero;
-            (obj.transform as RectTransform).offsetMin = Vector2.zero;
-
-            obj.name = panelName;
-
-            //得到预设体身上的面板脚本
-            T panel = obj.GetComponent<T>();
-            // 处理面板创建完成后的逻辑
-            if (callBack != null)
-                callBack(panel);
-            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
-            panel.ShowMe();
-
-            //把面板存起来
-            panelDic.Add(panelName, panel);
-        });
-
-
-    }  
-    public void ShowPanel<T>(bool throwNoLayerWarning,UnityAction<T> callBack = null) where T:BasePanel //where 接受的范型T要保证T继承于BasePanel
-    {
-        string panelName = typeof(T).Name;
-        if (throwNoLayerWarning) Debug.LogWarning("此面板无层级归属");
-        if (panelDic.ContainsKey(panelName))
-        {
-            panelDic[panelName].ShowMe();
-
-
-            // 处理面板创建完成后的逻辑
-            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
-            if (callBack != null)
-                callBack(panelDic[panelName] as T);
-            
-            return;
-        }
-
-        //通过储存位置寻找UI面板
-        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
-        {
-            //把他作为 Canvas的子对象
-            Transform father = canvas;
-
-            //设置父对象  设置相对位置和大小
-            obj.transform.SetParent(father);
-
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localScale = Vector3.one;
-
-            (obj.transform as RectTransform).offsetMax = Vector2.zero;
-            (obj.transform as RectTransform).offsetMin = Vector2.zero;
-
-            obj.name=panelName;
-
-            //得到预设体身上的面板脚本
-            T panel = obj.GetComponent<T>();
-            // 处理面板创建完成后的逻辑
-            if (callBack != null)
-                callBack(panel);
-            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
-            panel.ShowMe();
-
-            //把面板存起来
-            panelDic.Add(panelName, panel);
-        });
-    }
-    
-    public void ShowPanel<T>(BasePanel whoIsFather, string UILayer = "GameLayer", UnityAction<T> callBack = null) where T : BasePanel //where 接受的范型T要保证T继承于BasePanel
-    {
-        string panelName = typeof(T).Name;
-        panelFloatingDic?.Add(whoIsFather.name, panelName);
-        //层级处理
-        callBack += (o) => {
-            if (canvas.Find(UILayer) == null)
-            {
-                GameObject newLayer = Object.Instantiate<GameObject>(new GameObject());
-                newLayer.transform.parent = canvas.transform;
-                newLayer.name = UILayer;
-                Debug.LogWarning("没有合适的层级，已创建新层级" + UILayer + "，请在canvas预制体内及时调整层级关系");
-            }
-            o.transform.SetParent(canvas.Find(UILayer));
-        };
-        if (panelDic.ContainsKey(panelName))
-        {
-            panelDic[panelName].ShowMe();
-
-
-            // 处理面板创建完成后的逻辑
-            //避免面板重复加载 如果存在该面板 即直接显示 调用回调函数后  直接return 不再处理后面的异步加载逻辑
-            if (callBack != null)
-                callBack(panelDic[panelName] as T);
-
-            return;
-        }
-
-        //通过储存位置寻找UI面板
-        ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
-        {
-            //把他作为 Canvas的子对象
-            Transform father = canvas;
-
-            //设置父对象  设置相对位置和大小
-            obj.transform.SetParent(father);
-
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localScale = Vector3.one;
-
-            (obj.transform as RectTransform).offsetMax = Vector2.zero;
-            (obj.transform as RectTransform).offsetMin = Vector2.zero;
-
-            obj.name = panelName;
-
-            //得到预设体身上的面板脚本
-            T panel = obj.GetComponent<T>();
-            // 处理面板创建完成后的逻辑
-            if (callBack != null)
-                callBack(panel);
-            //panel.uiData = DataMgr.Instance.GetUIStr(panelName);
-            panel.ShowMe();
-
-            //把面板存起来
-            panelDic.Add(panelName, panel);
-        });
-
-
-    }
-
     /// <summary>
     /// 隐藏面板
     /// </summary>
     /// <typeparam name="T">面板类型</typeparam>
     /// <param name="isFade">是否淡入淡出</param>
-    public void HidePanel<T>(UnityAction callBack = null, bool isFade = true) where T : BasePanel
+    public bool HidePanel<T>(UnityAction callBack = null, bool isFade = true) where T : BasePanel
     {
         //根据名字获取类型
         string panelName = typeof(T).Name;
-        //先判断是否需要解决依赖
-        if (panelFloatingDic.ContainsKey(panelName)) HidePanelRecursion(panelName);
-        //删完其他的再处理自己
         if (panelDic.ContainsKey(panelName))
         {
+            BasePanel basePanel = panelDic[panelName];
+            //删除子面板
+            foreach (var panel in basePanel.childrenPanels)
+            {
+                HidePanel(panel.Value, null, false, false);
+            }
+            basePanel.childrenPanels.Clear();
+            //是否渐变
             if (isFade)
             {
-                panelDic[panelName].HideMe(() =>
+                basePanel.HideMe(() =>
                 {
+                    //判断是不是激活panel
+                    if (activePanel == basePanel)
+                    {
+                        //找到不激活面板上最后一个，设为激活，找不到就设为null
+                        activePanel = canvas.childCount > 0 ? canvas.GetChild(canvas.childCount - 1).GetComponent<BasePanel>() : null;
+                        activePanel.isActivePanel = true;
+                        activePanel.transform.SetParent(activeCanvas);
+                        activePanel.OnActive();
+                    }
+                    basePanel.OnNotActive();
                     //删除面板
-                    GameObject.Destroy(panelDic[panelName].gameObject);
+                    GameObject.Destroy(basePanel.gameObject);
                     panelDic.Remove(panelName);
                     callBack?.Invoke();
                 });
             }
             else
             {
-                GameObject.Destroy(panelDic[panelName]);
+                //判断是不是激活panel
+                if (activePanel == basePanel)
+                {
+                    //找到不激活面板上最后一个，设为激活，找不到就设为null
+                    activePanel = canvas.childCount > 0 ? canvas.GetChild(canvas.childCount - 1).GetComponent<BasePanel>() : null;
+                    activePanel.isActivePanel = true;
+                    activePanel.transform.SetParent(activeCanvas);
+                    activePanel.OnActive();
+                }
+                basePanel.OnNotActive();
+                //删除面板
+                GameObject.Destroy(basePanel.gameObject);
+                panelDic.Remove(panelName);
+                callBack?.Invoke();
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    /// <summary>
+    /// 删除指定面板
+    /// </summary>
+    /// <param name="basePanel">指定面板</param>
+    /// <param name="callBack">回调</param>
+    /// <param name="isFade">是否淡入淡出</param>
+    /// <param name="isClearParent">是否删除父面板的子面板（遍历父面板的子面板集时请设为false，然后手动删除）</param>
+    public void HidePanel(BasePanel basePanel ,UnityAction callBack = null, bool isFade = true, bool isClearParent = true)
+    {
+        //根据名字获取类型
+        string panelName = basePanel.GetType().Name;
+        //判断是不是主面板主面板
+        if (panelDic.ContainsKey(panelName))
+        {
+            //删除子面板
+            foreach (var panel in basePanel.childrenPanels)
+            {
+                HidePanel(panel.Value, null, false, false);
+            }
+            basePanel.childrenPanels.Clear();
+            //是否渐变
+            if (isFade)
+            {
+                basePanel.HideMe(() =>
+                {
+                    //判断是不是激活panel
+                    if (activePanel == basePanel)
+                    {
+                        //找到不激活面板上最后一个，设为激活，找不到就设为null
+                        activePanel = canvas.childCount > 0 ? canvas.GetChild(canvas.childCount - 1).GetComponent<BasePanel>() : null;
+                        activePanel.isActivePanel = true;
+                        activePanel.transform.SetParent(activeCanvas);
+                        activePanel.OnActive();
+                    }
+                    basePanel.OnNotActive();
+                    //删除面板
+                    GameObject.Destroy(basePanel.gameObject);
+                    panelDic.Remove(panelName);
+                    callBack?.Invoke();
+                });
+            }
+            else
+            {
+                //判断是不是激活panel
+                if (activePanel == basePanel)
+                {
+                    //找到不激活面板上最后一个，设为激活，找不到就设为null
+                    activePanel = canvas.childCount > 0 ? canvas.GetChild(canvas.childCount - 1).GetComponent<BasePanel>() : null;
+                    activePanel.isActivePanel = true;
+                    activePanel.transform.SetParent(activeCanvas);
+                    activePanel.OnActive();
+                }
+                basePanel.OnNotActive();
+                //删除面板
+                GameObject.Destroy(basePanel.gameObject);
                 panelDic.Remove(panelName);
                 callBack?.Invoke();
             }
         }
-        
-    }
-    void HidePanelRecursion(string targetPanel)
-    {
-        if (panelFloatingDic.ContainsKey(targetPanel))
+        else
         {
-            if (panelDic.ContainsKey(panelFloatingDic[targetPanel]))
+            if (isClearParent && basePanel.parentPanel != null)
             {
-                GameObject.Destroy(panelDic[panelFloatingDic[targetPanel]]);              
-                panelDic.Remove(panelFloatingDic[targetPanel]);
-                //这里尝试寻找下一个联系
-                HidePanelRecursion(panelFloatingDic[targetPanel]);
-                panelFloatingDic.Remove(targetPanel);
+                basePanel.parentPanel.childrenPanels.Remove(panelName);
             }
-        }        
+            //隐藏
+            if (isFade)
+            {
+                basePanel.HideMe(() =>
+                {
+                    //删除面板
+                    GameObject.Destroy(basePanel.gameObject);
+                    callBack?.Invoke();
+                });
+            }
+            else
+            {
+                GameObject.Destroy(basePanel.gameObject);
+                callBack?.Invoke();
+            }
+        }
     }
-
     /// <summary>
-    /// 得到某一个已经显示的面板 方便外部使用
+    /// 得到某一个已经显示的主面板 方便外部使用
     /// </summary>
     public T GetPanel<T>() where T:BasePanel
     {
@@ -359,33 +379,5 @@ public class UIManager : BaseManager<UIManager>
         }
         panelDic.Clear();
     }
-    public void ClearAllPanel(string layerName,bool deleteNoLayerPanel = true)
-    {
-        Stack<string> waitClear = new Stack<string>();
-        foreach (var kvp in panelDic)
-        {
-            if (kvp.Value.transform.parent.name == layerName ||(kvp.Value.transform.parent == canvas && deleteNoLayerPanel))
-            {
-                GameObject.Destroy(kvp.Value.gameObject);
-                waitClear.Push(kvp.Key);
-            }
-        }
-        while(waitClear.Count > 0)
-        {
-            panelDic.Remove(waitClear.Pop());
-        }
-    }
-
-    /// <summary>
-    /// 设置面板层级
-    /// </summary>
-    /// <param name="panel"></param>
-    /// <param name="layerName"></param>
-    public void SetPanelLayer(BasePanel panel, string layerName)
-    {
-        if (canvas.Find(layerName) == null) Debug.LogWarning("无对应层级");
-        else panel.transform.parent = canvas.Find(layerName);
-    }
-
 
 }

@@ -13,15 +13,15 @@ public class MainMenuPanel : BasePanel
 
     void OfflinePlayButtonAction()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer",(o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             o.AddWhileEnterCompletelyBlack(() => 
         {
             UIManager.Instance.HidePanel<MainMenuPanel>();
-            UIManager.Instance.ShowPanel<OfflineRoomPanel>("GameLayer");
+            UIManager.Instance.ShowPanel<OfflineRoomPanel>();
         });});
     }
     void OnlinePlayButtonAction()
     {
-        UIManager.Instance.ShowPanel<OnlineModePanel>(this,"GameLayer");
+        UIManager.Instance.ShowPanel<OnlineModePanel>(this);
     }
 }

@@ -9,7 +9,7 @@ public class GameCallBack : BaseManager<GameCallBack>
     public GameCallBack()
     {
         SuccesJionRoom = () => {
-            UIManager.Instance.ClearAllPanel("GameLayer");
+            UIManager.Instance.ClearAllPanel();
             //UIManager.Instance.GetPanel<LoadingPanel>().SetLoading(false);
             UIManager.Instance.ShowPanel<RoomPanel>();
         };

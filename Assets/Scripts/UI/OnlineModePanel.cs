@@ -17,21 +17,21 @@ public class OnlineModePanel : BasePanel
         {
             case "PlayWithSteam":
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Steam);
-                UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+                UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
                     {       
                         UIManager.Instance.HidePanel<OnlineModePanel>();
-                        UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
+                        UIManager.Instance.ShowPanel<LobbyPanel>();
                     });
                 });
                 break;
             case "PlayWithLocal":
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Local);
-                UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+                UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
                     o.AddWhileEnterCompletelyBlack(() =>
                     {
                         UIManager.Instance.HidePanel<OnlineModePanel>();
-                        UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
+                        UIManager.Instance.ShowPanel<LobbyPanel>();
                     });
                 });
                 break;

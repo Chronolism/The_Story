@@ -13,11 +13,11 @@ public class OfflineRoomPanel :BasePanel
 
     void BackToTitle()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             o.AddWhileEnterCompletelyBlack(() =>
             {
                 UIManager.Instance.HidePanel<OfflineRoomPanel>();
-                UIManager.Instance.ShowPanel<MainMenuPanel>("GameLayer");
+                UIManager.Instance.ShowPanel<MainMenuPanel>();
             });
         });
     }

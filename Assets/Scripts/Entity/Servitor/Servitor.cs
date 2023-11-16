@@ -33,21 +33,26 @@ public class Servitor : Entity
         bronPos = transform.position;
         AfterTurn += (a, b, c) =>
         {
-            if ( b == DataMgr.Instance.activePlayer ) 
-            {
-                foreach (var anim in animators)
-                {
-                    anim.SetInteger("displayType", 1);
-                }
-            }
-            else
-            {
-                foreach (var anim in animators)
-                {
-                    anim.SetInteger("displayType", 2);
-                }
-            }
+            TurnAnimation(b.netId);
         };
+    }
+
+    public void TurnAnimation(uint netid)
+    {
+        if (Mirror.Utils.GetSpawnedInServerOrClient(netid).GetComponent<Entity>() == DataMgr.Instance.activePlayer)
+        {
+            foreach (var anim in animators)
+            {
+                anim.SetInteger("displayType", 1);
+            }
+        }
+        else
+        {
+            foreach (var anim in animators)
+            {
+                anim.SetInteger("displayType", 2);
+            }
+        }
     }
 
     private void Update()
@@ -154,6 +159,10 @@ public class Servitor : Entity
                 AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
             }
 
+        }
+        else
+        {
+            time += Time.deltaTime;
         }
     }
 

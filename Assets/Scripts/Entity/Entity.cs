@@ -361,8 +361,8 @@ public class Entity : NetworkBehaviour
     public void BeTurn(Entity target, InkData inkData)
     {
         BeforeTurn?.Invoke(this,target, inkData);
-        if (inkData.ifTurn) OnTurn(this, target, inkData);
-        if(inkData.ifTurn) AfterTurn(this,target, inkData);
+        if (inkData.ifTurn) OnTurn?.Invoke(this, target, inkData);
+        if(inkData.ifTurn) AfterTurn?.Invoke(this,target, inkData);
     }
     /// <summary>
     /// ¸ÄÐ´Ê¹Ä§

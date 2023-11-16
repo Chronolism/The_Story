@@ -21,7 +21,7 @@ public abstract class RoomLogicBase
         roomData.LoadMap(mapName);
         cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(2);
         cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(0);
-        cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(1);
+        cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(0);
         cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(3);
     }
 

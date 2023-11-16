@@ -234,6 +234,7 @@ public class Entity : NetworkBehaviour
     /// <param name="atkData"></param>
     public void AtkEntity(Entity target, ATKData atkData)
     {
+        if (target.canRewrite) return;
         Atk(target, atkData);
         if (atkData.canAtk)
         {

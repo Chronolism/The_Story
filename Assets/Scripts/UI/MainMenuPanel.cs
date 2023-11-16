@@ -17,11 +17,12 @@ public class MainMenuPanel : BasePanel
             o.AddWhileEnterCompletelyBlack(() => 
         {
             UIManager.Instance.HidePanel<MainMenuPanel>();
-            UIManager.Instance.ShowPanel<OfflineRoomPanel>();
+            UIManager.Instance.ShowPanel<OfflineLobbyPanel>();
         });}, true);
     }
     void OnlinePlayButtonAction()
     {
-        UIManager.Instance.ShowPanel<OnlineModePanel>(this);
+        //UIManager.Instance.ShowPanel<OnlineModePanel>();
+        ShowPanel<OnlineModePanel>();
     }
 }

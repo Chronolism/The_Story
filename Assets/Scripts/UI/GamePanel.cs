@@ -26,7 +26,14 @@ public class GamePanel : BasePanel
     Image _Ultimate_Skill_Charge_Progress;
     float _Ultimate_Skill_targetFillAmount;
     [Header("QA")]
-    public float UIAnimationSpeed = 0.1f; 
+    public float UIAnimationSpeed = 0.1f;
+    [Header("Color")]
+    public Color Character101Color;
+    public Color Character102Color;
+    public Color Character103Color;
+    public Color Character104Color;
+    public Color Character105Color;
+    public Color Character106Color;
 
     Text _tipsFollowMouse;
 
@@ -58,7 +65,7 @@ public class GamePanel : BasePanel
         AddChangeItOnlyWhileStayIn(_Prop_BackGround, _tipsFollowMouse, "prop");
         AddChangeItOnlyWhileStayIn(_Ultimate_Skill_BackGround, _tipsFollowMouse, "ultimate");
 
-        if (DataMgr.Instance.roomData.ifPause)
+        if (!DataMgr.Instance.roomData.ifPause)
         {
             StartGame();
         }
@@ -82,7 +89,7 @@ public class GamePanel : BasePanel
     {
         player = DataMgr.Instance.activePlayer;
         _isUIUpdating = true;
-
+        InitUIDisplay();
 
     }
 
@@ -126,9 +133,19 @@ public class GamePanel : BasePanel
         UIManager.AddCustomEventListener(control, EventTriggerType.PointerExit, (o) => { (text as TextFollowMouse).DisplayClear(); Debug.LogWarning("³ö"); });
     }
     public void InitUIDisplay()
-    {
-       
+    {      
         _Passive_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode + "_1").sprite;
         _Ultimate_Skill_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
+        _Ultimate_Skill_Charge_Progress.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
+        switch (player.characterCode)
+        {
+            case 101: _Ultimate_Skill_Charge_Progress.color = Character101Color; break;
+            case 102: _Ultimate_Skill_Charge_Progress.color = Character102Color; break;
+            case 103: _Ultimate_Skill_Charge_Progress.color = Character103Color; break;
+            case 104: _Ultimate_Skill_Charge_Progress.color = Character104Color; break;
+            case 105: _Ultimate_Skill_Charge_Progress.color = Character105Color; break;
+            case 106: _Ultimate_Skill_Charge_Progress.color = Character106Color; break;
+        }
     }
+    
 }

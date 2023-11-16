@@ -26,11 +26,11 @@ MonoBehaviour:
     rewrite_ink_Max: 100
     rewrite_ink_MaxLastTime: 5
     skill_Index:
-    - buffId: 3001
+    - buffId: 3004
       buffValue: 6
-    - buffId: 2001
+    - buffId: 1014
       buffValue: 10
-    - buffId: 2002
+    - buffId: 1011
       buffValue: 20
   - character_Code: 102
     characterName: 102

@@ -80,6 +80,7 @@ public class GamePanel : BasePanel
         player = DataMgr.Instance.activePlayer;
         _isUIUpdating = true;
 
+
     }
 
     private void FixedUpdate()
@@ -121,5 +122,10 @@ public class GamePanel : BasePanel
         UIManager.AddCustomEventListener(control, EventTriggerType.PointerEnter, (o) => { (text as TextFollowMouse).DisplayIt(changeText); Debug.LogWarning("½ø"); });
         UIManager.AddCustomEventListener(control, EventTriggerType.PointerExit, (o) => { (text as TextFollowMouse).DisplayClear(); Debug.LogWarning("³ö"); });
     }
-
+    public void InitUIDisplay()
+    {
+       
+        _Passive_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode + "_1").sprite;
+        _Ultimate_Skill_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
+    }
 }

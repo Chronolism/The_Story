@@ -38,10 +38,10 @@ public class LobbyPanel : BasePanel
                     UIManager.Instance.HidePanel<LobbyPanel>();
                     UIManager.Instance.ShowPanel<MainMenuPanel>();
                 });
-            });
+            },true);
         });
         GetControl<Button>("SettingButton").onClick.AddListener(() => {
-            UIManager.Instance.ShowPanel<LoadingPanel>(this, "GameLayer");
+            UIManager.Instance.ShowPanel<LoadingPanel>(null,true);
         });
     }
     #region 所有大板块按钮的函数
@@ -57,7 +57,7 @@ public class LobbyPanel : BasePanel
             {
                 GameMgr.Instance.CreatRoom();
             });
-        });
+        },true);
     }
     public void JoinRoom()
     {
@@ -67,7 +67,7 @@ public class LobbyPanel : BasePanel
                 UIManager.Instance.HidePanel<LobbyPanel>();
                 UIManager.Instance.ShowPanel<SearchRoomPanel>();
             });
-        });
+        }, true);
     }
     public void StoryMode()
     {

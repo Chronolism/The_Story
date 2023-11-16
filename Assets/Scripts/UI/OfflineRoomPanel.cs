@@ -19,7 +19,7 @@ public class OfflineRoomPanel :BasePanel
                 UIManager.Instance.HidePanel<OfflineRoomPanel>();
                 UIManager.Instance.ShowPanel<MainMenuPanel>();
             });
-        });
+        }, true);
     }
     void StartGame()
     {

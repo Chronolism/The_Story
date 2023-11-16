@@ -29,7 +29,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         {
             user.tags = new List<int>() { 0, 0 };
         }
-        StartGame();
+        roomData.StartGame();
     }
 
     public override void StartGame()
@@ -43,7 +43,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     /// <returns></returns>
     IEnumerator StartGameCountdown()
     {
-        float startGameTime = 2;
+        float startGameTime = 4;
         EntityFactory.Instance.ClearNetworkEntity();
         nullProp.Clear();
         toolProps.Clear();
@@ -66,7 +66,15 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void StartGameClient()
     {
-        UIManager.Instance.ClearAllPanel();
+        Debug.Log("Start");
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+        {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                UIManager.Instance.ClearAllPanel();
+                UIManager.Instance.ShowPanel<GamePanel>();
+            });
+        }, true);
     }
 
 
@@ -118,8 +126,6 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void BeginGameClient()
     {
-        UIManager.Instance.ClearAllPanel();
-        UIManager.Instance.ShowPanel<GamePanel>();
         if (!roomData.isServer)
         {
             foreach (var player in DataMgr.Instance.players)
@@ -188,8 +194,15 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void EndGameClient()
     {
-        UIManager.Instance.ClearAllPanel();
-        UIManager.Instance.ShowPanel<RoomPanel>();
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+        {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                UIManager.Instance.ClearAllPanel();
+                UIManager.Instance.ShowPanel<RoomPanel>();
+            });
+        }, true);
+
     }
 
     /// <summary>

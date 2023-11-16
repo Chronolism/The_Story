@@ -58,7 +58,10 @@ public class GamePanel : BasePanel
         AddChangeItOnlyWhileStayIn(_Prop_BackGround, _tipsFollowMouse, "prop");
         AddChangeItOnlyWhileStayIn(_Ultimate_Skill_BackGround, _tipsFollowMouse, "ultimate");
 
-        StartGame();
+        if (DataMgr.Instance.roomData.ifPause)
+        {
+            StartGame();
+        }
     }
 
     private void OnEnable()

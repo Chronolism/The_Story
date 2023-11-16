@@ -176,8 +176,7 @@ public class MyNetworkManager : NetworkManager
     }
 
     public void CreatRoom(Action<LobbyCreated_t> callBack)
-    {
-        
+    { 
         switch (gameServerType)
         {
             case GameServerType.Local:
@@ -185,6 +184,7 @@ public class MyNetworkManager : NetworkManager
                 networkDiscovery.AdvertiseServer();
                 break;
             case GameServerType.Steam:
+                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); });
                 SteamMgr.CreatLobby(callBack);
                 break;
         }

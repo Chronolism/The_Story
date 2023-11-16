@@ -18,7 +18,7 @@ public class MainMenuPanel : BasePanel
         {
             UIManager.Instance.HidePanel<MainMenuPanel>();
             UIManager.Instance.ShowPanel<OfflineRoomPanel>();
-        });});
+        });}, true);
     }
     void OnlinePlayButtonAction()
     {

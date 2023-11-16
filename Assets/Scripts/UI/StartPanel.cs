@@ -14,14 +14,26 @@ public class StartPanel : BasePanel
         switch (btnName)
         {
             case "btnStartLocal":
-                UIManager.Instance.ClearAllPanel();
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Local);
-                UIManager.Instance.ShowPanel<SearchRoomPanel>();
+                UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+                {
+                    o.AddWhileEnterCompletelyBlack(() =>
+                    {
+                        UIManager.Instance.ClearAllPanel();
+                        UIManager.Instance.ShowPanel<SearchRoomPanel>();
+                    });
+                }, true);
                 break;
             case "btnStartSteam":
-                UIManager.Instance.ClearAllPanel();
                 GameMgr.Instance.ChangeGameServerType(GameServerType.Steam);
-                UIManager.Instance.ShowPanel<SearchRoomPanel>();
+                UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+                {
+                    o.AddWhileEnterCompletelyBlack(() =>
+                    {
+                        UIManager.Instance.ClearAllPanel();
+                        UIManager.Instance.ShowPanel<SearchRoomPanel>();
+                    });
+                }, true);
                 break;
             case "btnQuit":
                 Application.Quit();

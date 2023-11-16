@@ -371,13 +371,26 @@ public class UIManager : BaseManager<UIManager>
     /// <summary>
     /// 清除所有面板
     /// </summary>
-    public void ClearAllPanel()
+    public void ClearAllPanel(bool ifClearActivePanel = false)
     {
-        foreach (BasePanel bp in panelDic.Values)
+        if (!ifClearActivePanel)
         {
-            GameObject.Destroy(bp.gameObject);
+            foreach (BasePanel bp in panelDic.Values)
+            {
+                if (bp == activePanel) continue;
+                GameObject.Destroy(bp.gameObject);
+            }
+            panelDic.Clear();
+            panelDic[activePanel.GetType().Name] = activePanel;
         }
-        panelDic.Clear();
+        else
+        {
+            foreach (BasePanel bp in panelDic.Values)
+            {
+                GameObject.Destroy(bp.gameObject);
+            }
+            panelDic.Clear();
+        }
     }
 
 }

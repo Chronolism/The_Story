@@ -47,6 +47,7 @@ public class GenerateBuffData
                     bd.energy = int.Parse(dt.Rows[j][4].ToString());
                     bd.maxEnergy = int.Parse(dt.Rows[j][5].ToString());
                     bd.times = int.Parse(dt.Rows[j][6].ToString());
+                    bd.spriteIndex = int.Parse(dt.Rows[j][10].ToString());
                     string[] idStr;
                     if (dt.Rows[j][7].ToString() != "")
                     {

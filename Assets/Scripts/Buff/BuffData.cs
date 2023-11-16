@@ -6,7 +6,8 @@ using UnityEngine;
 public class BuffData
 {
     public int id;
-    public string img;
+    public int spriteIndex;
+    public Sprite img;
     public string name;
     public string description;
     public float cd;

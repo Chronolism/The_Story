@@ -50,7 +50,7 @@ public class LobbyPanel : BasePanel
         //快速开始
     }
     public void HostRoom()
-    {   
+    {
         GameMgr.Instance.CreatRoom();
     }
     public void JoinRoom()

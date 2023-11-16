@@ -23,6 +23,9 @@ public class DataMgr : BaseManager<DataMgr>
     private List<AttackData> attackDatas;
     public List<AttackData> AttackDatas => attackDatas;
 
+    private List<SpriteData> spriteDataSet;
+    public List<SpriteData> SpriteDataSet => spriteDataSet;
+
     public RoomData roomData;
 
     public PlayerData playerData;
@@ -51,6 +54,7 @@ public class DataMgr : BaseManager<DataMgr>
     void DataLosd()
     {
         playerData = JsonMgr.Instance.LoadData<PlayerData>("playerData");
+        spriteDataSet = ResMgr.Instance.Load<SpriteData_SO>("Data_SO/SpriteData_SO").spriteDataSet;
         playerData.account = Random.Range(0, int.MaxValue).ToString();
         LaodLanguage();
         buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
@@ -66,8 +70,12 @@ public class DataMgr : BaseManager<DataMgr>
         uiDataDic = new Dictionary<string, UIData>();
 
         buffDataDic = new Dictionary<int, BuffData>();
+        string Path = Application.dataPath + "/ArtRes/UI/CharacterIcon/";
+        List<Sprite> buffIcon = spriteDataSet.Find(i => i.name == "buff").sprites;
         foreach (BuffData buff in buffDatas)
         {
+            buff.img = buffIcon[buff.spriteIndex];
+            
             buffDataDic.Add(buff.id, buff);
         }
 

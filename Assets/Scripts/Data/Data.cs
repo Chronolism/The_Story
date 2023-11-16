@@ -116,3 +116,9 @@ public class FriendRoom
     public ServerResponse localIP;
     public ulong steamIP;
 }
+[Serializable]
+public class SpriteData
+{
+    public string name;
+    public List<Sprite> sprites;
+}

@@ -134,7 +134,7 @@ public class GamePanel : BasePanel
     }
     public void InitUIDisplay()
     {      
-        _Passive_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode + "_1").sprite;
+        _Passive_Now.sprite = player.skill.PassiveSkill(0).buffData.img;
         _Ultimate_Skill_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
         _Ultimate_Skill_Charge_Progress.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
         switch (player.characterCode)

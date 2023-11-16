@@ -23,9 +23,6 @@ public class Player : Entity
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animators = rb.GetComponentsInChildren<Animator>();
-        this.transform.position = new Vector3(0.5f, 0.5f);
-        movement = this.transform.position;
         DataMgr.Instance.players.Add(netId, this);
         ChangeState<NormalState>();
         
@@ -121,6 +118,9 @@ public class Player : Entity
             this.characterCode = characterCode;
             this.characterData = DataMgr.Instance.GetCharacter(characterCode);
         }
+        animators = rb.GetComponentsInChildren<Animator>();
+        movement = this.transform.position;
+
         bodyAnimator.runtimeAnimatorController = characterData.controller;
     }
     /// <summary>

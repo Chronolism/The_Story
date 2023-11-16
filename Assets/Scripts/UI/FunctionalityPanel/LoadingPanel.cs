@@ -39,7 +39,7 @@ public class LoadingPanel : BasePanel
             _isLoading = false;
         }
 
-        if (_image.transform.position.y < -1.1f * Screen.height) UIManager.Instance.HidePanel<LoadingPanel>();
+        if (_image.transform.position.y < -1.1f * Screen.height) UIManager.Instance.HidePanel<LoadingPanel>(null,false);
         
     }
     public override void ShowMe()

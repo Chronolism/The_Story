@@ -356,6 +356,13 @@ public class Entity : NetworkBehaviour
     {
         skill?.AddEnergy(value);
     }
+
+    public void BeTurn(Entity target, InkData inkData)
+    {
+        BeforeTurn?.Invoke(this,target, inkData);
+        if (inkData.ifTurn) OnTurn(this, target, inkData);
+        if(inkData.ifTurn) AfterTurn(this,target, inkData);
+    }
     /// <summary>
     /// ¸ÄÐ´Ê¹Ä§
     /// </summary>

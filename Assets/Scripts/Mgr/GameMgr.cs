@@ -54,7 +54,6 @@ public class GameMgr : BaseManager<GameMgr>
     /// </summary>
     public void CreatRoom()
     {
-        UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); });
         (MyNetworkManager.singleton as MyNetworkManager).CreatRoom((o) => 
         {
             if (o.m_eResult != EResult.k_EResultOK) 
@@ -90,7 +89,8 @@ public class GameMgr : BaseManager<GameMgr>
             }
             else
             {
-                MyNetworkManager.singleton.StartHost();              
+                MyNetworkManager.singleton.StartHost();
+                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建成功", true); });
             }
            
         });

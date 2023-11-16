@@ -19,6 +19,10 @@ public abstract class BasePanel : MonoBehaviour
 
     private CanvasGroup CanvasGroup;
 
+    public bool isActivePanel;
+    [HideInInspector] public BasePanel parentPanel;
+    [HideInInspector] public Dictionary<string, BasePanel> childrenPanels = new Dictionary<string, BasePanel>();
+
     [Header("淡入/出速度(单位:0.1s)")]
     public float SpeedIn = 10f;
     public float SpeedOut = 10f;
@@ -102,8 +106,23 @@ public abstract class BasePanel : MonoBehaviour
         //记录淡出函数
         hidecallback = callBack;
     }
-
-
+    /// <summary>
+    /// 显示子面板
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="callBack"></param>
+    public void ShowPanel<T>(UnityAction<T> callBack = null) where T : BasePanel
+    {
+        UIManager.Instance.ShowPanel<T>(this, callBack);
+    }
+    /// <summary>
+    /// 隐藏指定面板
+    /// </summary>
+    /// <param name="basePanel"></param>
+    public void HidePanel(BasePanel basePanel)
+    {
+        UIManager.Instance.HidePanel(basePanel);
+    }
 
     /// <summary>
     /// 读取UIData内容自动赋值
@@ -123,7 +142,15 @@ public abstract class BasePanel : MonoBehaviour
     }
 
 
-    
+    public virtual void OnActive()
+    {
+
+    }
+
+    public virtual void OnNotActive()
+    {
+
+    }
 
   
     protected virtual void OnClick(string btnName)

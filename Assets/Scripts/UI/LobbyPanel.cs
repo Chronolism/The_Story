@@ -32,16 +32,16 @@ public class LobbyPanel : BasePanel
         //面板上的是弄着玩的，别管
         //退出
         GetControl<Button>("ExitButton").onClick.AddListener(()=> {
-            UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+            UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
                 o.AddWhileEnterCompletelyBlack(() =>
                 {
                     UIManager.Instance.HidePanel<LobbyPanel>();
-                    UIManager.Instance.ShowPanel<MainMenuPanel>("GameLayer");
+                    UIManager.Instance.ShowPanel<MainMenuPanel>();
                 });
-            });
+            },true);
         });
         GetControl<Button>("SettingButton").onClick.AddListener(() => {
-            UIManager.Instance.ShowPanel<LoadingPanel>(this, "GameLayer");
+            UIManager.Instance.ShowPanel<LoadingPanel>(null,true);
         });
     }
     #region 所有大板块按钮的函数
@@ -51,23 +51,23 @@ public class LobbyPanel : BasePanel
     }
     public void HostRoom()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             //o.SetLoading(true);
             o.AddWhileEnterCompletelyBlack(() =>
             {
                 GameMgr.Instance.CreatRoom();
             });
-        });
+        },true);
     }
     public void JoinRoom()
     {
-        UIManager.Instance.ShowPanel<LoadingPanel>("SystemLayer", (o) => {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) => {
             o.AddWhileEnterCompletelyBlack(() =>
             {
                 UIManager.Instance.HidePanel<LobbyPanel>();
-                UIManager.Instance.ShowPanel<SearchRoomPanel>("GameLayer");
+                UIManager.Instance.ShowPanel<SearchRoomPanel>();
             });
-        });
+        }, true);
     }
     public void StoryMode()
     {

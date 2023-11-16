@@ -10,7 +10,7 @@ public class Mono_Main : MonoBehaviour
     void Start()
     {
         //UIManager.Instance.ShowPanel<ConsolePanel>("SystemLayer");
-        UIManager.Instance.ShowPanel<MainMenuPanel>("GameLayer");
+        UIManager.Instance.ShowPanel<MainMenuPanel>();
         //UIManager.Instance.ShowPanel<LobbyPanel>("GameLayer");
 
         TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");

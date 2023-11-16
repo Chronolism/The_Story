@@ -31,6 +31,23 @@ public class Servitor : Entity
         posAdd = Random.Range(0, 1f) > 0.5f ? new Vector2(Random.Range(-1, 2), 0) : new Vector3(0, Random.Range(-1, 2));
         addRate = Random.Range(1, 3);
         bronPos = transform.position;
+        AfterTurn += (a, b, c) =>
+        {
+            if ( b == DataMgr.Instance.activePlayer ) 
+            {
+                foreach (var anim in animators)
+                {
+                    anim.SetInteger("displayType", 1);
+                }
+            }
+            else
+            {
+                foreach (var anim in animators)
+                {
+                    anim.SetInteger("displayType", 2);
+                }
+            }
+        };
     }
 
     private void Update()

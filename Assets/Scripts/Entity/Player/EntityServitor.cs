@@ -26,7 +26,7 @@ public class EntityServitor : NetworkBehaviour
         if (unconditional)
         {
             InkData inkData = new InkData(0, 0, true);
-            servitor.OnTurn?.Invoke(servitor, entity, inkData);
+            servitor.BeTurn( entity, inkData);
             if (!inkData.ifTurn) return;
             //entity.ChangeInkAmount(-inkData.inkAmount);
             //entity.AddEnergy(inkData);
@@ -43,7 +43,7 @@ public class EntityServitor : NetworkBehaviour
                 {
                     servitor.parent.OnReWrited?.Invoke(servitor.parent, servitor, entity, inkData);
                 }
-                if (inkData.ifTurn) servitor.OnTurn?.Invoke(servitor, entity, inkData);
+                if (inkData.ifTurn) servitor.BeTurn(entity, inkData);
                 if (!inkData.ifTurn) return;
                 entity.ChangeInkAmount(-inkData.inkAmount);
                 entity.AddEnergy(inkData);
@@ -59,7 +59,6 @@ public class EntityServitor : NetworkBehaviour
     {
         Servitors.Add(servitor);
         servitor.parent = entity;
-        servitor.GetComponentInChildren<SpriteRenderer>().color = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
         entity.OnAddServitor?.Invoke(entity, servitor);
     }
     [Server]

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f524469df18c35d48b0923091311d39d
+guid: 2b77f263ef87db34985e6c1e3aafd9ba
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 104AD_0
+      name: 105WS_0
       rect:
         serializedVersion: 2
         x: 0
@@ -143,14 +143,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec66263d7e61f1740b2fc100fb490ead
-      internalID: -479844682
+      spriteID: 62932fd6ebbaf9c4f851ff9f81e89926
+      internalID: 1702734219
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_1
+      name: 105WS_1
       rect:
         serializedVersion: 2
         x: 250
@@ -164,14 +164,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce3bc6138063947489d98b477bdcdad9
-      internalID: 886965883
+      spriteID: 37cc12fa38dd6b649bf4102e5b518176
+      internalID: -173792148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_2
+      name: 105WS_2
       rect:
         serializedVersion: 2
         x: 500
@@ -185,14 +185,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9331c5dc05c38264b9bd5a20b994ca17
-      internalID: 1165170745
+      spriteID: 9d0aea6b6aa9a07438fc92955a42b819
+      internalID: -79380911
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_3
+      name: 105WS_3
       rect:
         serializedVersion: 2
         x: 750
@@ -206,14 +206,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93ec513c9fff855428b0eee0f46cd49e
-      internalID: -1271394855
+      spriteID: 35897b54e77b2094fbf3c3ebde0bd9f4
+      internalID: 1381310575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_4
+      name: 105WS_4
       rect:
         serializedVersion: 2
         x: 1000
@@ -227,14 +227,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e200377e89b2f5447854fb89a0bdaf8e
-      internalID: 1779728567
+      spriteID: b94510957674b954da0d537f62ce4853
+      internalID: 2253399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_5
+      name: 105WS_5
       rect:
         serializedVersion: 2
         x: 1250
@@ -248,14 +248,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02aa74ed7eeb5bd4a8298d75e89f90c3
-      internalID: 1493825619
+      spriteID: a2ce59d950ab85141b3f310fb0675eb0
+      internalID: 1460288329
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_6
+      name: 105WS_6
       rect:
         serializedVersion: 2
         x: 1500
@@ -269,14 +269,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc099128ee9fbf744b86531288902151
-      internalID: 716678702
+      spriteID: 30d2744167711d640a648c3f1df27999
+      internalID: 13032136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_7
+      name: 105WS_7
       rect:
         serializedVersion: 2
         x: 1750
@@ -290,14 +290,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33cdda326b30a2445974d29d6083bf95
-      internalID: -1003189026
+      spriteID: c7909c0dd7f4ee04a8f6d303451ad20e
+      internalID: -99777569
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_8
+      name: 105WS_8
       rect:
         serializedVersion: 2
         x: 2000
@@ -311,14 +311,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03dc1d561eb7baa4ab0ea2967992e9e8
-      internalID: 1430113836
+      spriteID: 7a7d7efd3979b914e9015051128b0ef9
+      internalID: -994538753
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 104AD_9
+      name: 105WS_9
       rect:
         serializedVersion: 2
         x: 2250
@@ -332,50 +332,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ab0f318e3fa33243b73bcb94522e10e
-      internalID: -1465957617
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 104AD_10
-      rect:
-        serializedVersion: 2
-        x: 2500
-        y: 0
-        width: 250
-        height: 285
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcb89dd6b34c1584fac462eee438ce7f
-      internalID: 577920641
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 104AD_11
-      rect:
-        serializedVersion: 2
-        x: 2750
-        y: 0
-        width: 250
-        height: 285
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f51d9627a34dcb647863f82846b85b5e
-      internalID: -1641515954
+      spriteID: cb990907f0d738c499b01a598882f244
+      internalID: -1597490898
       vertices: []
       indices: 
       edges: []
@@ -391,18 +349,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      104AD_8: 1430113836
-      104AD_2: 1165170745
-      104AD_5: 1493825619
-      104AD_7: -1003189026
-      104AD_4: 1779728567
-      104AD_6: 716678702
-      104AD_0: -479844682
-      104AD_10: 577920641
-      104AD_1: 886965883
-      104AD_11: -1641515954
-      104AD_9: -1465957617
-      104AD_3: -1271394855
+      105WS_7: -99777569
+      105WS_1: -173792148
+      105WS_8: -994538753
+      105WS_5: 1460288329
+      105WS_6: 13032136
+      105WS_9: -1597490898
+      105WS_4: 2253399
+      105WS_3: 1381310575
+      105WS_2: -79380911
+      105WS_0: 1702734219
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

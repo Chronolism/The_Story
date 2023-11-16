@@ -94,7 +94,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(1));
         RollNullProp().ShowProp(DataMgr.Instance.GetPropData(2));
         //在随机使魔生成点生成一个使魔
-        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
+        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)] + new Vector3(0.5f,0.5f,0), roomData.ifPause);
     }
 
     public override void LoadPlayer()
@@ -103,7 +103,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         foreach (var user in roomData.roomUser)
         {
             //在随机玩家生成点生成玩家
-            Player player = EntityFactory.Instance.CreatPlayer(user, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]);
+            Player player = EntityFactory.Instance.CreatPlayer(user, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]+ new Vector3(0.5f, 0.5f, 0));
             player.observers.Add(this);
             playerList.Add(player);
         }

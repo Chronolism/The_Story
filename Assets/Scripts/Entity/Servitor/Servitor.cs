@@ -120,10 +120,7 @@ public class Servitor : Entity
                 }
             }
         }
-        else
-        {
-            time += Time.deltaTime;
-        }
+        time += Time.deltaTime;
 
     }
 
@@ -162,10 +159,7 @@ public class Servitor : Entity
                 }
             }
         }
-        else
-        {
-            time += Time.deltaTime;
-        }
+        time += Time.deltaTime;
     }
 
     List<AStarNode> path = new List<AStarNode>();

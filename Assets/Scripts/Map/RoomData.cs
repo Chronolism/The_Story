@@ -7,7 +7,7 @@ using UnityEngine;
 public class RoomData : NetworkBehaviour
 {
     [SyncVar]
-    public string mapName = "400";
+    public string mapName = "500";
     [SyncVar]
     public string HostUser = "";
 

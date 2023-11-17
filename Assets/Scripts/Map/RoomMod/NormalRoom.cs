@@ -84,13 +84,12 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     public override void LoadMap()
     {
         //遍历所有道具点生成空道具
-        foreach(Vector3Int v3 in cellsForToolsBorn)
+        foreach (Vector3Int v3 in cellsForToolsBorn)
         {
             Prop prop = EntityFactory.Instance.CreatProp(new Vector3(v3.x + 0.5f, v3.y + 0.5f, 0));
             nullToolProp.Add(prop);
             //添加道具观察
             prop.observers.Add(this);
-
         }
         foreach (Vector3Int v3 in cellsForFeatherPenBorn)
         {
@@ -98,11 +97,10 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
             nullFeatherProp.Add(prop);
             //添加道具观察
             prop.observers.Add(this);
-
         }
         //显示一个羽毛id = 1和道具 id = 2;
-        RollNullFeatherProp().ShowProp(DataMgr.Instance.GetPropData(1));
-        RollNullToolProp().ShowProp(DataMgr.Instance.GetPropData(2));
+        RollNullFeatherProp()?.ShowProp(DataMgr.Instance.GetPropData(1));
+        RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData(2));
         //在随机使魔生成点生成一个使魔
         EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)] + new Vector3(0.5f,0.5f,0), roomData.ifPause);
     }
@@ -221,7 +219,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     /// <param name="value"></param>
     public void ToUpdate(Prop value)
     {
-        if(value.propData.id == 1)
+        if(value.propid== 1)
         {
             nullFeatherProp.Add(value);
         }

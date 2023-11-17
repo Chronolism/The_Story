@@ -41,6 +41,7 @@ public class MapManager : BaseManager<MapManager>
     //加载地图到场景
     public bool LoadMapCompletelyToScene(string mapName)
     {
+        Debug.Log(mapName);
         //如果runtimeTilemaps有存东西，说明场景上有地图，需要重载
         if (runtimeTilemaps.Count > 0)
         {

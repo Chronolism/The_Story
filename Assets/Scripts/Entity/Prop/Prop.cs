@@ -8,7 +8,7 @@ public class Prop : NetworkBehaviour
     public Collider2D propCollider;
     public SpriteRenderer spriteRenderer;
     public PropData propData;
-
+    public int propid;
     public List<Observer<Prop>> observers = new List<Observer<Prop>>();
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -72,6 +72,7 @@ public class Prop : NetworkBehaviour
         {
             propCollider.enabled = true;
             spriteRenderer.enabled = true;
+            propid = propData.id;
         }
         else
         {

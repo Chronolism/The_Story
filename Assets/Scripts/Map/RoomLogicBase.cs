@@ -24,10 +24,6 @@ public abstract class RoomLogicBase
         cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(10);
         cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(11);
         cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(13);
-        Debug.Log("player:"+cellsForPlayerBorn.Count);
-        Debug.Log("feather:"+cellsForFeatherPenBorn.Count);
-        Debug.Log("tool:"+cellsForToolsBorn.Count);
-        Debug.Log("servitor:"+cellsForServitorBorn.Count);
     }
 
     public abstract void OpenGame();

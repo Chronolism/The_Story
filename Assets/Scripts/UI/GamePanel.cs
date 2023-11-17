@@ -99,9 +99,10 @@ public class GamePanel : BasePanel
         if (_isUIUpdating)
         {
             //待做：逐渐改变
-            imgBlood.fillAmount = player.blood / player.MaxBlood;
-            txtBlood.text = player.blood + "/" + player.MaxBlood;
+            //imgBlood.fillAmount = player.blood / player.MaxBlood;
+            //txtBlood.text = player.blood + "/" + player.MaxBlood;
 
+            //墨水与充能
             if (player.inkMaxAmount == 0) Debug.LogWarning("player.inkMaxAmount为0");
             if (player.skill.maxEnergyAmount == 0) Debug.LogWarning("skill.maxEnergyAmount为0");
             _Ink_targetFillAmount = player.inkAmount / player.inkMaxAmount;
@@ -118,8 +119,11 @@ public class GamePanel : BasePanel
             else
                 _Ultimate_Skill_Charge_Progress.fillAmount = _Ultimate_Skill_targetFillAmount;
 
+            //道具
+            if (player.playerProp.icon != null) _Prop_Now.sprite = player.playerProp.icon; 
+            else _Prop_Now.sprite = null;
 
-            
+
         }                     
         else
         {

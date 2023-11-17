@@ -27,9 +27,10 @@ public class Mono_Main : MonoBehaviour
 
         TestConsole.Instance.AddCommand("MapTest", () => { UIManager.Instance.ShowPanel<MapEditPanel>(); }, "进入地图编辑器");
         TestConsole.Instance.AddCommand("LoadMapCollusionTest", () => { MapManager.Instance.LoadMapCompletelyToScene("400"); }, "加载400碰撞测试地图");
-        TestConsole.Instance.AddCommand("BackToMenu", () => { UIManager.Instance.ShowPanel<MainMenuPanel>(null,true); }, "强制显示主菜单");
+        TestConsole.Instance.AddCommand("BackToMenu", () => { UIManager.Instance.ClearAllPanel(true); UIManager.Instance.ShowPanel<MainMenuPanel>(null,true); }, "强制显示主菜单");
         TestConsole.Instance.AddCommand("kill", () => { Application.Quit(); }, "杀死游戏");
         //TestConsole.Instance.AddCommand("TryCatchTest", () => { int x = 1;int y = 1; AbstractLogicManager.Instance.CellProbe(ref x, ref y,new V2 (0,0)); });
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame

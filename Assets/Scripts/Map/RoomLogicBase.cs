@@ -6,10 +6,10 @@ public abstract class RoomLogicBase
 {
     public RoomData roomData;
 
-    public List<Vector3Int> cellsForPlayerBorn;
-    public List<Vector3Int> cellsForFeatherPenBorn;
-    public List<Vector3Int> cellsForToolsBorn;
-    public List<Vector3Int> cellsForServitorBorn;
+    public List<Vector3> cellsForPlayerBorn = new List<Vector3>();
+    public List<Vector3> cellsForFeatherPenBorn = new List<Vector3>();
+    public List<Vector3> cellsForToolsBorn = new List<Vector3>();
+    public List<Vector3> cellsForServitorBorn = new List<Vector3>();
 
     public RoomLogicBase(RoomData roomData)
     {
@@ -20,10 +20,22 @@ public abstract class RoomLogicBase
     {
         roomData.LoadMap(mapName);
         // 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
-        cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(12);
-        cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(10);
-        cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(11);
-        cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(13);
+        foreach(var v3 in MapManager.Instance.GetMapBaseFunction(12))
+        {
+            cellsForPlayerBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        }
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(10))
+        {
+            cellsForFeatherPenBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        }
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(11))
+        {
+            cellsForToolsBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        }
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(13))
+        {
+            cellsForServitorBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        }
     }
 
     public abstract void OpenGame();

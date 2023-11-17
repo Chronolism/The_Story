@@ -22,24 +22,26 @@ MonoBehaviour:
     - buffId: 3003
       buffValue: 100
   - id: 2
-    name: "\u53EC\u5524\u6CD5\u672F"
+    name: "\u53EC\u5524\u4F7F\u9B54"
     icon: {fileID: -1325228000, guid: 738195d8897a9ec4d8a239373ad2179b, type: 3}
     propType: 0
-    description: "\u53EC\u5524\u4E00\u4E2A\u96B6\u5C5E\u4E8E\u81EA\u5DF1\u7684\u4F7F\u9B54"
+    description: "\u53EC\u5524\u4F7F\u9B54"
     value:
-    - buffId: 3005
-      buffValue: 3
+    - buffId: 3013
+      buffValue: 0
   - id: 3
-    name: "\u652F\u914D\u6CD5\u672F"
+    name: "\u4F7F\u9B54\u52A0\u901F"
     icon: {fileID: 1756145153, guid: 738195d8897a9ec4d8a239373ad2179b, type: 3}
     propType: 0
     description: "\u4F7F\u9B54\u52A0\u901F"
     value:
-    - buffId: 3001
-      buffValue: 0
+    - buffId: 3012
+      buffValue: 6
   - id: 4
-    name: "\u6CBB\u7597\u6CD5\u672F"
+    name: "\u56DE\u8840"
     icon: {fileID: -211965788, guid: 738195d8897a9ec4d8a239373ad2179b, type: 3}
     propType: 0
-    description: "\u6062\u590D\u751F\u547D"
-    value: []
+    description: "\u56DE\u8840"
+    value:
+    - buffId: 3001
+      buffValue: 50

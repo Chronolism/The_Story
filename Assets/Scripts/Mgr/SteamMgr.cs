@@ -146,6 +146,15 @@ public class SteamMgr : SteamManager
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);
     }
 
+    public static void StopClient()
+    {
+        if (lobbyID.m_SteamID != 0)
+        {
+            SteamMatchmaking.LeaveLobby(lobbyID);
+            lobbyID.Clear();
+        }
+    }
+
     private static Action<List<SteamLobby>> SeachLobbyCallBack;
     public static void SeachLobby(Action<List<SteamLobby>> callback)
     {

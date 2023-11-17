@@ -11,7 +11,7 @@ public class Player : Entity
     public SpriteRenderer spriteRenderer;
     public Animator bodyAnimator;
 
-    public GameObject light;
+    public GameObject Light;
 
     public List<Observer<Player>> observers = new List<Observer<Player>>();
 
@@ -34,7 +34,7 @@ public class Player : Entity
     {
         if (ifPause)
             isMoving = false;
-        light.SetActive(canRewrite);
+        Light.SetActive(canRewrite);
     }
 
     private void FixedUpdate()

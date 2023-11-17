@@ -1,6 +1,6 @@
 public class Buff_1015 : BuffBase
 {
-	float time;
+	float buffTime;
 	public override void OnStart(Entity entity,float Value)
 	{
 		entity.OnUseProp += AddCannotHurt;
@@ -14,7 +14,7 @@ public class Buff_1015 : BuffBase
     }
 	public override void OnAdd(Entity entity,float Value)
 	{
-		time = Value;
+        buffTime = Value;
 	}
 	public override void OnRemove(Entity entity,float Value)
 	{
@@ -22,10 +22,10 @@ public class Buff_1015 : BuffBase
 
 	void AddCannotHurt(Entity self,PropData prop)
 	{
-		self.AddBuff(1012, 1, time, self);
+		self.AddBuff(1012, 1, buffTime, self);
 	}
     void AddCannotHurt(Entity self, BuffBase buff)
     {
-        self.AddBuff(1012, 1, time, self);
+        self.AddBuff(1012, 1, buffTime, self);
     }
 }

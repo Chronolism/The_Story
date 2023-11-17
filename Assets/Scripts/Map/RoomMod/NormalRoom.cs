@@ -84,27 +84,25 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     public override void LoadMap()
     {
         //遍历所有道具点生成空道具
-        foreach(Vector3Int v3 in cellsForToolsBorn)
+        foreach (Vector3 v3 in cellsForToolsBorn)
         {
-            Prop prop = EntityFactory.Instance.CreatProp(new Vector3(v3.x + 0.5f, v3.y + 0.5f, 0));
+            Prop prop = EntityFactory.Instance.CreatProp(v3);
             nullToolProp.Add(prop);
             //添加道具观察
             prop.observers.Add(this);
-
         }
-        foreach (Vector3Int v3 in cellsForFeatherPenBorn)
+        foreach (Vector3 v3 in cellsForFeatherPenBorn)
         {
-            Prop prop = EntityFactory.Instance.CreatProp(new Vector3(v3.x + 0.5f, v3.y + 0.5f, 0));
+            Prop prop = EntityFactory.Instance.CreatProp(v3);
             nullFeatherProp.Add(prop);
             //添加道具观察
             prop.observers.Add(this);
-
         }
         //显示一个羽毛id = 1和道具 id = 2;
-        RollNullFeatherProp().ShowProp(DataMgr.Instance.GetPropData(1));
-        RollNullToolProp().ShowProp(DataMgr.Instance.GetPropData(2));
+        RollNullFeatherProp()?.ShowProp(DataMgr.Instance.GetPropData(1));
+        RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData(2));
         //在随机使魔生成点生成一个使魔
-        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)] + new Vector3(0.5f,0.5f,0), roomData.ifPause);
+        EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)], roomData.ifPause);
     }
 
     public override void LoadPlayer()
@@ -113,7 +111,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         foreach (var user in roomData.roomUser)
         {
             //在随机玩家生成点生成玩家
-            Player player = EntityFactory.Instance.CreatPlayer(user, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]+ new Vector3(0.5f, 0.5f, 0));
+            Player player = EntityFactory.Instance.CreatPlayer(user, cellsForPlayerBorn[Random.Range(0, cellsForPlayerBorn.Count)]);
             player.observers.Add(this);
             playerList.Add(player);
         }
@@ -177,7 +175,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
                 toolTime = 0;
                 if (toolProps.Count < 3)
                 {
-                    RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData(2));
+                    RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData());
                 }
                 if (featherProps.Count < 2)
                 {
@@ -221,7 +219,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
     /// <param name="value"></param>
     public void ToUpdate(Prop value)
     {
-        if(value.propData.id == 1)
+        if(value.propid== 1)
         {
             nullFeatherProp.Add(value);
         }

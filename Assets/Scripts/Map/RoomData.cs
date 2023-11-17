@@ -44,6 +44,20 @@ public class RoomData : NetworkBehaviour
         roomUser.Add(roomUserData);
     }
 
+    public void RemoveUser(string name, NetworkConnection con)
+    {
+        for (int i = 0; i < roomUser.Count; i++)
+        {
+            if (roomUser[i].name == name)
+            {
+                roomUser.RemoveAt(i);
+                if (HostUser == name) HostUser = roomUser[0].name;
+                return;
+            }
+        }
+        
+    }
+
     public void Awake()
     {
         DataMgr.Instance.roomData = this;

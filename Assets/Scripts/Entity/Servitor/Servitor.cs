@@ -20,21 +20,24 @@ public class Servitor : Entity
     [SyncVar]
     private bool isMoving;
 
+    public override void Awake()
+    {
+        base.Awake();
+        rb = GetComponent<Rigidbody2D>();
+        animators = rb.GetComponentsInChildren<Animator>();
+        AfterTurn += (a, b, c) =>
+        {
+            TurnAnimation(b.netId);
+        };
+    }
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animators = rb.GetComponentsInChildren<Animator>();
-        this.transform.position = new Vector3(0.5f, 0.5f);
         movement = this.transform.position;
         ChangeState<NormalState>();
         posAdd = Random.Range(0, 1f) > 0.5f ? new Vector2(Random.Range(-1, 2), 0) : new Vector3(0, Random.Range(-1, 2));
         addRate = Random.Range(1, 3);
         bronPos = transform.position;
-        AfterTurn += (a, b, c) =>
-        {
-            TurnAnimation(b.netId);
-        };
     }
 
     public void TurnAnimation(uint netid)

@@ -120,7 +120,7 @@ public class GamePanel : BasePanel
                 _Ultimate_Skill_Charge_Progress.fillAmount = _Ultimate_Skill_targetFillAmount;
 
             //µÀ¾ß
-            if (player.playerProp.icon != null) _Prop_Now.sprite = player.playerProp.icon; 
+            if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
             else _Prop_Now.sprite = null;
 
 

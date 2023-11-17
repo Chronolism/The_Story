@@ -14,6 +14,6 @@ public class Buff_3013 : BuffBase
 	}
 	public override void OnTriger(Entity entity, float Value)
 	{
-		entity.RewriteServitor(EntityFactory.Instance.CreatServitor(entity.transform.position, entity.ifPause));
+		entity.RewriteServitor(EntityFactory.Instance.CreatServitor(entity.transform.position, entity.ifPause),true);
 	}
 }

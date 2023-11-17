@@ -32,6 +32,13 @@ public class MapEditPanel : BasePanel
     TileBase _testTile_Focus;
     Vector3Int _LastFocusCell = new Vector3Int(0, 0, 0);
     Vector3Int _ThisFrameFocusCell;
+    //测试用例：生成点
+    TileBase _ZeroPoint;//0点位
+    TileBase _CollideBox;//1点位
+    TileBase _FeatherPenSpawn;//Middle中为笔刷新点
+    TileBase _ToolSpawn;//Middle中为道具刷新点
+    TileBase _PlayerSpawn;//Middle中为玩家点
+    TileBase _ServitorSpawn;//Middle中为怪物生成点
     //早期版本地图用例
     D_MapDataDetailOriginal _localMapDataDetailOriginal;
     Dictionary<Vector3Int, int> _localLayerMapCellData;
@@ -53,7 +60,13 @@ public class MapEditPanel : BasePanel
         _editingTilemap = _MapGridGameObject.GetComponentInChildren<Tilemap>();//获取需要修改的Tile，测试用，待改进
         _testTile_Focus = Resources.Load<TileBase>("Map/MapEdit/TestIconLowAlpha");//聚焦显示内容
         _testTile_Confirm = Resources.Load<TileBase>("Map/MapEdit/TestIcon");//选定显示内容
-
+        //生成点       
+        _ZeroPoint = Resources.Load<TileBase>("Map/MapEdit/ZeroPoint");//0点位
+        _CollideBox = Resources.Load<TileBase>("Map/MapEdit/CollideBox");//0点位
+        _FeatherPenSpawn = Resources.Load<TileBase>("Map/MapEdit/FeatherPenSpawn");//笔刷新点
+        _ToolSpawn = Resources.Load<TileBase>("Map/MapEdit/ToolSpawn");//道具刷新点
+        _PlayerSpawn = Resources.Load<TileBase>("Map/MapEdit/PlayerSpawn");//玩家点
+        _ServitorSpawn = Resources.Load<TileBase>("Map/MapEdit/ServitorSpawn");//使魔刷新点
         //目前只设置三个层
         _localMapDataDetailOriginal = new D_MapDataDetailOriginal();
         _localMapDataDetailOriginal.mapCellData = new Dictionary<string, Dictionary<Vector3Int, int>>
@@ -176,9 +189,32 @@ public class MapEditPanel : BasePanel
         {
             _localLayerMapCellData.TryAdd(item.Key, item.Value);
             _localLayerMapCellData[item.Key] = item.Value;
-            //直接显示
-            _editingTilemap.SetTile(item.Key, _testTile_Confirm);
-
+            //添加特殊显色
+            switch (item.Value)
+            {
+                // 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
+                case 0:
+                    _editingTilemap.SetTile(item.Key, _ZeroPoint);
+                    break;
+                case 1:
+                    _editingTilemap.SetTile(item.Key, _CollideBox);                    
+                    break;
+                case 10:
+                    _editingTilemap.SetTile(item.Key, _FeatherPenSpawn);
+                    break;
+                case 11:
+                    _editingTilemap.SetTile(item.Key, _ToolSpawn);
+                    break;
+                case 12:
+                    _editingTilemap.SetTile(item.Key, _PlayerSpawn);
+                    break;
+                case 13:
+                    _editingTilemap.SetTile(item.Key, _ServitorSpawn);
+                    break;
+                default:
+                    _editingTilemap.SetTile(item.Key, _testTile_Confirm);
+                    break;
+            }
         }
     }
     //写入激活的单元格到地图

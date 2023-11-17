@@ -21,10 +21,11 @@ public class GameRuntimeManager : BaseManager<GameRuntimeManager>
     public Base_GameMode nowaGameMode = new Base_GameMode();
     public void InitBaseCellsFunction()
     {
-        nowaGameMode.cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(2);
-        nowaGameMode.cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(0);
-        nowaGameMode.cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(0);
-        nowaGameMode.cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(3);
+        // 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
+        nowaGameMode.cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(12);
+        nowaGameMode.cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(10);
+        nowaGameMode.cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(11);
+        nowaGameMode.cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(13);
     }
     public void LoadGameMode<T>(UnityAction<T> callBack = null) where T : Base_GameMode
     {

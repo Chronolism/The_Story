@@ -19,10 +19,11 @@ public abstract class RoomLogicBase
     public void LoadMapData(string mapName)
     {
         roomData.LoadMap(mapName);
-        cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(2);
-        cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(0);
-        cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(1);
-        cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(3);
+        // 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
+        cellsForPlayerBorn = MapManager.Instance.GetMapBaseFunction(12);
+        cellsForFeatherPenBorn = MapManager.Instance.GetMapBaseFunction(10);
+        cellsForToolsBorn = MapManager.Instance.GetMapBaseFunction(11);
+        cellsForServitorBorn = MapManager.Instance.GetMapBaseFunction(13);
     }
 
     public abstract void OpenGame();

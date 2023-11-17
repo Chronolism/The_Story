@@ -83,6 +83,7 @@ public class OfflineLobbyPanel : BasePanel
     public void CreativeFactory()
     {
         UIManager.Instance.ShowPanel<MapEditPanel>();
+        UIManager.Instance.HidePanel<OfflineLobbyPanel>();
     }
     public void HandBook()
     {

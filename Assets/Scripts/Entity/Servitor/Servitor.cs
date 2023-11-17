@@ -39,7 +39,7 @@ public class Servitor : Entity
         addRate = Random.Range(1, 3);
         bronPos = transform.position;
     }
-
+    [ClientRpc]
     public void TurnAnimation(uint netid)
     {
         if (Mirror.Utils.GetSpawnedInServerOrClient(netid).GetComponent<Entity>() == DataMgr.Instance.activePlayer)
@@ -67,14 +67,14 @@ public class Servitor : Entity
     {
         if (isServer&&!ifPause)
         {
-            if (ifBack)
-            {
-                ChangeState<BackState>();
-            }
-            else
-            {
-                ChangeState<NormalState>();
-            }
+            //if (ifBack)
+            //{
+            //    ChangeState<BackState>();
+            //}
+            //else
+            //{
+            //    ChangeState<NormalState>();
+            //}
             state.OnUpdata();
         }
     }

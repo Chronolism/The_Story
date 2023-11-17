@@ -41,11 +41,15 @@ public class Entity : NetworkBehaviour
     /// </summary>
     [SyncVar]
     public string userName;
-
+    [SyncVar]
     public int dir;             //方向
+    [SyncVar]
     public bool ifAtk = false;  //是否攻击
+    [SyncVar]
     public bool ifDie = false;  //是否死亡
+    [SyncVar]
     public bool ifGiddy = false;//是否眩晕
+    public float giddyTime = 0;
     [SyncVar]
     public bool ifPause = true;
     [Header("用户输入")]
@@ -234,6 +238,7 @@ public class Entity : NetworkBehaviour
     /// <param name="atkData"></param>
     public void AtkEntity(Entity target, ATKData atkData)
     {
+        if (target.canRewrite) return;
         Atk(target, atkData);
         if (atkData.canAtk)
         {
@@ -278,7 +283,15 @@ public class Entity : NetworkBehaviour
     /// <param name="time"></param>
     public void GiddyEntity(Entity target, float time)
     {
+        giddyTime = giddyTime > time ? giddyTime : time;
+        Giddy(time);
+    }
 
+    [ClientRpc]
+    public void Giddy(float time)
+    {
+        if (isServer) return;
+        giddyTime = giddyTime > time ? giddyTime : time;
     }
     /// <summary>
     /// 修改血量
@@ -360,8 +373,8 @@ public class Entity : NetworkBehaviour
     public void BeTurn(Entity target, InkData inkData)
     {
         BeforeTurn?.Invoke(this,target, inkData);
-        if (inkData.ifTurn) OnTurn(this, target, inkData);
-        if(inkData.ifTurn) AfterTurn(this,target, inkData);
+        if (inkData.ifTurn) OnTurn?.Invoke(this, target, inkData);
+        if(inkData.ifTurn) AfterTurn?.Invoke(this,target, inkData);
     }
     /// <summary>
     /// 改写使魔

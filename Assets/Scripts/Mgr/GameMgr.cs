@@ -98,4 +98,12 @@ public class GameMgr : BaseManager<GameMgr>
 
     }
 
+    /// <summary>
+    /// ÐÞ¸ÄµØÍ¼
+    /// </summary>
+    /// <param name="mapName"></param>
+    public void ChangeMap(string mapName)
+    {
+        DataMgr.Instance.roomData.ChangeMap(mapName);
+    }
 }

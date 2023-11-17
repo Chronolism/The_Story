@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class RoomData : NetworkBehaviour
 {
-    [SyncVar(hook = "UpDataDetile")]
+    [SyncVar]
     public string mapName = "400";
     [SyncVar]
     public string HostUser = "";
@@ -111,6 +111,16 @@ public class RoomData : NetworkBehaviour
             roomUser[i] = roomUserData;
         }
     }
+    /// <summary>
+    /// 修改地图
+    /// </summary>
+    /// <param name="mapName"></param>
+    [Command(requiresAuthority = false)]
+    public void ChangeMap(string mapName)
+    {
+        this.mapName = mapName;
+    }
+
     /// <summary>
     /// 呼叫服务器开始游戏
     /// </summary>

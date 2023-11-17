@@ -33,21 +33,26 @@ public class Servitor : Entity
         bronPos = transform.position;
         AfterTurn += (a, b, c) =>
         {
-            if ( b == DataMgr.Instance.activePlayer ) 
-            {
-                foreach (var anim in animators)
-                {
-                    anim.SetInteger("displayType", 1);
-                }
-            }
-            else
-            {
-                foreach (var anim in animators)
-                {
-                    anim.SetInteger("displayType", 2);
-                }
-            }
+            TurnAnimation(b.netId);
         };
+    }
+
+    public void TurnAnimation(uint netid)
+    {
+        if (Mirror.Utils.GetSpawnedInServerOrClient(netid).GetComponent<Entity>() == DataMgr.Instance.activePlayer)
+        {
+            foreach (var anim in animators)
+            {
+                anim.SetInteger("displayType", 1);
+            }
+        }
+        else
+        {
+            foreach (var anim in animators)
+            {
+                anim.SetInteger("displayType", 2);
+            }
+        }
     }
 
     private void Update()
@@ -139,21 +144,27 @@ public class Servitor : Entity
                     target = player.Value;
                 }
             }
-            if (!target.canRewrite)
+            if(target != null )
             {
-                ifBack = false;
-                return;
+                if (!target.canRewrite)
+                {
+                    ifBack = false;
+                    return;
+                }
+                time = 0;
+                if (parent != null)
+                {
+                    AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
+                }
+                else
+                {
+                    AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
+                }
             }
-            time = 0;
-            if (parent != null) 
-            {
-                AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
-            }
-            else
-            {
-                AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
-            }
-
+        }
+        else
+        {
+            time += Time.deltaTime;
         }
     }
 

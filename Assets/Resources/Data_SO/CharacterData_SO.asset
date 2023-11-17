@@ -84,11 +84,11 @@ MonoBehaviour:
     rewrite_ink_MaxLastTime: 5
     skill_Index:
     - buffId: 3008
-      buffValue: 0
+      buffValue: 6
     - buffId: 1016
-      buffValue: 0
+      buffValue: 10
     - buffId: 2002
-      buffValue: 0
+      buffValue: 10
   - character_Code: 105
     characterName: 105
     controller: {fileID: 9100000, guid: 1904203986574a844b06c1620619e625, type: 2}
@@ -103,7 +103,7 @@ MonoBehaviour:
     rewrite_ink_MaxLastTime: 5
     skill_Index:
     - buffId: 3003
-      buffValue: 6
+      buffValue: 40
     - buffId: 1007
       buffValue: -20
     - buffId: 1008

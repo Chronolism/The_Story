@@ -50,7 +50,7 @@ public class GamePanel : BasePanel
         _Ink_Now = GetControl<Image>("Ink_Now");
 
         _Prop_BackGround = GetControl<Image>("Prop_BackGround");
-        _Prop_Now = GetControl<Image>("Prop_BackGround");
+        _Prop_Now = GetControl<Image>("Prop_Now");
 
         _Passive_BackGround = GetControl<Image>("Passive_BackGround");
         _Passive_Now = GetControl<Image>("Passive_Now");

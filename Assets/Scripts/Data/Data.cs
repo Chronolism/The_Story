@@ -18,6 +18,7 @@ public class CharacterData
     public int character_Code;
     public string characterName;
     public RuntimeAnimatorController controller;
+    public AnimatorOverrideController servitorController;
     public float HP_Max;
     public float Speed;
     public float atkDamage;

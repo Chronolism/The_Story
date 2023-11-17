@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class GamePanel : BasePanel
 {
     public Player player;
-    Image imgBlood;
-    Text txtBlood;
+    Image _HeartGroup;
 
     [Header("Ink")]
     Image _Ink_BackGround;
@@ -34,14 +33,17 @@ public class GamePanel : BasePanel
     public Color Character104Color;
     public Color Character105Color;
     public Color Character106Color;
+    [Header("Heart")]
+    [Range(0, 1)]
+    public float targetHeartFillAmount;
+    public float realHeartFillAmount;
 
     Text _tipsFollowMouse;
 
     bool _isUIUpdating = false;
     public override void Init()
     {
-        imgBlood = GetControl<Image>("imgBlood");
-        txtBlood = GetControl<Text>("txtBlood");
+        _HeartGroup = GetControl<Image>("HeartPoints");
         player = DataMgr.Instance.activePlayer;
 
         _Ink_BackGround = GetControl<Image>("Ink_BackGround");
@@ -98,9 +100,26 @@ public class GamePanel : BasePanel
         if (player == null) return;
         if (_isUIUpdating)
         {
-            //待做：逐渐改变
-            //imgBlood.fillAmount = player.blood / player.MaxBlood;
-            //txtBlood.text = player.blood + "/" + player.MaxBlood;
+            //血量
+            targetHeartFillAmount = player.blood / player.MaxBlood;
+            if (Mathf.Abs(targetHeartFillAmount - realHeartFillAmount) > 0.01f)
+                realHeartFillAmount = Mathf.Lerp(realHeartFillAmount, targetHeartFillAmount, UIAnimationSpeed);
+            else
+                realHeartFillAmount = targetHeartFillAmount;           
+            float eachHeartEqual = 1f / _HeartGroup.transform.childCount;
+            int nowHeartIndex = (int)((realHeartFillAmount - realHeartFillAmount % eachHeartEqual)/ eachHeartEqual);
+            for (int i = 0; i < _HeartGroup.transform.childCount; i++)
+            {
+                if (i == nowHeartIndex)
+                {
+                    _HeartGroup.transform.GetChild(i).GetComponent<Image>().fillAmount = (realHeartFillAmount - i * eachHeartEqual) / eachHeartEqual;
+                }
+                else if (i < nowHeartIndex)
+                    _HeartGroup.transform.GetChild(i).GetComponent<Image>().fillAmount = 1;
+                else
+                    _HeartGroup.transform.GetChild(i).GetComponent<Image>().fillAmount = 0;
+            }
+
 
             //墨水与充能
             if (player.inkMaxAmount == 0) Debug.LogWarning("player.inkMaxAmount为0");
@@ -120,7 +139,7 @@ public class GamePanel : BasePanel
                 _Ultimate_Skill_Charge_Progress.fillAmount = _Ultimate_Skill_targetFillAmount;
 
             //道具
-            if (player.playerProp.icon != null) _Prop_Now.sprite = player.playerProp.icon; 
+            if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
             else _Prop_Now.sprite = null;
 
 

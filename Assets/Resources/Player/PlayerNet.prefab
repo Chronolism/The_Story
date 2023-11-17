@@ -302,7 +302,7 @@ MonoBehaviour:
     value: []
   spriteRenderer: {fileID: 1811540822}
   bodyAnimator: {fileID: 201559883806516317}
-  light: {fileID: 6156613332490617087}
+  Light: {fileID: 6156613332490617087}
   characterData:
     character_Code: 0
     characterName: 

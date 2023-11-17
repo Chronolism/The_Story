@@ -47,6 +47,9 @@
 	<message name="C2S_JionRoom" namespace="TheStory" type="Common" own="Server">
 		<field type="string" name="name"/>
 	</message>
+	<message name="C2S_QuitRoom" namespace="TheStory" type="Common" own="Server">
+		<field type="string" name="name"/>
+	</message>
 	<message name="C2S_UserIsSure" namespace="TheStory" type="Broadcast" msg="S2C_UserIsSureBroadcast" own="Server">
 		<field type="string" name="name"/>
 		<field type="bool" name="isSure"/>

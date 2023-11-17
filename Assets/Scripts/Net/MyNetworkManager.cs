@@ -87,7 +87,7 @@ public class MyNetworkManager : NetworkManager
                 StartClient();
                 return;
             }
-            
+            SteamMgr.StopClient();
         }
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
@@ -173,6 +173,12 @@ public class MyNetworkManager : NetworkManager
                 });
                 break;
         }
+    }
+
+    public void QuitRoom()
+    {
+        NetworkClient.Send(new C2S_QuitRoom() { name = DataMgr.Instance.playerData.account });
+        StopClient();
     }
 
     public void CreatRoom(Action<LobbyCreated_t> callBack)

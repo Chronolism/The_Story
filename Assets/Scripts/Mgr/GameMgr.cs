@@ -52,6 +52,15 @@ public class GameMgr : BaseManager<GameMgr>
 
     public void QuitRoom()
     {
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+        {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                UIManager.Instance.ClearAllPanel();
+                (MyNetworkManager.singleton as MyNetworkManager).QuitRoom();
+                UIManager.Instance.ShowPanel<MainMenuPanel>();
+            });
+        }, true);
 
     }
     /// <summary>

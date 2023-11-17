@@ -223,6 +223,9 @@ public class RoomPanel : BasePanel,Observer<RoomData>
             case "btnQuitInvited":
                 srSteamFriendList.gameObject.SetActive(false);
                 break;
+            case "btnQuit":
+                GameMgr.Instance.QuitRoom();
+                break;
         }
     }
 

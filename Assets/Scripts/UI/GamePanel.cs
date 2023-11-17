@@ -131,4 +131,14 @@ public class GamePanel : BasePanel
         _Passive_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode + "_1").sprite;
         _Ultimate_Skill_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
     }
+
+    protected override void OnClick(string btnName)
+    {
+        switch (btnName)
+        {
+            case "btnQuit":
+                GameMgr.Instance.QuitRoom();
+                break;
+        }
+    }
 }

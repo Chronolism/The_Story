@@ -129,6 +129,7 @@ public class MyNetworkManager : NetworkManager
                         friendRooms.Add(new FriendRoom() { Name = o.EndPoint.Address.ToString(), localIP = o }); 
                     });
                 yield return new WaitForSeconds(2);
+                Debug.Log("’“µΩ" + friendRooms.Count + "∑øº‰");
                 networkDiscovery.OnServerFound.RemoveAllListeners();
                 networkDiscovery.StopDiscovery();
                 callback?.Invoke(friendRooms);

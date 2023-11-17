@@ -28,7 +28,7 @@ public class MapManager : BaseManager<MapManager>
     /// </summary>
     public string baseFunctionLayerName = "Middle";
     /// <summary>
-    /// 目前暂定：0为改写笔与道具的刷新点，2为玩家出生点，3为使魔刷新点
+    /// 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
     /// </summary>
     public Dictionary<Vector3Int, int> baseFunctionData = new Dictionary<Vector3Int, int>();
     #endregion

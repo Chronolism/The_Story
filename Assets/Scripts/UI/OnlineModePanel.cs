@@ -8,7 +8,7 @@ public class OnlineModePanel : BasePanel
     public override void Init()
     {
         GetControl<Button>("ExitButton").onClick.AddListener(
-            () => { UIManager.Instance.HidePanel<OnlineModePanel>(); });
+            () => { HidePanel(this); });
         
     }
     protected override void OnClick(string btnName)
@@ -36,7 +36,7 @@ public class OnlineModePanel : BasePanel
                 }, true);
                 break;
             case "ExitButton":
-                UIManager.Instance.HidePanel<OnlineModePanel>();
+                HidePanel(this);
                 break;
         }
         

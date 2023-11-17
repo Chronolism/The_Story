@@ -184,6 +184,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
                 }
             }
         }
+       
     }
 
     public void UpdataOwnUserData(CharacterData characterData)

@@ -11,12 +11,12 @@ public class FinishGamePanel : BasePanel
         if(DataMgr.Instance.roomData.HostUser == DataMgr.Instance.playerData.account)
         {
             GetControl<Button>("btnNext").gameObject.SetActive(true);
-            GetControl<Text>("txtContent").text = "开启下一句";
+            GetControl<Text>("txtContent").text = "开启下一局";
         }
         else
         {
             GetControl<Button>("btnNext").gameObject.SetActive(false);
-            GetControl<Text>("txtContent").text = "等待房主开启下一句";
+            GetControl<Text>("txtContent").text = "等待房主开启下一局";
         }
     }
 

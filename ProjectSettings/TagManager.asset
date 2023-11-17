@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Servitor
   - Attack
-  - 
+  - Instance
   - 
   - 
   - 
@@ -41,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ForeEffect
+    uniqueID: 1560157531
+    locked: 0
+  - name: Instance
+    uniqueID: 287594811
+    locked: 0
+  - name: AfterEffect
+    uniqueID: 1826922535
     locked: 0

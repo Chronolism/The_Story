@@ -153,6 +153,16 @@ public class DataMgr : BaseManager<DataMgr>
         return characters.Find(i => i.character_Code == id);
     }
 
+    public CharacterData RangeCharacter(int id)
+    {
+        CharacterData characterData = characters[Random.Range(0, characters.Count)];
+        while(characterData.character_Code == id)
+        {
+            characterData = characters[Random.Range(0, characters.Count)];
+        }
+        return characterData;
+    }
+
     public PropData GetPropData(int id = 0)
     {
         if(id == 0)

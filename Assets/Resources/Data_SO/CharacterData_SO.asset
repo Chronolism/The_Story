@@ -16,6 +16,7 @@ MonoBehaviour:
   - character_Code: 101
     characterName: 101
     controller: {fileID: 9100000, guid: c57acf48dd43d444084f672ec56b1d13, type: 2}
+    servitorController: {fileID: 22100000, guid: 6f4135784b9fade4e8df530dc4b05378, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -35,6 +36,7 @@ MonoBehaviour:
   - character_Code: 102
     characterName: 102
     controller: {fileID: 9100000, guid: 4af9afcc52ab0df46ba83ee1750abaf2, type: 2}
+    servitorController: {fileID: 22100000, guid: f40557a0ac6f658459a1f437c791d701, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -54,6 +56,7 @@ MonoBehaviour:
   - character_Code: 103
     characterName: 103
     controller: {fileID: 9100000, guid: a3cd97177b3d9e34a89bf58a704e3c75, type: 2}
+    servitorController: {fileID: 22100000, guid: a69a12640eb7d9c4b9629205b2dc02d6, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -73,6 +76,7 @@ MonoBehaviour:
   - character_Code: 104
     characterName: 104
     controller: {fileID: 9100000, guid: e382063491f1a63499d460484fdd6f60, type: 2}
+    servitorController: {fileID: 22100000, guid: 675b619048b12db42960789868209903, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -92,6 +96,7 @@ MonoBehaviour:
   - character_Code: 105
     characterName: 105
     controller: {fileID: 9100000, guid: 1904203986574a844b06c1620619e625, type: 2}
+    servitorController: {fileID: 22100000, guid: 0fd397f45aa5c174aab7374509ca6c61, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5
@@ -111,6 +116,7 @@ MonoBehaviour:
   - character_Code: 106
     characterName: 106
     controller: {fileID: 9100000, guid: 755607a25c04a7e409d051cc52da8d46, type: 2}
+    servitorController: {fileID: 22100000, guid: 1b2602cd3d2e01b4a9593427c3d21edf, type: 2}
     HP_Max: 100
     Speed: 5
     atkDamage: 5

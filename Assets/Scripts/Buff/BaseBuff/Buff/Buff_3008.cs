@@ -29,9 +29,9 @@ public class Buff_3008 : BuffBase
 		Servitor ser;
         while (stack.Count > 0)
 		{
-			ser= stack.Pop();
+			ser = stack.Pop();
             entity.RemoveServitor(ser);
-			ser.EntityDie();
+			ser.EatThis();
         }
 		if (amount <= 1)
 		{

@@ -10,6 +10,8 @@ public class Servitor : Entity
     public Entity target;
     public Entity parent;
 
+    private ServitorTurnAnimation turnAnimation;
+
     public Vector2 posAdd;
     public int addRate;
 
@@ -23,6 +25,7 @@ public class Servitor : Entity
     public override void Awake()
     {
         base.Awake();
+        turnAnimation = GetComponentInChildren<ServitorTurnAnimation>();
         rb = GetComponent<Rigidbody2D>();
         animators = rb.GetComponentsInChildren<Animator>();
         AfterTurn += (a, b, c) =>
@@ -42,18 +45,15 @@ public class Servitor : Entity
     [ClientRpc]
     public void TurnAnimation(uint netid)
     {
-        if (Mirror.Utils.GetSpawnedInServerOrClient(netid).GetComponent<Entity>() == DataMgr.Instance.activePlayer)
+        if(Mirror.Utils.GetSpawnedInServerOrClient(netid).GetComponent<Entity>() is Player player)
         {
-            foreach (var anim in animators)
+            if (player != DataMgr.Instance.activePlayer && player.characterCode == DataMgr.Instance.activePlayer.characterCode)
             {
-                anim.SetInteger("displayType", 1);
+                turnAnimation.StartTurn(DataMgr.Instance.RangeCharacter(player.characterCode).servitorController);
             }
-        }
-        else
-        {
-            foreach (var anim in animators)
+            else
             {
-                anim.SetInteger("displayType", 2);
+                turnAnimation.StartTurn(player.characterData.servitorController);
             }
         }
     }
@@ -65,8 +65,13 @@ public class Servitor : Entity
 
     private void FixedUpdate()
     {
+        SwitchAnimation();
         if (isServer&&!ifPause)
         {
+            if (ifDie)
+            {
+                ChangeState<DieState>();
+            }
             //if (ifBack)
             //{
             //    ChangeState<BackState>();
@@ -203,6 +208,7 @@ public class Servitor : Entity
         if (Vector2.Distance(rb.position, movement) > 0.05)
         {
             rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+            dir = (movement - rb.position).normalized.x > 0 ? 1 : -1;
         }
         else if(havePath)
         {
@@ -215,6 +221,7 @@ public class Servitor : Entity
                 pathIndex++;
                 movement = path[pathIndex].pos;
                 rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+                dir = (movement - rb.position).normalized.x > 0 ? 1 : -1;
             }
         }
     }
@@ -231,10 +238,39 @@ public class Servitor : Entity
             //    anim.SetFloat("x", inputX);
             //    anim.SetFloat("y", inputY);
             //}
-            anim.SetFloat("AD", (movement - rb.position).normalized.x);
+            anim.SetFloat("x", dir);
         }
     }
+    public void EatThis()
+    {
+        ifDie = true;
+        EatThisRpc();
+        turnAnimation.Eat();
+    }
+    [ClientRpc]
+    private void EatThisRpc()
+    {
+        if (isServer) return;
+        turnAnimation.Eat();
+    }
 
+    public override void EntityDie()
+    {
+        ifDie = true;
+        EntityDieRpc();
+        turnAnimation.Die();
+    }
+    [ClientRpc]
+    private void EntityDieRpc()
+    {
+        if (isServer) return;
+        turnAnimation.Die();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 
     public class NormalState : StateBase
     {
@@ -261,7 +297,6 @@ public class Servitor : Entity
         {
             servitor.FindTarget();
             servitor.Movement();
-            servitor.SwitchAnimation();
         }
     }
 
@@ -290,7 +325,29 @@ public class Servitor : Entity
         {
             servitor.BackFind();
             servitor.Movement();
-            servitor.SwitchAnimation();
+        }
+    }
+
+    public class DieState : StateBase
+    {
+        Servitor servitor;
+        public override void OnEnter(Entity entity)
+        {
+            if (servitor == null)
+            {
+                servitor = entity as Servitor;
+            }
+
+        }
+
+        public override void OnExit(Entity entity)
+        {
+
+        }
+
+        public override void OnUpdata()
+        {
+
         }
     }
 }

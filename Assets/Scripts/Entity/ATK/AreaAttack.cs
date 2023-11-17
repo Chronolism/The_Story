@@ -28,6 +28,7 @@ public class AreaAttack : AttackBase
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (!isServer) return;
         transform.position = perant.transform.position;
     }
 }

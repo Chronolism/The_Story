@@ -100,7 +100,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
         }
         //显示一个羽毛id = 1和道具 id = 2;
         RollNullFeatherProp()?.ShowProp(DataMgr.Instance.GetPropData(1));
-        RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData(2));
+        RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData());
         //在随机使魔生成点生成一个使魔
         EntityFactory.Instance.CreatServitor(cellsForServitorBorn[Random.Range(0, cellsForServitorBorn.Count)] + new Vector3(0.5f,0.5f,0), roomData.ifPause);
     }
@@ -175,7 +175,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
                 toolTime = 0;
                 if (toolProps.Count < 3)
                 {
-                    RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData(2));
+                    RollNullToolProp()?.ShowProp(DataMgr.Instance.GetPropData());
                 }
                 if (featherProps.Count < 2)
                 {

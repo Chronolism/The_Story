@@ -72,6 +72,7 @@ public class Prop : NetworkBehaviour
         {
             propCollider.enabled = true;
             spriteRenderer.enabled = true;
+            spriteRenderer.sprite = propData.icon;
             propid = propData.id;
         }
         else

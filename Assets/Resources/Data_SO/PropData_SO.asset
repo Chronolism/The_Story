@@ -36,10 +36,12 @@ MonoBehaviour:
     description: "\u4F7F\u9B54\u52A0\u901F"
     value:
     - buffId: 3001
-      buffValue: 0
+      buffValue: 50
   - id: 4
     name: "\u65E0\u654C"
     icon: {fileID: 0}
     propType: 0
     description: "\u6682\u65F6\u514D\u75AB\u4E00\u6BB5\u65F6\u95F4"
-    value: []
+    value:
+    - buffId: 3011
+      buffValue: 0

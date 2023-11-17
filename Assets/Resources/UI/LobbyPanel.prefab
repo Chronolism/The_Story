@@ -2795,6 +2795,7 @@ GameObject:
   - component: {fileID: 1981225989266273215}
   - component: {fileID: 5803905006016532019}
   - component: {fileID: 3422250164402071871}
+  - component: {fileID: 3812651325605434415}
   m_Layer: 5
   m_Name: LobbyPanel
   m_TagString: Untagged
@@ -2852,8 +2853,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef05e52d9cc5f949affbfa383738a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActivePanel: 0
+  parentPanel: {fileID: 0}
   SpeedIn: 10
   SpeedOut: 10
+--- !u!114 &3812651325605434415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686525408681834560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c5a5f94c750dad342a87a1f0777a05d9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8939879696516285597
 GameObject:
   m_ObjectHideFlags: 0

@@ -138,6 +138,12 @@ public class GamePanel : BasePanel
             else
                 _Ultimate_Skill_Charge_Progress.fillAmount = _Ultimate_Skill_targetFillAmount;
 
+            //满墨水提示
+            if (_Ink_Now.fillAmount == 1) 
+                _Ink_Now.transform.GetChild(0).gameObject.SetActive(true); 
+            else 
+                _Ink_Now.transform.GetChild(0).gameObject.SetActive(false);
+
             //道具
             if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
             else _Prop_Now.sprite = null;

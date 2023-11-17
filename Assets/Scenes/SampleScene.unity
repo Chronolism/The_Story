@@ -1218,6 +1218,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2171151119924645745, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/Offline.unity
+      objectReference: {fileID: 0}
     - target: {fileID: 308147961, guid: ecf509a286774a742845ecad7d0e1f49, type: 3}
       propertyPath: m_IsActive
       value: 0

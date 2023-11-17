@@ -45,7 +45,7 @@ public class Player : Entity
             {
                 giddyTime -= Time.deltaTime;
             }
-            if(giddyTime > 0)
+            if (giddyTime > 0)
             {
                 ChangeState<GiddyState>();
             }
@@ -144,13 +144,21 @@ public class Player : Entity
     /// <returns></returns>
     public bool AddProp(PropData prop)
     {
-        if (canPickProp && (playerProp == null || playerProp.id == 0)) 
+        if (canPickProp && (playerProp == null || playerProp.id == 0))
         {
             playerProp = prop;
+            AddPropRpc(prop.id);
             return true;
         }
         return false;
     }
+    [ClientRpc]
+    public void AddPropRpc(int id)
+    {
+        if (isServer) return;
+        playerProp = DataMgr.Instance.GetPropData(id);
+    }
+
     /// <summary>
     /// 使用道具
     /// </summary>
@@ -164,12 +172,18 @@ public class Player : Entity
             }
             PropData propData = playerProp;
             playerProp = null;
+            UsePropRpc();
             OnUseProp?.Invoke(this, propData);
         }
         if(fire1 > 0&& skill != null)
         {
             skill.Triger();
         }
+    }
+    [ClientRpc]
+    public void UsePropRpc()
+    {
+        playerProp = null;
     }
 
     Vector2 dirV2;

@@ -144,21 +144,23 @@ public class Servitor : Entity
                     target = player.Value;
                 }
             }
-            if (!target.canRewrite)
+            if(target != null )
             {
-                ifBack = false;
-                return;
+                if (!target.canRewrite)
+                {
+                    ifBack = false;
+                    return;
+                }
+                time = 0;
+                if (parent != null)
+                {
+                    AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
+                }
+                else
+                {
+                    AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
+                }
             }
-            time = 0;
-            if (parent != null) 
-            {
-                AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
-            }
-            else
-            {
-                AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
-            }
-
         }
         else
         {

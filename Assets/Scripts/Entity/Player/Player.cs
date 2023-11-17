@@ -11,6 +11,8 @@ public class Player : Entity
     public SpriteRenderer spriteRenderer;
     public Animator bodyAnimator;
 
+    public GameObject light;
+
     public List<Observer<Player>> observers = new List<Observer<Player>>();
 
     public CharacterData characterData;
@@ -32,13 +34,25 @@ public class Player : Entity
     {
         if (ifPause)
             isMoving = false;
-
+        light.SetActive(canRewrite);
     }
 
     private void FixedUpdate()
     {
         if (!ifPause&&isServer)
         {
+            if(giddyTime > 0)
+            {
+                giddyTime -= Time.deltaTime;
+            }
+            if(giddyTime > 0)
+            {
+                ChangeState<GiddyState>();
+            }
+            else
+            {
+                ChangeState<NormalState>();
+            }
             state.OnUpdata();
         }
     }
@@ -263,6 +277,7 @@ public class Player : Entity
             }
             foreach (var anim in entity.animators)
             {
+                anim.speed = 1;
                 //anim.Play("idle");
             }
         }
@@ -275,6 +290,30 @@ public class Player : Entity
             player.UseProp();
             player.Movement();
             player.SwitchAnimation();
+        }
+    }
+
+    public class GiddyState : StateBase
+    {
+        Player player;
+        public override void OnEnter(Entity entity)
+        {
+            if (player == null)
+            {
+                player = entity as Player;
+                foreach (var anim in entity.animators)
+                {
+                    anim.speed = 0;
+                }
+            }
+        }
+        public override void OnExit(Entity entity)
+        {
+
+        }
+        public override void OnUpdata()
+        {
+            
         }
     }
 }

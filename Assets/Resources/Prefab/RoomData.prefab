@@ -48,7 +48,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  mapName: 400
+  mapName: 500
+  HostUser: 
+  ifGame: 0
+  startGameTime: 0
+  ifPause: 1
 --- !u!114 &2438086476966222183
 MonoBehaviour:
   m_ObjectHideFlags: 0

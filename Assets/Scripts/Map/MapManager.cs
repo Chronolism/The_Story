@@ -41,6 +41,7 @@ public class MapManager : BaseManager<MapManager>
     //加载地图到场景
     public bool LoadMapCompletelyToScene(string mapName)
     {
+        Debug.Log("正在加载 " + mapName);
         //如果runtimeTilemaps有存东西，说明场景上有地图，需要重载
         if (runtimeTilemaps.Count > 0)
         {
@@ -107,11 +108,11 @@ public class MapManager : BaseManager<MapManager>
 
         foreach (var item in _runtimeCellData)
         {
-            var o = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Tilemap"));
-            if (o != null)
+            GameObject tileMapPrefab = Object.Instantiate<GameObject>(Resources.Load<GameObject>("Map/MapEdit/Tilemap"));
+            if (tileMapPrefab != null)
             {
-                o.transform.parent = runtimeGrid.transform;
-                runtimeTilemaps.TryAdd(item.Key, o.GetComponent<Tilemap>());
+                tileMapPrefab.transform.parent = runtimeGrid.transform;
+                runtimeTilemaps.TryAdd(item.Key, tileMapPrefab.GetComponent<Tilemap>());
                 foreach (var element in item.Value)
                 {
                     if (element.Value == 1)
@@ -119,8 +120,8 @@ public class MapManager : BaseManager<MapManager>
                         runtimeTilemaps[item.Key].SetTile(element.Key, _testTile);
                     }
                 }
-                o.name = item.Key;
-                if (o.name == mapColliderLayerName)//在内部处理碰撞器
+                tileMapPrefab.name = item.Key;
+                if (tileMapPrefab.name == mapColliderLayerName)//在内部处理碰撞器
                 {
                     mapColliderData.Clear();
                     Dictionary<Vector3Int, int> orignalMapCollider = item.Value;
@@ -131,7 +132,14 @@ public class MapManager : BaseManager<MapManager>
                         else mapColliderData.TryAdd(element.Key, true);
                     }
                 }
-                if (o.name == baseFunctionLayerName) baseFunctionData = item.Value;
+                if (tileMapPrefab.name == baseFunctionLayerName) 
+                {
+                    baseFunctionData.Clear();
+                    foreach (var element in item.Value)
+                    {
+                        baseFunctionData.TryAdd(element.Key, element.Value);
+                    }
+                } 
             }
         }
         return true;

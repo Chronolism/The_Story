@@ -49,6 +49,11 @@ public class GameMgr : BaseManager<GameMgr>
     {
         (MyNetworkManager.singleton as MyNetworkManager).JionRoom(friendRoom);
     }
+
+    public void QuitRoom()
+    {
+
+    }
     /// <summary>
     /// 创建房间
     /// </summary>

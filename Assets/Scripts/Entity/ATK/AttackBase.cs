@@ -88,6 +88,7 @@ public class AttackBase : NetworkBehaviour
     Stack<AtkEntity> stack = new Stack<AtkEntity>();
     public virtual void FixedUpdate()
     {
+        if (!isServer) return;
         if (!perant.ifPause)
         {
             if (continuouslyEffective && ifServer && onTrigerEntities.Count > 0)

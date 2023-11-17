@@ -108,11 +108,11 @@ public class Servitor : Entity
             }
             if(target != null)
             {
-                if (target.canRewrite)
-                {
-                    ifBack = true;
-                    return;
-                }
+                //if (target.canRewrite)
+                //{
+                //    ifBack = true;
+                //    return;
+                //}
                 for(int i = addRate; i >= 0; i--)
                 {
                     if (AStarMgr.Instance.ChackType(target.transform.position.x + posAdd.x * i, target.transform.position.y + posAdd.y * i, E_Node_Type.Walk))

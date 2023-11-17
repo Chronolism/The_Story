@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4588101744611155129}
   - component: {fileID: 4588101744611155132}
   - component: {fileID: 7357532955980764572}
-  - component: {fileID: 5222106845360602430}
   - component: {fileID: 5597758374658341775}
   m_Layer: 0
   m_Name: ServitorBody
@@ -107,23 +106,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5222106845360602430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4588101744611155128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  clientAuthority: 0
-  animator: {fileID: 7357532955980764572}
 --- !u!114 &5597758374658341775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830314b091e583d478901900b5381902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  servitor: {fileID: 0}
   baseAnimator: {fileID: 7357532955980764572}
   foreAnimator: {fileID: 19806325958363223}
 --- !u!1 &6283075503417967046

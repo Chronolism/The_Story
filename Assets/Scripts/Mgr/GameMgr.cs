@@ -1,5 +1,5 @@
 using Mirror;
-using Steamworks;
+//using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,7 +70,7 @@ public class GameMgr : BaseManager<GameMgr>
     {
         (MyNetworkManager.singleton as MyNetworkManager).CreatRoom((o) => 
         {
-            if (o.m_eResult != EResult.k_EResultOK) 
+            if (o != 1) 
             {
                 // k_EResultNoConnection - your Steam client doesn't have a connection to the back-end
                 // k_EResultTimeout - you the message to the Steam servers, but it didn't respond
@@ -78,25 +78,25 @@ public class GameMgr : BaseManager<GameMgr>
                 // k_EResultAccessDenied - your game isn't set to allow lobbies, or your client does haven't rights to play the game
                 // k_EResultLimitExceeded - your game client has created too many lobbies
                 string EContent;
-                switch (o.m_eResult)
+                switch (o)
                 {
-                    case EResult.k_EResultNoConnection:
+                    case 3:
                         EContent = "Steam未连接";
                         break;
-                    case EResult.k_EResultTimeout:
+                    case 16:
                         EContent = "Steam未响应";
                         break;
-                    case EResult.k_EResultFail:
+                    case 2:
                         EContent = "Steam相应出错";
                         break;
-                    case EResult.k_EResultAccessDenied:
+                    case 15:
                         EContent = "Steam不允许你在该游戏创建大厅";
                         break;
-                    case EResult.k_EResultLimitExceeded:
+                    case 25:
                         EContent = "你创建太多的大厅";
                         break;
                         default:
-                        EContent = o.m_eResult.ToString();
+                        EContent = o.ToString();
                         break;
                 }
                 UIManager.Instance.ShowPanel<TipPanel>((p) => { p.SetCurrent("房间创建失败\n" + "错误原因：" + EContent ,true); });

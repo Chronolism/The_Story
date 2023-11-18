@@ -98,7 +98,7 @@ public class SteamMgr : SteamManager
         if (param.m_eResult != EResult.k_EResultOK)
         {
             Debug.LogError($" Create Fail {param.m_eResult}");
-            CreatLobbyCallBack?.Invoke(param);
+            CreatLobbyCallBack?.Invoke(((int)param.m_eResult));
             return;
         }
         Debug.Log(" Create " + param.m_ulSteamIDLobby);
@@ -106,7 +106,7 @@ public class SteamMgr : SteamManager
         SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "name", "wmkj");
         SteamMatchmaking.SetLobbyData(new CSteamID(param.m_ulSteamIDLobby), "roomName", SteamFriends.GetPersonaName());
         lobbyID = new CSteamID(param.m_ulSteamIDLobby);
-        CreatLobbyCallBack?.Invoke(param);
+        CreatLobbyCallBack?.Invoke(((int)param.m_eResult));
     }
 
     private void OnLobbyKicked(LobbyKicked_t param)
@@ -139,8 +139,8 @@ public class SteamMgr : SteamManager
         SteamMatchmaking.JoinLobby(new CSteamID(id));
     }
 
-    private static Action<LobbyCreated_t> CreatLobbyCallBack;
-    public static void CreatLobby(Action<LobbyCreated_t> callBack)
+    private static Action<int> CreatLobbyCallBack;
+    public static void CreatLobby(Action<int> callBack)
     {
         CreatLobbyCallBack = callBack;
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, 5);

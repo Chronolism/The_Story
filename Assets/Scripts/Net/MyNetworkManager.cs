@@ -1,6 +1,8 @@
 using Mirror;
 using Mirror.Discovery;
+#if UNITY_STANDALONE_WIN
 using Steamworks;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,6 +157,7 @@ public class MyNetworkManager : NetworkManager
             case GameServerType.Local:
                 StartClient(room.localIP.uri);
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 SteamMgr.JoinLobby(room.steamIP, (o) =>
                 {
@@ -173,6 +176,7 @@ public class MyNetworkManager : NetworkManager
                     }
                 });
                 break;
+#endif
         }
     }
 
@@ -182,18 +186,20 @@ public class MyNetworkManager : NetworkManager
         StopClient();
     }
 
-    public void CreatRoom(Action<LobbyCreated_t> callBack)
+    public void CreatRoom(Action<int> callBack)
     { 
         switch (gameServerType)
         {
             case GameServerType.Local:
-                callBack?.Invoke(new LobbyCreated_t() { m_eResult = EResult.k_EResultOK });
+                callBack?.Invoke(1);
                 networkDiscovery.AdvertiseServer();
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); });
                 SteamMgr.CreatLobby(callBack);
                 break;
+#endif
         }
     }
 

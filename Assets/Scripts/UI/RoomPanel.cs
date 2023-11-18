@@ -1,5 +1,4 @@
 using Mirror;
-using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -204,6 +203,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
             case "btnStart":
                 roomData.OpenGame();
                 break;
+#if UNITY_STANDALONE_WIN
             case "btnInvited":
                 srSteamFriendList.gameObject.SetActive(true);
                 for (int i = 0; i < srSteamFriendList.content.transform.childCount; i++)
@@ -221,6 +221,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
                     });
                 }
                 break;
+#endif
             case "btnQuitInvited":
                 srSteamFriendList.gameObject.SetActive(false);
                 break;

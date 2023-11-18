@@ -168,13 +168,17 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public void UpdataOwnUserData(RoomUserData own)
     {
         roomUserData = own;
-        //if (own.characterId!= characterData.character_Code)
+        if(characterData == null||characterData.character_Code == 0)
+        {
+            UpdataOwnUserData(DataMgr.Instance.GetCharacter(own.characterId));
+        }
+        //if (own.characterId != characterData.character_Code)
         //{
         //    characterData = DataMgr.Instance.GetCharacter(own.characterId);
         //    txtCharacterName.text = characterData.characterName;
         //    txtCharacterSkill.text = DataMgr.Instance.GetBuffData(own.skills[0].buffId).name;
         //    txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(own.skills[1].buffId).name;
-        //    for(int i = 0; i < characterData.skill_Index.Count; i++)
+        //    for (int i = 0; i < characterData.skill_Index.Count; i++)
         //    {
         //        if (characterData.skill_Index[i].buffId == own.skills[1].buffId)
         //        {
@@ -183,7 +187,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         //        }
         //    }
         //}
-       
+
     }
 
     public void UpdataOwnUserData(CharacterData characterData)

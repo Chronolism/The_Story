@@ -206,27 +206,28 @@ public class Player : Entity
                     }
                 }
             }
-            if (Vector2.Dot(movement - rb.position, dirV2) > 0.01)
+        }
+        if (Vector2.Dot(movement - rb.position, dirV2) > 0.01)
+        {
+            dirV2 = movement - rb.position;
+            rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+        }
+        else
+        {
+            if (ChackMap(ref movement, inputDir))
             {
+                dir = inputDir;
                 dirV2 = movement - rb.position;
                 rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
             }
-            else
+            else if (ChackMap(ref movement, dir))
             {
-                if (ChackMap(ref movement, inputDir))
-                {
-                    dir = inputDir;
-                    dirV2 = movement - rb.position;
-                    rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
-                }
-                else if (ChackMap(ref movement, dir))
-                {
-                    inputDir = dir;
-                    dirV2 = movement - rb.position;
-                    rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
-                }
+                inputDir = dir;
+                dirV2 = movement - rb.position;
+                rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
             }
         }
+
     }
 
     bool ChackMap(ref Vector2 v2, int dir)
@@ -270,9 +271,9 @@ public class Player : Entity
         foreach (var anim in animators)
         {
             //anim.SetFloat("speed", speedper);
+            anim.SetFloat("dir", dir);
             if (isMoving)
             {
-                anim.SetFloat("dir", dir);
                 anim.SetFloat("x", inputX);
                 anim.SetFloat("y", inputY);
             }

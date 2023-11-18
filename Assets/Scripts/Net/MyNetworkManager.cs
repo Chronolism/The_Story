@@ -90,7 +90,7 @@ public class MyNetworkManager : NetworkManager
                 StartClient();
                 return;
             }
-            //SteamMgr.StopClient();
+            SteamMgr.StopClient();
         }
 #endif
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
@@ -142,18 +142,18 @@ public class MyNetworkManager : NetworkManager
                 break;
 #if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
-                //SteamMgr.SeachLobby((o) =>
-                //{
-                //    foreach (var lobby in o)
-                //    {
-                //        friendRooms.Add(new FriendRoom() { Name = lobby.roomName, steamIP = lobby.lobbyID.m_SteamID });
-                //    }
-                //    callback?.Invoke(friendRooms);
-                //});
+                SteamMgr.SeachLobby((o) =>
+                {
+                    foreach (var lobby in o)
+                    {
+                        friendRooms.Add(new FriendRoom() { Name = lobby.roomName, steamIP = lobby.lobbyID.m_SteamID });
+                    }
+                    callback?.Invoke(friendRooms);
+                });
                 break;
 #endif
         }
-        
+
     }
 
     public void JionRoom(FriendRoom room)
@@ -211,13 +211,13 @@ public class MyNetworkManager : NetworkManager
 #if UNITY_STANDALONE_WIN
     public void InvitedSteamFriendToLobby(ulong id)
     {
-        //if (!SteamMgr.InvitedFriendToLobby(id))
-        //{
-        //    UIManager.Instance.ShowPanel<TipPanel>((p) =>
-        //    {
-        //        p.SetCurrent("用户无法邀请", true);
-        //    });
-        //}
+        if (!SteamMgr.InvitedFriendToLobby(id))
+        {
+            UIManager.Instance.ShowPanel<TipPanel>((p) =>
+            {
+                p.SetCurrent("用户无法邀请", true);
+            });
+        }
     }
 #endif
 }

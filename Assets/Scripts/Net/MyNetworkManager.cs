@@ -81,7 +81,8 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         Debug.Log("DisConnect");
-        if(gameServerType == GameServerType.Steam)
+#if UNITY_STANDALONE_WIN
+        if (gameServerType == GameServerType.Steam)
         {
             tryJoinTimes--;
             if(tryJoinTimes >= 0)
@@ -91,6 +92,7 @@ public class MyNetworkManager : NetworkManager
             }
             SteamMgr.StopClient();
         }
+#endif
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
             p.SetCurrent("断开连接或连接不上\n", true);
@@ -106,10 +108,12 @@ public class MyNetworkManager : NetworkManager
                 transport = local;
                 Transport.active = local;
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 transport = steam;
                 Transport.active = steam;
                 break;
+#endif
         }
     }
 
@@ -136,6 +140,7 @@ public class MyNetworkManager : NetworkManager
                 networkDiscovery.StopDiscovery();
                 callback?.Invoke(friendRooms);
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 SteamMgr.SeachLobby((o) =>
                 {
@@ -146,6 +151,7 @@ public class MyNetworkManager : NetworkManager
                     callback?.Invoke(friendRooms);
                 });
                 break;
+#endif
         }
         
     }
@@ -202,7 +208,7 @@ public class MyNetworkManager : NetworkManager
 #endif
         }
     }
-
+#if UNITY_STANDALONE_WIN
     public void InvitedSteamFriendToLobby(ulong id)
     {
         if (!SteamMgr.InvitedFriendToLobby(id))
@@ -213,6 +219,7 @@ public class MyNetworkManager : NetworkManager
             });
         }
     }
+#endif
 }
 
 public enum GameServerType

@@ -303,6 +303,7 @@ public class Entity : NetworkBehaviour
         if(atkData.atkType == AtkType.atk)
         {
             blood -= atkData.AtkValue;
+            blood = Mathf.Clamp(blood, 0, maxBlood);
             if (blood <= 0)
             {
                 EntityDie();
@@ -311,6 +312,7 @@ public class Entity : NetworkBehaviour
         else if(atkData.atkType == AtkType.cure)
         {
             blood += atkData.AtkValue;
+            blood = Mathf.Clamp(blood, 0, maxBlood);
             if (blood <= 0)
             {
                 EntityDie();

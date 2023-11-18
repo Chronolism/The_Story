@@ -27,6 +27,7 @@ public class RoomData : NetworkBehaviour
 
     public void AddRoomUser(string name , NetworkConnection con)
     {
+        Debug.Log(name);
         if (HostUser == "") HostUser = name;
         for(int i = 0; i < roomUser.Count; i++)
         {
@@ -161,6 +162,7 @@ public class RoomData : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void ChangeRoomUserData(RoomUserData roomUserData)
     {
+        Debug.Log(roomUserData.name);
         for (int i = 0; i < roomUser.Count; i++)
         {
             if (roomUser[i].name == roomUserData.name)

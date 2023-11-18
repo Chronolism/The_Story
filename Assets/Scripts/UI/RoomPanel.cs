@@ -149,8 +149,8 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         bool ifsure = true;
         foreach (var user in roomData.roomUser) 
         {
-            txtUserList.text += user.name + "\n"; 
-            if(user.name == DataMgr.Instance.playerData.account)
+            txtUserList.text += user.name + "\n";
+            if (user.name == DataMgr.Instance.playerData.account)
             {
                 UpdataOwnUserData(user);
             }
@@ -169,21 +169,21 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public void UpdataOwnUserData(RoomUserData own)
     {
         roomUserData = own;
-        if (own.characterId!= characterData.character_Code)
-        {
-            characterData = DataMgr.Instance.GetCharacter(own.characterId);
-            txtCharacterName.text = characterData.characterName;
-            txtCharacterSkill.text = DataMgr.Instance.GetBuffData(own.skills[0].buffId).name;
-            txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(own.skills[1].buffId).name;
-            for(int i = 0; i < characterData.skill_Index.Count; i++)
-            {
-                if (characterData.skill_Index[i].buffId == own.skills[1].buffId)
-                {
-                    passiveSkillIndex = i;
-                    break;
-                }
-            }
-        }
+        //if (own.characterId!= characterData.character_Code)
+        //{
+        //    characterData = DataMgr.Instance.GetCharacter(own.characterId);
+        //    txtCharacterName.text = characterData.characterName;
+        //    txtCharacterSkill.text = DataMgr.Instance.GetBuffData(own.skills[0].buffId).name;
+        //    txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(own.skills[1].buffId).name;
+        //    for(int i = 0; i < characterData.skill_Index.Count; i++)
+        //    {
+        //        if (characterData.skill_Index[i].buffId == own.skills[1].buffId)
+        //        {
+        //            passiveSkillIndex = i;
+        //            break;
+        //        }
+        //    }
+        //}
        
     }
 

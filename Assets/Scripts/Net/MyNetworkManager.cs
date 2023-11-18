@@ -89,7 +89,7 @@ public class MyNetworkManager : NetworkManager
                 StartClient();
                 return;
             }
-            SteamMgr.StopClient();
+            //SteamMgr.StopClient();
         }
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
@@ -137,14 +137,14 @@ public class MyNetworkManager : NetworkManager
                 callback?.Invoke(friendRooms);
                 break;
             case GameServerType.Steam:
-                SteamMgr.SeachLobby((o) =>
-                {
-                    foreach (var lobby in o)
-                    {
-                        friendRooms.Add(new FriendRoom() { Name = lobby.roomName, steamIP = lobby.lobbyID.m_SteamID });
-                    }
-                    callback?.Invoke(friendRooms);
-                });
+                //SteamMgr.SeachLobby((o) =>
+                //{
+                //    foreach (var lobby in o)
+                //    {
+                //        friendRooms.Add(new FriendRoom() { Name = lobby.roomName, steamIP = lobby.lobbyID.m_SteamID });
+                //    }
+                //    callback?.Invoke(friendRooms);
+                //});
                 break;
         }
         
@@ -205,13 +205,13 @@ public class MyNetworkManager : NetworkManager
 
     public void InvitedSteamFriendToLobby(ulong id)
     {
-        if (!SteamMgr.InvitedFriendToLobby(id))
-        {
-            UIManager.Instance.ShowPanel<TipPanel>((p) =>
-            {
-                p.SetCurrent("用户无法邀请", true);
-            });
-        }
+        //if (!SteamMgr.InvitedFriendToLobby(id))
+        //{
+        //    UIManager.Instance.ShowPanel<TipPanel>((p) =>
+        //    {
+        //        p.SetCurrent("用户无法邀请", true);
+        //    });
+        //}
     }
 }
 

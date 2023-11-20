@@ -5,26 +5,31 @@ using UnityEngine;
 
 public class DataMgr : BaseManager<DataMgr>
 {
+    //敌人数据
     private List<EnemyData> enemyData;
     public List<EnemyData> EnemyData => enemyData;
-
+    //buff数据
     public List<BuffData> buffDatas;
     public Dictionary<int, BuffData> buffDataDic;
     public BuffPool buffPool = new BuffPool();
-
+    //人物数据
     private List<CharacterData> characters ;
     public List<CharacterData> Characters => characters;
-
+    //ui数据
     private Dictionary<string, UIData> uiDataDic;
-
+    //道具数据
     private List<PropData> propDatas;
     public List<PropData> PropDatas => propDatas;
-
+    //攻击数据
     private List<AttackData> attackDatas;
     public List<AttackData> AttackDatas => attackDatas;
-
+    //图片数据集
     private List<SpriteData> spriteDataSet;
     public List<SpriteData> SpriteDataSet => spriteDataSet;
+    //特效数据
+    public List<EffectData> effectDatas;
+    public List<EffectData> EffectDatas => effectDatas;
+    public Dictionary<int, EffectData> effectDataDic;
 
     public RoomData roomData;
 
@@ -61,6 +66,7 @@ public class DataMgr : BaseManager<DataMgr>
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
         attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;
+        effectDatas = ResMgr.Instance.Load<EffectData_SO>("Data_SO/EffectData_SO").effects;
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）
@@ -77,6 +83,11 @@ public class DataMgr : BaseManager<DataMgr>
             buff.img = buffIcon[buff.spriteIndex];
             
             buffDataDic.Add(buff.id, buff);
+        }
+        effectDataDic = new Dictionary<int, EffectData>();
+        foreach (EffectData effect in effectDatas)
+        {
+            effectDataDic.Add(effect.id, effect);
         }
 
     }
@@ -142,17 +153,38 @@ public class DataMgr : BaseManager<DataMgr>
         buffBase.maxEnergy = buffData.maxEnergy;
         return buffBase;
     }
-
+    /// <summary>
+    /// 获取buff数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public BuffData GetBuffData(int id)
     {
         return buffDataDic[id];
     }
-
+    /// <summary>
+    /// 获取特效数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public EffectData GetEffectData(int id)
+    {
+        return effectDataDic[id];
+    }
+    /// <summary>
+    /// 获取人物数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public CharacterData GetCharacter(int id)
     {
         return characters.Find(i => i.character_Code == id);
     }
-
+    /// <summary>
+    /// 随机人物排除指定人物
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public CharacterData RangeCharacter(int id)
     {
         CharacterData characterData = characters[Random.Range(0, characters.Count)];
@@ -162,7 +194,11 @@ public class DataMgr : BaseManager<DataMgr>
         }
         return characterData;
     }
-
+    /// <summary>
+    /// 获取道具数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public PropData GetPropData(int id = 0)
     {
         if(id == 0)
@@ -171,7 +207,11 @@ public class DataMgr : BaseManager<DataMgr>
         }
         return PropDatas.Find(i => i.id == id);
     }
-
+    /// <summary>
+    /// 获取攻击数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public AttackData GetAttackData(int id)
     {
         return AttackDatas.Find(i => i.id == id);

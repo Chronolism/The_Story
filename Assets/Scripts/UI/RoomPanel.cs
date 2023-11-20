@@ -1,5 +1,4 @@
 using Mirror;
-using Steamworks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -149,8 +148,8 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         bool ifsure = true;
         foreach (var user in roomData.roomUser) 
         {
-            txtUserList.text += user.name + "\n"; 
-            if(user.name == DataMgr.Instance.playerData.account)
+            txtUserList.text += user.name + "\n";
+            if (user.name == DataMgr.Instance.playerData.account)
             {
                 UpdataOwnUserData(user);
             }
@@ -169,22 +168,26 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public void UpdataOwnUserData(RoomUserData own)
     {
         roomUserData = own;
-        if (own.characterId!= characterData.character_Code)
+        if(characterData == null||characterData.character_Code == 0)
         {
-            characterData = DataMgr.Instance.GetCharacter(own.characterId);
-            txtCharacterName.text = characterData.characterName;
-            txtCharacterSkill.text = DataMgr.Instance.GetBuffData(own.skills[0].buffId).name;
-            txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(own.skills[1].buffId).name;
-            for(int i = 0; i < characterData.skill_Index.Count; i++)
-            {
-                if (characterData.skill_Index[i].buffId == own.skills[1].buffId)
-                {
-                    passiveSkillIndex = i;
-                    break;
-                }
-            }
+            UpdataOwnUserData(DataMgr.Instance.GetCharacter(own.characterId));
         }
-       
+        //if (own.characterId != characterData.character_Code)
+        //{
+        //    characterData = DataMgr.Instance.GetCharacter(own.characterId);
+        //    txtCharacterName.text = characterData.characterName;
+        //    txtCharacterSkill.text = DataMgr.Instance.GetBuffData(own.skills[0].buffId).name;
+        //    txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(own.skills[1].buffId).name;
+        //    for (int i = 0; i < characterData.skill_Index.Count; i++)
+        //    {
+        //        if (characterData.skill_Index[i].buffId == own.skills[1].buffId)
+        //        {
+        //            passiveSkillIndex = i;
+        //            break;
+        //        }
+        //    }
+        //}
+
     }
 
     public void UpdataOwnUserData(CharacterData characterData)
@@ -204,6 +207,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
             case "btnStart":
                 roomData.OpenGame();
                 break;
+#if UNITY_STANDALONE_WIN
             case "btnInvited":
                 srSteamFriendList.gameObject.SetActive(true);
                 for (int i = 0; i < srSteamFriendList.content.transform.childCount; i++)
@@ -221,6 +225,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
                     });
                 }
                 break;
+#endif
             case "btnQuitInvited":
                 srSteamFriendList.gameObject.SetActive(false);
                 break;

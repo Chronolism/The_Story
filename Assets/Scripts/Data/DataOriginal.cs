@@ -128,7 +128,24 @@ public struct V2
     public static V2 V3to2(Vector3 vector3) => new V2((int) vector3.x, (int) vector3.y);
     public static V2 V3to2(Vector3Int vector3) => new V2(vector3.x, vector3.y);
     public static Vector3Int V2to3(V2 v2) => new Vector3Int(v2.x, v2.y, 0);
+    //ÒþÊ½×ª»»ÖØÔØ
+    public static explicit operator V2(Vector3 vector3)
+    {
+        return new V2((int)vector3.x, (int)vector3.y);
+    }
+    public static explicit operator Vector3(V2 v2)
+    {
+        return new Vector3(v2.x, v2.y, 0);
+    }
 
+    public static explicit operator V2(Vector3Int vector3)
+    {
+        return new V2(vector3.x, vector3.y);
+    }
+    public static explicit operator Vector3Int(V2 v2)
+    {
+        return new Vector3Int(v2.x, v2.y, 0);
+    }
 }
 [Serializable]
 public class UIData

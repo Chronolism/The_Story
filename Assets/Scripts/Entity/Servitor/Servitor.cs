@@ -65,7 +65,6 @@ public class Servitor : Entity
 
     private void FixedUpdate()
     {
-        SwitchAnimation();
         if (isServer&&!ifPause)
         {
             if (ifDie)
@@ -227,20 +226,20 @@ public class Servitor : Entity
     }
 
 
-    private void SwitchAnimation()
-    {
-        foreach (var anim in animators)
-        {
-            //anim.SetFloat("speed", speedper);
-            //if (isMoving)
-            //{
-            //    anim.SetInteger("dir", dir);
-            //    anim.SetFloat("x", inputX);
-            //    anim.SetFloat("y", inputY);
-            //}
-            anim.SetFloat("x", dir);
-        }
-    }
+    //private void SwitchAnimation()
+    //{
+    //    foreach (var anim in animators)
+    //    {
+    //        //anim.SetFloat("speed", speedper);
+    //        //if (isMoving)
+    //        //{
+    //        //    anim.SetInteger("dir", dir);
+    //        //    anim.SetFloat("x", inputX);
+    //        //    anim.SetFloat("y", inputY);
+    //        //}
+    //        anim.SetFloat("x", dir);
+    //    }
+    //}
     public void EatThis()
     {
         ifDie = true;

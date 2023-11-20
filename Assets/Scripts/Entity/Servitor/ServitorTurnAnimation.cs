@@ -10,6 +10,11 @@ public class ServitorTurnAnimation : MonoBehaviour
         servitor = transform.parent.GetComponent<Servitor>();
         foreAnimator.gameObject.SetActive(false);
     }
+
+    private void FixedUpdate()
+    {
+        baseAnimator.SetFloat("x", servitor.dir);
+    }
     public Animator baseAnimator;
     public Animator foreAnimator;
     public void StartTurn(AnimatorOverrideController overrideController)

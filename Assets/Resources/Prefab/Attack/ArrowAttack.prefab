@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6800567477859800763}
   - component: {fileID: 5170165752364496187}
   - component: {fileID: 4148414834588835660}
+  - component: {fileID: 7227393121028016153}
   m_Layer: 8
   m_Name: ArrowAttack
   m_TagString: Untagged
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 210393414, guid: d589291f4796447429ddd6598b148161, type: 3}
+  m_Sprite: {fileID: -1451290302, guid: c915e0c250000674ab935901fa2ed7db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,6 +156,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   id: 11001
+  ifServer: 0
   v3: {x: 0, y: 0, z: 0}
   floats: []
   perant: {fileID: 0}
@@ -182,3 +184,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!95 &7227393121028016153
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800408892879142539}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3e09a30cebc4ea94bbb7def2db3f721f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

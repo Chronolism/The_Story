@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7900377413984014601}
   - component: {fileID: 2559972597253969335}
   - component: {fileID: 4145479724767827561}
+  - component: {fileID: 3818686353314683384}
   m_Layer: 8
   m_Name: AreaAttack
   m_TagString: Untagged
@@ -51,7 +52,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.65
+  m_Radius: 2.01
 --- !u!114 &664716300193896607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   id: 0
+  ifServer: 0
   v3: {x: 0, y: 0, z: 0}
   floats: []
   perant: {fileID: 0}
@@ -118,7 +120,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1677022753, guid: 340f0d9302c7b614e8c4c492bdbacfa6, type: 3}
+  m_Sprite: {fileID: -272672541, guid: 233845508d167774ba9996cb37bba072, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -180,3 +182,23 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!95 &3818686353314683384
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882496561806589907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 37079594e0efba24e94e6d4c32208b59, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

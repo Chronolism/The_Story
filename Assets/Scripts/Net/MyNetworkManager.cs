@@ -1,6 +1,8 @@
 using Mirror;
 using Mirror.Discovery;
+#if UNITY_STANDALONE_WIN
 using Steamworks;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,7 +81,8 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         Debug.Log("DisConnect");
-        if(gameServerType == GameServerType.Steam)
+#if UNITY_STANDALONE_WIN
+        if (gameServerType == GameServerType.Steam)
         {
             tryJoinTimes--;
             if(tryJoinTimes >= 0)
@@ -89,6 +92,7 @@ public class MyNetworkManager : NetworkManager
             }
             SteamMgr.StopClient();
         }
+#endif
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
             p.SetCurrent("断开连接或连接不上\n", true);
@@ -104,10 +108,12 @@ public class MyNetworkManager : NetworkManager
                 transport = local;
                 Transport.active = local;
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 transport = steam;
                 Transport.active = steam;
                 break;
+#endif
         }
     }
 
@@ -134,6 +140,7 @@ public class MyNetworkManager : NetworkManager
                 networkDiscovery.StopDiscovery();
                 callback?.Invoke(friendRooms);
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 SteamMgr.SeachLobby((o) =>
                 {
@@ -144,6 +151,7 @@ public class MyNetworkManager : NetworkManager
                     callback?.Invoke(friendRooms);
                 });
                 break;
+#endif
         }
         
     }
@@ -155,6 +163,7 @@ public class MyNetworkManager : NetworkManager
             case GameServerType.Local:
                 StartClient(room.localIP.uri);
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 SteamMgr.JoinLobby(room.steamIP, (o) =>
                 {
@@ -173,6 +182,7 @@ public class MyNetworkManager : NetworkManager
                     }
                 });
                 break;
+#endif
         }
     }
 
@@ -182,21 +192,23 @@ public class MyNetworkManager : NetworkManager
         StopClient();
     }
 
-    public void CreatRoom(Action<LobbyCreated_t> callBack)
+    public void CreatRoom(Action<int> callBack)
     { 
         switch (gameServerType)
         {
             case GameServerType.Local:
-                callBack?.Invoke(new LobbyCreated_t() { m_eResult = EResult.k_EResultOK });
+                callBack?.Invoke(1);
                 networkDiscovery.AdvertiseServer();
                 break;
+#if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
                 UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); });
                 SteamMgr.CreatLobby(callBack);
                 break;
+#endif
         }
     }
-
+#if UNITY_STANDALONE_WIN
     public void InvitedSteamFriendToLobby(ulong id)
     {
         if (!SteamMgr.InvitedFriendToLobby(id))
@@ -207,6 +219,7 @@ public class MyNetworkManager : NetworkManager
             });
         }
     }
+#endif
 }
 
 public enum GameServerType

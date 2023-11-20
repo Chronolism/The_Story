@@ -123,3 +123,18 @@ public class SpriteData
     public string name;
     public List<Sprite> sprites;
 }
+[Serializable]
+public class EffectData
+{
+    public int id;
+    public string name;
+    public bool ifContinue;
+    public EEffectType type;
+    public GameObject gb;
+}
+public enum EEffectType
+{
+    fore,
+    back,
+    free
+}

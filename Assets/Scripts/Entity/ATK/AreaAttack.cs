@@ -12,7 +12,7 @@ public class AreaAttack : AttackBase
 
     public override void Attack(Entity entity)
     {
-        if(entity is Servitor servitor)
+        if(entity is Servitor servitor&&servitor.parent == perant)
         {
             foreach(var buff in perant.buff.buffList)
             {

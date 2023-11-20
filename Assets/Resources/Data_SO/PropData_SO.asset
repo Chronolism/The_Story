@@ -44,4 +44,4 @@ MonoBehaviour:
     description: "\u56DE\u8840"
     value:
     - buffId: 3001
-      buffValue: 50
+      buffValue: 30

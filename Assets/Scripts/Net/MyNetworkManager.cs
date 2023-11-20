@@ -96,7 +96,7 @@ public class MyNetworkManager : NetworkManager
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
             p.SetCurrent("断开连接或连接不上\n", true);
-        });
+        },true);
     }
 
     public void ChangeGameServerType(GameServerType gameServerType)
@@ -172,7 +172,7 @@ public class MyNetworkManager : NetworkManager
                         UIManager.Instance.ShowPanel<TipPanel>((p) => 
                         {
                             p.SetCurrent("加入失败\n失败原因：" + (EChatRoomEnterResponse)o.m_EChatRoomEnterResponse, true);
-                        });
+                        },true);
                     }
                     else
                     {
@@ -202,7 +202,7 @@ public class MyNetworkManager : NetworkManager
                 break;
 #if UNITY_STANDALONE_WIN
             case GameServerType.Steam:
-                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); });
+                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建中"); },true);
                 SteamMgr.CreatLobby(callBack);
                 break;
 #endif
@@ -216,7 +216,7 @@ public class MyNetworkManager : NetworkManager
             UIManager.Instance.ShowPanel<TipPanel>((p) =>
             {
                 p.SetCurrent("用户无法邀请", true);
-            });
+            },true);
         }
     }
 #endif

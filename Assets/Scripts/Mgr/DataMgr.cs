@@ -66,7 +66,7 @@ public class DataMgr : BaseManager<DataMgr>
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
         attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;
-        effectDatas = ResMgr.Instance.Load<EffectData_SO>("Data_SO/AttackData_SO").effects;
+        effectDatas = ResMgr.Instance.Load<EffectData_SO>("Data_SO/EffectData_SO").effects;
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）
@@ -84,7 +84,7 @@ public class DataMgr : BaseManager<DataMgr>
             
             buffDataDic.Add(buff.id, buff);
         }
-
+        effectDataDic = new Dictionary<int, EffectData>();
         foreach (EffectData effect in effectDatas)
         {
             effectDataDic.Add(effect.id, effect);

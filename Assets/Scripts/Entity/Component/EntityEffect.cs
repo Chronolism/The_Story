@@ -19,7 +19,28 @@ public class EntityEffect : NetworkBehaviour
     }
     public void ShowEffectOnClient(int id)
     {
-        EffectData effectData = DataMgr.Instance.GetEffectData(id);
-        GameObject effGB = GameObject.Instantiate(effectData.gb);
+        if (effects.ContainsKey(id))
+        {
+            effects[id].SetActive(true);
+        }
+        else
+        {
+            EffectData effectData = DataMgr.Instance.GetEffectData(id);
+            GameObject effGB = GameObject.Instantiate(effectData.gb);
+            effGB.transform.SetParent(entity.transform, false);
+            effects[id] = effGB;
+        }
+    }
+
+    public void HideEffectOnClient(int id)
+    {
+        if (effects.ContainsKey(id))
+        {
+            effects[id].SetActive(false);
+        }
+        else
+        {
+            
+        }
     }
 }

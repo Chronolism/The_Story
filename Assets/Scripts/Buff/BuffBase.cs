@@ -27,4 +27,6 @@ public class BuffBase
     public virtual void OnRemove(Entity entity, float Value) { }
     public virtual void OnChange(Entity entity, float Value) { }
     public virtual void OnTriger(Entity entity, float Value) { }
+    public virtual void OnAddEffect(Entity entity , float Value) { }
+    public virtual void OnRemoveEffect(Entity entity, float Value) { }
 }

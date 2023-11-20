@@ -20,4 +20,13 @@ public class Buff_1013 : BuffBase
     {
         arg2.ifTurn = false;
     }
+    public override void OnAddEffect(Entity entity, float Value)
+    {
+        entity.GetComponent<EntityEffect>().ShowEffectOnClient(3004);
+    }
+
+    public override void OnRemoveEffect(Entity entity, float Value)
+    {
+        entity.GetComponent<EntityEffect>().HideEffectOnClient(3004);
+    }
 }

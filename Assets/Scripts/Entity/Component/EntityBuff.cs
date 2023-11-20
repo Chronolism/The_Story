@@ -107,6 +107,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
+        buffBase.OnAddEffect(entity, value);
         entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, own.netId);
     }
@@ -144,6 +145,7 @@ public class EntityBuff : NetworkBehaviour
                 UpdataBuff += updatabuff.Updata;
             }
         }
+        buffBase.OnAddEffect(entity, value);
         entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, time, own.netId);
     }
@@ -164,6 +166,7 @@ public class EntityBuff : NetworkBehaviour
                 {
                     UpdataBuff -= updataBuff.Updata;
                 }
+                buffBase.OnRemoveEffect(entity, value);
                 buffList.Remove(buffBase);
                 RemoveBuffRpc(buffId, own.netId);
             }
@@ -190,6 +193,7 @@ public class EntityBuff : NetworkBehaviour
                     UpdataBuff -= updataBuff.Updata;
                 }
                 buffList.Remove(buffBase);
+                buffBase.OnRemoveEffect(entity, value);
                 RemoveBuffRpc(buffId, buffBase.buffOwn.netId);
             }
             else
@@ -215,6 +219,7 @@ public class EntityBuff : NetworkBehaviour
                     UpdataBuff -= updataBuff.Updata;
                 }
                 buffList.Remove(buffBase);
+                buffBase.OnRemoveEffect(entity, value);
                 entity.OnRemoveBuff?.Invoke(entity, buffBase, buffBase.Amount);
                 RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
             }
@@ -229,6 +234,7 @@ public class EntityBuff : NetworkBehaviour
                     {
                         UpdataBuff -= updataBuff.Updata;
                     }
+                    buffBase.OnRemoveEffect(entity, value);
                     buffList.Remove(buffBase);
                     RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
                 }
@@ -257,7 +263,9 @@ public class EntityBuff : NetworkBehaviour
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
             buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
+            
         }
+        buffBase.OnAddEffect(entity, value);
     }
     [ClientRpc]
     public void AddBuffRpc(int buffId, float value, float time, uint netId)
@@ -287,6 +295,7 @@ public class EntityBuff : NetworkBehaviour
                 slowBuffList.Add(buffBase);
             }
         }
+        buffBase.OnAddEffect(entity, value);
     }
 
     [ClientRpc]
@@ -320,6 +329,7 @@ public class EntityBuff : NetworkBehaviour
         {
             if(buffList[i].BuffID == buffName)
             {
+                buffList[i].OnAddEffect(entity, buffList[i].Amount);
                 buffList.RemoveAt(i);
                 return;
             }

@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 8753640513663309864}
   - component: {fileID: 8079577279510438759}
   - component: {fileID: 4742516948915531308}
+  - component: {fileID: 3784801973839682142}
   - component: {fileID: 733688356673401485}
   - component: {fileID: 5803143299339515939}
   - component: {fileID: 176872516906425557}
@@ -307,6 +308,7 @@ MonoBehaviour:
     character_Code: 0
     characterName: 
     controller: {fileID: 0}
+    servitorController: {fileID: 0}
     HP_Max: 0
     Speed: 0
     atkDamage: 0
@@ -386,6 +388,21 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   Servitors: []
+--- !u!114 &3784801973839682142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480366113042657854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656f7678a0c407f438b77caa989812a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!114 &733688356673401485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +422,7 @@ MonoBehaviour:
   clientAuthority: 0
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   interpolatePosition: 1
   interpolateRotation: 1
   interpolateScale: 1

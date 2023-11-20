@@ -17,6 +17,10 @@ public class ResMgr : BaseManager<ResMgr>
     public T Load<T>(string name) where T:Object
     {
         T res = Resources.Load<T>(name);
+        if(res == null)
+        {
+            //Application.persistentDataPath + "/" + name;
+        }
         //如果对象是一个GameObject类型的 我把他实例化后 再返回出去 外部 直接使用即可
         if (res is GameObject)
             return GameObject.Instantiate(res);

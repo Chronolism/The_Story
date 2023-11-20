@@ -157,7 +157,7 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void FinishGameClient()
     {
-        UIManager.Instance.ShowPanel<FinishGamePanel>();
+        UIManager.Instance.ShowPanel<FinishGamePanel>(null, true);
         if (!roomData.isServer) { EventMgr.CallPauseGame(); }
     }
 

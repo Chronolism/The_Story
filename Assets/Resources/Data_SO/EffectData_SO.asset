@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EffectData_SO
   m_EditorClassIdentifier: 
   effects:
-  - id: 0
-    name: 
+  - id: 3004
+    name: "\u72C2\u66B4"
     ifContinue: 0
     type: 0
-    gb: {fileID: 0}
+    gb: {fileID: 6854870742111284796, guid: 2353c35803a751541954446dcb19c4a6, type: 3}

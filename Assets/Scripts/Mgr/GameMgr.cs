@@ -99,12 +99,12 @@ public class GameMgr : BaseManager<GameMgr>
                         EContent = o.ToString();
                         break;
                 }
-                UIManager.Instance.ShowPanel<TipPanel>((p) => { p.SetCurrent("房间创建失败\n" + "错误原因：" + EContent ,true); });
+                UIManager.Instance.ShowPanel<TipPanel>((p) => { p.SetCurrent("房间创建失败\n" + "错误原因：" + EContent ,true); },true);
             }
             else
             {
+                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建成功", true); }, true);
                 MyNetworkManager.singleton.StartHost();
-                UIManager.Instance.ShowPanel<TipPanel>((o) => { o.SetCurrent("房间创建成功", true); });
             }
            
         });

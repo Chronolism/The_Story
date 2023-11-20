@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65eacbc9db758a74090f5d4a50ca4583
+guid: 7528176dfe82dbe4da0ce370cbeb2674
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -63,7 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -113,269 +113,173 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PB_AD_0
+      name: VFX1_1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f8af8f9cd9d3ce44a4cf32cf984f1a2
-      internalID: -586164653
+      spriteID: 998a79247c5e05f4f987240c3e7e7856
+      internalID: 1354208034
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_1
-      rect:
-        serializedVersion: 2
-        x: 250
-        y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25ab2c1891c4f7843ae24e51f46ea5dc
-      internalID: 727532395
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PB_AD_2
+      name: VFX1_1_1
       rect:
         serializedVersion: 2
         x: 500
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0938bbd210216949a3c76f9ebcd4515
-      internalID: -1888555494
+      spriteID: b3806fd794d83764eb3da7f7df434bc8
+      internalID: -1489574147
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_3
-      rect:
-        serializedVersion: 2
-        x: 750
-        y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c951b7c2c73c09b4eb3e013dc96b8d42
-      internalID: -2065415542
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PB_AD_4
+      name: VFX1_1_2
       rect:
         serializedVersion: 2
         x: 1000
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27f05243f94b0584fa2c334feb508c58
-      internalID: -279418152
+      spriteID: b1aaef31a133e38418f7c9ff36511152
+      internalID: -134272157
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_5
-      rect:
-        serializedVersion: 2
-        x: 1250
-        y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f7bf1ffaed47d034bbd856f8e036505e
-      internalID: -581268796
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PB_AD_6
+      name: VFX1_1_3
       rect:
         serializedVersion: 2
         x: 1500
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a3f219185f1140409e6ce1f1f1cab9c
-      internalID: -2636435
+      spriteID: d2299120c9b100f4e90de6ba5f39375a
+      internalID: -1149856138
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_7
-      rect:
-        serializedVersion: 2
-        x: 1750
-        y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfc4d261de14c694d96cc9cb972e3615
-      internalID: -1511817678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PB_AD_8
+      name: VFX1_1_4
       rect:
         serializedVersion: 2
         x: 2000
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f198980d74445141a2a25985a0bd7e6
-      internalID: 855012679
+      spriteID: 7351de722539b3548adfa072494337b9
+      internalID: 356859805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_9
-      rect:
-        serializedVersion: 2
-        x: 2250
-        y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b3afff1e9f29b9746bd634c39bd90aac
-      internalID: 1579638945
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PB_AD_10
+      name: VFX1_1_5
       rect:
         serializedVersion: 2
         x: 2500
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15a5906b26058b44c8425f1f9f150afb
-      internalID: -1367249782
+      spriteID: 2e7d7dec2def8224a80bc395130e6af0
+      internalID: -1721199061
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PB_AD_11
+      name: VFX1_1_6
       rect:
         serializedVersion: 2
-        x: 2750
+        x: 3000
         y: 0
-        width: 250
-        height: 285
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62e1fbf08533662438c81d50013bee28
-      internalID: -1578283767
+      spriteID: bd0b766f53e29d84db4a4b290aa1eefa
+      internalID: 1669811891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VFX1_1_7
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 0
+        width: 500
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0429162bcfe1f3b419f8ebc630672332
+      internalID: 451546106
       vertices: []
       indices: 
       edges: []
@@ -391,18 +295,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PB_AD_10: -1367249782
-      PB_AD_8: 855012679
-      PB_AD_2: -1888555494
-      PB_AD_6: -2636435
-      PB_AD_5: -581268796
-      PB_AD_7: -1511817678
-      PB_AD_11: -1578283767
-      PB_AD_0: -586164653
-      PB_AD_3: -2065415542
-      PB_AD_4: -279418152
-      PB_AD_9: 1579638945
-      PB_AD_1: 727532395
+      VFX1_1_2: -134272157
+      VFX1_1_4: 356859805
+      VFX1_1_0: 1354208034
+      VFX1_1_1: -1489574147
+      VFX1_1_6: 1669811891
+      VFX1_1_7: 451546106
+      VFX1_1_5: -1721199061
+      VFX1_1_3: -1149856138
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

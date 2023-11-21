@@ -109,9 +109,9 @@ MonoBehaviour:
     skill_Index:
     - buffId: 3003
       buffValue: 40
-    - buffId: 1007
-      buffValue: -20
-    - buffId: 1008
+    - buffId: 1017
+      buffValue: 100
+    - buffId: 1018
       buffValue: 100
   - character_Code: 106
     characterName: 106

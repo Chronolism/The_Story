@@ -323,7 +323,7 @@ public class Entity : NetworkBehaviour
         }
     }
     /// <summary>
-    /// 眩晕目标
+    /// 被目标眩晕
     /// </summary>
     /// <param name="target"></param>
     /// <param name="time"></param>

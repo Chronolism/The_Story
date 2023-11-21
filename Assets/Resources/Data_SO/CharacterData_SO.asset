@@ -130,6 +130,6 @@ MonoBehaviour:
     - buffId: 3010
       buffValue: 1
     - buffId: 2003
-      buffValue: 100
+      buffValue: 300
     - buffId: 2004
       buffValue: 0

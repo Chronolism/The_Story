@@ -17,25 +17,26 @@ public class PlayerTouch : AttackBase
     {
         if (player.isServer)
         {
-            if (entity is Servitor servitor)
-            {
-                if (player.canRewrite)
-                {
-                    player.RewriteServitor(servitor);
-                }
-                else
-                {
-                    if (servitor.parent != player)
-                    {
-                        servitor.AtkEntity(player, new ATKData(1, 1, servitor.atk, 0, servitor.atkpre, AtkType.atk));
-                    }
-                }
-                
-            }
-            else if (entity is Player p && player.canRewrite) 
-            {
-                player.AtkEntity(p, new ATKData(1, 1, player.atk, 0, player.atkpre, AtkType.atk));
-            }
+            player.TouchEntity(entity, new ATKData(1, 1, player.atk, 0, player.atkpre, AtkType.atk));
+            entity.TouchEntity(player, new ATKData(1, 1, entity.atk, 0, entity.atkpre, AtkType.atk));
+            //if (entity is Servitor servitor)
+            //{
+            //    if (player.canRewrite)
+            //    {
+            //        player.RewriteServitor(servitor);
+            //    }
+            //    else
+            //    {
+            //        if (servitor.parent != player)
+            //        {
+            //            servitor.AtkEntity(player, new ATKData(1, 1, servitor.atk, 0, servitor.atkpre, AtkType.atk));
+            //        }
+            //    }
+            //}
+            //else if (entity is Player p && player.canRewrite) 
+            //{
+            //    player.AtkEntity(p, new ATKData(1, 1, player.atk, 0, player.atkpre, AtkType.atk));
+            //}
         }
     }
 }

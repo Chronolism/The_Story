@@ -6,6 +6,7 @@ public class Buff_2005 : BuffBase
 	{
 		entity.OnGetInk += CanNotUseInk;
 		entity.OnGetEnergy += CanNotGetEnergy;
+        entity.OnTouchEntity += HurtServitor;
         //体型变大
         entity.transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
 		if (entity.inkAmount <= 0) entity.inkAmount += 1;
@@ -14,6 +15,7 @@ public class Buff_2005 : BuffBase
 	{
         entity.OnGetInk -= CanNotUseInk;
         entity.OnGetEnergy -= CanNotGetEnergy;
+        entity.OnTouchEntity += HurtServitor;
         //体型变小
         entity.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
     }
@@ -37,4 +39,13 @@ public class Buff_2005 : BuffBase
 	{
 		energy.ifTurn = false;
 	}
+
+    private void HurtServitor(Entity slef, Entity entity, ATKData aTKData)
+    {
+        if (!aTKData.canAtk && entity is Player)
+        {
+            aTKData.canAtk = true;
+            slef.AtkEntity(entity, aTKData);
+        }
+    }
 }

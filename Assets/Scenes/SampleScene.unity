@@ -845,6 +845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 7718629564073523095, guid: a77393f9a153ef443905cae4c94a69fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a77393f9a153ef443905cae4c94a69fe, type: 3}
 --- !u!1001 &1228985902
@@ -1251,26 +1255,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1359608544}
     m_Modifications:
-    - target: {fileID: 31365380906739200, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtPrepare
-      objectReference: {fileID: 0}
-    - target: {fileID: 1350000998363682023, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtS
-      objectReference: {fileID: 0}
-    - target: {fileID: 1512379491486125863, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtInvited
-      objectReference: {fileID: 0}
-    - target: {fileID: 2265889929759080789, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtStart
-      objectReference: {fileID: 0}
-    - target: {fileID: 3059837681264718941, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtD
-      objectReference: {fileID: 0}
     - target: {fileID: 3926201720947739467, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1358,22 +1342,6 @@ PrefabInstance:
     - target: {fileID: 3926201720947739468, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
       propertyPath: m_Name
       value: RoomPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3926201720947739468, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5606477882197337692, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtW
-      objectReference: {fileID: 0}
-    - target: {fileID: 7747896850209563474, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_Name
-      value: txtA
-      objectReference: {fileID: 0}
-    - target: {fileID: 8266106199638724960, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af4decd058669934591bca3b3ae7e7e3, type: 3}

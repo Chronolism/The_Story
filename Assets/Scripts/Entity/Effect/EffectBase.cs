@@ -35,4 +35,9 @@ public class EffectBase : MonoBehaviour
             animator.SetFloat("dir", entity.dir);
         }
     }
+
+    public void AnimationFinish()
+    {
+        Destroy(gameObject);
+    }
 }

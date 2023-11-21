@@ -28,7 +28,10 @@ public class EntityEffect : NetworkBehaviour
             EffectData effectData = DataMgr.Instance.GetEffectData(id);
             GameObject effGB = GameObject.Instantiate(effectData.gb);
             effGB.transform.SetParent(entity.transform, false);
-            effects[id] = effGB;
+            if (effectData.ifContinue)
+            {
+                effects[id] = effGB;
+            }
         }
     }
 

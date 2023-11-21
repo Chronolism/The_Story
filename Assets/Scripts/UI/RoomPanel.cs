@@ -15,6 +15,8 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public Text txtCharacterName;
     public Text txtCharacterSkill;
     public Text txtCharacterPassiveSkill;
+    public Text txtCharacterPassiveSkillDescription;
+    public Text txtCharacterSkillDescription;
     public Button btnStart;
     public ScrollRect srSteamFriendList;
 
@@ -30,6 +32,8 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         txtCharacterName = GetControl<Text>("txtCharacterName");
         txtCharacterSkill = GetControl<Text>("txtCharacterSkill");
         txtCharacterPassiveSkill = GetControl<Text>("txtCharacterPassiveSkill");
+        txtCharacterSkillDescription = GetControl<Text>("txtCharacterSkillDescription");
+        txtCharacterPassiveSkillDescription = GetControl<Text>("txtCharacterPassiveSkillDescription");
         btnStart = GetControl<Button>("btnStart");
         StartCoroutine(findRoomData());
 
@@ -48,16 +52,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         passiveIcon = GetControl<Image>("PassiveIcon");
         ultimateSkillIcon = GetControl<Image>("UltimateSkillIcon");
 
-        GetControl<FloatWindow>("txtCharacterSkill").onPointerEnter.AddListener((o) =>
-        {
-            o.window.transform.position = o.transform.position + new Vector3(20, 20, 0);
-            o.GetControl<Text>("txtIntroduce").text = DataMgr.Instance.GetBuffData(characterData.skill_Index[0].buffId).description;
-        });
-        GetControl<FloatWindow>("txtCharacterPassiveSkill").onPointerEnter.AddListener((o) =>
-        {
-            o.window.transform.position = o.transform.position + new Vector3(20, 20, 0);
-            o.GetControl<Text>("txtIntroduce").text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).description;
-        });
+        
     }
 
     protected override void Update()
@@ -204,11 +199,16 @@ public class RoomPanel : BasePanel,Observer<RoomData>
     public void UpdataOwnUserData(CharacterData characterData)
     {
         if (characterData == null) return;
+        passiveSkillIndex = 1;
         this.characterData = characterData;
         txtCharacterName.text = characterData.characterName;
-        txtCharacterSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[0].buffId).name;
-        txtCharacterPassiveSkill.text = DataMgr.Instance.GetBuffData(characterData.skill_Index[1].buffId).name;
-        passiveSkillIndex = 1;
+        BuffData bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[0].buffId);
+        txtCharacterSkill.text = bd.name;
+        txtCharacterSkillDescription.text = bd.description;
+        bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId);
+        txtCharacterPassiveSkill.text = bd.name;
+        txtCharacterPassiveSkillDescription.text = bd.description;
+        
     }
 
     protected override void OnClick(string btnName)

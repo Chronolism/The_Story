@@ -17,6 +17,9 @@ public class Buff_1017 : BuffBase
 	}
 	void WhenAddInkAddBlood(Entity self , InkData inkData)
 	{
-		self.ChangeBlood(self, new ATKData(1, 1, inkData.inkAmount * Amount / 100, 0, 1, AtkType.cure));
+		if (inkData.inkAmount > 0)
+		{
+            self.ChangeBlood(self, new ATKData(1, 1, inkData.inkAmount * Amount / 100, 0, 1, AtkType.cure));
+        }
 	}
 }

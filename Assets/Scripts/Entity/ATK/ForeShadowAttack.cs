@@ -20,7 +20,7 @@ public class ForeShadowAttack : AttackBase
             player.ChangeInkAmount(-99999);
             if (ifGiddy)
             {
-                perant.GiddyEntity(player, time);
+                entity.GiddyEntity(perant, time);
             }
             StopAttack();
         }

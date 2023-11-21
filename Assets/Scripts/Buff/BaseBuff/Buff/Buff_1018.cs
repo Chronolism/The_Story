@@ -17,6 +17,9 @@ public class Buff_1018 : BuffBase
     }
     void WhenAddInkAddEnergy(Entity self, InkData inkData)
     {
-        self.AddEnergy(new InkData(0,inkData.inkAmount*Amount/100,true));
+        if (inkData.inkAmount > 0)
+        {
+            self.AddEnergy(new InkData(0, inkData.inkAmount * Amount / 100, true));
+        }
     }
 }

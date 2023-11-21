@@ -263,17 +263,20 @@ public class Entity : NetworkBehaviour
             }
             EntityTouch(target, atkData);
         }
-        else
+        else if(this is Servitor servitor)
         {
-            if (target.canRewrite)
+            if (target != servitor.parent)
             {
-                atkData.canAtk = false;
+                if (target.canRewrite)
+                {
+                    atkData.canAtk = false;
+                }
+                else
+                {
+                    AtkEntity(target, atkData);
+                }
+                EntityTouch(target, atkData);
             }
-            else
-            {
-                AtkEntity(target, atkData);
-            }
-            EntityTouch(target, atkData);
         }
     }
 

@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 8008770333682028489}
   - component: {fileID: 4456407109891828543}
   - component: {fileID: 1408091909570394120}
+  - component: {fileID: 6667584205361095659}
   m_Layer: 7
   m_Name: ServitorNet
   m_TagString: Servitor
@@ -443,3 +444,14 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!210 &6667584205361095659
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332255021490161108}
+  m_Enabled: 1
+  m_SortingLayerID: 287594811
+  m_SortingLayer: 2
+  m_SortingOrder: 0

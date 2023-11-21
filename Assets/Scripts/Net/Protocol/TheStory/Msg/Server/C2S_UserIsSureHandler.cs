@@ -13,7 +13,7 @@ namespace TheStory
 			}
 			broadcastMsg.name = msg.name;
 			broadcastMsg.isSure = msg.isSure;
-			NetworkServer.SendToAll(broadcastMsg);;
+			NetworkServer.SendToAll(broadcastMsg);
 		}
 	}
 }

@@ -47,6 +47,17 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         characterDisplay = GetControl<Image>("CharacterImage").GetComponent<Animator>();
         passiveIcon = GetControl<Image>("PassiveIcon");
         ultimateSkillIcon = GetControl<Image>("UltimateSkillIcon");
+
+        GetControl<FloatWindow>("txtCharacterSkill").onPointerEnter.AddListener((o) =>
+        {
+            o.window.transform.position = o.transform.position + new Vector3(20, 20, 0);
+            o.GetControl<Text>("txtIntroduce").text = DataMgr.Instance.GetBuffData(characterData.skill_Index[0].buffId).description;
+        });
+        GetControl<FloatWindow>("txtCharacterPassiveSkill").onPointerEnter.AddListener((o) =>
+        {
+            o.window.transform.position = o.transform.position + new Vector3(20, 20, 0);
+            o.GetControl<Text>("txtIntroduce").text = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId).description;
+        });
     }
 
     protected override void Update()

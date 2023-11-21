@@ -108,7 +108,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         }
         BuffData bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId);
         txtCharacterPassiveSkill.text = bd.name;
-        txtCharacterSkillDescription.text = bd.description;
+        txtCharacterPassiveSkillDescription.text = bd.description;
         passiveIcon.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + characterData.character_Code+"_"+ passiveSkillIndex).sprite;
     }
     void SwitchPassiveNext()
@@ -120,7 +120,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         }
         BuffData bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId);
         txtCharacterPassiveSkill.text = bd.name;
-        txtCharacterSkillDescription.text = bd.description;
+        txtCharacterPassiveSkillDescription.text = bd.description;
         passiveIcon.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + characterData.character_Code + "_" + passiveSkillIndex).sprite;
     }
     void PrepareButton()

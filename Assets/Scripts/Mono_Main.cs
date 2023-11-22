@@ -11,9 +11,6 @@ public class Mono_Main : MonoBehaviour
     void Start()
     {
 
-
-        UIManager.Instance.ShowPanel<MainMenuPanel>();
-
         TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");
         TestConsole.Instance.AddCommand("401", () => { GameManager.Instance.GameStart("401", 405, "TestGameMode"); }, "默认的游戏开始");
         TestConsole.Instance.AddCommand("402", () => { GameManager.Instance.GameStart("402", 405, "TestGameMode"); }, "默认的游戏开始");

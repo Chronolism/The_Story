@@ -11,7 +11,11 @@ public class Mono_Main : MonoBehaviour
     void Start()
     {
 
-
+        UIManager.Instance.ShowPanel<TipPanel>((o) =>
+        {
+            o.SetCurrent("资源加载中");
+        }, true);
+        LoadResources.Instance.Load();
         UIManager.Instance.ShowPanel<MainMenuPanel>();
 
         TestConsole.Instance.AddCommand("GameStart", () => { GameManager.Instance.GameStart(); }, "默认的游戏开始");

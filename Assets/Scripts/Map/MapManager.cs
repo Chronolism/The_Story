@@ -249,14 +249,15 @@ public class MapManager : BaseManager<MapManager>
     public bool SaveMap(D_MapDataDetailOriginal d_MapDataDetailOriginal)
     {
         D_MapDataDetailOriginal_Serializable tempData = MapDataSerialize(d_MapDataDetailOriginal);
-        if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
-        using (FileStream fileStream = new FileStream(mapSaveDirectoryAddress + "/" + tempData.name + ".thestorymap", FileMode.Create, FileAccess.Write, FileShare.ReadWrite)) 
-        {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(fileStream, tempData);
-            fileStream.Flush();
-            fileStream.Close();
-        }
+        ResMgr.Instance.SaveBinary(tempData, "MapData/" + tempData.name + ".thestorymap");
+        //if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
+        //using (FileStream fileStream = new FileStream(mapSaveDirectoryAddress + "/" + tempData.name + ".thestorymap", FileMode.Create, FileAccess.Write, FileShare.ReadWrite)) 
+        //{
+        //    BinaryFormatter binaryFormatter = new BinaryFormatter();
+        //    binaryFormatter.Serialize(fileStream, tempData);
+        //    fileStream.Flush();
+        //    fileStream.Close();
+        //}
         return true;//用于判断重名什么，便于拓展
     }
     /// <summary>
@@ -269,18 +270,20 @@ public class MapManager : BaseManager<MapManager>
     {
         D_MapDataDetailOriginal target;
         D_MapDataDetailOriginal_Serializable target_Serializable;
-        if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
-        if (!File.Exists(mapSaveDirectoryAddress + "/" + mapName + ".thestorymap"))
-        {
-            errorCode = 404;
-            return null;
-        }
-        using (FileStream fileStream = File.Open(mapSaveDirectoryAddress + "/" + mapName + ".thestorymap",FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
-        {
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            target_Serializable = binaryFormatter.Deserialize(fileStream) as D_MapDataDetailOriginal_Serializable;
-            fileStream.Close();
-        }
+        target_Serializable = ResMgr.Instance.LoadBinary<D_MapDataDetailOriginal_Serializable>("MapData/" + mapName + ".thestorymap");
+        if(target_Serializable == null) { errorCode = 404; return null; }
+        //if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
+        //if (!File.Exists(mapSaveDirectoryAddress + "/" + mapName + ".thestorymap"))
+        //{
+        //    errorCode = 404;
+        //    return null;
+        //}
+        //using (FileStream fileStream = File.Open(mapSaveDirectoryAddress + "/" + mapName + ".thestorymap",FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
+        //{
+        //    BinaryFormatter binaryFormatter = new BinaryFormatter();
+        //    target_Serializable = binaryFormatter.Deserialize(fileStream) as D_MapDataDetailOriginal_Serializable;
+        //    fileStream.Close();
+        //}
         target = MapDataDeserialize(target_Serializable);
         errorCode = 0 ;
         //D_MapDataDetailOriginal tempData = MapDataSerialize();

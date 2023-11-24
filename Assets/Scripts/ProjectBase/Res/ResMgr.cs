@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
 
 /// <summary>
 /// 资源加载模块
@@ -65,6 +64,23 @@ public class ResMgr : BaseManager<ResMgr>
         }
     }
     /// <summary>
+    /// 读取文本
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public string[] LoadAllLines(string name)
+    {
+        string path = Application.streamingAssetsPath + "/" + name;
+        if (!File.Exists(path)) path = Application.persistentDataPath + "/" + name;
+        if (!File.Exists(path))
+        {
+            Debug.Log("不存在文件：" + name);
+            return null;
+        }
+        return File.ReadAllLines(path);
+    }
+
+    /// <summary>
     /// 通过mirror加载二进制（mirror注册的数据类）
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -98,7 +114,14 @@ public class ResMgr : BaseManager<ResMgr>
     /// <param name="name"></param>
     public void SaveBinary(object data , string name)
     {
-        using(FileStream fileStream = File.Create(Application.streamingAssetsPath + "/" + name))
+        string path = Application.streamingAssetsPath + "/";
+        string[] temp = name.Split('\\');
+        for (int i = 0; i < temp.Length - 1; i++)
+        {
+            path += temp[i] + "/";
+        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        using (FileStream fileStream = File.Create(Application.streamingAssetsPath + "/" + name))
         {
             binaryFormatter.Serialize(fileStream,data);
         }
@@ -113,10 +136,14 @@ public class ResMgr : BaseManager<ResMgr>
     {
         writer.Reset();
         writer.Write(data);
-        using (FileStream fileStream = File.Create(Application.streamingAssetsPath + "/" + name))
+        string path = Application.streamingAssetsPath + "/";
+        string[] temp = name.Split('\\');
+        for (int i = 0; i < temp.Length - 1; i++)
         {
-            fileStream.Write(writer.ToArraySegment());
+            path += temp[i] + "/";
         }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        File.WriteAllBytes(Application.streamingAssetsPath + "/" + name, writer.ToArray());
     }
 
     //异步加载资源
@@ -147,11 +174,4 @@ public class ResMgr : BaseManager<ResMgr>
     }
 
 
-}
-
-public enum ResType
-{
-    normal,
-    json,
-    binary
 }

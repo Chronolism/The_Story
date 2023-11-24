@@ -1,0 +1,3 @@
+version : 2023.1123.b
+time : 2023/11/23 16:04:28
+data : config.txt,UnityServicesProjectConfiguration.json,BuffData\ChineseBuffData.json,BuffData\EnglishBuffData.json,MapData\400.thestorymap,MapData\401.thestorymap,MapData\410.thestorymap,MapData\500.thestorymap,MapData\Default22.thestorymap,MapData\www.thestorymap,MapData\zyy.thestorymap

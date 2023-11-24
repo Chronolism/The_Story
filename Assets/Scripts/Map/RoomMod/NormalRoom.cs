@@ -35,7 +35,6 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
 
     public override void StartGame()
     {
-
         roomData.StartCoroutine(StartGameCountdown());
     }
     /// <summary>
@@ -91,6 +90,8 @@ public class NormalRoom : RoomLogicBase, Observer<Prop>,Observer<Player>
             //添加道具观察
             prop.observers.Add(this);
         }
+        Debug.Log(cellsForFeatherPenBorn.Count);
+        Debug.Log(cellsForToolsBorn.Count);
         foreach (Vector3 v3 in cellsForFeatherPenBorn)
         {
             Prop prop = EntityFactory.Instance.CreatProp(v3);

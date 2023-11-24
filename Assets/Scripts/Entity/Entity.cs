@@ -163,6 +163,11 @@ public class Entity : NetworkBehaviour
     /// </summary>
     public UnityAction<Entity, InkData> OnGetEnergy;
     /// <summary>
+    /// 触碰时触发
+    /// </summary>
+    public UnityAction<Entity, Entity, ATKData> OnTouchEntity;
+
+    /// <summary>
     /// 攻击时触发
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnAtk;
@@ -186,6 +191,11 @@ public class Entity : NetworkBehaviour
     /// 使用技能时触发
     /// </summary>
     public UnityAction<Entity, BuffBase> OnUseSkill;
+
+    private void EntityTouch(Entity target, ATKData atkData)
+    {
+        OnTouchEntity?.Invoke(this, target, atkData);
+    }
 
     private void Atk(Entity target , ATKData atkData)
     {
@@ -231,6 +241,45 @@ public class Entity : NetworkBehaviour
 
 
     #endregion
+
+    public void TouchEntity(Entity target, ATKData atkData)
+    {
+        if(this is Player)
+        {
+            if (canRewrite)
+            {
+                if (target is Servitor servitor)
+                {
+                    this.RewriteServitor(servitor);
+                }
+                else
+                {
+                    AtkEntity(target, atkData);
+                }
+            }
+            else
+            {
+                atkData.canAtk = false;
+            }
+            EntityTouch(target, atkData);
+        }
+        else if(this is Servitor servitor)
+        {
+            if (target != servitor.parent)
+            {
+                if (target.canRewrite)
+                {
+                    atkData.canAtk = false;
+                }
+                else
+                {
+                    AtkEntity(target, atkData);
+                }
+                EntityTouch(target, atkData);
+            }
+        }
+    }
+
     /// <summary>
     /// 攻击实体
     /// </summary>
@@ -277,7 +326,7 @@ public class Entity : NetworkBehaviour
         }
     }
     /// <summary>
-    /// 眩晕目标
+    /// 被目标眩晕
     /// </summary>
     /// <param name="target"></param>
     /// <param name="time"></param>

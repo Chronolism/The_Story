@@ -211,7 +211,6 @@ public class EntityBuff : NetworkBehaviour
         {
             if(value == 0)
             {
-
                 buffBase.OnRemove(entity, buffBase.Amount);
                 buffBase.OnEnd(entity, buffBase.Amount);
                 if (buffBase is IUpdataBuff updataBuff)
@@ -329,7 +328,7 @@ public class EntityBuff : NetworkBehaviour
         {
             if(buffList[i].BuffID == buffName)
             {
-                buffList[i].OnAddEffect(entity, buffList[i].Amount);
+                buffList[i].OnRemoveEffect(entity, buffList[i].Amount);
                 buffList.RemoveAt(i);
                 return;
             }

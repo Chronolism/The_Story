@@ -15,6 +15,16 @@ MonoBehaviour:
   effects:
   - id: 3004
     name: "\u72C2\u66B4"
+    ifContinue: 1
+    type: 0
+    gb: {fileID: 8002093479880227759, guid: 6703783fca99e37498b0004dfcda4eda, type: 3}
+  - id: 3003
+    name: "\u56DE\u80FD"
     ifContinue: 0
     type: 0
-    gb: {fileID: 6854870742111284796, guid: 2353c35803a751541954446dcb19c4a6, type: 3}
+    gb: {fileID: 5463236232423586378, guid: e534bc1ae07c9264bb7fac9f006ec611, type: 3}
+  - id: 1003
+    name: "\u901F\u5EA6\u63D0\u5347"
+    ifContinue: 1
+    type: 0
+    gb: {fileID: 4635694172914681795, guid: 5af821ea379ebf64eb4988ce5c23635e, type: 3}

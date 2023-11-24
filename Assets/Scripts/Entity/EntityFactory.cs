@@ -19,6 +19,7 @@ public class EntityFactory : BaseManager<EntityFactory>
                 GameObject.Destroy(behaviour.gameObject);
             }
         }
+        behaviours.Clear();
     }
     /// <summary>
     /// Éú³ÉÊ¹Ä§

@@ -17,10 +17,10 @@ public class ForeShadowAttack : AttackBase
     {
         if(entity!=perant && entity is Player player && player.canRewrite)
         {
-            player.ChangeInkAmount(99999);
+            player.ChangeInkAmount(-99999);
             if (ifGiddy)
             {
-                perant.GiddyEntity(player, time);
+                entity.GiddyEntity(perant, time);
             }
             StopAttack();
         }

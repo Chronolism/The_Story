@@ -16,8 +16,8 @@ public class Buff_3004 : BuffBase
 	{
 		foreach(Servitor servitor in entity.Servitors)
 		{
-			servitor.AddBuff(1004, 40, Value, entity);
-			servitor.AddBuff(1013, 1, Value, entity);
+			//servitor.AddBuff(1004, 40, Value, entity);
+			servitor.AddBuff(1013, 40, Value, entity);
 		}
 	}
 }

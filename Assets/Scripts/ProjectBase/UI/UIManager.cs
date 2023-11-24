@@ -84,7 +84,11 @@ public class UIManager : BaseManager<UIManager>
         //通过储存位置寻找UI面板
         ResMgr.Instance.LoadAsync<GameObject>("UI/" + panelName, (obj) =>
         {
-
+            if (GetPanel<T>() != null)
+            {
+                ShowPanel<T>(callBack, isActive);
+                return;
+            }
             //得到预设体身上的面板脚本
             T panel = obj.GetComponent<T>();
             //判断激活panel是否为空，为空无视激活判断，直接激活

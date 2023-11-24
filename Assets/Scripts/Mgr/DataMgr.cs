@@ -58,11 +58,11 @@ public class DataMgr : BaseManager<DataMgr>
     /// </summary>
     void DataLosd()
     {
-        playerData = JsonMgr.Instance.LoadData<PlayerData>("playerData");
+        playerData = ResMgr.Instance.LoadJson<PlayerData>("playerData");
         spriteDataSet = ResMgr.Instance.Load<SpriteData_SO>("Data_SO/SpriteData_SO").spriteDataSet;
         playerData.account = Random.Range(0, int.MaxValue).ToString();
         LaodLanguage();
-        buffDatas = JsonMgr.Instance.LoadData<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
+        buffDatas = ResMgr.Instance.LoadJson<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
         attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages>
-	<!--数据结构类配置规则-->
+	<!--数据结构类配置规则
+	name:		数据结构名字 
+	namespace:	命名空间 
+	type:		消息类型
+				Outside		外部声明的自由数据类，需要无参构造，（反）序列化只应用于注册成员变量，未注册则无视
+				Inside		内部数据类，自动生成，无法修改类参数-->
 	<data name="ATKData" namespace="TheStory" type="Outside">
 		<field type="int" name="id"/>
 		<field type="float" name="pre"/>
@@ -35,7 +40,7 @@
 		<field type="string" name="account"/>
 		<field type="string" name="password"/>
 	</data>
-	<!--消息类类配置规则
+	<!--消息类配置规则
 	name:		消息名字 
 	namespace:	命名空间 
 	type:		消息类型

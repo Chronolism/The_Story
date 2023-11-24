@@ -86,7 +86,7 @@ public class Player : Entity
         while (invincibleFrameTime > 0)
         {
             invincibleFrameTime -= Time.deltaTime;
-            spriteRenderer.enabled =  Mathf.Sin(invincibleFrameTime * 4 * Mathf.PI) > 0 ? true : false;
+            spriteRenderer.enabled =  Mathf.Sin(invincibleFrameTime * 8 * Mathf.PI) > 0 ? true : false;
             yield return null;
         }
         spriteRenderer.enabled = true;

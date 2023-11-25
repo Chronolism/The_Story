@@ -249,7 +249,7 @@ public class MapManager : BaseManager<MapManager>
     public bool SaveMap(D_MapDataDetailOriginal d_MapDataDetailOriginal)
     {
         D_MapDataDetailOriginal_Serializable tempData = MapDataSerialize(d_MapDataDetailOriginal);
-        ResMgr.Instance.SaveBinary(tempData, "MapData/" + tempData.name + ".thestorymap");
+        ResMgr.Instance.SaveBinary(tempData, "MapData\\" + tempData.name + ".thestorymap");
         //if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
         //using (FileStream fileStream = new FileStream(mapSaveDirectoryAddress + "/" + tempData.name + ".thestorymap", FileMode.Create, FileAccess.Write, FileShare.ReadWrite)) 
         //{
@@ -270,7 +270,7 @@ public class MapManager : BaseManager<MapManager>
     {
         D_MapDataDetailOriginal target;
         D_MapDataDetailOriginal_Serializable target_Serializable;
-        target_Serializable = ResMgr.Instance.LoadBinary<D_MapDataDetailOriginal_Serializable>("MapData/" + mapName + ".thestorymap");
+        target_Serializable = ResMgr.Instance.LoadBinary<D_MapDataDetailOriginal_Serializable>("MapData\\" + mapName + ".thestorymap");
         if(target_Serializable == null) { errorCode = 404; return null; }
         //if (!Directory.Exists(mapSaveDirectoryAddress)) Directory.CreateDirectory(mapSaveDirectoryAddress);
         //if (!File.Exists(mapSaveDirectoryAddress + "/" + mapName + ".thestorymap"))

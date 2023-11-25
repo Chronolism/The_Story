@@ -50,23 +50,23 @@ public class DataMgr : BaseManager<DataMgr>
 
     public DataMgr()
     {
-        DataLosd();
-        DataInit();
+        
     }
     /// <summary>
     /// 数据加载
     /// </summary>
-    void DataLosd()
+    public void DataLoad()
     {
         playerData = ResMgr.Instance.LoadJson<PlayerData>("playerData");
         spriteDataSet = ResMgr.Instance.Load<SpriteData_SO>("Data_SO/SpriteData_SO").spriteDataSet;
         playerData.account = Random.Range(0, int.MaxValue).ToString();
         LaodLanguage();
-        buffDatas = ResMgr.Instance.LoadJson<List<BuffData>>("BuffData/" + "Chinese" + "BuffData");
+        buffDatas = ResMgr.Instance.LoadJson<List<BuffData>>("BuffData\\" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
         attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;
         effectDatas = ResMgr.Instance.Load<EffectData_SO>("Data_SO/EffectData_SO").effects;
+        DataInit();
     }
     /// <summary>
     /// 数据初始化（尽量不要出现嵌套数据因为上层数据为空而报错）

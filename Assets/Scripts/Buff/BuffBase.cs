@@ -14,6 +14,7 @@ public class BuffBase
     public float cd;
     public float energy;
     public float maxEnergy;
+    public bool active;
     public virtual void Init(string buffId,float amount,Entity buffOwn)
     {
         BuffID = buffId;
@@ -21,6 +22,20 @@ public class BuffBase
         this.buffOwn = buffOwn;
         cd = cdMax;
     }
+
+
+    public virtual void OnDisabled(Entity entity)
+    {
+        OnRemove(entity,Amount);
+        OnEnd(entity, Amount);
+    }
+
+    public virtual void OnEnable(Entity entity)
+    {
+        OnStart(entity, Amount);
+        OnAdd(entity, Amount);
+    }
+
     public virtual void OnStart(Entity entity, float Value) { }
     public virtual void OnEnd(Entity entity, float Value) { }
     public virtual void OnAdd(Entity entity,float Value) { }

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
-
+using UnityEngine.Tilemaps;
 
 [Serializable]
-public class MapTileData
+public class MapData
 {
     public int ID;
     public string name;
     public string description;
-    public string TileAsset;
-    public float blood;
+    public List<MapDetile> mapDetiles;
 }
 
 /// <summary>
@@ -21,73 +20,42 @@ public class MapTileData
 [Serializable]
 public class MapDetile
 {
-    public V2 Size;
-    public int type;
     public int id;
     public string name;
-    public int beansMax;
-    public float birthTime;
-    public MapTileDetile[,] MapTileDetiles;
-    public List<EnemyDetile> enemyDetiles = new List<EnemyDetile>();
-    public List<V2> start = new List<V2>();
-    public List<V2> end = new List<V2>();
+    public Dictionary<V2, MapTileDetile> MapTileDetiles;
 }
-[Serializable]
-public class MapDetileToJson
-{
-    public V2 Size;
-    public int type;
-    public int id;
-    public string name;
-    public int beansMax;
-    public float birthTime;
-    public List<MapTileDetile> MapTileDetiles;
-    public List<EnemyDetile> enemyDetiles = new List<EnemyDetile>();
-    public List<V2> start = new List<V2>();
-    public List<V2> end = new List<V2>();
-}
-/// <summary>
-/// 地图单瓦片包含信息
-/// </summary>
 [Serializable]
 public class MapTileDetile
 {
-    public int Tile_x;
-    public int Tile_y;
-    public int x;
-    public int y;
-    public float world_x;
-    public float world_y;
+    public int id;
     public float blood = -1;
-    public Dictionary<string, int> tile = new Dictionary<string, int>();
-    //public string TileName;
+    private TileData m_tileData;
+    public TileData TileData
+    {
+        get 
+        {
+            if (m_tileData == null) m_tileData = DataMgr.Instance.GetTileData(id);
+            return m_tileData; 
+        }
+    }
 }
 [Serializable]
-public class PlayerData
-{
-    public string account;
-    public string password;
-    public string language = "Chinese";
-
-    public float volume = 0.3f;
-    public float SoundValue = 0.3f;
-}
-
-[Serializable]
-public class EnemyData
+public class TileData
 {
     public int id;
     public string name;
-    public GameObject obj;
+    public MapColliderType type;
+    public TileBase tileBase;
 }
 [Serializable]
-public class EnemyDetile
+public enum MapColliderType
 {
-    public int id;
-    public int actionType;
-    public List<int> Limit_one = new List<int>();
-    public List<V2> targets = new List<V2>();
+    None = 1,
+    Wall = 2,
+    Water = 4,
+    Fire = 8
 }
+
 /// <summary>
 /// 二元组
 /// </summary>
@@ -128,7 +96,7 @@ public struct V2
     public static V2 V3to2(Vector3 vector3) => new V2((int) vector3.x, (int) vector3.y);
     public static V2 V3to2(Vector3Int vector3) => new V2(vector3.x, vector3.y);
     public static Vector3Int V2to3(V2 v2) => new Vector3Int(v2.x, v2.y, 0);
-    //隐式转换重载
+    //隐式赋值重载
     public static explicit operator V2(Vector3 vector3)
     {
         return new V2((int)vector3.x, (int)vector3.y);
@@ -146,14 +114,4 @@ public struct V2
     {
         return new Vector3Int(v2.x, v2.y, 0);
     }
-}
-[Serializable]
-public class UIData
-{
-    public Dictionary<string, string> value;
-}
-[Serializable]
-public class SettingData
-{
-    public string Language;
 }

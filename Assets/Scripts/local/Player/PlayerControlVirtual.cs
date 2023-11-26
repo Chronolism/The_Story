@@ -21,7 +21,7 @@ public class PlayerControlVirtual : MonoBehaviour
     //这是移动动态参数（非逻辑帧级别）
     int UpDown = 0;
     int RightLeft = 0;
-    int Special = 0;
+    //int Special = 0;
 
     private void Awake()
     {
@@ -37,13 +37,13 @@ public class PlayerControlVirtual : MonoBehaviour
     {
         UpDown = 0;
         RightLeft = 0;
-        Special = 0;
+        //Special = 0;
         if (Input.GetKey(KeyCode.UpArrow)) UpDown += 1;
         if (Input.GetKey(KeyCode.DownArrow)) UpDown += -1;
         if (Input.GetKey(KeyCode.RightArrow)) RightLeft += 1;
         if (Input.GetKey(KeyCode.LeftArrow)) RightLeft += -1;
-        if (Input.GetKey(KeyCode.RightControl)) Special = 1;
-        if (Input.GetKey(KeyCode.RightAlt)) Special = 2;
+        //if (Input.GetKey(KeyCode.RightControl)) Special = 1;
+        //if (Input.GetKey(KeyCode.RightAlt)) Special = 2;
         //这里Q在最后，则按下QE会优先触发Q
 
 

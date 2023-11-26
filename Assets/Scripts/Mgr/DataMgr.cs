@@ -31,6 +31,11 @@ public class DataMgr : BaseManager<DataMgr>
     public List<EffectData> EffectDatas => effectDatas;
     public Dictionary<int, EffectData> effectDataDic;
 
+    //瓦片数据集
+    private List<TileData> tileDataSet;
+    public List<TileData> TileDataSet => tileDataSet;
+    private Dictionary<int, TileData> tileDataDic;
+
     public RoomData roomData;
 
     public PlayerData playerData;
@@ -66,6 +71,7 @@ public class DataMgr : BaseManager<DataMgr>
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
         attackDatas = ResMgr.Instance.Load<AttackData_SO>("Data_SO/AttackData_SO").attackDatas;
         effectDatas = ResMgr.Instance.Load<EffectData_SO>("Data_SO/EffectData_SO").effects;
+        tileDataSet = ResMgr.Instance.Load<TileData_SO>("Data_SO/TileData_SO").tileDatas;
         DataInit();
     }
     /// <summary>
@@ -89,7 +95,11 @@ public class DataMgr : BaseManager<DataMgr>
         {
             effectDataDic.Add(effect.id, effect);
         }
-
+        tileDataDic = new Dictionary<int, TileData>();
+        foreach(TileData tileData in tileDataSet)
+        {
+            tileDataDic.Add(tileData.id, tileData);
+        }
     }
     /// <summary>
     /// 保存数据（o：数据，注意保证DataMgr有且名字一样，name：数据名字）
@@ -215,5 +225,14 @@ public class DataMgr : BaseManager<DataMgr>
     public AttackData GetAttackData(int id)
     {
         return AttackDatas.Find(i => i.id == id);
+    }
+    /// <summary>
+    /// 获取瓦片数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public TileData GetTileData(int id)
+    {
+        return tileDataDic[id];
     }
 }

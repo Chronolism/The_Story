@@ -149,7 +149,12 @@ public class EntityBuff : NetworkBehaviour
         entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, time, own.netId);
     }
-
+    /// <summary>
+    /// 移除指定id指定拥有者的指定数量
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <param name="value"></param>
+    /// <param name="own"></param>
     [Server]
     public void RemoveBuff(int buffId, float value,Entity own)
     {
@@ -177,6 +182,11 @@ public class EntityBuff : NetworkBehaviour
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
         }
     }
+    /// <summary>
+    /// 移除固定id 未知拥有者 buff的指定数量
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <param name="value"></param>
     [Server]
     public void RemoveBuff(int buffId, float value)
     {
@@ -203,13 +213,17 @@ public class EntityBuff : NetworkBehaviour
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
         }
     }
-
+    /// <summary>
+    /// 移除指定buff指定数量
+    /// </summary>
+    /// <param name="buffBase"></param>
+    /// <param name="value">为-1则全部移除</param>
     [Server]
-    public void RemoveBuff(BuffBase buffBase , float value = 0)
+    public void RemoveBuff(BuffBase buffBase , float value = -1)
     {
         if (buffBase != null)
         {
-            if(value == 0)
+            if(value == -1)
             {
                 buffBase.OnRemove(entity, buffBase.Amount);
                 buffBase.OnEnd(entity, buffBase.Amount);
@@ -343,5 +357,34 @@ public class EntityBuff : NetworkBehaviour
     public List<BuffBase> FindBuffs(int buffId)
     {
         return buffList.FindAll(i => i.buffData.id == buffId);
+    }
+
+    public BuffBase FindBuff(string buffName)
+    {
+        return buffList.Find(i => i.BuffID == buffName);
+    }
+
+    [Server]
+    public void BuffSetActive(BuffBase buffBase , bool active)
+    {
+        if (buffBase.active != active)
+        {
+            if (active)
+            {
+                buffBase.OnEnable(entity);
+            }
+            else
+            {
+                buffBase.OnDisabled(entity);
+            }
+            buffBase.active = active;
+            BuffSetActiveRpc(buffBase.buffData.id, buffBase.buffOwn.netId, active);
+        }
+    }
+    [ClientRpc]
+    public void BuffSetActiveRpc(int buffId, uint netid, bool active)
+    {
+        string buffName = buffId.ToString() + netId.ToString();
+        FindBuff(buffName).active = active;
     }
 }

@@ -5,13 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapData
-{
-    public int id;
-    public string mapName;
-    public int mod;
-}
-
 [Serializable]
 public class CharacterData
 {
@@ -137,4 +130,40 @@ public enum EEffectType
     fore,
     back,
     free
+}
+[Serializable]
+public class PlayerData
+{
+    public string account;
+    public string password;
+    public string language = "Chinese";
+
+    public float volume = 0.3f;
+    public float SoundValue = 0.3f;
+}
+
+[Serializable]
+public class EnemyData
+{
+    public int id;
+    public string name;
+    public GameObject obj;
+}
+[Serializable]
+public class EnemyDetile
+{
+    public int id;
+    public int actionType;
+    public List<int> Limit_one = new List<int>();
+    public List<V2> targets = new List<V2>();
+}
+[Serializable]
+public class UIData
+{
+    public Dictionary<string, string> value;
+}
+[Serializable]
+public class SettingData
+{
+    public string Language;
 }

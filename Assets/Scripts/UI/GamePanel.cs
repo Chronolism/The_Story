@@ -146,7 +146,7 @@ public class GamePanel : BasePanel
 
             //µÀ¾ß
             if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
-            else _Prop_Now.sprite = null;
+            else _Prop_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skillEmpty").sprite;
 
 
         }                     

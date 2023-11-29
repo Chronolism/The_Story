@@ -6,6 +6,36 @@
 	type:		消息类型
 				Outside		外部声明的自由数据类，需要无参构造，（反）序列化只应用于注册成员变量，未注册则无视
 				Inside		内部数据类，自动生成，无法修改类参数-->
+	<data name="MapData" namespace="MapDataWithMirror" type="Outside">
+		<field type="int" name="ID"/>
+		<field type="string" name="name"/>
+		<field type="string" name="description"/>
+		<field type="int" name="maxFeather"/>
+		<field type="int" name="maxTool"/>
+		<field type="list" T="MapDetile" name="mapDetiles"/>
+		<field type="list" T="V2" name="playerSpwnPos"/>
+		<field type="list" T="V2" name="servitorSpwnPos"/>
+		<field type="list" T="V2" name="FeatherSpwnPos"/>
+		<field type="list" T="V2" name="ToolSpwnPos"/>
+	</data>
+	<data name="V2" namespace="MapDataWithMirror" type="Outside">
+		<field type="int" name="x"/>
+		<field type="int" name="y"/>
+	</data>
+	<data name="MapDetile" namespace="MapDataWithMirror" type="Outside">
+		<field type="int" name="id"/>
+		<field type="string" name="name"/>
+		<field type="string" name="layer"/>
+		<field type="dic" Tkey="V2" Tvalue="MapTileDetile" name="MapTileDetiles"/>
+		<field type="dic" Tkey="V2" Tvalue="MapTileDetileValue" name="tileValue"/>
+	</data>
+	<data name="MapTileDetileValue" namespace="MapDataWithMirror" type="Outside">
+		<field type="list" T="float" name="value"/>
+	</data>
+	<data name="MapTileDetile" namespace="MapDataWithMirror" type="Outside">
+		<field type="int" name="id"/>
+		<field type="bool" name="ifHaveValue"/>
+	</data>
 	<data name="ATKData" namespace="TheStory" type="Outside">
 		<field type="int" name="id"/>
 		<field type="float" name="pre"/>

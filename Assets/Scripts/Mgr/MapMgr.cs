@@ -23,7 +23,7 @@ public class MapMgr : BaseManager<MapMgr>
             Tilemap tilemap = ResMgr.Instance.Load<GameObject>("Map/MapEdit/Tilemap").GetComponent<Tilemap>();
             tilemap.gameObject.transform.SetParent(grid.transform,false);
             tilemap.gameObject.name = mapDetile.name;
-            tilemap.GetComponent<TilemapRenderer>().sortingLayerID = mapDetile.layer.id;
+            tilemap.GetComponent<TilemapRenderer>().sortingLayerID = SortingLayer.NameToID(mapDetile.layer);
             foreach(var kvp in mapDetile.MapTileDetiles)
             {
                 tilemap.SetTile(kvp.Key.ToV3Int(), kvp.Value.TileData.tileBase);
@@ -51,7 +51,7 @@ public class MapMgr : BaseManager<MapMgr>
         MapDetile mapDetile = new MapDetile();
         mapData.mapDetiles.Add(mapDetile);
         mapDetile.name = "wall";
-        mapDetile.layer = SortingLayer.layers[4];
+        mapDetile.layer = "Instance";
         for (int i = 0; i < 10; i++)
         {
             mapDetile.MapTileDetiles.Add(new V2(i,0),new MapTileDetile(0,false));
@@ -61,7 +61,7 @@ public class MapMgr : BaseManager<MapMgr>
         }
         mapDetile = new MapDetile();
         mapDetile.name = "water";
-        mapDetile.layer = SortingLayer.layers[1];
+        mapDetile.layer = "Ground_1";
         for (int i = 3; i < 6; i++)
         {
             mapDetile.MapTileDetiles.Add(new V2(i, 5), new MapTileDetile(6, false));

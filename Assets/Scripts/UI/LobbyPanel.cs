@@ -74,6 +74,27 @@ public class LobbyPanel : BasePanel
     public void CreativeFactory()
     {
         //转到地图编辑器（暂时）
+        UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+        {
+            o.AddWhileEnterCompletelyBlack(() =>
+            {
+                UIManager.Instance.HidePanel<LobbyPanel>();
+                UIManager.Instance.ShowPanel<MapEditorPanel>((o) =>
+                {
+                    o.OnQuit.AddListener(() =>
+                    {
+                        UIManager.Instance.ShowPanel<LoadingPanel>((o) =>
+                        {
+                            o.AddWhileEnterCompletelyBlack(() =>
+                            {
+                                UIManager.Instance.HidePanel<MapEditorPanel>();
+                                UIManager.Instance.ShowPanel<LobbyPanel>();
+                            });
+                        });
+                    });
+                });
+            });
+        });
     }
     public void HandBook()
     {

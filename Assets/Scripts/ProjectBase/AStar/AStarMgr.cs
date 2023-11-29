@@ -64,6 +64,28 @@ public class AStarMgr : BaseManager<AStarMgr>
         }
     }
 
+    public void InitMapInfo(Dictionary<V2,MapColliderType> colliders)
+    {
+        var kvpf = colliders.First();
+        deviationW = kvpf.Key.x;
+        deviationH = kvpf.Key.y;
+        foreach (var kvp in colliders)
+        {
+            if (kvp.Key.x < deviationW) deviationW = kvp.Key.x;
+            else if (kvp.Key.x >= mapW + deviationW) mapW = kvp.Key.x - deviationW + 1;
+            if (kvp.Key.y < deviationH) deviationH = kvp.Key.y;
+            else if (kvp.Key.y >= mapH + deviationH) mapH = kvp.Key.y - deviationH + 1;
+        }
+        nodes = new AStarNode[mapW, mapH];
+        for (int i = 0; i < mapW; i++)
+            for (int j = 0; j < mapH; j++)
+                nodes[i, j] = new AStarNode(i, j, 0);
+        foreach (var kvp in colliders)
+        {
+            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH].type = kvp.Value == MapColliderType.Wall ? E_Node_Type.Stop : E_Node_Type.Walk;
+        }
+    }
+
     /// <summary>
     /// 寻路方法 提供给外部使用
     /// </summary>

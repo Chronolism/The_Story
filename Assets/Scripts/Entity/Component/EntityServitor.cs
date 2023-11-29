@@ -4,15 +4,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EntityServitor : NetworkBehaviour
+public class EntityServitor : EntityComponent
 {
-    Entity entity;
     public List<Servitor> Servitors = new List<Servitor>();
-
-    private void Awake()
-    {
-        entity = GetComponent<Player>();
-    }
 
     #region 事件接口
 

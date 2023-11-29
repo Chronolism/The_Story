@@ -166,6 +166,11 @@ public class Entity : NetworkBehaviour
     /// 触碰时触发
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnTouchEntity;
+    /// <summary>
+    /// 进出地形触发
+    /// </summary>
+    public UnityAction<Entity, TileData> OnEnterTile;
+    public UnityAction<Entity, TileData> OnLeaveTile;
 
     /// <summary>
     /// 攻击时触发

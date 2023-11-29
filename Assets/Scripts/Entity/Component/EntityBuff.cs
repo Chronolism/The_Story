@@ -5,9 +5,8 @@ using Mirror;
 using UnityEngine.Events;
 using System;
 
-public class EntityBuff : NetworkBehaviour
+public class EntityBuff : EntityComponent
 {
-    public Entity entity;
 
     UnityAction<Entity> UpdataBuff;
     public List<BuffBase> buffList = new List<BuffBase>();
@@ -16,11 +15,6 @@ public class EntityBuff : NetworkBehaviour
     List<BuffBase> slowBuffList = new List<BuffBase>();
     Stack<BuffBase> waitRemove = new Stack<BuffBase>();
     float slowTime;
-
-    private void Awake()
-    {
-        Init(GetComponent<Entity>());
-    }
 
     public virtual void FixedUpdate()
     {
@@ -78,11 +72,6 @@ public class EntityBuff : NetworkBehaviour
         }
 
 
-    }
-
-    public void Init(Entity entity)
-    {
-        this.entity = entity;
     }
 
     [Server]

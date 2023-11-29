@@ -21,9 +21,10 @@ public class GameMgr : BaseManager<GameMgr>
 
     public void LoadMap(string name)
     {
-        MapManager.Instance.LoadMapCompletelyToScene(name);
+        //MapManager.Instance.LoadMapCompletelyToScene(name);
 
-        AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
+        //AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
+        MapMgr.Instance.LoadMap();
     }
     /// <summary>
     /// 修改服务类型

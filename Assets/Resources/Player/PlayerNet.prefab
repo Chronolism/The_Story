@@ -101,7 +101,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.2}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
 --- !u!114 &6321376331093206745
@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 8079577279510438759}
   - component: {fileID: 4742516948915531308}
   - component: {fileID: 3784801973839682142}
+  - component: {fileID: 9075685592944172038}
   - component: {fileID: 733688356673401485}
   - component: {fileID: 5803143299339515939}
   - component: {fileID: 176872516906425557}
@@ -356,6 +357,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  entity: {fileID: 0}
   Servitors: []
 --- !u!114 &3784801973839682142
 MonoBehaviour:
@@ -372,6 +374,24 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  entity: {fileID: 0}
+--- !u!114 &9075685592944172038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480366113042657854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ebf3c3c0faabe14191854eeff1a6936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  entity: {fileID: 0}
+  map: []
 --- !u!114 &733688356673401485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,7 +479,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.3
 --- !u!210 &7499576765179856921
 SortingGroup:
   m_ObjectHideFlags: 0

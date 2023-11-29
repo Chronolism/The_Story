@@ -4,15 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class EntityControl : NetworkBehaviour
+public class EntityControl : EntityComponent
 {
-    public Entity entity;
     int oldInput;
     int newInput;
-    private void Awake()
-    {
-        entity = GetComponent<Entity>();
-    }
 
     public void PlayerInput()
     {

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
 using UnityEngine.Tilemaps;
 
 [Serializable]
@@ -11,7 +10,13 @@ public class MapData
     public int ID;
     public string name;
     public string description;
-    public List<MapDetile> mapDetiles;
+    public int maxFeather;
+    public int maxTool;
+    public List<MapDetile> mapDetiles = new List<MapDetile>();
+    public List<V2> playerSpwnPos = new List<V2>();
+    public List<V2> servitorSpwnPos = new List<V2>();
+    public List<V2> FeatherSpwnPos = new List<V2>();
+    public List<V2> ToolSpwnPos = new List<V2>();
 }
 
 /// <summary>
@@ -22,13 +27,15 @@ public class MapDetile
 {
     public int id;
     public string name;
-    public Dictionary<V2, MapTileDetile> MapTileDetiles;
+    public SortingLayer layer;
+    public Dictionary<V2, MapTileDetile> MapTileDetiles = new Dictionary<V2, MapTileDetile>();
+    public Dictionary<V2, object> tileValue = new Dictionary<V2, object>();
 }
 [Serializable]
 public class MapTileDetile
 {
     public int id;
-    public float blood = -1;
+    public bool ifHaveValue;
     private TileData m_tileData;
     public TileData TileData
     {
@@ -38,15 +45,34 @@ public class MapTileDetile
             return m_tileData; 
         }
     }
+
+    public MapTileDetile()
+    {
+
+    }
+
+    public MapTileDetile(int id, bool ifHaveValue)
+    {
+        this.id = id;
+        this.ifHaveValue = ifHaveValue;
+    }
 }
 [Serializable]
 public class TileData
 {
     public int id;
     public string name;
+    public MapType mapType;
     public MapColliderType type;
     public TileBase tileBase;
 }
+[Serializable]
+public class TileDataList
+{
+    public string name;
+    public List<TileData> tileDatas = new List<TileData>();
+}
+
 [Serializable]
 public enum MapColliderType
 {
@@ -54,6 +80,12 @@ public enum MapColliderType
     Wall = 2,
     Water = 4,
     Fire = 8
+}
+[Serializable]
+public enum MapType
+{
+    normal,
+    terrain
 }
 
 /// <summary>
@@ -83,6 +115,14 @@ public struct V2
         return base.ToString();
     }
 
+    public static Vector3 operator +(V2 v2, Vector3 v3)
+    {
+        return new Vector3(v2.x + v3.x, v2.y + v3.y, v3.z);
+    }
+    public static Vector3 operator +(Vector3 v3, V2 v2)
+    {
+        return new Vector3(v2.x + v3.x, v2.y + v3.y, v3.z);
+    }
     public static bool operator ==(V2 a, V2 b)
     {
         if (a.x == b.x && a.y == b.y) return true;
@@ -114,4 +154,7 @@ public struct V2
     {
         return new Vector3Int(v2.x, v2.y, 0);
     }
+    public Vector3Int ToV3Int() => new Vector3Int(x, y, 0);
+
+
 }

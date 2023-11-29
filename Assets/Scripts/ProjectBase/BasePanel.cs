@@ -42,6 +42,7 @@ public abstract class BasePanel : MonoBehaviour
         FindChildrenControl<InputField>();
         FindChildrenControl<Dropdown>();
         FindChildrenControl<FloatWindow>();
+        FindChildrenControl<IntegerTriger>();
         CanvasGroup = this.GetComponent<CanvasGroup>();
         if (CanvasGroup == null)
         {

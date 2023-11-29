@@ -23,6 +23,8 @@ public class FloatWindow : UIBehaviour, IPointerEnterHandler, IPointerExitHandle
         FindChildrenControl<ScrollRect>();
         FindChildrenControl<InputField>();
         FindChildrenControl<Dropdown>();
+        FindChildrenControl<FloatWindow>();
+        FindChildrenControl<IntegerTriger>();
     }
 
     /// <summary>

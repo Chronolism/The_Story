@@ -42,12 +42,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: ForeEffect
-    uniqueID: 1560157531
+  - name: Ground_1
+    uniqueID: 1006944453
+    locked: 0
+  - name: Ground_2
+    uniqueID: 2143369939
+    locked: 0
+  - name: Ground_3
+    uniqueID: 453974597
     locked: 0
   - name: Instance
     uniqueID: 287594811
     locked: 0
-  - name: AfterEffect
-    uniqueID: 1826922535
+  - name: Sky_1
+    uniqueID: 2452861067
+    locked: 0
+  - name: Sky_2
+    uniqueID: 4090853573
+    locked: 0
+  - name: Sky_3
+    uniqueID: 2814234217
+    locked: 0
+  - name: UI
+    uniqueID: 160148521
     locked: 0

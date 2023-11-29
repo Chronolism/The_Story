@@ -32,8 +32,8 @@ public class DataMgr : BaseManager<DataMgr>
     public Dictionary<int, EffectData> effectDataDic;
 
     //ÍßÆ¬Êý¾Ý¼¯
-    private List<TileData> tileDataSet;
-    public List<TileData> TileDataSet => tileDataSet;
+    private List<TileDataList> tileDataSet;
+    public List<TileDataList> TileDataSet => tileDataSet;
     private Dictionary<int, TileData> tileDataDic;
 
     public RoomData roomData;
@@ -96,9 +96,10 @@ public class DataMgr : BaseManager<DataMgr>
             effectDataDic.Add(effect.id, effect);
         }
         tileDataDic = new Dictionary<int, TileData>();
-        foreach(TileData tileData in tileDataSet)
+        foreach(TileDataList tileData in tileDataSet)
         {
-            tileDataDic.Add(tileData.id, tileData);
+            foreach(TileData tileData1 in tileData.tileDatas)
+            tileDataDic.Add(tileData1.id, tileData1);
         }
     }
     /// <summary>

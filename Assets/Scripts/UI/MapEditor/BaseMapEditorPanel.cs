@@ -8,9 +8,16 @@ public class BaseMapEditorPanel : BasePanel
 {
     public GameObject gbParent;
     [SerializeField] private GameObject TextCompenmet;
+
+    Button btnQuit;
+
     public override void Init()
     {
-        
+        btnQuit = GetControl<Button>("btnQuit");
+        btnQuit.onClick.AddListener(() =>
+        {
+            HidePanel(this);
+        });
     }
 
 

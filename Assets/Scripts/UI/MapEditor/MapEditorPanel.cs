@@ -33,6 +33,7 @@ public class MapEditorPanel : BasePanel
     Button btnAddMapLayer;
     Button btnRemoveMapLayer;
     Button btnQuit;
+    Button btnCancelTile;
     Dropdown ddSortingLayer;
     #endregion
     #region 数据集
@@ -96,17 +97,34 @@ public class MapEditorPanel : BasePanel
             ifChangTile = false;
             uiTileMap.SetTile(oldPos, null);
             oldPos = newPos;
-            uiTileMap.SetTile(newPos, activeTile.tileBase);
+            if(activeTile != null)
+                uiTileMap.SetTile(newPos, activeTile.tileBase);
         }
     }
     float scroll;
     float cameraSpeed = 1;
     Vector3 oldMousePos;
+    BaseMap baseMap;
     private void InputControl()
     {
         if (Input.GetMouseButtonDown(0)&& EventSystem.current.currentSelectedGameObject == null)
         {
-            SetTile(newPos);
+            if(activeTile == null)
+            {
+                baseMap = activeMapLayer.tilemap.GetInstantiatedObject(newPos)?.GetComponent<BaseMap>();
+                if (baseMap != null)
+                {
+                    ShowPanel<BaseMapEditorPanel>((o) =>
+                    {
+                        baseMap.OnOpenEditor(o);
+                    });
+                }
+            }
+            else
+            {
+                SetTile(newPos);
+            }
+
         }
         if (Input.GetMouseButtonDown(1) && EventSystem.current.currentSelectedGameObject == null)
         {
@@ -149,6 +167,7 @@ public class MapEditorPanel : BasePanel
         btnAddMapLayer = GetControl<Button>("btnAddMapLayer");
         btnRemoveMapLayer = GetControl<Button>("btnRemoveMapLayer");
         btnQuit = GetControl<Button>("btnQuit");
+        btnCancelTile = GetControl<Button>("btnCancelTile");
         ddSortingLayer = GetControl<Dropdown>("ddSortingLayer");
 
     }
@@ -208,6 +227,10 @@ public class MapEditorPanel : BasePanel
         btnQuit.onClick.AddListener(() =>
         {
             Quit();
+        });
+        btnCancelTile.onClick.AddListener(() =>
+        {
+            CancelTile();
         });
         mlPlayerSpawn.OnClik.AddListener((o) =>
         {
@@ -426,6 +449,12 @@ public class MapEditorPanel : BasePanel
         ifChangTile = true;
         activeTile = tileData;
     }
+
+    private void CancelTile()
+    {
+        activeTile = null;
+    }
+
     /// <summary>
     /// 设置瓦片
     /// </summary>
@@ -478,10 +507,7 @@ public class MapEditorPanel : BasePanel
         {
             case 0:
                 activeMapLayer.tilemap.SetTile(pos, null);
-                if (activeTile.ifHaveValue)
-                {
-                    activeMapLayer.mapDetile.tileValue.Remove(v2);
-                }
+                activeMapLayer.mapDetile.tileValue.Remove(v2);
                 activeMapLayer.mapDetile.MapTileDetiles.Remove(v2);
                 break;
             case 1:

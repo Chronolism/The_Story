@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public class GamePanel : BasePanel
 {
@@ -148,7 +149,8 @@ public class GamePanel : BasePanel
             if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
             else _Prop_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skillEmpty").sprite;
 
-
+            //有墨水特效
+            //if (player.inkAmount > 0) Camera.main.GetComponent<PostProcessVolume>().weight = 1; else Camera.main.GetComponent<PostProcessVolume>().weight = 0;
         }                     
         else
         {

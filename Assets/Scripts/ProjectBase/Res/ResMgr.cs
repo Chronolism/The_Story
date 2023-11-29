@@ -88,14 +88,14 @@ public class ResMgr : BaseManager<ResMgr>
     /// <returns></returns>
     public T LoadBinaryWithMirror<T>(string name) where T : new()
     {
-        string path = Application.streamingAssetsPath + "/" + name;
-        if (!File.Exists(path)) path = Application.persistentDataPath + "/" + name;
-        if (!File.Exists(path))
+        //string path = Application.streamingAssetsPath + "/" + name;
+        //if (!File.Exists(path)) path = Application.persistentDataPath + "/" + name;
+        if (!File.Exists(name))
         {
             Debug.Log("不存在文件：" + name);
             return default;
         }
-        reader.SetBuffer(File.ReadAllBytes(path));
+        reader.SetBuffer(File.ReadAllBytes(name));
         return reader.Read<T>();
     }
     /// <summary>
@@ -136,14 +136,15 @@ public class ResMgr : BaseManager<ResMgr>
     {
         writer.Reset();
         writer.Write(data);
-        string path = Application.streamingAssetsPath + "/";
+        string path = "";
         string[] temp = name.Split('\\');
         for (int i = 0; i < temp.Length - 1; i++)
         {
             path += temp[i] + "/";
         }
+        Debug.Log(path);
         if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-        File.WriteAllBytes(Application.streamingAssetsPath + "/" + name, writer.ToArray());
+        File.WriteAllBytes(name, writer.ToArray());
     }
 
     //异步加载资源

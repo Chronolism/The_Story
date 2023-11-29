@@ -85,8 +85,8 @@ public class Main : MonoBehaviour
         Debug.Log("finish");
         DataMgr.Instance.DataLoad();
         NetworkManager.SetActive(true);
-        //UIManager.Instance.ShowPanel<MainMenuPanel>();
-        UIManager.Instance.ShowPanel<MapEditorPanel>();
+        UIManager.Instance.ShowPanel<MainMenuPanel>();
+        //UIManager.Instance.ShowPanel<MapEditorPanel>();
 
     }
 

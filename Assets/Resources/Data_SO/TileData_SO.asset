@@ -16,24 +16,34 @@ MonoBehaviour:
   - name: map
     tileDatas:
     - id: 1001
-      name: "\u6811"
-      mapType: 1
-      type: 2
-      tileBase: {fileID: 11400000, guid: ec72fc63714e9e04583d80a47e15f95f, type: 2}
+      name: "\u6C34"
+      ifHaveValue: 0
+      mapType: 0
+      type: 1
+      tileBase: {fileID: 11400000, guid: 672cb169fefd2fa4d87fd7806ffc0a8d, type: 2}
     - id: 1002
       name: "\u77F3\u5899"
+      ifHaveValue: 0
       mapType: 1
       type: 2
       tileBase: {fileID: 11400000, guid: dde6b8c41b34b7648b23a74af8740ba2, type: 2}
     - id: 1003
       name: "\u6C34"
-      mapType: 0
+      ifHaveValue: 0
+      mapType: 1
       type: 4
       tileBase: {fileID: 11400000, guid: 672cb169fefd2fa4d87fd7806ffc0a8d, type: 2}
+    - id: 1004
+      name: "\u6811"
+      ifHaveValue: 0
+      mapType: 1
+      type: 2
+      tileBase: {fileID: 11400000, guid: ec72fc63714e9e04583d80a47e15f95f, type: 2}
   - name: build
     tileDatas:
     - id: 2001
       name: "\u4F20\u9001\u5E26"
+      ifHaveValue: 1
       mapType: 0
       type: 1
       tileBase: {fileID: 11400000, guid: a556c56303fbcdd4e806576c5240affc, type: 2}

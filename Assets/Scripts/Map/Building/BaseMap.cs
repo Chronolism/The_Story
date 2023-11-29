@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface BaseMap 
 {
-    public void Init(object value);
-    public void OnSave(out object value);
+    public void Init(MapTileDetileValue value);
+    public MapTileDetileValue OnSave();
     public void OnOpenEditor(BaseMapEditorPanel editorPanel);
 }

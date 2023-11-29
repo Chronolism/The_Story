@@ -27,10 +27,16 @@ public class MapDetile
 {
     public int id;
     public string name;
-    public SortingLayer layer;
+    public string layer;
     public Dictionary<V2, MapTileDetile> MapTileDetiles = new Dictionary<V2, MapTileDetile>();
-    public Dictionary<V2, object> tileValue = new Dictionary<V2, object>();
+    public Dictionary<V2, MapTileDetileValue> tileValue = new Dictionary<V2, MapTileDetileValue>();
 }
+
+public class MapTileDetileValue
+{
+    public List<float> value;
+}
+
 [Serializable]
 public class MapTileDetile
 {
@@ -62,6 +68,7 @@ public class TileData
 {
     public int id;
     public string name;
+    public bool ifHaveValue;
     public MapType mapType;
     public MapColliderType type;
     public TileBase tileBase;
@@ -79,7 +86,9 @@ public enum MapColliderType
     None = 1,
     Wall = 2,
     Water = 4,
-    Fire = 8
+    Fire = 8,
+    swamp = 16,
+    lava = 32,
 }
 [Serializable]
 public enum MapType
@@ -101,6 +110,12 @@ public struct V2
     {
         x = from_x;
         y = from_y;
+    }
+
+    public V2(Vector3Int v3)
+    {
+        x = v3.x;
+        y = v3.y;
     }
     public override bool Equals(object obj)
     {

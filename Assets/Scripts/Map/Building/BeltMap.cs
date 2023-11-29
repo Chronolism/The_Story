@@ -6,9 +6,9 @@ public class BeltMap : MonoBehaviour,BaseMap
 {
     public float speed;
 
-    public void Init(object value)
+    public void Init(MapTileDetileValue value)
     {
-        speed = (float)value;
+        speed = value.value[0];
     }
 
     public void OnOpenEditor(BaseMapEditorPanel editorPanel)
@@ -16,8 +16,8 @@ public class BeltMap : MonoBehaviour,BaseMap
         editorPanel.OnGUIText("speed", speed.ToString(), (o) => { speed = float.Parse(o); });
     }
 
-    public void OnSave(out object value)
+    public MapTileDetileValue OnSave()
     {
-        value = speed;
+        return new MapTileDetileValue() { value = new List<float>() { speed} };
     }
 }

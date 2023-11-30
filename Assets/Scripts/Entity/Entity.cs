@@ -49,42 +49,42 @@ public class Entity : NetworkBehaviour
     public bool ifDie = false;  //是否死亡
     [SyncVar]
     public bool ifGiddy = false;//是否眩晕
-    public float giddyTime = 0;
+    public float giddyTime = 0; //眩晕时间
     [SyncVar]
-    public bool ifPause = true;
+    public bool ifPause = true; //是否暂停
     [Header("用户输入")]
     public float inputX, inputY;
     public float fire1, fire2;
     [Header("实体属性")]
     #region 属性
     [SyncVar]
-    public float blood = 100;
-    public float MaxBlood => maxBlood * maxBlood_Pre;
+    public float blood = 100;   //血量
+    public float MaxBlood => maxBlood * maxBlood_Pre;   //最大血量
     [SyncVar]
-    public float maxBlood = 100;
+    public float maxBlood = 100;//最大基础血量
     [SyncVar]
-    public float maxBlood_Pre = 1;
-    public float speed => maxSpeed * maxSpeed_Pre;
+    public float maxBlood_Pre = 1;//血量倍率
+    public float speed => maxSpeed * maxSpeed_Pre;      //速度
     [SyncVar]
-    public float maxSpeed = 5;
+    public float maxSpeed = 5;  //最大速度
     [SyncVar]
-    public float maxSpeed_Pre = 1;
+    public float maxSpeed_Pre = 1;//速度倍率
     [SyncVar]
-    public float atk;
+    public float atk;           //攻击
     [SyncVar]
-    public float atkpre;
+    public float atkpre;        //攻击倍率
     [SyncVar]
-    public float inkAmount;
+    public float inkAmount;     //墨水量
     [SyncVar]
-    public float inkMaxAmount;
+    public float inkMaxAmount;  //最大墨水量
     [SyncVar]
-    public float inkCost;
+    public float inkCost;       //改写消耗量
     [SyncVar]
-    public float inkCostRate;
+    public float inkCostRate;   //改写消耗倍率
     [SyncVar]
-    public float energyGet;
+    public float energyGet;     //能量获取数量
     [SyncVar]
-    public float energyGetRate;
+    public float energyGetRate; //能量获取倍率
 
     public bool canRewrite => inkAmount > 0 && canTurn;
     /// <summary>
@@ -117,75 +117,94 @@ public class Entity : NetworkBehaviour
     #region 事件接口
     /// <summary>
     /// 获得墨水时触发
+    /// InkData中 inkAmount：获取墨水量  ifTurn：是否获取
     /// </summary>
     public UnityAction<Entity, InkData> OnGetInk;
     public UnityAction<Entity, InkData> AfterGetInk;
-
+    /// <summary>
+    /// 添加移除buff时触发
+    /// float :添加移除数量
+    /// </summary>
     public UnityAction<Entity, BuffBase ,float> OnAddBuff;
-
     public UnityAction<Entity, BuffBase, float> OnRemoveBuff;
     /// <summary>
-    /// 能改写目标时触发
+    /// 能改写目标时触发（不稳定）
     /// </summary>
     public UnityAction<Entity> OnHaveTurn;
     /// <summary>
-    /// 不能改写目标时触发
+    /// 不能改写目标时触发（不稳定）
     /// </summary>
     public UnityAction<Entity> OnRemoveTurn;
     /// <summary>
     /// 改写目标时触发
+    /// 第二个entity为改写的实体
+    /// InkData中 inkAmount：消耗墨水量  energyAmount：获取的能量  ifTurn：是否改写
     /// </summary>
     public UnityAction<Entity, Entity, InkData> BeforeReWrite;
     public UnityAction<Entity, Entity, InkData> OnReWrite;
     public UnityAction<Entity, Entity, InkData> AfterReWrite;
     /// <summary>
-    /// 被改写目标时触发
+    /// 被改写拥有的实体时触发
+    /// 第二个entity为被改写的实体
+    /// 第三个entity为触发改写的实体
+    /// /// InkData中 inkAmount：消耗墨水量  energyAmount：获取的能量  ifTurn：是否改写
     /// </summary>
     public UnityAction<Entity, Entity, Entity, InkData> BeforeReWrited;
     public UnityAction<Entity, Entity, Entity, InkData> OnReWrited;
     public UnityAction<Entity, Entity, Entity, InkData> AfterReWrited;
     /// <summary>
     /// 被改写时触发
+    /// 第二个entity为触发改写的实体
+    /// InkData中 inkAmount：消耗墨水量  energyAmount：获取的能量  ifTurn：是否改写
     /// </summary>
     public UnityAction<Entity, Entity, InkData> BeforeTurn;
     public UnityAction<Entity, Entity, InkData> OnTurn;
     public UnityAction<Entity, Entity, InkData> AfterTurn;
     /// <summary>
     /// 添加使魔时触发
+    /// 第二个entity为被添加的实体
     /// </summary>
     public UnityAction<Entity, Entity> OnAddServitor;
     /// <summary>
     /// 移除使魔时触发
+    /// 第二个entity为被移除的实体
     /// </summary>
     public UnityAction<Entity, Entity> OnRemoveServitor;
     /// <summary>
     /// 获得能量时触发
+    /// InkData中 energyAmount：获取的能量  ifTurn：是否获取
     /// </summary>
     public UnityAction<Entity, InkData> OnGetEnergy;
     /// <summary>
     /// 触碰时触发
+    /// 第二个entity为被接触目标的实体
+    /// ATKData 攻击数据（攻击已经完成）
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnTouchEntity;
     /// <summary>
     /// 进出地形触发
+    /// TileData 地图数据
     /// </summary>
     public UnityAction<Entity, TileData> OnEnterTile;
     public UnityAction<Entity, TileData> OnLeaveTile;
-
     /// <summary>
     /// 攻击时触发
+    /// 第二个entity为攻击的目标实体
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnAtk;
     /// <summary>
     /// 被攻击时触发
+    /// 第二个entity为触发攻击的目标实体
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnAtked;
     /// <summary>
     /// 伤害实体时触发
+    /// 第二个entity为伤害的目标实体
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnToHurt;
     /// <summary>
     /// 受到伤害时触发
+    /// 第二个entity为触发伤害的目标实体
     /// </summary>
     public UnityAction<Entity, Entity, ATKData> OnBeHurt;
     /// <summary>

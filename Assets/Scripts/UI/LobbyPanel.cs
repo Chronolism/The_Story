@@ -90,11 +90,11 @@ public class LobbyPanel : BasePanel
                                 UIManager.Instance.HidePanel<MapEditorPanel>();
                                 UIManager.Instance.ShowPanel<LobbyPanel>();
                             });
-                        });
+                        }, true);
                     });
                 });
             });
-        });
+        }, true);
     }
     public void HandBook()
     {

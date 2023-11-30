@@ -24,38 +24,38 @@ public abstract class RoomLogicBase
         cellsForToolsBorn.Clear();
         cellsForServitorBorn.Clear();
         // 目前暂定：10为改写笔刷新点，11为道具刷新点，12为玩家刷新点，13为使魔刷新点
-        //foreach (var v3 in MapManager.Instance.GetMapBaseFunction(12))
-        //{
-        //    cellsForPlayerBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
-        //}
-        //foreach (var v3 in MapManager.Instance.GetMapBaseFunction(10))
-        //{
-        //    cellsForFeatherPenBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
-        //}
-        //foreach (var v3 in MapManager.Instance.GetMapBaseFunction(11))
-        //{
-        //    cellsForToolsBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
-        //}
-        //foreach (var v3 in MapManager.Instance.GetMapBaseFunction(13))
-        //{
-        //    cellsForServitorBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
-        //}
-        foreach (var v3 in MapMgr.Instance.mapData.playerSpwnPos)
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(12))
         {
             cellsForPlayerBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
         }
-        foreach (var v3 in MapMgr.Instance.mapData.FeatherSpwnPos)
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(10))
         {
             cellsForFeatherPenBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
         }
-        foreach (var v3 in MapMgr.Instance.mapData.ToolSpwnPos)
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(11))
         {
             cellsForToolsBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
         }
-        foreach (var v3 in MapMgr.Instance.mapData.servitorSpwnPos)
+        foreach (var v3 in MapManager.Instance.GetMapBaseFunction(13))
         {
             cellsForServitorBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
         }
+        //foreach (var v3 in MapMgr.Instance.mapData.playerSpwnPos)
+        //{
+        //    cellsForPlayerBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        //}
+        //foreach (var v3 in MapMgr.Instance.mapData.FeatherSpwnPos)
+        //{
+        //    cellsForFeatherPenBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        //}
+        //foreach (var v3 in MapMgr.Instance.mapData.ToolSpwnPos)
+        //{
+        //    cellsForToolsBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        //}
+        //foreach (var v3 in MapMgr.Instance.mapData.servitorSpwnPos)
+        //{
+        //    cellsForServitorBorn.Add(v3 + new Vector3(0.5f, 0.5f, 0));
+        //}
     }
 
     public abstract void OpenGame();

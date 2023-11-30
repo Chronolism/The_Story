@@ -81,7 +81,6 @@ public class MapEditorPanel : BasePanel
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (activeMap == null) return;
         if (activeMapLayer == null) return;
-        if (activeTile == null) return;
         UpdataUITileMap();
         InputControl();
     }

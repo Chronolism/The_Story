@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6897185845542533405}
   - component: {fileID: 815900662688811701}
   - component: {fileID: 8412717613441616705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: MapEnvironwent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +55,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -33,6 +33,8 @@ MonoBehaviour:
       buffValue: 10
     - buffId: 1011
       buffValue: 20
+    - buffId: 1019
+      buffValue: 20
   - character_Code: 102
     characterName: 102
     controller: {fileID: 9100000, guid: 4af9afcc52ab0df46ba83ee1750abaf2, type: 2}

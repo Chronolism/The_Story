@@ -87,8 +87,9 @@ public enum MapColliderType
     Wall = 2,
     Water = 4,
     Fire = 8,
-    swamp = 16,
-    lava = 32,
+    Swamp = 16,
+    Lava = 32,
+    Gully = 64
 }
 [Serializable]
 public enum MapType

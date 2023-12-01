@@ -93,7 +93,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, own);
+            buffBase.Init(entity,buffName, value, own);
             buffBase.OnStart(entity, value);
             buffBase.OnAdd(entity, value);
             if (buffBase is IUpdataBuff updatabuff)
@@ -128,7 +128,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, own);
+            buffBase.Init(entity,buffName, value, own);
             buffBase.time = time;
             buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)
@@ -164,20 +164,20 @@ public class EntityBuff : EntityComponent
         if (buffBase != null)
         {
             buffBase.OnRemove(entity,Mathf.Min(buffBase.Amount, value));
-            buffBase.Amount -= value;
-            if (buffBase.Amount <= 0)
+            if (buffBase.Amount <= value)
             {
                 buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
                 {
                     UpdataBuff -= updataBuff.Updata;
                 }
-                buffBase.OnRemoveEffect(entity, value);
+                buffBase.OnRemoveEffect(entity, buffBase.Amount);
                 buffList.Remove(buffBase);
                 RemoveBuffRpc(buffId, own.netId);
             }
             else
             {
+                buffBase.Amount -= value;
                 RemoveBuffRpc(buffId, value , own.netId);
             }
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
@@ -195,8 +195,7 @@ public class EntityBuff : EntityComponent
         if (buffBase != null)
         {
             buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
-            buffBase.Amount -= value;
-            if (buffBase.Amount <= 0)
+            if (buffBase.Amount <= value)
             {
                 buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
@@ -204,11 +203,12 @@ public class EntityBuff : EntityComponent
                     UpdataBuff -= updataBuff.Updata;
                 }
                 buffList.Remove(buffBase);
-                buffBase.OnRemoveEffect(entity, value);
+                buffBase.OnRemoveEffect(entity, buffBase.Amount);
                 RemoveBuffRpc(buffId, buffBase.buffOwn.netId);
             }
             else
             {
+                buffBase.Amount -= value;
                 RemoveBuffRpc(buffId, value);
             }
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
@@ -240,7 +240,6 @@ public class EntityBuff : EntityComponent
             else
             {
                 buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
-                buffBase.Amount -= value;
                 if (buffBase.Amount <= 0)
                 {
                     buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
@@ -248,12 +247,13 @@ public class EntityBuff : EntityComponent
                     {
                         UpdataBuff -= updataBuff.Updata;
                     }
-                    buffBase.OnRemoveEffect(entity, value);
+                    buffBase.OnRemoveEffect(entity, buffBase.Amount);
                     buffList.Remove(buffBase);
                     RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
                 }
                 else
                 {
+                    buffBase.Amount -= value;
                     RemoveBuffRpc(buffBase.buffData.id, value, buffBase.buffOwn.netId);
                 }
                 entity.OnRemoveBuff?.Invoke(entity, buffBase, Mathf.Min(value, buffBase.Amount));
@@ -276,7 +276,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
+            buffBase.Init(entity,buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             
         }
         buffBase.OnAddEffect(entity, value);
@@ -297,7 +297,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
+            buffBase.Init(entity, buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             buffBase.time = time;
             buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)

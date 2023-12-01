@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 public class Main : MonoBehaviour
 {
     public GameObject NetworkManager;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,9 +20,6 @@ public class Main : MonoBehaviour
         {
             o.SetCurrent("数据更新中");
         }, true);
-        //TimeSpan t = TimeSpan.FromSeconds(time);
-        //Debug.Log(time);
-        //InvokeRepeating("test", 1, 1);
     }
 
     IEnumerator LoadDataForAndroid()

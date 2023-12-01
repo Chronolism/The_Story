@@ -38,6 +38,7 @@ public class GenerateBuffData
                 List<BuffData> buffdata = new List<BuffData>(); 
                 for (int j = 2; j < dt.Rows.Count; j++)
                 {
+                    if (dt.Rows[j][0].ToString() == "") continue;
                     int id = int.Parse(dt.Rows[j][0].ToString());
                     BuffData bd = new BuffData();
                     bd.id = id;

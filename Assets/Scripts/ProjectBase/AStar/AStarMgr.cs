@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -45,24 +46,24 @@ public class AStarMgr : BaseManager<AStarMgr>
     }
 
 
-    public void InitMapInfo(Dictionary<Vector3Int , bool> map)
-    {
-        var kvpf = map.First();
-        deviationW = kvpf.Key.x;
-        deviationH = kvpf.Key.y;
-        foreach (var kvp in map)
-        {
-            if (kvp.Key.x < deviationW) deviationW = kvp.Key.x;
-            else if (kvp.Key.x >= mapW + deviationW) mapW = kvp.Key.x - deviationW + 1;
-            if (kvp.Key.y < deviationH) deviationH = kvp.Key.y;
-            else if (kvp.Key.y >= mapH + deviationH) mapH = kvp.Key.y - deviationH + 1;
-        }
-        nodes = new AStarNode[mapW, mapH];
-        foreach (var kvp in map)
-        {
-            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Stop : E_Node_Type.Walk);
-        }
-    }
+    //public void InitMapInfo(Dictionary<Vector3Int , bool> map)
+    //{
+    //    var kvpf = map.First();
+    //    deviationW = kvpf.Key.x;
+    //    deviationH = kvpf.Key.y;
+    //    foreach (var kvp in map)
+    //    {
+    //        if (kvp.Key.x < deviationW) deviationW = kvp.Key.x;
+    //        else if (kvp.Key.x >= mapW + deviationW) mapW = kvp.Key.x - deviationW + 1;
+    //        if (kvp.Key.y < deviationH) deviationH = kvp.Key.y;
+    //        else if (kvp.Key.y >= mapH + deviationH) mapH = kvp.Key.y - deviationH + 1;
+    //    }
+    //    nodes = new AStarNode[mapW, mapH];
+    //    foreach (var kvp in map)
+    //    {
+    //        nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Stop : E_Node_Type.Walk);
+    //    }
+    //}
 
     public void InitMapInfo(Dictionary<V2,MapColliderType> colliders)
     {
@@ -79,10 +80,10 @@ public class AStarMgr : BaseManager<AStarMgr>
         nodes = new AStarNode[mapW, mapH];
         for (int i = 0; i < mapW; i++)
             for (int j = 0; j < mapH; j++)
-                nodes[i, j] = new AStarNode(i, j, 0);
+                nodes[i, j] = new AStarNode(i, j, MapColliderType.None);
         foreach (var kvp in colliders)
         {
-            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH].type = kvp.Value == MapColliderType.Wall ? E_Node_Type.Stop : E_Node_Type.Walk;
+            nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH].type = kvp.Value;
         }
     }
 
@@ -92,7 +93,7 @@ public class AStarMgr : BaseManager<AStarMgr>
     /// <param name="startPos"></param>
     /// <param name="endPos"></param>
     /// <returns></returns>
-    public async void FindPath(Vector2 startPos, Vector2 endPos , UnityAction<List<AStarNode>> callback , bool removeFirst = true)
+    public async void FindPath(Vector2 startPos, Vector2 endPos, MapColliderType mapColliderType , UnityAction<List<AStarNode>> callback , bool removeFirst = true)
     {
         await Task.Yield();
         //实际项目中 传入的点往往是 坐标系中的位置
@@ -119,13 +120,6 @@ public class AStarMgr : BaseManager<AStarMgr>
         //应该得到起点和终点 对应的格子
         AStarNode start = nodes[(int)startPos.x, (int)startPos.y];
         AStarNode end = nodes[(int)endPos.x, (int)endPos.y];
-        if (start.type == E_Node_Type.Stop ||
-            end.type == E_Node_Type.Stop)
-        {
-            //Debug.Log("开始或者结束点是阻挡");
-            callback(null);
-            return;
-        }
 
         if (start.x == end.x && start.y == end.y)
         {
@@ -147,23 +141,27 @@ public class AStarMgr : BaseManager<AStarMgr>
         start.h = 0;
         closeList.Add(start);
 
-        while(true)
+        int times = 30;
+        List<AStarNode> path = new List<AStarNode>();
+
+        while (times>0)
         {
+            times--;
             //从起点开始 找周围的点 并放入开启列表中
             //左上 x - 1  y - 1
             //FindNearlyNodeToOpenList(start.x - 1, start.y - 1, 1.4f, start, end);
             //上 x  y -1
-            FindNearlyNodeToOpenList(start.x, start.y - 1, 1, start, end);
+            FindNearlyNodeToOpenList(start.x, start.y - 1, 1, start, end, mapColliderType);
             //右上 x + 1 y - 1
             //FindNearlyNodeToOpenList(start.x + 1, start.y - 1, 1.4f, start, end);
             //左 x - 1 y
-            FindNearlyNodeToOpenList(start.x - 1, start.y, 1, start, end);
+            FindNearlyNodeToOpenList(start.x - 1, start.y, 1, start, end, mapColliderType);
             //右 x + 1 y
-            FindNearlyNodeToOpenList(start.x + 1, start.y, 1, start, end);
+            FindNearlyNodeToOpenList(start.x + 1, start.y, 1, start, end, mapColliderType);
             //左下 x-1 y +1
             //FindNearlyNodeToOpenList(start.x - 1, start.y + 1, 1.4f, start, end);
             //下 x y + 1
-            FindNearlyNodeToOpenList(start.x, start.y + 1, 1, start, end);
+            FindNearlyNodeToOpenList(start.x, start.y + 1, 1, start, end, mapColliderType);
             //右下 x+1 y+1
             //FindNearlyNodeToOpenList(start.x + 1, start.y + 1, 1.4f, start, end);
             
@@ -194,7 +192,6 @@ public class AStarMgr : BaseManager<AStarMgr>
             if (start == end)
             {
                 //找完了 找到路径了
-                List<AStarNode> path = new List<AStarNode>();
                 end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
                 path.Add(end);
                 while(end.father != null)
@@ -213,6 +210,28 @@ public class AStarMgr : BaseManager<AStarMgr>
                 return;
             }
         }
+        //查找次数到达极限时，找查找过的最近点
+        if (closeList.Count == 0) callback(null);
+        end = closeList[0];
+        foreach (AStarNode node in closeList)
+        {
+            if (node.h < end.h) end = node;
+        }
+        end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
+        path.Add(end);
+        while (end.father != null)
+        {
+            path.Add(end.father);
+            end = end.father;
+            end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
+        }
+        //列表翻转的API
+        path.Reverse();
+        if (removeFirst)
+        {
+            path.Remove(path.First());
+        }
+        callback(path);
     }
 
     /// <summary>
@@ -236,7 +255,7 @@ public class AStarMgr : BaseManager<AStarMgr>
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    private void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end)
+    private void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end, MapColliderType mapColliderType)
     {
         //边界判断
         if (x < 0 || x >= mapW ||
@@ -247,7 +266,7 @@ public class AStarMgr : BaseManager<AStarMgr>
 
         //判断这些点 是否是边界 是否是阻挡  是否在开启或者关闭列表 如果都不是 才放入开启列表
         if (node == null||
-            node.type == E_Node_Type.Stop ||
+            !node.ChackType(mapColliderType) ||
             closeList.Contains(node) ||
             openList.Contains(node) )
             return;
@@ -266,7 +285,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         openList.Add(node);
     }
 
-    public bool ChackType(float x,float y,E_Node_Type type)
+    public bool ChackType(float x,float y, MapColliderType mapColliderType)
     {
         x -= deviationW;
         y -= deviationH;
@@ -275,14 +294,8 @@ public class AStarMgr : BaseManager<AStarMgr>
         {
             return false;
         }
-        if (nodes[(int)x,(int)y].type == type)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return nodes[(int)x, (int)y].ChackType(mapColliderType);
+
     }
 
 }

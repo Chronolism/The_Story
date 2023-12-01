@@ -10,8 +10,9 @@ public class Entity : NetworkBehaviour
     public Collider2D entityCollider;
     public Rigidbody2D rb;
     public Animator[] animators;
-    protected StateBase state;
-    private Dictionary<Type, StateBase> stateDic = new Dictionary<Type, StateBase>();
+
+    private Dictionary<string, EntityComponent> entityComponentDic = new Dictionary<string, EntityComponent>();
+
     /// <summary>
     /// 实体buff组件
     /// </summary>
@@ -52,6 +53,8 @@ public class Entity : NetworkBehaviour
     public float giddyTime = 0; //眩晕时间
     [SyncVar]
     public bool ifPause = true; //是否暂停
+    public MapColliderType mapColliderType;
+    private int[] mapColliderAmount;
     [Header("用户输入")]
     public float inputX, inputY;
     public float fire1, fire2;
@@ -257,7 +260,12 @@ public class Entity : NetworkBehaviour
 
     public virtual void Awake()
     {
-        
+        foreach(var c in GetComponentsInChildren<EntityComponent>())
+        {
+            c.Init(this);
+            entityComponentDic[c.GetType().Name] = c;
+        }
+        buff = GetEntityComponent<EntityBuff>();
     }
 
     #region 网络行为
@@ -265,6 +273,34 @@ public class Entity : NetworkBehaviour
 
 
     #endregion
+
+    public void ChangeMapCollider(MapColliderType mapColliderType, bool ifAdd)
+    {
+        int value = (int)mapColliderType;
+        int index = 0;
+        while ((value & 1) == 0)
+        {
+            value >>= 1;
+            index++;
+        }
+        if (mapColliderAmount == null) mapColliderAmount = new int[32];
+        if (ifAdd)
+        {
+            if (mapColliderAmount[index] == 0)
+            {
+                this.mapColliderType |= mapColliderType;
+            }
+            mapColliderAmount[index]++;
+        }
+        else
+        {
+            mapColliderAmount[index]--;
+            if(mapColliderAmount[index] == 0)
+            {
+                this.mapColliderType ^= mapColliderType;
+            }
+        }
+    }
 
     public void TouchEntity(Entity target, ATKData atkData)
     {
@@ -573,29 +609,10 @@ public class Entity : NetworkBehaviour
     //{
     //    //PoolMgr.Instance.GetObj("Prefab/Attack/" + type, (o) => { o.GetComponent<AttackBase>().Init(this, v3); });
     //}
-    /// <summary>
-    /// 修改状态
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public void ChangeState<T>() where T : StateBase, new()
+
+    public T GetEntityComponent<T>() where T : EntityComponent
     {
-        if (state == null || state.GetType() != typeof(T))
-        {
-            state?.OnExit(this);
-
-            if (stateDic.ContainsKey(typeof(T)))
-            {
-                stateDic[typeof(T)].OnEnter(this);
-            }
-            else
-            {
-                StateBase state = new T();
-                stateDic.Add(typeof(T), state);
-                state.OnEnter(this);
-            }
-
-            state = stateDic[typeof(T)];
-        }
+        return entityComponentDic[typeof(T).Name] as T;
     }
 
     public virtual void OnEnable()

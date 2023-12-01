@@ -64,6 +64,7 @@ public class MyNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
+        StopServer();
         Debug.Log("服务器断开");
     }
 
@@ -93,6 +94,7 @@ public class MyNetworkManager : NetworkManager
             SteamMgr.StopClient();
         }
 #endif
+        StopClient();
         UIManager.Instance.ShowPanel<TipPanel>((p) =>
         {
             p.SetCurrent("断开连接或连接不上\n", true);

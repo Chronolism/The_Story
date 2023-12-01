@@ -12,9 +12,11 @@ public class MapMgr : BaseManager<MapMgr>
     Dictionary<V2,MapColliderType> colliders = new Dictionary<V2, MapColliderType>();
     public Dictionary<MapType,MapTileDetile> tileDetile = new Dictionary<MapType,MapTileDetile>();
 
-    public void LoadMap()
+    public void LoadMap(string mapName)
     {
-        LoadMapData();
+        mapData = ResMgr.Instance.LoadBinaryWithMirror<MapData>(Application.persistentDataPath + "\\MapData\\" + mapName + ".MapData");
+        if (mapData == null) Debug.Log("µØÍ¼²»´æÔÚ");
+
         if(grid != null)GameObject.Destroy(grid.gameObject);
         grid = ResMgr.Instance.Load<GameObject>("Map/MapEdit/Grid").GetComponent<Grid>();
 
@@ -42,41 +44,5 @@ public class MapMgr : BaseManager<MapMgr>
             }
         }
         AStarMgr.Instance.InitMapInfo(colliders);
-    }
-
-
-    void LoadMapData()
-    {
-        mapData = new MapData();
-        MapDetile mapDetile = new MapDetile();
-        mapData.mapDetiles.Add(mapDetile);
-        mapDetile.name = "wall";
-        mapDetile.layer = "Instance";
-        for (int i = 0; i < 10; i++)
-        {
-            mapDetile.MapTileDetiles.Add(new V2(i,0),new MapTileDetile(0,false));
-            mapDetile.MapTileDetiles.Add(new V2(i, 8), new MapTileDetile(0, false));
-            mapDetile.MapTileDetiles.Add(new V2(-1, i), new MapTileDetile(0, false));
-            mapDetile.MapTileDetiles.Add(new V2(10, i), new MapTileDetile(0, false));
-        }
-        mapDetile = new MapDetile();
-        mapDetile.name = "water";
-        mapDetile.layer = "Ground_1";
-        for (int i = 3; i < 6; i++)
-        {
-            mapDetile.MapTileDetiles.Add(new V2(i, 5), new MapTileDetile(6, false));
-        }
-        mapData.mapDetiles.Add(mapDetile);
-        mapData.playerSpwnPos.Add(new V2(1, 1));
-        mapData.playerSpwnPos.Add(new V2(1, 2));
-        mapData.playerSpwnPos.Add(new V2(1, 3));
-        mapData.servitorSpwnPos.Add(new V2(4, 4));
-        mapData.servitorSpwnPos.Add(new V2(6, 7));
-        mapData.maxFeather = 1;
-        mapData.maxTool = 1;
-        mapData.FeatherSpwnPos.Add(new V2(5, 6));
-        mapData.FeatherSpwnPos.Add(new V2(3, 6));
-        mapData.ToolSpwnPos.Add(new V2(2, 6));
-        mapData.ToolSpwnPos.Add(new V2(1, 6));
     }
 }

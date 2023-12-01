@@ -100,7 +100,7 @@ public class MapManager : BaseManager<MapManager>
         
         
         //这里留着加载地块数据
-        _testTile = Resources.Load<TileBase>("Map/MapTiles/StoneBeachRocks");
+        _testTile = Resources.Load<TileBase>("Map/MapTiles/Map/StoneBeachRocks");
 
         //这里留着加功能或碰撞
         // runtimeTilemaps["Bottom"].gameObject.AddComponent<TilemapCollider2D>();//添加碰撞箱
@@ -112,6 +112,7 @@ public class MapManager : BaseManager<MapManager>
             if (tileMapPrefab != null)
             {
                 tileMapPrefab.transform.parent = runtimeGrid.transform;
+                tileMapPrefab.GetComponent<TilemapRenderer>().sortingLayerName = "Instance";
                 runtimeTilemaps.TryAdd(item.Key, tileMapPrefab.GetComponent<Tilemap>());
                 foreach (var element in item.Value)
                 {

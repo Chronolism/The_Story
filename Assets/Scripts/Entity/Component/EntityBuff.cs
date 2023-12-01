@@ -73,7 +73,12 @@ public class EntityBuff : EntityComponent
 
 
     }
-
+    /// <summary>
+    /// 添加buff
+    /// </summary>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">buff附加值</param>
+    /// <param name="own">施加buff的实体</param>
     [Server]
     public void AddBuff(int buffId, float value,Entity own)
     {
@@ -88,7 +93,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, own);
+            buffBase.Init(entity,buffName, value, own);
             buffBase.OnStart(entity, value);
             buffBase.OnAdd(entity, value);
             if (buffBase is IUpdataBuff updatabuff)
@@ -100,6 +105,13 @@ public class EntityBuff : EntityComponent
         entity.OnAddBuff?.Invoke(entity, buffBase, value);
         AddBuffRpc(buffId, value, own.netId);
     }
+    /// <summary>
+    /// 添加持续buff
+    /// </summary>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">buff附加值</param>
+    /// <param name="time">持续时间</param>
+    /// <param name="own">施加buff的实体</param>
     [Server]
     public void AddBuff(int buffId, float value , float time, Entity own)
     {
@@ -116,7 +128,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, own);
+            buffBase.Init(entity,buffName, value, own);
             buffBase.time = time;
             buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)
@@ -139,11 +151,11 @@ public class EntityBuff : EntityComponent
         AddBuffRpc(buffId, value, time, own.netId);
     }
     /// <summary>
-    /// 移除指定id指定拥有者的指定数量
+    /// 移除指定buffid的buff（若不知施加者，请先用FindBuff或FindBuffs找到，再用RemoveBuff(BuffBase buffBase)）
     /// </summary>
-    /// <param name="buffId"></param>
-    /// <param name="value"></param>
-    /// <param name="own"></param>
+    /// <param name="buffId">buffid</param>
+    /// <param name="value">数量</param>
+    /// <param name="own">buff施加者</param>
     [Server]
     public void RemoveBuff(int buffId, float value,Entity own)
     {
@@ -152,27 +164,27 @@ public class EntityBuff : EntityComponent
         if (buffBase != null)
         {
             buffBase.OnRemove(entity,Mathf.Min(buffBase.Amount, value));
-            buffBase.Amount -= value;
-            if (buffBase.Amount <= 0)
+            if (buffBase.Amount <= value)
             {
                 buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
                 {
                     UpdataBuff -= updataBuff.Updata;
                 }
-                buffBase.OnRemoveEffect(entity, value);
+                buffBase.OnRemoveEffect(entity, buffBase.Amount);
                 buffList.Remove(buffBase);
                 RemoveBuffRpc(buffId, own.netId);
             }
             else
             {
+                buffBase.Amount -= value;
                 RemoveBuffRpc(buffId, value , own.netId);
             }
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
         }
     }
     /// <summary>
-    /// 移除固定id 未知拥有者 buff的指定数量
+    /// 移除指定buffid的buff（不安全，建议使用RemoveBuff(int buffId, float value, Entity own)）
     /// </summary>
     /// <param name="buffId"></param>
     /// <param name="value"></param>
@@ -183,8 +195,7 @@ public class EntityBuff : EntityComponent
         if (buffBase != null)
         {
             buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
-            buffBase.Amount -= value;
-            if (buffBase.Amount <= 0)
+            if (buffBase.Amount <= value)
             {
                 buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                 if (buffBase is IUpdataBuff updataBuff)
@@ -192,11 +203,12 @@ public class EntityBuff : EntityComponent
                     UpdataBuff -= updataBuff.Updata;
                 }
                 buffList.Remove(buffBase);
-                buffBase.OnRemoveEffect(entity, value);
+                buffBase.OnRemoveEffect(entity, buffBase.Amount);
                 RemoveBuffRpc(buffId, buffBase.buffOwn.netId);
             }
             else
             {
+                buffBase.Amount -= value;
                 RemoveBuffRpc(buffId, value);
             }
             entity.OnRemoveBuff?.Invoke(entity, buffBase, value);
@@ -228,7 +240,6 @@ public class EntityBuff : EntityComponent
             else
             {
                 buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
-                buffBase.Amount -= value;
                 if (buffBase.Amount <= 0)
                 {
                     buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
@@ -236,12 +247,13 @@ public class EntityBuff : EntityComponent
                     {
                         UpdataBuff -= updataBuff.Updata;
                     }
-                    buffBase.OnRemoveEffect(entity, value);
+                    buffBase.OnRemoveEffect(entity, buffBase.Amount);
                     buffList.Remove(buffBase);
                     RemoveBuffRpc(buffBase.buffData.id, buffBase.buffOwn.netId);
                 }
                 else
                 {
+                    buffBase.Amount -= value;
                     RemoveBuffRpc(buffBase.buffData.id, value, buffBase.buffOwn.netId);
                 }
                 entity.OnRemoveBuff?.Invoke(entity, buffBase, Mathf.Min(value, buffBase.Amount));
@@ -264,7 +276,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
+            buffBase.Init(entity,buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             
         }
         buffBase.OnAddEffect(entity, value);
@@ -285,7 +297,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase = DataMgr.Instance.GetBuff(buffId);
             buffList.Add(buffBase);
-            buffBase.Init(buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
+            buffBase.Init(entity, buffName, value, Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Entity>());
             buffBase.time = time;
             buffBase.temporaryAmount += value;
             if (buffBase.time <= 0.5)
@@ -337,17 +349,29 @@ public class EntityBuff : EntityComponent
             }
         }
     }
-
+    /// <summary>
+    /// 找到指定id的buff
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <returns></returns>
     public BuffBase FindBuff(int buffId)
     {
         return buffList.Find(i => i.buffData.id == buffId);
     }
-
+    /// <summary>
+    /// 找到所有指定id的buff
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <returns></returns>
     public List<BuffBase> FindBuffs(int buffId)
     {
         return buffList.FindAll(i => i.buffData.id == buffId);
     }
-
+    /// <summary>
+    /// 找到所有指定buff名称的buff
+    /// </summary>
+    /// <param name="buffId"></param>
+    /// <returns></returns>
     public BuffBase FindBuff(string buffName)
     {
         return buffList.Find(i => i.BuffID == buffName);

@@ -34,7 +34,9 @@ public class MapEditorPanel : BasePanel
     Button btnRemoveMapLayer;
     Button btnQuit;
     Button btnCancelTile;
+    Button btnBackOrigin;
     Dropdown ddSortingLayer;
+    Text txtMousePos;
     #endregion
     #region Êý¾Ý¼¯
     string mapDataPath;
@@ -81,9 +83,10 @@ public class MapEditorPanel : BasePanel
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (activeMap == null) return;
         if (activeMapLayer == null) return;
-        if (activeTile == null) return;
         UpdataUITileMap();
         InputControl();
+        UpdataUI();
+
     }
 
     bool ifChangTile = false;
@@ -91,6 +94,7 @@ public class MapEditorPanel : BasePanel
     Vector3Int newPos;
     private void UpdataUITileMap()
     {
+        if (uiTileMap == null) return;
         newPos = uiTileMap.WorldToCell(mousePos);
         if(ifChangTile || newPos != oldPos)
         {
@@ -101,6 +105,12 @@ public class MapEditorPanel : BasePanel
                 uiTileMap.SetTile(newPos, activeTile.tileBase);
         }
     }
+
+    private void UpdataUI()
+    {
+        txtMousePos.text = $"({newPos.x},{newPos.y})";
+    }
+
     float scroll;
     float cameraSpeed = 1;
     Vector3 oldMousePos;
@@ -168,7 +178,9 @@ public class MapEditorPanel : BasePanel
         btnRemoveMapLayer = GetControl<Button>("btnRemoveMapLayer");
         btnQuit = GetControl<Button>("btnQuit");
         btnCancelTile = GetControl<Button>("btnCancelTile");
+        btnBackOrigin = GetControl<Button>("btnBackOrigin");
         ddSortingLayer = GetControl<Dropdown>("ddSortingLayer");
+        txtMousePos = GetControl<Text>("txtMousePos");
 
     }
     /// <summary>
@@ -231,6 +243,10 @@ public class MapEditorPanel : BasePanel
         btnCancelTile.onClick.AddListener(() =>
         {
             CancelTile();
+        });
+        btnBackOrigin.onClick.AddListener(() =>
+        {
+            Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
         });
         mlPlayerSpawn.OnClik.AddListener((o) =>
         {
@@ -333,6 +349,8 @@ public class MapEditorPanel : BasePanel
     /// <param name="mapfile"></param>
     private void LoadMap(FileInfo mapfile)
     {
+        Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
+
         activeMap = mapfile;
         mapData = ResMgr.Instance.LoadBinaryWithMirror<MapData>(mapfile.FullName);
         ifMapName.text = mapData.name;

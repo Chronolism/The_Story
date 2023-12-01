@@ -9,14 +9,16 @@ public class BuffBase
     public float temporaryAmount;
     public float time;
     public Entity buffOwn;
+    public Entity entity;
     public BuffData buffData;
     public float cdMax;
     public float cd;
     public float energy;
     public float maxEnergy;
     public bool active;
-    public virtual void Init(string buffId,float amount,Entity buffOwn)
+    public virtual void Init(Entity self,string buffId,float amount,Entity buffOwn)
     {
+        entity = self;
         BuffID = buffId;
         Amount = amount;
         this.buffOwn = buffOwn;

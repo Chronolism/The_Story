@@ -82,8 +82,6 @@ public class PlayerControl : MonoBehaviour
          //记录上一逻辑帧的相当的操作行为，如Pacman模式就是视作一直在按某一方向        
          playInputLastFrame = new Vector3Int(UpDown, RightLeft, Special);
         */
-        this.transform.parent.GetComponent<FindTest>().InputX = RightLeft;
-        this.transform.parent.GetComponent<FindTest>().InputY = UpDown;
     }
     private void FixedUpdate()
     {

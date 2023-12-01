@@ -31,79 +31,79 @@ MonoBehaviour:
       name: "\u6C9F\u58D1"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 64
       tileBase: {fileID: 11400000, guid: b4b571d026c866c49890a91322aedcec, type: 2}
     - id: 1004
       name: "\u88C5\u9970\u6C9F\u58D1"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 64
       tileBase: {fileID: 11400000, guid: a517d3b2b59b2584a8e426661e1cadb5, type: 2}
     - id: 1005
       name: "\u6D45\u6C34\u533A"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: 1796b591e582c1d4587fbef5383cbb66, type: 2}
     - id: 1006
       name: "\u6DF1\u6C34\u533A"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 4
       tileBase: {fileID: 11400000, guid: 76d86c3c9b6f5a04981b284ec91315ef, type: 2}
     - id: 1007
       name: "\u6CBC\u6CFD"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 16
       tileBase: {fileID: 11400000, guid: a432d9de2d185d044b205f924931446e, type: 2}
     - id: 1008
       name: "\u9B54\u529B\u6C34\u57DF"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: d18e7f5c41b77ba449b2fdb7d7e56530, type: 2}
     - id: 1009
       name: "\u7194\u5CA9"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 32
       tileBase: {fileID: 11400000, guid: e80fb4eea7a96494a917145c8d3a0c20, type: 2}
     - id: 1010
       name: "\u6811\u4E1B"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: c88800cba5ea36046aa13bbcabfecea9, type: 2}
     - id: 1011
       name: "\u6BD2\u96FE"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: dc0ce042ae2d22d45a8834c045ab9bae, type: 2}
     - id: 1012
       name: "\u8346\u68D8"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: c6d33265f0e0fb346a7b1e43a4dc6355, type: 2}
     - id: 1013
       name: "\u6CBB\u7597\u4E91\u96FE"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: e1685f328b607c8469584a1c8b8eabe5, type: 2}
     - id: 1014
       name: "\u9B54\u6CD5\u6811\u4E1B"
       ifHaveValue: 0
       mapType: 1
-      type: 2
+      type: 1
       tileBase: {fileID: 11400000, guid: 6d0ced87c01c4f74e846098d5114eb6f, type: 2}
     - id: 1015
       name: "\u7EB8\u7BB1"
       ifHaveValue: 0
-      mapType: 1
-      type: 2
+      mapType: 0
+      type: 1
       tileBase: {fileID: 11400000, guid: d7d222bba9eb04542968647946013073, type: 2}
   - name: build
     tileDatas:

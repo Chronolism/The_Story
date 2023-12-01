@@ -24,7 +24,7 @@ public class GameMgr : BaseManager<GameMgr>
         //MapManager.Instance.LoadMapCompletelyToScene(name);
 
         //AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
-        MapMgr.Instance.LoadMap();
+        MapMgr.Instance.LoadMap(name);
     }
     /// <summary>
     /// 修改服务类型

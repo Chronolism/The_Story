@@ -122,7 +122,7 @@ public class ServitorCommon : Base_Servitor
                 }
             }
 
-            AStarMgr.Instance.FindPath(rb.position, target.GetComponent<Rigidbody2D>().position, FindPathCallBack, false);
+            //AStarMgr.Instance.FindPath(rb.position, target.GetComponent<Rigidbody2D>().position, FindPathCallBack, false);
         }
         else
         {

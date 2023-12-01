@@ -35,7 +35,7 @@ public class AStarNode
     public AStarNode father;
 
     //格子的类型
-    public E_Node_Type type;
+    public MapColliderType type;
 
     /// <summary>
     /// 构造函数 传入坐标和格子类型
@@ -43,11 +43,15 @@ public class AStarNode
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="type"></param>
-    public AStarNode( int x, int y, E_Node_Type type )
+    public AStarNode( int x, int y, MapColliderType type )
     {
         this.x = x;
         this.y = y;
         this.type = type;
     }
 
+    public bool ChackType(MapColliderType mapColliderType)
+    {
+        return (type & mapColliderType) == type;
+    }
 }

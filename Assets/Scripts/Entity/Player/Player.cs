@@ -26,8 +26,6 @@ public class Player : Entity
     {
         rb = GetComponent<Rigidbody2D>();
         DataMgr.Instance.players.Add(netId, this);
-        ChangeState<NormalState>();
-        
     }
 
     private void Update()
@@ -39,22 +37,7 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
-        if (!ifPause&&isServer)
-        {
-            if(giddyTime > 0)
-            {
-                giddyTime -= Time.deltaTime;
-            }
-            if (giddyTime > 0)
-            {
-                ChangeState<GiddyState>();
-            }
-            else
-            {
-                ChangeState<NormalState>();
-            }
-            state.OnUpdata();
-        }
+        
     }
 
     public override void OnDisable()
@@ -158,11 +141,10 @@ public class Player : Entity
         if (isServer) return;
         playerProp = DataMgr.Instance.GetPropData(id);
     }
-
     /// <summary>
     /// 使用道具
     /// </summary>
-    private void UseProp()
+    public void UseProp()
     {
         if (fire2 > 0 && playerProp != null && playerProp.id != 0) 
         {
@@ -187,7 +169,7 @@ public class Player : Entity
     }
 
     Vector2 dirV2;
-    private void Movement()
+    public void Movement()
     {
         
         isMoving = (inputX != 0) ||( inputY != 0); 
@@ -235,28 +217,28 @@ public class Player : Entity
         switch (dir)
         {
             case 0:
-                if (AStarMgr.Instance.ChackType(v2.x + 1, v2.y, E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x + 1, v2.y, mapColliderType))
                 {
                     v2.x += 1;
                     return true;
                 }
                 break;
             case 1:
-                if (AStarMgr.Instance.ChackType(v2.x, v2.y + 1, E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x, v2.y + 1, mapColliderType))
                 {
                     v2.y += 1;
                     return true;
                 }
                 break;
             case 2:
-                if (AStarMgr.Instance.ChackType(v2.x - 1, v2.y, E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x - 1, v2.y, mapColliderType))
                 {
                     v2.x -= 1;
                     return true;
                 }
                 break;
             case 3:
-                if (AStarMgr.Instance.ChackType(v2.x, v2.y - 1, E_Node_Type.Walk))
+                if (AStarMgr.Instance.ChackType(v2.x, v2.y - 1, mapColliderType))
                 {
                     v2.y -= 1;
                     return true;
@@ -266,7 +248,7 @@ public class Player : Entity
         return false;
     }
 
-    private void SwitchAnimation()
+    public void SwitchAnimation()
     {
         foreach (var anim in animators)
         {
@@ -277,58 +259,6 @@ public class Player : Entity
                 anim.SetFloat("x", inputX);
                 anim.SetFloat("y", inputY);
             }
-        }
-    }
-
-
-    public class NormalState : StateBase
-    {
-        Player player;
-        public override void OnEnter(Entity entity)
-        {
-            if (player == null)
-            {
-                player = entity as Player;
-            }
-            foreach (var anim in entity.animators)
-            {
-                anim.speed = 1;
-                //anim.Play("idle");
-            }
-        }
-        public override void OnExit(Entity entity)
-        {
-
-        }
-        public override void OnUpdata()
-        {
-            player.UseProp();
-            player.Movement();
-            player.SwitchAnimation();
-        }
-    }
-
-    public class GiddyState : StateBase
-    {
-        Player player;
-        public override void OnEnter(Entity entity)
-        {
-            if (player == null)
-            {
-                player = entity as Player;
-                foreach (var anim in entity.animators)
-                {
-                    anim.speed = 0;
-                }
-            }
-        }
-        public override void OnExit(Entity entity)
-        {
-
-        }
-        public override void OnUpdata()
-        {
-            
         }
     }
 }

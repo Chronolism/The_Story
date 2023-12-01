@@ -32,7 +32,7 @@ public class Buff_3010 : BuffBase,Observer<ForeShadowAttack>
 
             this.trigerEntity = entity;
             Buff_3011 buff_3011 = DataMgr.Instance.GetBuff(3011) as Buff_3011;
-			buff_3011.Init("3011" + entity.netId, Value, entity , entity.skill.buffList[0] , shadowAttacks);
+			buff_3011.Init(entity,"3011" + entity.netId, Value, entity , entity.skill.buffList[0] , shadowAttacks);
 
             entity.skill.buffList[0] = buff_3011;
 		}

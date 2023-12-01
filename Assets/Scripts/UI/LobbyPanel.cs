@@ -94,7 +94,7 @@ public class LobbyPanel : BasePanel
                     });
                 });
             });
-        },true);
+        }, true);
     }
     public void HandBook()
     {

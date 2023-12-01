@@ -7,8 +7,8 @@ public class EntityComponent : NetworkBehaviour
 {
     public Entity entity;
 
-    public virtual void Awake()
+    public virtual void Init(Entity entity)
     {
-        entity = GetComponent<Entity>();
+        this.entity = entity;
     }
 }

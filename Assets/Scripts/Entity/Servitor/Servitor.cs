@@ -37,7 +37,6 @@ public class Servitor : Entity
     private void Start()
     {
         movement = this.transform.position;
-        ChangeState<NormalState>();
         posAdd = Random.Range(0, 1f) > 0.5f ? new Vector2(Random.Range(-1, 2), 0) : new Vector3(0, Random.Range(-1, 2));
         addRate = Random.Range(1, 3);
         bronPos = transform.position;
@@ -63,35 +62,13 @@ public class Servitor : Entity
 
     }
 
-    private void FixedUpdate()
-    {
-        if (isServer&&!ifPause)
-        {
-            if (ifDie)
-            {
-                ChangeState<DieState>();
-            }
-            //if (ifBack)
-            //{
-            //    ChangeState<BackState>();
-            //}
-            //else
-            //{
-            //    ChangeState<NormalState>();
-            //}
-            state.OnUpdata();
-        }
-    }
-
-    
-
     public override void OnDisable()
     {
         base.OnDisable();
     }
 
     float time;
-    private void FindTarget()
+    public void FindTarget()
     {
         if (time >= 0.5)
         {
@@ -119,9 +96,9 @@ public class Servitor : Entity
                 //}
                 for(int i = addRate; i >= 0; i--)
                 {
-                    if (AStarMgr.Instance.ChackType(target.transform.position.x + posAdd.x * i, target.transform.position.y + posAdd.y * i, E_Node_Type.Walk))
+                    if (AStarMgr.Instance.ChackType(target.transform.position.x + posAdd.x * i, target.transform.position.y + posAdd.y * i, mapColliderType))
                     {
-                        AStarMgr.Instance.FindPath(rb.position, target.rb.position + posAdd * i, FindPathCallBack, false);
+                        AStarMgr.Instance.FindPath(rb.position, target.rb.position + posAdd * i, mapColliderType, FindPathCallBack, false);
                         break;
                     }
                 }
@@ -132,8 +109,8 @@ public class Servitor : Entity
     }
 
 
-    
-    private void BackFind()
+
+    public void BackFind()
     {
         if (time >= 0.5)
         {
@@ -158,11 +135,11 @@ public class Servitor : Entity
                 time = 0;
                 if (parent != null)
                 {
-                    AStarMgr.Instance.FindPath(rb.position, parent.rb.position, FindPathCallBack, false);
+                    AStarMgr.Instance.FindPath(rb.position, parent.rb.position, mapColliderType, FindPathCallBack, false);
                 }
                 else
                 {
-                    AStarMgr.Instance.FindPath(rb.position, bronPos, FindPathCallBack, false);
+                    AStarMgr.Instance.FindPath(rb.position, bronPos, mapColliderType, FindPathCallBack, false);
                 }
             }
         }
@@ -201,7 +178,7 @@ public class Servitor : Entity
 
     }
 
-    private void Movement()
+    public void Movement()
     {
 
         if (Vector2.Distance(rb.position, movement) > 0.05)
@@ -269,84 +246,5 @@ public class Servitor : Entity
     public void Die()
     {
         Destroy(gameObject);
-    }
-
-    public class NormalState : StateBase
-    {
-        Servitor servitor;
-        public override void OnEnter(Entity entity)
-        {
-            if (servitor == null)
-            {
-                servitor = entity as Servitor;
-            }
-            foreach (var anim in servitor.animators)
-            {
-                //anim.Play("idle");
-            }
-
-        }
-
-        public override void OnExit(Entity entity)
-        {
-
-        }
-
-        public override void OnUpdata()
-        {
-            servitor.FindTarget();
-            servitor.Movement();
-        }
-    }
-
-    public class BackState : StateBase
-    {
-        Servitor servitor;
-        public override void OnEnter(Entity entity)
-        {
-            if (servitor == null)
-            {
-                servitor = entity as Servitor;
-            }
-            foreach (var anim in servitor.animators)
-            {
-                //anim.Play("idle");
-            }
-
-        }
-
-        public override void OnExit(Entity entity)
-        {
-
-        }
-
-        public override void OnUpdata()
-        {
-            servitor.BackFind();
-            servitor.Movement();
-        }
-    }
-
-    public class DieState : StateBase
-    {
-        Servitor servitor;
-        public override void OnEnter(Entity entity)
-        {
-            if (servitor == null)
-            {
-                servitor = entity as Servitor;
-            }
-
-        }
-
-        public override void OnExit(Entity entity)
-        {
-
-        }
-
-        public override void OnUpdata()
-        {
-
-        }
     }
 }

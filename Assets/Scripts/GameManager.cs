@@ -40,8 +40,8 @@ public class GameManager : BaseManager<GameManager>
         if (CharacterManager.Instance.characterDic[CharacterCode] == null) return (!ThrowError(501));
         CharacterManager.Instance.characterDic[CharacterCode].InitLocalPlayCharacter();
         //加载地图
-        if (!MapManager.Instance.LoadMapCompletelyToScene(MapName))return (!ThrowError(502));
-        AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
+        //if (!MapManager.Instance.LoadMapCompletelyToScene(MapName))return (!ThrowError(502));
+        //AStarMgr.Instance.InitMapInfo(MapManager.Instance.mapColliderData);
         //加载游戏模式
         if (GameRuntimeManager.Instance.gameModeDic[GameMode] == null) return (!ThrowError(503));
         GameRuntimeManager.Instance.gameModeDic[GameMode].SetSelfAsNowaGameMode();

@@ -5,9 +5,9 @@ public class Buff_3011 : BuffBase
 	public BuffBase mainSkill;
     public List<ForeShadowAttack> shadowAttacks;
 
-	public void Init(string buffId, float amount, Entity buffOwn, BuffBase mainSkill , List<ForeShadowAttack> foreShadowAttacks)
+	public void Init(Entity self,string buffId, float amount, Entity buffOwn, BuffBase mainSkill , List<ForeShadowAttack> foreShadowAttacks)
 	{
-		base.Init(buffId, amount, buffOwn);
+		base.Init(self,buffId, amount, buffOwn);
 		this.mainSkill = mainSkill;
 		shadowAttacks = foreShadowAttacks;
 	}

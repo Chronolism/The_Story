@@ -24,7 +24,7 @@ public class AttackBase : NetworkBehaviour
     List<AtkEntity> onTrigerEntities = new List<AtkEntity>();
     List<AtkEntity> trigerEntities = new List<AtkEntity>();
     Entity targer;
-
+    Stack<AtkEntity> stack = new Stack<AtkEntity>();
     public virtual void Init(Entity entity ,Vector3 pos , Vector3 dir , List<float> floats = null)
     {
         perant = entity;
@@ -57,7 +57,6 @@ public class AttackBase : NetworkBehaviour
         }
     }
 
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (ifServer)
@@ -77,15 +76,7 @@ public class AttackBase : NetworkBehaviour
             }
         }
     }
-    /// <summary>
-    /// 攻击目标
-    /// </summary>
-    /// <param name="entity"></param>
-    public virtual void Attack(Entity entity)
-    {
 
-    }
-    Stack<AtkEntity> stack = new Stack<AtkEntity>();
     public virtual void FixedUpdate()
     {
         if (!isServer) return;
@@ -117,6 +108,14 @@ public class AttackBase : NetworkBehaviour
                 StopAttack();
             }
         }
+    }
+    /// <summary>
+    /// 攻击目标
+    /// </summary>
+    /// <param name="entity"></param>
+    public virtual void Attack(Entity entity)
+    {
+
     }
     /// <summary>
     /// 动画开始攻击调用

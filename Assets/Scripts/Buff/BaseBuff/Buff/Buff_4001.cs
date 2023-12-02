@@ -47,4 +47,5 @@ public class Buff_4001 : BuffBase
             entity.maxSpeed_Pre += Amount/100;
 		}
 	}
+
 }

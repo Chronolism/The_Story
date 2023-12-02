@@ -48,7 +48,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  mapName: text
+  mapName: P01
   HostUser: 
   ifGame: 0
   startGameTime: 0

@@ -25,6 +25,7 @@ public class GamePanel : BasePanel
     Image _Ultimate_Skill_Now;
     Image _Ultimate_Skill_Charge_Progress;
     float _Ultimate_Skill_targetFillAmount;
+    bool _Ultimate_Skill_isReady = false;
     [Header("QA")]
     public float UIAnimationSpeed = 0.1f;
     [Header("Color")]
@@ -144,6 +145,18 @@ public class GamePanel : BasePanel
                 _Ink_Now.transform.GetChild(0).gameObject.SetActive(true); 
             else 
                 _Ink_Now.transform.GetChild(0).gameObject.SetActive(false);
+            //满充能提示
+            if (_Ultimate_Skill_isReady == false && _Ultimate_Skill_targetFillAmount == 1)
+            {
+                _Ultimate_Skill_Charge_Progress.GetComponent<CanvasGroup>().alpha = 1;
+                _Ultimate_Skill_isReady = true;
+            }              
+            if( _Ultimate_Skill_isReady == true && _Ultimate_Skill_targetFillAmount < 1)
+            {
+                _Ultimate_Skill_Charge_Progress.GetComponent<CanvasGroup>().alpha = 0.5f;
+                _Ultimate_Skill_isReady = false;
+            }
+                
 
             //道具
             if (player.playerProp != null) _Prop_Now.sprite = player.playerProp.icon; 
@@ -167,7 +180,6 @@ public class GamePanel : BasePanel
     {      
         _Passive_Now.sprite = player.skill.PassiveSkill(0).buffData.img;
         _Ultimate_Skill_Now.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
-        _Ultimate_Skill_Charge_Progress.sprite = Resources.Load<SpriteRenderer>("Icons/skill" + player.characterCode).sprite;
         switch (player.characterCode)
         {
             case 101: _Ultimate_Skill_Charge_Progress.color = Character101Color; break;
@@ -178,5 +190,6 @@ public class GamePanel : BasePanel
             case 106: _Ultimate_Skill_Charge_Progress.color = Character106Color; break;
         }
     }
+
     
 }

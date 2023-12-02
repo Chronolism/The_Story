@@ -15,7 +15,7 @@ public class ForeShadowAttack : AttackBase
     }
     public override void Attack(Entity entity)
     {
-        if(entity!=perant && entity is Player player && player.canRewrite)
+        if(entity is Player player && player.canRewrite)
         {
             player.ChangeInkAmount(-99999);
             if (ifGiddy)

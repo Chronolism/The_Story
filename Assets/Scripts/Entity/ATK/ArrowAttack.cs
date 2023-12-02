@@ -11,12 +11,11 @@ public class ArrowAttack : AttackBase
         base.Init(entity, pos, dir, floats);
         transform.rotation = LookAt2D(Vector3.down, dir);
     }
-
     public override void Attack(Entity entity)
     {
         if(entity is Servitor servitor)
         {
-            if (servitor.parent != entity) {
+            if (servitor.parent != perant) {
                 if (ifTurn)
                 {
                     Debug.Log("¼ý¸ÄÐ´");
@@ -29,7 +28,6 @@ public class ArrowAttack : AttackBase
             }
         }
     }
-
     public override void FixedUpdate()
     {
         base.FixedUpdate();

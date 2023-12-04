@@ -17,6 +17,7 @@ public class Buff_4001 : BuffBase
             }
 		}
 	}
+	
 	public override void OnStart(Entity entity,float Value)
 	{
         ChangeEntityState(m_trigerBuff);

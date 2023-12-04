@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public static class IEnableInput
 {
+    
     static public KeyCode GetKeyCode(E_PlayKeys key)
     {
         return InputMgr.Instance.keyPairs[key];

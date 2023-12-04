@@ -8,6 +8,8 @@ public class BaseMapEditorPanel : BasePanel
 {
     public GameObject gbParent;
     [SerializeField] private GameObject TextCompenmet;
+    [SerializeField] private GameObject FloatCompenmet;
+    [SerializeField] private GameObject integerTrigerGUI;
 
     Button btnQuit;
 
@@ -23,23 +25,19 @@ public class BaseMapEditorPanel : BasePanel
 
     public void OnGUIText(string name , string content , UnityAction<string> callback)
     {
-        Debug.Log("¿ªÊ¼»æÖÆ");
         GameObject gb = Instantiate(TextCompenmet, gbParent.transform);
+        gb.GetComponent<TextInputField>().Init(name, content, callback);
+    }
 
-        foreach(Text text in gb.GetComponentsInChildren<Text>())
-        {
-            if(text.name == "txtName")
-            {
-                text.text = name;
-                return;
-            }
-        }
+    public void OnGUIFloat(string name, float value, UnityAction<float> callback)
+    {
+        GameObject gb = Instantiate(FloatCompenmet, gbParent.transform);
+        gb.GetComponent<FloatInputField>().Init(name, value, callback);
+    }
 
-        InputField inputField = gb.GetComponentInChildren<InputField>();
-        inputField.text = content;
-        inputField.onValueChanged.AddListener((o) =>
-        {
-            callback?.Invoke(o);
-        });
+    public void OnGUIIntegerTriger(string name, int value,UnityAction<int> callback)
+    {
+        GameObject gb = Instantiate(integerTrigerGUI, gbParent.transform);
+        gb.GetComponent<IntegerTrigerGUI>().Init(name, value, callback);
     }
 }

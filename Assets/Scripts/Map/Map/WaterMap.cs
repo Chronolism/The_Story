@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WaterMap : MonoBehaviour, BaseEnvironwentMap
 {
+    public string mapName { get ; set ; }
+
     public void OnEnter(Entity entity)
     {
         entity.AddBuff(4001, 20, entity);

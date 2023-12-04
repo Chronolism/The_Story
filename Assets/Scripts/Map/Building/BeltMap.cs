@@ -13,7 +13,7 @@ public class BeltMap : MonoBehaviour,BaseMap
 
     public void OnOpenEditor(BaseMapEditorPanel editorPanel)
     {
-        editorPanel.OnGUIText("speed", speed.ToString(), (o) => { speed = float.Parse(o); });
+        editorPanel.OnGUIFloat("speed", speed, (o) => { speed = o; });
     }
 
     public MapTileDetileValue OnSave()

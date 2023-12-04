@@ -96,6 +96,8 @@ MonoBehaviour:
   SpeedOut: 10
   gbParent: {fileID: 6963312821079088175}
   TextCompenmet: {fileID: 4579210054800024379, guid: dae5f1219896c494e981ab7157a3ad43, type: 3}
+  FloatCompenmet: {fileID: 5845225588104481592, guid: 70258443025286d48856a2c09ce5c732, type: 3}
+  integerTrigerGUI: {fileID: 1449123572725293626, guid: b8b3ac9679f07b147aa840588cdab245, type: 3}
 --- !u!1 &4334670221021312947
 GameObject:
   m_ObjectHideFlags: 0

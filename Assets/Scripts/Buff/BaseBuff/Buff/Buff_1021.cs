@@ -10,11 +10,20 @@ public class Buff_1021 : BuffBase
 			if (m_ifBuffWorking != value)
 			{
 				m_ifBuffWorking = value;
+				if (m_ifBuffWorking)
+				{
+					entity.ChangeMapCollider(MapColliderType.Water, true);
+				}
+				else
+				{
+					entity.ChangeMapCollider(MapColliderType.Water, false);
+				}
 			}
 		}
 	}
 	public override void OnStart(Entity entity, float Value)
 	{
+		BuffWorking = true;
 		entity.OnAddBuff += _CouplingOnAddBuff;
 		entity.OnRemoveBuff += _CouplingOnRemoveBuff;
 		foreach (var buff in entity.skill.buffList)

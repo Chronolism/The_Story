@@ -39,13 +39,14 @@ public class Buff_4001 : BuffBase
 
 	void ChangeEntityState(bool add , float value = 0)
 	{
+
 		if (add)
 		{
 			entity.maxSpeed_Pre -= Amount/100;
 		}
 		else
 		{
-            entity.maxSpeed_Pre += Amount/100;
+			entity.maxSpeed_Pre += Amount/100;
 		}
 	}
 

@@ -14,11 +14,11 @@ public class Buff_1022 : BuffBase
 				m_ifBuffWorking = value;
 				if (m_ifBuffWorking)
 				{
-					entity.maxSpeed_Pre -= Amount / 100;
+					entity.maxSpeed_Pre += Amount / 100;
 				}
 				else
 				{
-					entity.maxSpeed_Pre += Amount / 100;
+					entity.maxSpeed_Pre -= Amount / 100;
 				}
 			}
 		}
@@ -36,6 +36,10 @@ public class Buff_1022 : BuffBase
 	{
 		entity.OnAddBuff -= _CouplingOnAddBuff;
 		entity.OnRemoveBuff -= _CouplingOnRemoveBuff;
+		foreach (var buff in entity.skill.buffList)
+		{
+			if (buff is Buff_4001 b) { BuffWorking = false; b.trigerBuff =true; }
+		}
 		BuffWorking = false;
 	}
 	public override void OnAdd(Entity entity,float Value)

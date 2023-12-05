@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &308147963
 Transform:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   autoStartServerBuild: 1
   autoConnectClientBuild: 0
   sendRate: 60
-  offlineScene: Assets/Scenes/SampleScene.unity
+  offlineScene: Assets/Scenes/Offline.unity
   onlineScene: Assets/Scenes/Online.unity
   transport: {fileID: 4761650435538878725}
   networkAddress: localhost
@@ -143,6 +143,7 @@ MonoBehaviour:
   timeInterpolationGui: 0
   local: {fileID: 4761650435538878725}
   steam: {fileID: 1112957403932989409}
+  gameServerType: 0
   networkDiscovery: {fileID: 0}
 --- !u!1 &7371203173678748392
 GameObject:

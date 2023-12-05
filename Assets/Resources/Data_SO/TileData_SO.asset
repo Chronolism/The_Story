@@ -133,7 +133,7 @@ MonoBehaviour:
       tileBase: {fileID: 11400000, guid: a556c56303fbcdd4e806576c5240affc, type: 2}
     - id: 2005
       name: "\u4F20\u9001\u95E8"
-      ifHaveValue: 0
+      ifHaveValue: 1
       mapType: 0
       type: 1
       tileBase: {fileID: 11400000, guid: 259523015cef9fa4287c86291358208e, type: 2}

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -87,6 +88,7 @@ public class UIManager : BaseManager<UIManager>
             if (GetPanel<T>() != null)
             {
                 ShowPanel<T>(callBack, isActive);
+                GameObject.Destroy(obj);
                 return;
             }
             //得到预设体身上的面板脚本

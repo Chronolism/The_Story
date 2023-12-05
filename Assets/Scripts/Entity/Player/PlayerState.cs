@@ -1,11 +1,6 @@
-using Mirror;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.LowLevel;
-using UnityEngine.Windows;
-using static Player;
 
 public class PlayerState : EntityState
 {

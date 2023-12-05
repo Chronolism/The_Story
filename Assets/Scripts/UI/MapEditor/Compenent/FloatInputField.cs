@@ -15,7 +15,7 @@ public class FloatInputField : MonoBehaviour
         ifContent.text = value.ToString();
         ifContent.onValueChanged.AddListener((o) =>
         {
-            if(float.TryParse(txtName.text, out float newValue))
+            if (float.TryParse(o, out float newValue))
             {
                 callback?.Invoke(newValue);
             }

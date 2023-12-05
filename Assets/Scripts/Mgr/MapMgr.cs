@@ -39,7 +39,14 @@ public class MapMgr : BaseManager<MapMgr>
                 }
                 if (kvp.Value.ifHaveValue)
                 {
-                    tilemap.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(mapDetile.tileValue[kvp.Key]);
+                    try
+                    {
+                        tilemap.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(mapDetile.tileValue[kvp.Key]);
+                    }
+                    catch
+                    {
+                        Debug.Log("Êý¾Ý²»·û");
+                    }
                 }
             }
         }

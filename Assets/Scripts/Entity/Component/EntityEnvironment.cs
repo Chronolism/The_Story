@@ -4,14 +4,14 @@ using UnityEngine.Events;
 
 public class EntityEnvironment : EntityComponent
 {
-
-    public List<BaseEnvironwentMap> map = new List<BaseEnvironwentMap>();
-
     public Dictionary<string,int> environments = new Dictionary<string, int>();
 
     BaseEnvironwentMap env;
 
     UnityAction<Entity> updataEnv;
+
+    public MapColliderType landColliderType = MapColliderType.None;
+    public AStarNode LastLand;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,10 +29,21 @@ public class EntityEnvironment : EntityComponent
         }
     }
 
+    float time = 0.3f;
     private void FixedUpdate()
     {
         if (isServer && entity.ifPause)
         {
+            time-=Time.deltaTime;
+            if(time < 0)
+            {
+                time = 0.3f;
+                AStarNode aStarNode = AStarMgr.Instance.GetNode(entity.rb.position.x, entity.rb.position.y);
+                if (aStarNode != null && aStarNode.ChackType(landColliderType))
+                {
+                    LastLand = aStarNode;
+                }
+            }
             updataEnv?.Invoke(entity);
         }
     }
@@ -44,7 +55,6 @@ public class EntityEnvironment : EntityComponent
         {
             if(environments[name] == 0)
             {
-                map.Add(baseMap);
                 baseMap.OnEnter(entity);
             }
             environments[name]++;
@@ -63,7 +73,6 @@ public class EntityEnvironment : EntityComponent
         environments[name]--;
         if (environments[name] == 0)
         {
-            map.Remove(baseMap);
             baseMap.OnExit(entity);
         }
         updataEnv -= baseMap.OnUpdate;

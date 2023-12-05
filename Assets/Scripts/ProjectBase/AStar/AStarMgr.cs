@@ -211,8 +211,8 @@ public class AStarMgr : BaseManager<AStarMgr>
             }
         }
         //查找次数到达极限时，找查找过的最近点
-        if (closeList.Count == 0) callback(null);
-        end = closeList[0];
+        if (closeList.Count == 1) callback(null);
+        end = closeList[1];
         foreach (AStarNode node in closeList)
         {
             if (node.h < end.h) end = node;
@@ -221,9 +221,9 @@ public class AStarMgr : BaseManager<AStarMgr>
         path.Add(end);
         while (end.father != null)
         {
-            path.Add(end.father);
             end = end.father;
             end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
+            path.Add(end);
         }
         //列表翻转的API
         path.Reverse();
@@ -296,6 +296,18 @@ public class AStarMgr : BaseManager<AStarMgr>
         }
         return nodes[(int)x, (int)y].ChackType(mapColliderType);
 
+    }
+
+    public AStarNode GetNode(float x , float y)
+    {
+        x-=deviationW;
+        y-=deviationH;
+        if (x < 0 || x >= mapW ||
+            y < 0 || y >= mapH)
+        {
+            return null;
+        }
+        return nodes[(int)x, (int)y];
     }
 
 }

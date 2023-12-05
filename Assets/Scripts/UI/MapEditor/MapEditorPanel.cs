@@ -68,7 +68,6 @@ public class MapEditorPanel : BasePanel
         }
         mapDataPath = Application.persistentDataPath + "\\MapData\\";
         tilemap = Resources.Load<GameObject>("Map/MapEdit/Tilemap");
-        uiTileMap = Instantiate(tilemap).GetComponent<Tilemap>();
 
         InitCompement();
         RegisterCompementEvent();
@@ -126,7 +125,7 @@ public class MapEditorPanel : BasePanel
                 {
                     ShowPanel<BaseMapEditorPanel>((o) =>
                     {
-                        baseMap.OnOpenEditor(o);
+                        o.Init(baseMap, newPos);
                     });
                 }
             }
@@ -417,7 +416,14 @@ public class MapEditorPanel : BasePanel
             tilemapCopy.SetTile(kvp.Key.ToV3Int(), kvp.Value.TileData.tileBase);
             if (kvp.Value.ifHaveValue)
             {
-                tilemapCopy.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(md.tileValue[kvp.Key]);
+                try
+                {
+                    tilemapCopy.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(md.tileValue[kvp.Key]);
+                }
+                catch
+                {
+                    Debug.Log("数据不符");
+                }
             }
         }
         MapLayer mapLayerCopy = Instantiate(mapLayer, svMapLayerList.content).GetComponent<MapLayer>();
@@ -432,8 +438,8 @@ public class MapEditorPanel : BasePanel
     /// </summary>
     private void SaveMap()
     {
-        activeMap.MoveTo(activeMap.DirectoryName + "\\" + mapData.name + ".MapData");
-        Debug.Log(mapData.mapDetiles.Count);
+        if(activeMap.Name!= mapData.name + ".MapData")
+            activeMap.MoveTo(activeMap.DirectoryName + "\\" + mapData.name + ".MapData");
         ResMgr.Instance.SaveBinaryWithMirror(mapData, activeMap.FullName);
     }
     /// <summary>
@@ -547,6 +553,15 @@ public class MapEditorPanel : BasePanel
         }
     }
     /// <summary>
+    /// 保存瓦片信息
+    /// </summary>
+    /// <param name="baseMap"></param>
+    /// <param name="pos"></param>
+    public void SaveTileValue(BaseMap baseMap,Vector3Int pos)
+    {
+        activeMapLayer.mapDetile.tileValue[new V2(pos)] = baseMap.OnSave();
+    }
+    /// <summary>
     /// 更改涂写层级
     /// </summary>
     /// <param name="mapLayer"></param>
@@ -622,7 +637,7 @@ public class MapEditorPanel : BasePanel
     /// </summary>
     private void Quit()
     {
-        Destroy(grid.gameObject);
+        if (grid != null) Destroy(grid.gameObject);
         m_onQuit?.Invoke();
     }
     #endregion

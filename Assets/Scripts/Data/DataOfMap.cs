@@ -113,10 +113,22 @@ public struct V2
         y = from_y;
     }
 
+    public void Init(Vector2 vector2)
+    {
+        x = ((int)vector2.x);
+        y = ((int)vector2.y);
+    }
+
     public V2(Vector3Int v3)
     {
         x = v3.x;
         y = v3.y;
+    }
+
+    public V2(Vector2 v2)
+    {
+        x = ((int)v2.x);
+        y = ((int)v2.y);
     }
     public override bool Equals(object obj)
     {

@@ -47,6 +47,17 @@ public class BuffPool
 		Register(3012, typeof(Buff_3012));
 		Register(3013, typeof(Buff_3013));
 		Register(4001, typeof(Buff_4001));
+		Register(5001, typeof(Buff_5001));
+		Register(5002, typeof(Buff_5002));
+		Register(5003, typeof(Buff_5003));
+		Register(5004, typeof(Buff_5004));
+		Register(5005, typeof(Buff_5005));
+		Register(5006, typeof(Buff_5006));
+		Register(5007, typeof(Buff_5007));
+		Register(5008, typeof(Buff_5008));
+		Register(5009, typeof(Buff_5009));
+		Register(5010, typeof(Buff_5010));
+		Register(5011, typeof(Buff_5011));
 	}
 	private void Register(int id, Type buffType)
 	{

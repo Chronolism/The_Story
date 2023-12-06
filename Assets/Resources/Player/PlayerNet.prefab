@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 6321376331093206745}
   - component: {fileID: 5597327947140687170}
   - component: {fileID: 201559883806516317}
-  m_Layer: 0
+  - component: {fileID: 8906051764966376980}
+  - component: {fileID: 893544400610304836}
+  m_Layer: 7
   m_Name: PlayerBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +169,40 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8906051764966376980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811540818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9ede97cb40b36499c33acaf42abad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  entity: {fileID: 0}
+--- !u!114 &893544400610304836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811540818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e23a49d390cdb24fb07ba4ae526bf82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  entity: {fileID: 0}
+  ifServer: 0
+  atkTime: 0
 --- !u!1 &5480366113042657854
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +311,7 @@ MonoBehaviour:
     value: []
   spriteRenderer: {fileID: 1811540822}
   bodyAnimator: {fileID: 201559883806516317}
+  entityInteractive: {fileID: 0}
   Light: {fileID: 6156613332490617087}
   characterData:
     character_Code: 0
@@ -619,7 +656,7 @@ GameObject:
   - component: {fileID: 3414603795549794808}
   - component: {fileID: 3969282776749927701}
   - component: {fileID: 2314674781334255511}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Env
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -657,6 +694,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   entity: {fileID: 0}
+  landColliderType: 1
 --- !u!58 &2314674781334255511
 CircleCollider2D:
   m_ObjectHideFlags: 0

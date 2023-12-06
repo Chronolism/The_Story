@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prop : NetworkBehaviour
+public class Prop : NetworkBehaviour,IEntityTouch
 {
     public Collider2D propCollider;
     public SpriteRenderer spriteRenderer;
@@ -11,30 +11,36 @@ public class Prop : NetworkBehaviour
     public int propid;
     public List<Observer<Prop>> observers = new List<Observer<Prop>>();
 
+
+    public void Touch(Entity entity)
+    {
+        if (entity is Player player)
+        {
+            switch (propData.propType)
+            {
+                case PropType.TrigerTool:
+                    foreach (var i in propData.value)
+                    {
+                        DataMgr.Instance.GetBuff(i.buffId).OnTriger(player, i.buffValue);
+                    }
+                    HideProp();
+                    break;
+                case PropType.UseTool:
+                    if (player.AddProp(propData))
+                    {
+                        HideProp();
+                    }
+                    break;
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
         if (isServer)
         {
-            if(collision.TryGetComponent<Player>(out Player player))
-            {
-                switch (propData.propType)
-                {
-                    case PropType.TrigerTool:
-                        foreach(var i in propData.value)
-                        {
-                            DataMgr.Instance.GetBuff(i.buffId).OnTriger(player, i.buffValue);
-                        }
-                        HideProp();
-                        break;
-                    case PropType.UseTool:
-                        if (player.AddProp(propData))
-                        {
-                            HideProp();
-                        }
-                        break;
-                }
-            }    
+  
         }
     }
     [Server]
@@ -86,4 +92,5 @@ public class Prop : NetworkBehaviour
             spriteRenderer.enabled = false;
         }
     }
+
 }

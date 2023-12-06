@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface BaseEnvironwentMap
+public interface IEnvironwentMap
 {
     public string mapName { get;}
     public void OnEnter(Entity entity);

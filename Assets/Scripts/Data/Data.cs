@@ -141,22 +141,14 @@ public class PlayerData
     public float volume = 0.3f;
     public float SoundValue = 0.3f;
 }
-
 [Serializable]
-public class EnemyData
+public class EntityData
 {
     public int id;
     public string name;
-    public GameObject obj;
+    public GameObject gameObject;
 }
-[Serializable]
-public class EnemyDetile
-{
-    public int id;
-    public int actionType;
-    public List<int> Limit_one = new List<int>();
-    public List<V2> targets = new List<V2>();
-}
+
 [Serializable]
 public class UIData
 {

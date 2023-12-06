@@ -122,7 +122,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase.Amount += value;
             buffBase.temporaryAmount += value;
-            buffBase.time += time;
+            buffBase.time = Mathf.Max(buffBase.time, time);
             buffBase.OnAdd(entity, value);
         }
         else

@@ -6,7 +6,7 @@ public class EntityEnvironment : EntityComponent
 {
     public Dictionary<string,int> environments = new Dictionary<string, int>();
 
-    BaseEnvironwentMap env;
+    IEnvironwentMap env;
 
     UnityAction<Entity> updataEnv;
 
@@ -15,7 +15,8 @@ public class EntityEnvironment : EntityComponent
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("MapEnvironwent")&&collision.TryGetComponent<BaseEnvironwentMap>(out env))
+        if (!isServer) return;
+        if (collision.CompareTag("MapEnvironwent")&&collision.TryGetComponent<IEnvironwentMap>(out env))
         {
             AddEnvironments(env);
         }
@@ -23,7 +24,8 @@ public class EntityEnvironment : EntityComponent
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("MapEnvironwent") && collision.TryGetComponent<BaseEnvironwentMap>(out env))
+        if (!isServer) return;
+        if (collision.CompareTag("MapEnvironwent") && collision.TryGetComponent<IEnvironwentMap>(out env))
         {
             RemoveEnvironments(env);
         }
@@ -48,7 +50,7 @@ public class EntityEnvironment : EntityComponent
         }
     }
 
-    public void AddEnvironments(BaseEnvironwentMap baseMap)
+    public void AddEnvironments(IEnvironwentMap baseMap)
     {
         string name = baseMap.GetType().Name;
         if (environments.ContainsKey(name))
@@ -67,7 +69,7 @@ public class EntityEnvironment : EntityComponent
         updataEnv += baseMap.OnUpdate;
     }
 
-    public void RemoveEnvironments(BaseEnvironwentMap baseMap)
+    public void RemoveEnvironments(IEnvironwentMap baseMap)
     {
         string name = baseMap.GetType().Name;
         environments[name]--;

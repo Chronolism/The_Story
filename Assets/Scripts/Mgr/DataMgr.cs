@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class DataMgr : BaseManager<DataMgr>
 {
-    //敌人数据
-    private List<EnemyData> enemyData;
-    public List<EnemyData> EnemyData => enemyData;
+    //entity数据
+    private List<EntityData> entities;
+    public List<EntityData> Entities => entities;
+    public Dictionary<int, EntityData> entityDic;
     //buff数据
     public List<BuffData> buffDatas;
     public Dictionary<int, BuffData> buffDataDic;
@@ -38,6 +39,8 @@ public class DataMgr : BaseManager<DataMgr>
 
     public RoomData roomData;
 
+    public int mapLoadType;
+
     public PlayerData playerData;
     public string version = "0.9.0728a";
     public uint steamAppID = 2692220;
@@ -66,6 +69,7 @@ public class DataMgr : BaseManager<DataMgr>
         spriteDataSet = ResMgr.Instance.Load<SpriteData_SO>("Data_SO/SpriteData_SO").spriteDataSet;
         playerData.account = Random.Range(0, int.MaxValue).ToString();
         LaodLanguage();
+        entities = ResMgr.Instance.Load<EntityData_SO>("Data_SO/EntityData_SO").entities;
         buffDatas = ResMgr.Instance.LoadJson<List<BuffData>>("BuffData\\" + "Chinese" + "BuffData");
         characters = ResMgr.Instance.Load<CharacterData_SO>("Data_SO/CharacterData_SO").characterDatas;
         propDatas = ResMgr.Instance.Load<PropData_SO>("Data_SO/PropData_SO").propDatas;
@@ -100,6 +104,11 @@ public class DataMgr : BaseManager<DataMgr>
         {
             foreach(TileData tileData1 in tileData.tileDatas)
             tileDataDic.Add(tileData1.id, tileData1);
+        }
+        entityDic = new Dictionary<int, EntityData>();
+        foreach(EntityData entityData in entities)
+        {
+            entityDic.Add(entityData.id, entityData);
         }
     }
     /// <summary>
@@ -149,6 +158,16 @@ public class DataMgr : BaseManager<DataMgr>
             LaodLanguage();
         }
     }
+    /// <summary>
+    /// 获取实体注册数据
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public EntityData GetEntity(int id)
+    {
+        return entityDic[id];
+    }
+
     /// <summary>
     /// 获取buff
     /// </summary>

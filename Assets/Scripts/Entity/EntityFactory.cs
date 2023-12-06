@@ -6,17 +6,17 @@ using UnityEngine.TextCore.Text;
 
 public class EntityFactory : BaseManager<EntityFactory>
 {
-    public List<NetworkBehaviour> behaviours = new List<NetworkBehaviour>();
+    public List<NetworkIdentity> behaviours = new List<NetworkIdentity>();
     /// <summary>
     /// 清除网络实体
     /// </summary>
     public void ClearNetworkEntity()
     {
-        foreach(NetworkBehaviour behaviour in behaviours)
+        foreach(NetworkIdentity identity in behaviours)
         {
-            if(behaviour != null)
+            if(identity != null)
             {
-                GameObject.Destroy(behaviour.gameObject);
+                GameObject.Destroy(identity.gameObject);
             }
         }
         behaviours.Clear();
@@ -30,12 +30,12 @@ public class EntityFactory : BaseManager<EntityFactory>
     [Server]
     public Servitor CreatServitor(Vector3 position , bool ifPause = false)
     {
-        GameObject servitorGb = ResMgr.Instance.Load<GameObject>("Servitor/ServitorNet");
+        GameObject servitorGb = GameObject.Instantiate(DataMgr.Instance.GetEntity(1002).gameObject);
         servitorGb.transform.position = position;
         Servitor servitor = servitorGb.GetComponent<Servitor>();
         servitor.ifPause = ifPause;
         NetworkServer.Spawn(servitorGb);
-        behaviours.Add(servitor);
+        behaviours.Add(servitor.netIdentity);
         return servitor;
     }
     /// <summary>
@@ -45,7 +45,7 @@ public class EntityFactory : BaseManager<EntityFactory>
     [Server]
     public RoomData CreatRoomData()
     {
-        GameObject roomDataGB = ResMgr.Instance.Load<GameObject>("Prefab/RoomData");
+        GameObject roomDataGB = GameObject.Instantiate(DataMgr.Instance.GetEntity(1003).gameObject);
         RoomData roomData = roomDataGB.GetComponent<RoomData>();
         NetworkServer.Spawn(roomDataGB);
         return roomData;
@@ -59,7 +59,7 @@ public class EntityFactory : BaseManager<EntityFactory>
     [Server]
     public Player CreatPlayer(RoomUserData user, Vector3 position)
     {
-        GameObject playerGB = ResMgr.Instance.Load<GameObject>("Player/PlayerNet");
+        GameObject playerGB = GameObject.Instantiate(DataMgr.Instance.GetEntity(1001).gameObject);
         playerGB.transform.position = position;
         Player player = playerGB.GetComponent<Player>();
         CharacterData characterData = DataMgr.Instance.GetCharacter(user.characterId);
@@ -70,7 +70,7 @@ public class EntityFactory : BaseManager<EntityFactory>
         player.userName = user.name;
         NetworkServer.Spawn(playerGB);
         player.InitPlayer(characterData, user.skills);
-        behaviours.Add(player);
+        behaviours.Add(player.netIdentity);
         return player;
     }
     /// <summary>
@@ -81,11 +81,11 @@ public class EntityFactory : BaseManager<EntityFactory>
     [Server]
     public Prop CreatProp(Vector3 position)
     {
-        GameObject propGB = ResMgr.Instance.Load<GameObject>("Prefab/PropNet");
+        GameObject propGB = GameObject.Instantiate(DataMgr.Instance.GetEntity(1004).gameObject);
         propGB.transform.position = position;
         Prop prop = propGB.GetComponent<Prop>();
         NetworkServer.Spawn(propGB);
-        behaviours.Add(prop);
+        behaviours.Add(prop.netIdentity);
         return prop;
     }
     /// <summary>
@@ -106,7 +106,23 @@ public class EntityFactory : BaseManager<EntityFactory>
         attack.Init(entity, pos, dir, floats);
         attack.atkId = attackData.id;
         NetworkServer.Spawn(attackGB);
-        behaviours.Add(attack);
+        behaviours.Add(attack.netIdentity);
         return attack;
+    }
+    /// <summary>
+    /// 通用实体生成
+    /// </summary>
+    /// <typeparam name="T">泛型类型</typeparam>
+    /// <param name="id">实体id</param>
+    /// <param name="pos">实体位置</param>
+    /// <returns></returns>
+    [Server]
+    public T CreatEntity<T>(int id , Vector3 pos)
+    {
+        GameObject gb = GameObject.Instantiate(DataMgr.Instance.GetEntity(id).gameObject);
+        gb.transform.position = pos;
+        NetworkServer.Spawn(gb);
+        behaviours.Add(gb.GetComponent<NetworkIdentity>());
+        return gb.GetComponent<T>();
     }
 }

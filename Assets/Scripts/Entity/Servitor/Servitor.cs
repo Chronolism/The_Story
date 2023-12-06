@@ -161,8 +161,7 @@ public class Servitor : Entity
         havePath = true;
         if (path.Count == 1)
         {
-            movement = new Vector2(path[0].x, path[0].y);
-            Debug.Log(movement);
+            movement = path[0].pos;
             return;
         }
 

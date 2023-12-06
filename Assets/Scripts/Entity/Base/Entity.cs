@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Entity : NetworkBehaviour
 {
@@ -269,7 +270,13 @@ public class Entity : NetworkBehaviour
     }
 
     #region 网络行为
-
+    /// <summary>
+    /// 掉落地形
+    /// </summary>
+    public void DropMap()
+    {
+        rb.position = GetEntityComponent<EntityEnvironment>().LastLand.pos;
+    }
 
 
     #endregion
@@ -593,11 +600,6 @@ public class Entity : NetworkBehaviour
     {
         return buff?.FindBuffs(buffId);
     }
-    /// <summary>
-    /// 释放攻击实体
-    /// </summary>
-    /// <param name="type">攻击id</param>
-    /// <param name="v3">攻击附加参数</param>
     //[Server]
     //public void Atttack(int type, Vector3 v3)
     //{
@@ -634,5 +636,4 @@ public class Entity : NetworkBehaviour
     {
         ifPause = false;
     }
-
 }

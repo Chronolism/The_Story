@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeltMap : MonoBehaviour,BaseMap
+public class BeltMap : MonoBehaviour,IEditorMap
 {
     public AreaEffector2D effector;
     public float speed;

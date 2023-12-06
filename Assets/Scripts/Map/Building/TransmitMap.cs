@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransmitMap : MonoBehaviour, BaseMap
+public class TransmitMap : MonoBehaviour, IEditorMap,IEntityTouch
 {
     public Vector3 pos;
 
@@ -22,12 +22,9 @@ public class TransmitMap : MonoBehaviour, BaseMap
         return new MapTileDetileValue() { value = new List<float>() { pos.x, pos.y } };
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Touch(Entity entity)
     {
-        if(collision.TryGetComponent<EntityEnvironment>(out EntityEnvironment environment))
-        {
-            environment.entity.gameObject.transform.position = pos;
-        }
+        entity.gameObject.transform.position = pos;
     }
 
 }

@@ -11,7 +11,7 @@ public class BaseMapEditorPanel : BasePanel
     [SerializeField] private GameObject FloatCompenmet;
     [SerializeField] private GameObject integerTrigerGUI;
 
-    BaseMap baseMap;
+    IEditorMap baseMap;
     Vector3Int pos;
 
     Button btnQuit;
@@ -26,7 +26,7 @@ public class BaseMapEditorPanel : BasePanel
         });
     }
 
-    public void Init(BaseMap baseMap,Vector3Int pos)
+    public void Init(IEditorMap baseMap,Vector3Int pos)
     {
         this.baseMap = baseMap;
         this.pos = pos;

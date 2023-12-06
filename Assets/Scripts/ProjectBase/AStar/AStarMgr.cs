@@ -46,25 +46,6 @@ public class AStarMgr : BaseManager<AStarMgr>
     }
 
 
-    //public void InitMapInfo(Dictionary<Vector3Int , bool> map)
-    //{
-    //    var kvpf = map.First();
-    //    deviationW = kvpf.Key.x;
-    //    deviationH = kvpf.Key.y;
-    //    foreach (var kvp in map)
-    //    {
-    //        if (kvp.Key.x < deviationW) deviationW = kvp.Key.x;
-    //        else if (kvp.Key.x >= mapW + deviationW) mapW = kvp.Key.x - deviationW + 1;
-    //        if (kvp.Key.y < deviationH) deviationH = kvp.Key.y;
-    //        else if (kvp.Key.y >= mapH + deviationH) mapH = kvp.Key.y - deviationH + 1;
-    //    }
-    //    nodes = new AStarNode[mapW, mapH];
-    //    foreach (var kvp in map)
-    //    {
-    //        nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH] = new AStarNode(kvp.Key.x - deviationW, kvp.Key.y - deviationH, kvp.Value ? E_Node_Type.Stop : E_Node_Type.Walk);
-    //    }
-    //}
-
     public void InitMapInfo(Dictionary<V2,MapColliderType> colliders)
     {
         var kvpf = colliders.First();
@@ -80,7 +61,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         nodes = new AStarNode[mapW, mapH];
         for (int i = 0; i < mapW; i++)
             for (int j = 0; j < mapH; j++)
-                nodes[i, j] = new AStarNode(i, j, MapColliderType.None);
+                nodes[i, j] = new AStarNode(i, j, MapColliderType.None, deviationW, deviationH);
         foreach (var kvp in colliders)
         {
             nodes[kvp.Key.x - deviationW, kvp.Key.y - deviationH].type = kvp.Value;
@@ -192,13 +173,11 @@ public class AStarMgr : BaseManager<AStarMgr>
             if (start == end)
             {
                 //找完了 找到路径了
-                end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
                 path.Add(end);
                 while(end.father != null)
                 {
                     path.Add(end.father);
                     end = end.father;
-                    end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
                 }
                 //列表翻转的API
                 path.Reverse();
@@ -217,12 +196,10 @@ public class AStarMgr : BaseManager<AStarMgr>
         {
             if (node.h < end.h) end = node;
         }
-        end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
         path.Add(end);
         while (end.father != null)
         {
             end = end.father;
-            end.pos = new Vector2(end.x + deviationW + 0.5f, end.y + deviationH + 0.5f);
             path.Add(end);
         }
         //列表翻转的API
@@ -231,6 +208,7 @@ public class AStarMgr : BaseManager<AStarMgr>
         {
             path.Remove(path.First());
         }
+        Debug.Log(path[0].pos);
         callback(path);
     }
 

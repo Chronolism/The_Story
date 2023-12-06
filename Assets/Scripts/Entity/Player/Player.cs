@@ -10,6 +10,7 @@ public class Player : Entity
     public PropData playerProp;
     public SpriteRenderer spriteRenderer;
     public Animator bodyAnimator;
+    public EntityInteractive entityInteractive;
 
     public GameObject Light;
 
@@ -25,6 +26,7 @@ public class Player : Entity
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        entityInteractive = GetEntityComponent<EntityInteractive>();
         DataMgr.Instance.players.Add(netId, this);
     }
 
@@ -141,26 +143,34 @@ public class Player : Entity
         if (isServer) return;
         playerProp = DataMgr.Instance.GetPropData(id);
     }
+
+    float oldfire1;
+    float oldfire2;
     /// <summary>
     /// 使用道具
     /// </summary>
     public void UseProp()
     {
-        if (fire2 > 0 && playerProp != null && playerProp.id != 0) 
+        if (oldfire2 == 0 && fire2 > 0 ) 
         {
-            foreach (var i in playerProp.value)
+            if(!entityInteractive.TrigerBuild() && playerProp != null && playerProp.id != 0)
             {
-                DataMgr.Instance.GetBuff(i.buffId).OnTriger(this, i.buffValue);
+                foreach (var i in playerProp.value)
+                {
+                    DataMgr.Instance.GetBuff(i.buffId).OnTriger(this, i.buffValue);
+                }
+                PropData propData = playerProp;
+                playerProp = null;
+                UsePropRpc();
+                OnUseProp?.Invoke(this, propData);
             }
-            PropData propData = playerProp;
-            playerProp = null;
-            UsePropRpc();
-            OnUseProp?.Invoke(this, propData);
         }
-        if(fire1 > 0&& skill != null)
+        oldfire2 = fire2;
+        if (oldfire1 == 0 && fire1 > 0&& skill != null)
         {
             skill.Triger();
         }
+        oldfire1 = fire1;
     }
     [ClientRpc]
     public void UsePropRpc()

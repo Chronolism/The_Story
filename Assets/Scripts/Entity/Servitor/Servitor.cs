@@ -161,6 +161,7 @@ public class Servitor : Entity
         havePath = true;
         if (path.Count == 1)
         {
+            pathIndex = 0;
             movement = path[0].pos;
             return;
         }

@@ -25,10 +25,12 @@ public class Buff_5001 : BuffBase
 				m_wet = value;
 				if (m_wet)
 				{
+					Mono_QAReportText.Instance?.Report("深水区：减速");
 					entity.maxSpeed_Pre -= Amount / 100;
 				}
 				else
 				{
+					Mono_QAReportText.Instance?.Report("深水区：速度还原");
 					entity.maxSpeed_Pre += Amount / 100;
 				}
 			}

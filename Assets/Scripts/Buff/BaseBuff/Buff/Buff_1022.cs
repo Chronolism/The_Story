@@ -15,11 +15,13 @@ public class Buff_1022 : BuffBase
 				if (m_ifBuffWorking)
 				{
 					entity.maxSpeed_Pre += Amount / 100;
+					Mono_QAReportText.Instance?.Report("善水：加速");
 				}
 				else
 				{
 					entity.maxSpeed_Pre -= Amount / 100;
-				}
+					Mono_QAReportText.Instance?.Report("善水：速度还原");
+				}			
 			}
 		}
 	}

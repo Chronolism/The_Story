@@ -11,9 +11,8 @@ public class Buff_4001 : BuffBase
 		{
 			if(m_trigerBuff != value) 
 			{
+				ChangeEntityState(m_trigerBuff);
 				m_trigerBuff = value;
-                ChangeEntityState(m_trigerBuff);
-
             }
 		}
 	}
@@ -42,10 +41,12 @@ public class Buff_4001 : BuffBase
 
 		if (add)
 		{
+			Mono_QAReportText.Instance?.Report("浅水区：减速");
 			entity.maxSpeed_Pre -= Amount/100;
 		}
 		else
 		{
+			Mono_QAReportText.Instance?.Report("浅水区：速度还原");
 			entity.maxSpeed_Pre += Amount/100;
 		}
 	}

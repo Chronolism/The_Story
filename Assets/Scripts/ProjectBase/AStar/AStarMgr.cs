@@ -21,10 +21,6 @@ public class AStarMgr : BaseManager<AStarMgr>
 
     //地图相关所有的格子对象容器
     public AStarNode[,] nodes;
-    //开启列表
-    private List<AStarNode> openList = new List<AStarNode>();
-    //关闭列表
-    private List<AStarNode> closeList = new List<AStarNode>();
 
     /// <summary>
     /// 初始化地图信息
@@ -109,11 +105,10 @@ public class AStarMgr : BaseManager<AStarMgr>
             return;
         }
 
-        //清空上一次相关的数据 避免他们影响 这一次的寻路计算
-
-        //清空关闭和开启列表
-        closeList.Clear();
-        openList.Clear();
+        //开启列表
+        List<AStarNode> openList = new List<AStarNode>();
+        //关闭列表
+        List<AStarNode> closeList = new List<AStarNode>();
 
         //把开始点放入关闭列表中
         start.father = null;
@@ -132,17 +127,17 @@ public class AStarMgr : BaseManager<AStarMgr>
             //左上 x - 1  y - 1
             //FindNearlyNodeToOpenList(start.x - 1, start.y - 1, 1.4f, start, end);
             //上 x  y -1
-            FindNearlyNodeToOpenList(start.x, start.y - 1, 1, start, end, mapColliderType);
+            FindNearlyNodeToOpenList(start.x, start.y - 1, 1, start, end);
             //右上 x + 1 y - 1
             //FindNearlyNodeToOpenList(start.x + 1, start.y - 1, 1.4f, start, end);
             //左 x - 1 y
-            FindNearlyNodeToOpenList(start.x - 1, start.y, 1, start, end, mapColliderType);
+            FindNearlyNodeToOpenList(start.x - 1, start.y, 1, start, end);
             //右 x + 1 y
-            FindNearlyNodeToOpenList(start.x + 1, start.y, 1, start, end, mapColliderType);
+            FindNearlyNodeToOpenList(start.x + 1, start.y, 1, start, end);
             //左下 x-1 y +1
             //FindNearlyNodeToOpenList(start.x - 1, start.y + 1, 1.4f, start, end);
             //下 x y + 1
-            FindNearlyNodeToOpenList(start.x, start.y + 1, 1, start, end, mapColliderType);
+            FindNearlyNodeToOpenList(start.x, start.y + 1, 1, start, end);
             //右下 x+1 y+1
             //FindNearlyNodeToOpenList(start.x + 1, start.y + 1, 1.4f, start, end);
             
@@ -210,8 +205,105 @@ public class AStarMgr : BaseManager<AStarMgr>
         }
         Debug.Log(path[0].pos);
         callback(path);
+
+        void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end)
+        {
+            //边界判断
+            if (x < 0 || x >= mapW ||
+                y < 0 || y >= mapH)
+                return;
+            //在范围内 再去取点
+            AStarNode node = nodes[x, y];
+
+            //判断这些点 是否是边界 是否是阻挡  是否在开启或者关闭列表 如果都不是 才放入开启列表
+            if (node == null ||
+                !node.ChackType(mapColliderType) ||
+                closeList.Contains(node) ||
+                openList.Contains(node))
+                return;
+            //计算f值
+            //f = g + h
+            //记录父对象
+            node.father = father;
+            //计算g  我离起点的距离 就是我父亲离起点的距离 + 我离我父亲的距离
+            node.g = father.g + g;
+            node.h = Mathf.Abs(end.x - node.x) + Mathf.Abs(end.y - node.y);
+            node.f = node.g + node.h;
+
+            //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h);
+
+            //如果通过了上面的合法验证 就存到开启列表中
+            openList.Add(node);
+        }
     }
 
+
+    public AStarNode FindNearNode(Vector2 pos, MapColliderType mapColliderType)
+    {
+        int x = (int)(pos.x - deviationW);
+        int y = (int)(pos.y - deviationH);
+
+        if (x < 0 || x >= mapW ||
+            y < 0 || y >= mapH  )
+        {
+            Debug.Log("点在地图格子范围外");
+            return null;
+        }
+
+        if (nodes[x, y].ChackType(mapColliderType))
+        {
+            return nodes[x, y];
+        }
+
+        AStarNode node;
+
+        List<AStarNode> findList = new List<AStarNode>();
+
+        Queue<AStarNode> nodeQueue = new Queue<AStarNode>();
+
+        int time = 30;
+        nodeQueue.Enqueue(nodes[x, y]);
+
+        while (time <= 0 || nodeQueue.Count > 0) 
+        {
+            time--;
+            node = nodeQueue.Dequeue();
+            if (FindNearlyNode(node.x + 1, node.y)) return node;
+            if (FindNearlyNode(node.x - 1, node.y)) return node;
+            if (FindNearlyNode(node.x, node.y + 1)) return node;
+            if (FindNearlyNode(node.x, node.y - 1)) return node;
+        }
+
+        return null;
+
+        bool FindNearlyNode(int x, int y)
+        {
+            //边界判断
+            if (x < 0 || x >= mapW ||
+                y < 0 || y >= mapH)
+                return false;
+            //在范围内 再去取点
+            AStarNode node = nodes[x, y];
+
+            if (findList.Contains(node)) return false;
+
+            if (node == null)
+            {
+                findList.Add(node);
+                return false;
+            }
+
+            if (!node.ChackType(mapColliderType))
+            {
+                nodeQueue.Enqueue(node);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
     /// <summary>
     /// 排序函数
     /// </summary>
@@ -226,41 +318,6 @@ public class AStarMgr : BaseManager<AStarMgr>
             return 1;
         else
             return -1;
-    }
-
-    /// <summary>
-    /// 把临近的点放入开启列表中的函数
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    private void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end, MapColliderType mapColliderType)
-    {
-        //边界判断
-        if (x < 0 || x >= mapW ||
-            y < 0 || y >= mapH)
-            return;
-        //在范围内 再去取点
-        AStarNode node = nodes[x, y];
-
-        //判断这些点 是否是边界 是否是阻挡  是否在开启或者关闭列表 如果都不是 才放入开启列表
-        if (node == null||
-            !node.ChackType(mapColliderType) ||
-            closeList.Contains(node) ||
-            openList.Contains(node) )
-            return;
-        //计算f值
-        //f = g + h
-        //记录父对象
-        node.father = father;
-        //计算g  我离起点的距离 就是我父亲离起点的距离 + 我离我父亲的距离
-        node.g = father.g + g;
-        node.h = Mathf.Abs(end.x - node.x) + Mathf.Abs(end.y - node.y);
-        node.f = node.g + node.h;
-
-        //Debug.Log("点" + node.x + "," + node.y + ":g=" + node.g + "h=" + node.h);
-
-        //如果通过了上面的合法验证 就存到开启列表中
-        openList.Add(node);
     }
 
     public bool ChackType(float x,float y, MapColliderType mapColliderType)

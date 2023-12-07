@@ -35,6 +35,10 @@ public class MapDetile
 public class MapTileDetileValue
 {
     public List<float> value;
+    public MapTileDetileValue(params float[] value)
+    {
+        this.value = new List<float>(value);
+    }
 }
 
 [Serializable]

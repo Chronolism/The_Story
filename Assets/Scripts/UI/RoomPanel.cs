@@ -35,7 +35,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         txtCharacterSkillDescription = GetControl<Text>("txtCharacterSkillDescription");
         txtCharacterPassiveSkillDescription = GetControl<Text>("txtCharacterPassiveSkillDescription");
         btnStart = GetControl<Button>("btnStart");
-        StartCoroutine(findRoomData());
+
 
         srSteamFriendList = GetControl<ScrollRect>("srSteamFriendList");
         srSteamFriendList.gameObject.SetActive(false);
@@ -52,7 +52,7 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         passiveIcon = GetControl<Image>("PassiveIcon");
         ultimateSkillIcon = GetControl<Image>("UltimateSkillIcon");
 
-        
+        StartCoroutine(findRoomData());
     }
 
     protected override void Update()
@@ -209,10 +209,12 @@ public class RoomPanel : BasePanel,Observer<RoomData>
         BuffData bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[0].buffId);
         txtCharacterSkill.text = bd.name;
         txtCharacterSkillDescription.text = bd.description;
+        ultimateSkillIcon.sprite = bd.img;
         bd = DataMgr.Instance.GetBuffData(characterData.skill_Index[passiveSkillIndex].buffId);
         txtCharacterPassiveSkill.text = bd.name;
         txtCharacterPassiveSkillDescription.text = bd.description;
-        
+        passiveIcon.sprite = bd.img;
+
     }
 
     protected override void OnClick(string btnName)

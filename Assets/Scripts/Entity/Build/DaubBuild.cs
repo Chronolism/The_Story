@@ -93,6 +93,6 @@ public class DaubBuild : BaseBuild, IEntityInteractive,IEntityTouch
     {
         player.AddEnergy(new InkData(0, getEnergy, true));
         entityParent = player;
-        ChangeColorRpc(new Color(Random.Range(0, 1), Random.Range(0, 1), Random.Range(0, 1), 1));
+        ChangeColorRpc(new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1));
     }
 }

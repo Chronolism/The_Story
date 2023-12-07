@@ -187,7 +187,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  timeMax: 15
+  timeMax: 4
   time: 0
   E: {fileID: 1076589449938327831}
   inkAmountCost: 20

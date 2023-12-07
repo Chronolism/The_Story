@@ -53,6 +53,8 @@ public class Entity : NetworkBehaviour
     public bool ifGiddy = false;//是否眩晕
     public float giddyTime = 0; //眩晕时间
     [SyncVar]
+    public bool ifInhibit = false;
+    [SyncVar]
     public bool ifPause = true; //是否暂停
     public MapColliderType mapColliderType;
     private int[] mapColliderAmount;
@@ -261,7 +263,9 @@ public class Entity : NetworkBehaviour
 
     public virtual void Awake()
     {
-        foreach(var c in GetComponentsInChildren<EntityComponent>())
+        rb = GetComponent<Rigidbody2D>();
+        entityCollider = GetComponent<Collider2D>();
+        foreach (var c in GetComponentsInChildren<EntityComponent>())
         {
             c.Init(this);
             entityComponentDic[c.GetType().Name] = c;
@@ -408,6 +412,37 @@ public class Entity : NetworkBehaviour
     {
         if (isServer) return;
         giddyTime = giddyTime > time ? giddyTime : time;
+    }
+    /// <summary>
+    /// 压制实体
+    /// </summary>
+    /// <param name="ifInhibit"></param>
+    public void Inhibit( bool ifInhibit)
+    {
+        if (ifInhibit)
+        {
+            rb.Sleep();
+            entityCollider.enabled = false;
+        }
+        else
+        {
+            rb.WakeUp();
+            entityCollider.enabled = true;
+        }
+        this.ifInhibit = ifInhibit;
+
+    }
+    /// <summary>
+    /// 隐藏实体
+    /// </summary>
+    public virtual void HideEntity(bool ifHide)
+    {
+
+    }
+
+    public virtual void HideEntityClient(bool ifHide)
+    {
+
     }
     /// <summary>
     /// 修改血量

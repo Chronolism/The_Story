@@ -12,6 +12,7 @@ public class Player : Entity
     public Animator bodyAnimator;
     public EntityInteractive entityInteractive;
 
+    public GameObject body;
     public GameObject Light;
 
     public List<Observer<Player>> observers = new List<Observer<Player>>();
@@ -25,7 +26,6 @@ public class Player : Entity
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         entityInteractive = GetEntityComponent<EntityInteractive>();
         DataMgr.Instance.players.Add(netId, this);
     }
@@ -49,6 +49,12 @@ public class Player : Entity
     }
 
     #region 事件接口
+
+    public override void HideEntity(bool ifHide)
+    {
+        body.SetActive(!ifHide);
+    }
+
     [ClientRpc]
     protected override void EntityBeHurt(Entity target, ATKData atkData)
     {

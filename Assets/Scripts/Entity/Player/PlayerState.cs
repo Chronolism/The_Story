@@ -17,10 +17,11 @@ public class PlayerState : EntityState
             if (entity.giddyTime > 0)
             {
                 entity.giddyTime -= Time.deltaTime;
-            }
-            if (entity.giddyTime > 0)
-            {
                 ChangeState<GiddyState>();
+            }
+            else if (entity.ifInhibit)
+            {
+                ChangeState<InhibitState>();
             }
             else
             {
@@ -41,8 +42,7 @@ public class PlayerState : EntityState
             }
             foreach (var anim in entity.animators)
             {
-                anim.speed = 1;
-                //anim.Play("idle");
+                
             }
         }
         public override void OnExit(Entity entity)
@@ -69,6 +69,28 @@ public class PlayerState : EntityState
                 {
                     anim.speed = 0;
                 }
+            }
+        }
+        public override void OnExit(Entity entity)
+        {
+            foreach (var anim in entity.animators)
+            {
+                anim.speed = 1;
+            }
+        }
+        public override void OnUpdata()
+        {
+
+        }
+    }
+    public class InhibitState : StateBase
+    {
+        Player player;
+        public override void OnEnter(Entity entity)
+        {
+            if (player == null)
+            {
+                player = entity as Player;
             }
         }
         public override void OnExit(Entity entity)

@@ -31,3 +31,6 @@ MonoBehaviour:
   - id: 2002
     name: "\u5904\u5211"
     gameObject: {fileID: 6208013354134436024, guid: 8c1b7225fce465a4581a261f22f90176, type: 3}
+  - id: 2003
+    name: "\u5927\u70AE"
+    gameObject: {fileID: 325543008240576737, guid: 2b9bc02fc1d3905488bd4982153c4c6f, type: 3}

@@ -626,6 +626,19 @@ public class Entity : NetworkBehaviour
     {
         return buff?.FindBuff(buffId);
     }
+    public BuffBase FindBuff(int buffId,bool ifContainSkills)
+    {
+        if (buff?.FindBuff(buffId) != null) 
+            return buff?.FindBuff(buffId);
+        else
+        {
+            foreach (var item in skill.buffList)
+            {
+                if (item.buffData.id == buffId) return item;
+            }
+            return null;
+        }
+    }
     /// <summary>
     /// 找到所有指定id的buff
     /// </summary>

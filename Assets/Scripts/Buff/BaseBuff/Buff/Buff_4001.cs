@@ -11,8 +11,9 @@ public class Buff_4001 : BuffBase
 		{
 			if(m_trigerBuff != value) 
 			{
-				ChangeEntityState(m_trigerBuff);
 				m_trigerBuff = value;
+				ChangeEntityState(m_trigerBuff);
+
             }
 		}
 	}

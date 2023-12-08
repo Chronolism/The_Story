@@ -10,6 +10,14 @@ public class Buff_1020 : BuffBase
 			if (m_ifBuffWorking != value)
 			{
 				m_ifBuffWorking = value;
+				if (m_ifBuffWorking)
+				{
+					entity.ChangeMapCollider(MapColliderType.Water, true);
+				}
+				else
+				{
+					entity.ChangeMapCollider(MapColliderType.Water, false);
+				}
 			}
 		}
 	}
@@ -26,14 +34,14 @@ public class Buff_1020 : BuffBase
 				BuffWorking = true; 
 				b2.trigerBuff = false; }
 		}
-		Mono_QAReportText.Instance?.Report("获得浅水通行");
+		Mono_QAReportText.Instance?.Report("获得浅水顺利通行");
 	}
 	public override void OnEnd(Entity entity,float Value)
 	{
 		entity.OnAddBuff -= _CouplingOnAddBuff;
 		entity.OnRemoveBuff -= _CouplingOnRemoveBuff;
 		BuffWorking = false;
-		Mono_QAReportText.Instance?.Report("失去浅水通行");
+		Mono_QAReportText.Instance?.Report("失去浅水顺利通行");
 	}
 	public override void OnAdd(Entity entity,float Value)
 	{
@@ -54,9 +62,9 @@ public class Buff_1020 : BuffBase
 	{
 		if (buff is Buff_4001 b) { 
 			BuffWorking = false; 
-			b.trigerBuff = true; }
+			b.trigerBuff = false; }
 		if (buff is Buff_5001 b2) { 
 			BuffWorking = false; 
-			b2.trigerBuff = true; }
+			b2.trigerBuff = false; }
 	}
 }

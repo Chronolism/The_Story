@@ -32,6 +32,7 @@ public class Buff_1022 : BuffBase
 		foreach (var buff in entity.skill.buffList)
         {
 			if (buff is Buff_4001 b) { BuffWorking = true ; b.trigerBuff = false; }
+			if (buff is Buff_5001 b2) { BuffWorking = true; b2.trigerBuff = false; b2.trigerWet = false; }
 		}
 	}
 	public override void OnEnd(Entity entity,float Value)
@@ -41,6 +42,7 @@ public class Buff_1022 : BuffBase
 		foreach (var buff in entity.skill.buffList)
 		{
 			if (buff is Buff_4001 b) { BuffWorking = false; b.trigerBuff =true; }
+			if (buff is Buff_5001 b2) { BuffWorking = false; b2.trigerBuff = true; b2.trigerWet = true; }
 		}
 		BuffWorking = false;
 	}
@@ -54,9 +56,11 @@ public class Buff_1022 : BuffBase
 	private void _CouplingOnAddBuff(Entity self, BuffBase buff, float value)
     {
 		if (buff is Buff_4001 b) { BuffWorking = true; b.trigerBuff = false; }
+		if (buff is Buff_5001 b2) { BuffWorking = true; b2.trigerBuff = false;b2.trigerWet = false; }
 	}
 	private void _CouplingOnRemoveBuff(Entity self, BuffBase buff, float value)
 	{
-		if (buff is Buff_4001 b) { BuffWorking = false; b.trigerBuff = true; } 
+		if (buff is Buff_4001 b) { BuffWorking = false;  }
+		if (buff is Buff_5001 b2) { BuffWorking = false; }
 	}
 }

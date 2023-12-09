@@ -435,9 +435,10 @@ public class Entity : NetworkBehaviour
     /// <summary>
     /// Òώ²ΨΚµΜε
     /// </summary>
+    [ClientRpc]
     public virtual void HideEntity(bool ifHide)
     {
-
+        HideEntityClient(ifHide);
     }
 
     public virtual void HideEntityClient(bool ifHide)

@@ -50,7 +50,7 @@ public class Player : Entity
 
     #region 事件接口
 
-    public override void HideEntity(bool ifHide)
+    public override void HideEntityClient(bool ifHide)
     {
         body.SetActive(!ifHide);
     }

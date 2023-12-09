@@ -11,6 +11,9 @@ public class BaseMapEditorPanel : BasePanel
     [SerializeField] private GameObject FloatCompenmet;
     [SerializeField] private GameObject integerTrigerGUI;
 
+    IEditorMap baseMap;
+    Vector3Int pos;
+
     Button btnQuit;
 
     public override void Init()
@@ -18,10 +21,17 @@ public class BaseMapEditorPanel : BasePanel
         btnQuit = GetControl<Button>("btnQuit");
         btnQuit.onClick.AddListener(() =>
         {
+            (parentPanel as MapEditorPanel).SaveTileValue(baseMap, pos);
             HidePanel(this);
         });
     }
 
+    public void Init(IEditorMap baseMap,Vector3Int pos)
+    {
+        this.baseMap = baseMap;
+        this.pos = pos;
+        baseMap.OnOpenEditor(this);
+    }
 
     public void OnGUIText(string name , string content , UnityAction<string> callback)
     {

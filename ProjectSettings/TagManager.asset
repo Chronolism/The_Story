@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Servitor
   - MapEnvironwent
+  - Build
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Player
-  - Servitor
+  - Entity
+  - EntityTouch
   - Attack
   - Instance
   - Map

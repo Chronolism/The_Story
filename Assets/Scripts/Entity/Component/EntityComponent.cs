@@ -6,7 +6,6 @@ using UnityEngine;
 public class EntityComponent : NetworkBehaviour
 {
     public Entity entity;
-
     public virtual void Init(Entity entity)
     {
         this.entity = entity;

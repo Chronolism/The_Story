@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterMap : MonoBehaviour, BaseEnvironwentMap
+public class WaterMap : MonoBehaviour, IEnvironwentMap
 {
     public string mapName { get ; set ; }
 

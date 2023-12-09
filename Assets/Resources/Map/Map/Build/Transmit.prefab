@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6897185845542533405}
   - component: {fileID: 8412717613441616705}
   - component: {fileID: -9134666486653206583}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: Transmit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,3 +71,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4150849633e4ebb488f69a1bc6c60340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pos: {x: 0, y: 0, z: 0}

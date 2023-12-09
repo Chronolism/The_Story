@@ -39,7 +39,7 @@ public class Servitor : Entity
         movement = this.transform.position;
         posAdd = Random.Range(0, 1f) > 0.5f ? new Vector2(Random.Range(-1, 2), 0) : new Vector3(0, Random.Range(-1, 2));
         addRate = Random.Range(1, 3);
-        bronPos = transform.position;
+        bronPos = this.transform.position;
     }
     [ClientRpc]
     public void TurnAnimation(uint netid)
@@ -161,7 +161,8 @@ public class Servitor : Entity
         havePath = true;
         if (path.Count == 1)
         {
-            movement = new Vector2(path[0].x, path[0].y);
+            pathIndex = 0;
+            movement = path[0].pos;
             return;
         }
 
@@ -183,7 +184,7 @@ public class Servitor : Entity
 
         if (Vector2.Distance(rb.position, movement) > 0.05)
         {
-            rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+            rb.AddForce((movement - rb.position).normalized * speed * 300);
             dir = (movement - rb.position).normalized.x > 0 ? 1 : -1;
         }
         else if(havePath)
@@ -196,7 +197,7 @@ public class Servitor : Entity
             {
                 pathIndex++;
                 movement = path[pathIndex].pos;
-                rb.MovePosition(rb.position + (movement - rb.position).normalized * speed * Time.deltaTime);
+                rb.AddForce((movement - rb.position).normalized * speed * 300);
                 dir = (movement - rb.position).normalized.x > 0 ? 1 : -1;
             }
         }

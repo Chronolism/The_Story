@@ -1,4 +1,4 @@
-public class Buff_5001 : BuffBase
+public class Buff_5001 : BuffBase,IUpdataBuff
 {
 	//ÉîË®Çø
 	private bool m_trigerBuff = true;
@@ -11,7 +11,6 @@ public class Buff_5001 : BuffBase
 			if (m_trigerBuff != value)
 			{
 				m_trigerBuff = value;
-				ChangeEntityState(m_trigerBuff);
 			}
 		}
 	}
@@ -39,15 +38,10 @@ public class Buff_5001 : BuffBase
 
 	public override void OnStart(Entity entity, float Value)
 	{
-		ChangeEntityState(m_trigerBuff);
 		trigerWet = true;
 	}
 	public override void OnEnd(Entity entity, float Value)
 	{
-		if (m_trigerBuff)
-		{
-			ChangeEntityState(false, Value);
-		}
 		trigerWet = false;
 	}
 	public override void OnAdd(Entity entity, float Value)
@@ -58,15 +52,12 @@ public class Buff_5001 : BuffBase
 	{
 	}
 
-	void ChangeEntityState(bool add, float value = 0)
+	public void Updata(Entity entity)
 	{
-		if (add)
+		if (trigerBuff)
 		{
-			
-		}
-		else
-		{
-			
+			trigerBuff = false;
+			entity.DropMap();
 		}
 	}
 }

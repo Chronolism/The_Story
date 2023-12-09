@@ -50,6 +50,14 @@ public class AStarNode
         this.type = type;
     }
 
+    public AStarNode(int x, int y, MapColliderType type ,int dx,int dy)
+    {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        pos = new Vector2(x + dx + 0.5f, y + dy + 0.5f);
+    }
+
     public bool ChackType(MapColliderType mapColliderType)
     {
         return (type & mapColliderType) == type;

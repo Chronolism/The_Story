@@ -19,6 +19,7 @@ public class EntityBuff : EntityComponent
     public virtual void FixedUpdate()
     {
         if (!isServer||entity.ifPause) return;
+        
         UpdataBuff?.Invoke(entity);
         //快表每帧更新，有内容就遍历迭代
         if (fastBuffList.Count > 0)
@@ -121,7 +122,7 @@ public class EntityBuff : EntityComponent
         {
             buffBase.Amount += value;
             buffBase.temporaryAmount += value;
-            buffBase.time += time;
+            buffBase.time = Mathf.Max(buffBase.time, time);
             buffBase.OnAdd(entity, value);
         }
         else
@@ -240,7 +241,7 @@ public class EntityBuff : EntityComponent
             else
             {
                 buffBase.OnRemove(entity, Mathf.Min(buffBase.Amount, value));
-                if (buffBase.Amount <= 0)
+                if (buffBase.Amount <= value)
                 {
                     buffBase.OnEnd(entity, Mathf.Min(buffBase.Amount, value));
                     if (buffBase is IUpdataBuff updataBuff)

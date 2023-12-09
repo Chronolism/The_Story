@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommonMap : MonoBehaviour,BaseEnvironwentMap
+public class CommonMap : MonoBehaviour,IEnvironwentMap
 {
     public string mapName { get { return buff.buffId.ToString(); }}
 

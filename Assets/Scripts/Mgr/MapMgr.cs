@@ -16,8 +16,8 @@ public class MapMgr : BaseManager<MapMgr>
     {
         mapData = ResMgr.Instance.LoadBinaryWithMirror<MapData>(Application.persistentDataPath + "\\MapData\\" + mapName + ".MapData");
         if (mapData == null) Debug.Log("地图不存在");
-
-        if(grid != null)GameObject.Destroy(grid.gameObject);
+        DataMgr.Instance.mapLoadType = 0;
+        if (grid != null)GameObject.Destroy(grid.gameObject);
         grid = ResMgr.Instance.Load<GameObject>("Map/MapEdit/Grid").GetComponent<Grid>();
 
         foreach(MapDetile mapDetile in mapData.mapDetiles)
@@ -39,7 +39,14 @@ public class MapMgr : BaseManager<MapMgr>
                 }
                 if (kvp.Value.ifHaveValue)
                 {
-                    tilemap.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(mapDetile.tileValue[kvp.Key]);
+                    try
+                    {
+                        tilemap.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<IEditorMap>().Init(mapDetile.tileValue[kvp.Key]);
+                    }
+                    catch
+                    {
+                        Debug.Log("数据不符");
+                    }
                 }
             }
         }

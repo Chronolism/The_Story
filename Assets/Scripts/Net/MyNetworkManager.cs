@@ -27,6 +27,10 @@ public class MyNetworkManager : NetworkManager
         {
             spawnPrefabs.Add(i.gameObject);
         }
+        foreach(var i in DataMgr.Instance.Entities)
+        {
+            spawnPrefabs.Add(i.gameObject);
+        }
         networkDiscovery = local.GetComponent<NetworkDiscovery>();
     }
 

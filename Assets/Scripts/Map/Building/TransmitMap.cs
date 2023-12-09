@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransmitMap : MonoBehaviour, BaseMap
+public class TransmitMap : MonoBehaviour, IEditorMap,IEntityTouch
 {
     public Vector3 pos;
 
     public void Init(MapTileDetileValue value)
     {
-        pos = new Vector3(value.value[0], value.value[1]);
+        pos = new Vector3(value.value[0] + 0.5f, value.value[1] + 0.5f);
     }
 
     public void OnOpenEditor(BaseMapEditorPanel editorPanel)
@@ -22,6 +22,9 @@ public class TransmitMap : MonoBehaviour, BaseMap
         return new MapTileDetileValue() { value = new List<float>() { pos.x, pos.y } };
     }
 
-
+    public void Touch(Entity entity)
+    {
+        entity.gameObject.transform.position = pos;
+    }
 
 }

@@ -7,7 +7,6 @@ using UnityEngine;
 public class AttackBase : NetworkBehaviour
 {
     public int id;
-    public bool ifServer;
     public Vector3 v3;
     public List<float> floats;
     public Entity perant;
@@ -28,14 +27,13 @@ public class AttackBase : NetworkBehaviour
     public virtual void Init(Entity entity ,Vector3 pos , Vector3 dir , List<float> floats = null)
     {
         perant = entity;
-        ifServer = NetworkServer.active;
         transform.position = pos;
         v3 = dir;
         this.floats = floats;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (ifServer)
+        if (isServer)
         {
             targer = collision.GetComponent<Entity>();
             if (targer != null && targer != perant) 
@@ -59,10 +57,10 @@ public class AttackBase : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (ifServer)
+        if (isServer)
         {
             targer = collision.GetComponent<Entity>();
-            if (targer != null)
+            if (targer != null && targer != perant)
             {
                 for(int i = 0; i < onTrigerEntities.Count; i++)
                 {
@@ -82,7 +80,7 @@ public class AttackBase : NetworkBehaviour
         if (!isServer) return;
         if (!perant.ifPause)
         {
-            if (continuouslyEffective && ifServer && onTrigerEntities.Count > 0)
+            if (continuouslyEffective && onTrigerEntities.Count > 0)
             {
                 foreach (var i in onTrigerEntities)
                 {

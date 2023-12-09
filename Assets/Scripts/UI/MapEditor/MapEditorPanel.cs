@@ -68,7 +68,6 @@ public class MapEditorPanel : BasePanel
         }
         mapDataPath = Application.persistentDataPath + "\\MapData\\";
         tilemap = Resources.Load<GameObject>("Map/MapEdit/Tilemap");
-        uiTileMap = Instantiate(tilemap).GetComponent<Tilemap>();
 
         InitCompement();
         RegisterCompementEvent();
@@ -114,19 +113,19 @@ public class MapEditorPanel : BasePanel
     float scroll;
     float cameraSpeed = 1;
     Vector3 oldMousePos;
-    BaseMap baseMap;
+    IEditorMap baseMap;
     private void InputControl()
     {
         if (Input.GetMouseButtonDown(0)&& EventSystem.current.currentSelectedGameObject == null)
         {
             if(activeTile == null)
             {
-                baseMap = activeMapLayer.tilemap.GetInstantiatedObject(newPos)?.GetComponent<BaseMap>();
+                baseMap = activeMapLayer.tilemap.GetInstantiatedObject(newPos)?.GetComponent<IEditorMap>();
                 if (baseMap != null)
                 {
                     ShowPanel<BaseMapEditorPanel>((o) =>
                     {
-                        baseMap.OnOpenEditor(o);
+                        o.Init(baseMap, newPos);
                     });
                 }
             }
@@ -350,7 +349,7 @@ public class MapEditorPanel : BasePanel
     private void LoadMap(FileInfo mapfile)
     {
         Camera.main.transform.position = new Vector3(0, 0, Camera.main.transform.position.z);
-
+        DataMgr.Instance.mapLoadType = 1;
         activeMap = mapfile;
         mapData = ResMgr.Instance.LoadBinaryWithMirror<MapData>(mapfile.FullName);
         ifMapName.text = mapData.name;
@@ -417,7 +416,14 @@ public class MapEditorPanel : BasePanel
             tilemapCopy.SetTile(kvp.Key.ToV3Int(), kvp.Value.TileData.tileBase);
             if (kvp.Value.ifHaveValue)
             {
-                tilemapCopy.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<BaseMap>().Init(md.tileValue[kvp.Key]);
+                try
+                {
+                    tilemapCopy.GetInstantiatedObject(kvp.Key.ToV3Int()).GetComponent<IEditorMap>().Init(md.tileValue[kvp.Key]);
+                }
+                catch
+                {
+                    Debug.Log("数据不符");
+                }
             }
         }
         MapLayer mapLayerCopy = Instantiate(mapLayer, svMapLayerList.content).GetComponent<MapLayer>();
@@ -432,8 +438,8 @@ public class MapEditorPanel : BasePanel
     /// </summary>
     private void SaveMap()
     {
-        activeMap.MoveTo(activeMap.DirectoryName + "\\" + mapData.name + ".MapData");
-        Debug.Log(mapData.mapDetiles.Count);
+        if(activeMap.Name!= mapData.name + ".MapData")
+            activeMap.MoveTo(activeMap.DirectoryName + "\\" + mapData.name + ".MapData");
         ResMgr.Instance.SaveBinaryWithMirror(mapData, activeMap.FullName);
     }
     /// <summary>
@@ -486,7 +492,7 @@ public class MapEditorPanel : BasePanel
                 activeMapLayer.tilemap.SetTile(pos, activeTile.tileBase);
                 if (activeTile.ifHaveValue)
                 {
-                    activeMapLayer.mapDetile.tileValue[v2] = activeMapLayer.tilemap.GetInstantiatedObject(pos)?.GetComponent<BaseMap>().OnSave();
+                    activeMapLayer.mapDetile.tileValue[v2] = activeMapLayer.tilemap.GetInstantiatedObject(pos)?.GetComponent<IEditorMap>().OnSave();
                     activeMapLayer.mapDetile.MapTileDetiles[v2] = new MapTileDetile(activeTile.id, true);
                 }
                 else
@@ -545,6 +551,15 @@ public class MapEditorPanel : BasePanel
                 mapData.ToolSpwnPos.Remove(v2);
                 break;
         }
+    }
+    /// <summary>
+    /// 保存瓦片信息
+    /// </summary>
+    /// <param name="baseMap"></param>
+    /// <param name="pos"></param>
+    public void SaveTileValue(IEditorMap baseMap,Vector3Int pos)
+    {
+        activeMapLayer.mapDetile.tileValue[new V2(pos)] = baseMap.OnSave();
     }
     /// <summary>
     /// 更改涂写层级
@@ -622,7 +637,7 @@ public class MapEditorPanel : BasePanel
     /// </summary>
     private void Quit()
     {
-        Destroy(grid.gameObject);
+        if (grid != null) Destroy(grid.gameObject);
         m_onQuit?.Invoke();
     }
     #endregion

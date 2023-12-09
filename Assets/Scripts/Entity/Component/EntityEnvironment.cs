@@ -4,18 +4,19 @@ using UnityEngine.Events;
 
 public class EntityEnvironment : EntityComponent
 {
-
-    public List<BaseEnvironwentMap> map = new List<BaseEnvironwentMap>();
-
     public Dictionary<string,int> environments = new Dictionary<string, int>();
 
-    BaseEnvironwentMap env;
+    IEnvironwentMap env;
 
     UnityAction<Entity> updataEnv;
 
+    public MapColliderType landColliderType = MapColliderType.None;
+    public AStarNode LastLand;
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("MapEnvironwent")&&collision.TryGetComponent<BaseEnvironwentMap>(out env))
+        if (!isServer) return;
+        if (collision.CompareTag("MapEnvironwent")&&collision.TryGetComponent<IEnvironwentMap>(out env))
         {
             AddEnvironments(env);
         }
@@ -23,28 +24,39 @@ public class EntityEnvironment : EntityComponent
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("MapEnvironwent") && collision.TryGetComponent<BaseEnvironwentMap>(out env))
+        if (!isServer) return;
+        if (collision.CompareTag("MapEnvironwent") && collision.TryGetComponent<IEnvironwentMap>(out env))
         {
             RemoveEnvironments(env);
         }
     }
 
+    float time = 0.3f;
     private void FixedUpdate()
     {
         if (isServer && entity.ifPause)
         {
+            time-=Time.deltaTime;
+            if(time < 0)
+            {
+                time = 0.3f;
+                AStarNode aStarNode = AStarMgr.Instance.GetNode(entity.rb.position.x, entity.rb.position.y);
+                if (aStarNode != null && aStarNode.ChackType(landColliderType))
+                {
+                    LastLand = aStarNode;
+                }
+            }
             updataEnv?.Invoke(entity);
         }
     }
 
-    public void AddEnvironments(BaseEnvironwentMap baseMap)
+    public void AddEnvironments(IEnvironwentMap baseMap)
     {
         string name = baseMap.GetType().Name;
         if (environments.ContainsKey(name))
         {
             if(environments[name] == 0)
             {
-                map.Add(baseMap);
                 baseMap.OnEnter(entity);
             }
             environments[name]++;
@@ -57,13 +69,12 @@ public class EntityEnvironment : EntityComponent
         updataEnv += baseMap.OnUpdate;
     }
 
-    public void RemoveEnvironments(BaseEnvironwentMap baseMap)
+    public void RemoveEnvironments(IEnvironwentMap baseMap)
     {
         string name = baseMap.GetType().Name;
         environments[name]--;
         if (environments[name] == 0)
         {
-            map.Remove(baseMap);
             baseMap.OnExit(entity);
         }
         updataEnv -= baseMap.OnUpdate;

@@ -65,6 +65,10 @@ public class Servitor : Entity
     public override void OnDisable()
     {
         base.OnDisable();
+        if(parent != null)
+        {
+            parent.RemoveServitor(this);
+        }
     }
 
     float time;

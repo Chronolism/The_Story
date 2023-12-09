@@ -435,6 +435,7 @@ public class Entity : NetworkBehaviour
     /// <summary>
     /// Òώ²ΨΚµΜε
     /// </summary>
+    [Server]
     [ClientRpc]
     public virtual void HideEntity(bool ifHide)
     {

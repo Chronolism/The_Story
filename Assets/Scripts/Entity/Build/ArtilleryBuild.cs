@@ -87,7 +87,7 @@ public class ArtilleryBuild : BaseBuild, IEntityInteractive
         time = timeMax;
         entityParent = player;
         player.Inhibit(true);
-        player.HideEntity(true);
+        player.HideEntityClient(true);
         WorkingRpc(player.netId);
     }
     [ClientRpc]
@@ -95,7 +95,7 @@ public class ArtilleryBuild : BaseBuild, IEntityInteractive
     {
         if (isServer) return;
         Player player = Mirror.Utils.GetSpawnedInServerOrClient(netId).GetComponent<Player>();
-        player.HideEntity(true);
+        player.HideEntityClient(true);
     }
 
     private void PlayerContrl()

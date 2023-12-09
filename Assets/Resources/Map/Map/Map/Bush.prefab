@@ -72,5 +72,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buff:
-    buffId: 4001
+    buffId: 5005
     buffValue: 20

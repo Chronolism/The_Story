@@ -2,7 +2,7 @@ public class Buff_5001 : BuffBase,IUpdataBuff
 {
 	//ÉîË®Çø
 	private bool m_trigerBuff = true;
-	private bool m_wet = true;
+	private bool m_wet = false;
 	public bool trigerBuff
 	{
 		get { return m_trigerBuff; }

@@ -25,7 +25,7 @@ public class GamePanel : BasePanel
     Image _Ultimate_Skill_Now;
     Image _Ultimate_Skill_Charge_Progress;
     float _Ultimate_Skill_targetFillAmount;
-    bool _Ultimate_Skill_isReady = false;
+    bool _Ultimate_Skill_isReady = true;
     [Header("QA")]
     public float UIAnimationSpeed = 0.1f;
     [Header("Color")]

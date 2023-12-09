@@ -203,7 +203,6 @@ public class AStarMgr : BaseManager<AStarMgr>
         {
             path.Remove(path.First());
         }
-        Debug.Log(path[0].pos);
         callback(path);
 
         void FindNearlyNodeToOpenList(int x, int y, float g, AStarNode father, AStarNode end)

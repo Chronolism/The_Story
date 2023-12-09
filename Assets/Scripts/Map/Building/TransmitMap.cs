@@ -8,7 +8,7 @@ public class TransmitMap : MonoBehaviour, IEditorMap,IEntityTouch
 
     public void Init(MapTileDetileValue value)
     {
-        pos = new Vector3(value.value[0] + 0.5f, value.value[1] + 0.5f);
+        pos = new Vector3(value.value[0], value.value[1]);
     }
 
     public void OnOpenEditor(BaseMapEditorPanel editorPanel)
@@ -24,7 +24,7 @@ public class TransmitMap : MonoBehaviour, IEditorMap,IEntityTouch
 
     public void Touch(Entity entity)
     {
-        entity.gameObject.transform.position = pos;
+        entity.gameObject.transform.position = pos + new Vector3(0.5f, 0.5f, 0);
     }
 
 }

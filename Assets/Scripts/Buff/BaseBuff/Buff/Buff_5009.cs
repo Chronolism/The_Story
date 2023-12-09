@@ -1,4 +1,4 @@
-public class Buff_5009 : BuffBase
+public class Buff_5009 : BuffBase,IUpdataBuff
 {
 	//Ä§·¨Ê÷´Ô
 	private bool m_Hide = false;

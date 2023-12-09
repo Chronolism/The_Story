@@ -33,7 +33,7 @@ MonoBehaviour:
       buffValue: 10
     - buffId: 1011
       buffValue: 20
-    - buffId: 1019
+    - buffId: 1022
       buffValue: 20
   - character_Code: 102
     characterName: 102
